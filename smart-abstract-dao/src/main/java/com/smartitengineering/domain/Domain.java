@@ -27,5 +27,5 @@ import java.util.Comparator;
  */
 public interface Domain<Template> extends Serializable, Comparable<Template>, Comparator<Template>, Cloneable
 {
-    public boolean isValid(Template object );
+    public boolean isValid();
 }
