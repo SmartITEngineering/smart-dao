@@ -4,7 +4,7 @@
     <groupId>com.smartitengineering</groupId>
     <artifactId>smart-abstract-dao</artifactId>
     <packaging>jar</packaging>
-    <version>0.2</version>
+    <version>0.3-SNAPSHOT</version>
     <name>smart-abstract-dao</name>
     <url>http://repo.or.cz/w/smart-dao.git</url>
     <developers>
