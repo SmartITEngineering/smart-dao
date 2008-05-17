@@ -80,4 +80,12 @@ public abstract class PersistentDTO <Template extends PersistentDTO> implements 
         this.version = version;
     }
     
+    protected void clone(Template template) {
+        if(template == null) {
+            return;
+        }
+        template.setId(id);
+        template.setVersion(version);
+    }
+    
 }
