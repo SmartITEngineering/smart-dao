@@ -27,11 +27,11 @@ import java.util.List;
  */
 public interface CommonDaoWithList<Template extends PersistentDTO>
 {
-    public void save(Template state);
+    public void save(Template... states);
     
-    public void update(Template state);
+    public void update(Template... states);
     
-    public void delete(Template state);
+    public void delete(Template... states);
     
     public Template getSingle(List<QueryParameter> query);
     

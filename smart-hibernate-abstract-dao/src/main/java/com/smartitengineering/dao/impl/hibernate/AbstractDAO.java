@@ -42,25 +42,73 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
     extends HibernateDaoSupport
     implements Serializable {
 
-    protected void createEntity(Template entity) {
-        if (entity == null) {
+    protected void createEntity(Template... entities) {
+        if (entities == null) {
             throw new IllegalArgumentException();
         }
-        getHibernateTemplate().save(entity);
+        Session session = getHibernateTemplate().getSessionFactory().
+            getCurrentSession();
+        boolean openedSession = false;
+        if(session == null) {
+            session = getHibernateTemplate().getSessionFactory().openSession();
+            openedSession = true;
+        }
+        try {
+            for (Template entity : entities) {
+                session.save(entity);
+            }
+        }
+        finally {
+            if(openedSession) {
+                session.close();
+            }
+        }
     }
 
-    protected void updateEntity(Template entity) {
-        if (entity == null) {
+    protected void updateEntity(Template... entities) {
+        if (entities == null) {
             throw new IllegalArgumentException();
         }
-        getHibernateTemplate().update(entity);
+        Session session = getHibernateTemplate().getSessionFactory().
+            getCurrentSession();
+        boolean openedSession = false;
+        if(session == null) {
+            session = getHibernateTemplate().getSessionFactory().openSession();
+            openedSession = true;
+        }
+        try {
+            for (Template entity : entities) {
+                session.update(entity);
+            }
+        }
+        finally {
+            if(openedSession) {
+                session.close();
+            }
+        }
     }
 
-    protected void deleteEntity(Template entity) {
-        if (entity == null) {
+    protected void deleteEntity(Template... entities) {
+        if (entities == null) {
             throw new IllegalArgumentException();
         }
-        getHibernateTemplate().delete(entity);
+        Session session = getHibernateTemplate().getSessionFactory().
+            getCurrentSession();
+        boolean openedSession = false;
+        if(session == null) {
+            session = getHibernateTemplate().getSessionFactory().openSession();
+            openedSession = true;
+        }
+        try {
+            for (Template entity : entities) {
+                session.delete(entity);
+            }
+        }
+        finally {
+            if(openedSession) {
+                session.close();
+            }
+        }
     }
 
     protected Template readSingle(Class entityClass,

@@ -38,25 +38,34 @@ public abstract class AbstractCommonDaoImpl<Template extends PersistentDTO>
 
     private Class entityClass;
 
-    public void save(Template state) {
-        if (entityClass == null) {
-            entityClass = state.getClass();
+    public void save(Template... states) {
+        if(states != null && states.length > 0) {
+            return; 
         }
-        createEntity(state);
+        if (entityClass == null) {
+            entityClass = states[0].getClass();
+        }
+        createEntity(states);
     }
 
-    public void update(Template state) {
-        if (entityClass == null) {
-            entityClass = state.getClass();
+    public void update(Template... states) {
+        if(states != null && states.length > 0) {
+            return; 
         }
-        updateEntity(state);
+        if (entityClass == null) {
+            entityClass = states[0].getClass();
+        }
+        updateEntity(states);
     }
 
-    public void delete(Template state) {
-        if (entityClass == null) {
-            entityClass = state.getClass();
+    public void delete(Template... states) {
+        if(states != null && states.length > 0) {
+            return; 
         }
-        deleteEntity(state);
+        if (entityClass == null) {
+            entityClass = states[0].getClass();
+        }
+        deleteEntity(states);
     }
 
     public Template getSingle(Hashtable<String, QueryParameter> query) {
