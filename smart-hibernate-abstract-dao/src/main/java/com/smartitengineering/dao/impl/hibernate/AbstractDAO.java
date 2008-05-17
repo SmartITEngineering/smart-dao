@@ -38,557 +38,468 @@ import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-public abstract class AbstractDAO<Template extends PersistentDTO> extends HibernateDaoSupport implements Serializable
-{
-    protected void createEntity( Template entity )
-    {
-        if( entity == null )
-        {
+public abstract class AbstractDAO<Template extends PersistentDTO>
+    extends HibernateDaoSupport
+    implements Serializable {
+
+    protected void createEntity(Template entity) {
+        if (entity == null) {
             throw new IllegalArgumentException();
         }
-        getHibernateTemplate().save( entity );
+        getHibernateTemplate().save(entity);
     }
-    
-    protected void updateEntity( Template entity )
-    {
-        if( entity == null )
-        {
+
+    protected void updateEntity(Template entity) {
+        if (entity == null) {
             throw new IllegalArgumentException();
         }
-        getHibernateTemplate().update( entity );
+        getHibernateTemplate().update(entity);
     }
-    
-    protected void deleteEntity( Template entity )
-    {
-        if( entity == null )
-        {
+
+    protected void deleteEntity(Template entity) {
+        if (entity == null) {
             throw new IllegalArgumentException();
         }
-        getHibernateTemplate().delete( entity );
+        getHibernateTemplate().delete(entity);
     }
-    
-    protected Template readSingle( Class entityClass, Hashtable<String, QueryParameter> parameter )
-    {
+
+    protected Template readSingle(Class entityClass,
+                                  Hashtable<String, QueryParameter> parameter) {
         Session session;
         boolean customSession = false;
-        try
-        {
+        try {
             session = getSessionFactory().getCurrentSession();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             session = getSessionFactory().openSession();
             customSession = true;
         }
-        try
-        {
-            Criteria criteria = simpleSearchCriteria( session, entityClass, parameter );
+        try {
+            Criteria criteria = simpleSearchCriteria(session, entityClass,
+                parameter);
             return (Template) criteria.uniqueResult();
         }
-        catch( Exception e )
-        {
-            throw new IllegalArgumentException( e );
+        catch (Exception e) {
+            throw new IllegalArgumentException(e);
         }
-        finally
-        {
-            if(customSession && session.isOpen())
-            {
+        finally {
+            if (customSession && session.isOpen()) {
                 session.close();
             }
         }
     }
-    
-    protected Object readOther( Class entityClass, Hashtable<String, QueryParameter> parameter )
-    {
+
+    protected Object readOther(Class entityClass,
+                               Hashtable<String, QueryParameter> parameter) {
         Session session;
         boolean customSession = false;
-        try
-        {
+        try {
             session = getSessionFactory().getCurrentSession();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             session = getSessionFactory().openSession();
             customSession = true;
         }
-        try
-        {
-            Criteria criteria = simpleSearchCriteria( session, entityClass, parameter );
+        try {
+            Criteria criteria = simpleSearchCriteria(session, entityClass,
+                parameter);
             return criteria.uniqueResult();
         }
-        catch( Exception e )
-        {
-            throw new IllegalArgumentException( e );
+        catch (Exception e) {
+            throw new IllegalArgumentException(e);
         }
-        finally
-        {
-            if(customSession && session.isOpen())
-            {
+        finally {
+            if (customSession && session.isOpen()) {
                 session.close();
             }
         }
     }
-    
-    protected List<? extends Object> readOtherList( Class entityClass, Hashtable<String, QueryParameter> parameter )
-    {
+
+    protected List<? extends Object> readOtherList(Class entityClass,
+                                                   Hashtable<String, QueryParameter> parameter) {
         Session session;
         boolean customSession = false;
-        try
-        {
+        try {
             session = getSessionFactory().getCurrentSession();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             session = getSessionFactory().openSession();
             customSession = true;
         }
-        try
-        {
-            Criteria criteria = simpleSearchCriteria( session, entityClass, parameter );
+        try {
+            Criteria criteria = simpleSearchCriteria(session, entityClass,
+                parameter);
             return criteria.list();
         }
-        catch( Exception e )
-        {
-            throw new IllegalArgumentException( e );
+        catch (Exception e) {
+            throw new IllegalArgumentException(e);
         }
-        finally
-        {
-            if(customSession && session.isOpen())
-            {
+        finally {
+            if (customSession && session.isOpen()) {
                 session.close();
             }
         }
     }
-    
-    protected List<Template> readList( Class entityClass, Hashtable<String, QueryParameter> parameter )
-    {
+
+    protected List<Template> readList(Class entityClass,
+                                      Hashtable<String, QueryParameter> parameter) {
         Session session;
         boolean customSession = false;
-        try
-        {
+        try {
             session = getSessionFactory().getCurrentSession();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             session = getSessionFactory().openSession();
             customSession = true;
         }
-        try
-        {
-            Criteria criteria = simpleSearchCriteria( session, entityClass, parameter );
+        try {
+            Criteria criteria = simpleSearchCriteria(session, entityClass,
+                parameter);
             return criteria.list();
         }
-        catch( Exception e )
-        {
-            throw new IllegalArgumentException( e );
+        catch (Exception e) {
+            throw new IllegalArgumentException(e);
         }
-        finally
-        {
-            if(customSession && session.isOpen())
-            {
+        finally {
+            if (customSession && session.isOpen()) {
                 session.close();
             }
         }
     }
-    
-    protected Template readSingle( Class entityClass, List<QueryParameter> parameter )
-    {
+
+    protected Template readSingle(Class entityClass,
+                                  List<QueryParameter> parameter) {
         Session session;
         boolean customSession = false;
-        try
-        {
+        try {
             session = getSessionFactory().getCurrentSession();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             session = getSessionFactory().openSession();
             customSession = true;
         }
-        try
-        {
-            Criteria criteria = simpleSearchCriteria( session, entityClass, parameter );
+        try {
+            Criteria criteria = simpleSearchCriteria(session, entityClass,
+                parameter);
             return (Template) criteria.uniqueResult();
         }
-        catch( Exception e )
-        {
-            throw new IllegalArgumentException( e );
+        catch (Exception e) {
+            throw new IllegalArgumentException(e);
         }
-        finally
-        {
-            if(customSession && session.isOpen())
-            {
+        finally {
+            if (customSession && session.isOpen()) {
                 session.close();
             }
         }
     }
-    
-    protected Object readOther( Class entityClass, List<QueryParameter> parameter )
-    {
+
+    protected Object readOther(Class entityClass,
+                               List<QueryParameter> parameter) {
         Session session;
         boolean customSession = false;
-        try
-        {
+        try {
             session = getSessionFactory().getCurrentSession();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             session = getSessionFactory().openSession();
             customSession = true;
         }
-        try
-        {
-            Criteria criteria = simpleSearchCriteria( session, entityClass, parameter );
+        try {
+            Criteria criteria = simpleSearchCriteria(session, entityClass,
+                parameter);
             return criteria.uniqueResult();
         }
-        catch( Exception e )
-        {
-            throw new IllegalArgumentException( e );
+        catch (Exception e) {
+            throw new IllegalArgumentException(e);
         }
-        finally
-        {
-            if(customSession && session.isOpen())
-            {
+        finally {
+            if (customSession && session.isOpen()) {
                 session.close();
             }
         }
     }
-    
-    protected List<? extends Object> readOtherList( Class entityClass, List<QueryParameter> parameter  )
-    {
+
+    protected List<? extends Object> readOtherList(Class entityClass,
+                                                   List<QueryParameter> parameter) {
         Session session;
         boolean customSession = false;
-        try
-        {
+        try {
             session = getSessionFactory().getCurrentSession();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             session = getSessionFactory().openSession();
             customSession = true;
         }
-        try
-        {
-            Criteria criteria = simpleSearchCriteria( session, entityClass, parameter );
+        try {
+            Criteria criteria = simpleSearchCriteria(session, entityClass,
+                parameter);
             return criteria.list();
         }
-        catch( Exception e )
-        {
-            throw new IllegalArgumentException( e );
+        catch (Exception e) {
+            throw new IllegalArgumentException(e);
         }
-        finally
-        {
-            if(customSession && session.isOpen())
-            {
+        finally {
+            if (customSession && session.isOpen()) {
                 session.close();
             }
         }
     }
-    
-    protected List<Template> readList( Class entityClass, List<QueryParameter> parameter )
-    {
+
+    protected List<Template> readList(Class entityClass,
+                                      List<QueryParameter> parameter) {
         Session session;
         boolean customSession = false;
-        try
-        {
+        try {
             session = getSessionFactory().getCurrentSession();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             session = getSessionFactory().openSession();
             customSession = true;
         }
-        try
-        {
-            Criteria criteria = simpleSearchCriteria( session, entityClass, parameter );
+        try {
+            Criteria criteria = simpleSearchCriteria(session, entityClass,
+                parameter);
             return criteria.list();
         }
-        catch( Exception e )
-        {
-            throw new IllegalArgumentException( e );
+        catch (Exception e) {
+            throw new IllegalArgumentException(e);
         }
-        finally
-        {
-            if(customSession && session.isOpen())
-            {
+        finally {
+            if (customSession && session.isOpen()) {
                 session.close();
             }
         }
     }
-    
-    
-    protected Template readSingle( Class entityClass, QueryParameter ... parameter )
-    {
+
+    protected Template readSingle(Class entityClass,
+                                  QueryParameter... parameter) {
         Session session;
         boolean customSession = false;
-        try
-        {
+        try {
             session = getSessionFactory().getCurrentSession();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             session = getSessionFactory().openSession();
             customSession = true;
         }
-        try
-        {
-            Criteria criteria = simpleSearchCriteria( session, entityClass, parameter );
+        try {
+            Criteria criteria = simpleSearchCriteria(session, entityClass,
+                parameter);
             return (Template) criteria.uniqueResult();
         }
-        catch( Exception e )
-        {
-            throw new IllegalArgumentException( e );
+        catch (Exception e) {
+            throw new IllegalArgumentException(e);
         }
-        finally
-        {
-            if(customSession && session.isOpen())
-            {
+        finally {
+            if (customSession && session.isOpen()) {
                 session.close();
             }
         }
     }
-    
-    protected Object readOther( Class entityClass, QueryParameter ... parameter )
-    {
+
+    protected Object readOther(Class entityClass,
+                               QueryParameter... parameter) {
         Session session;
         boolean customSession = false;
-        try
-        {
+        try {
             session = getSessionFactory().getCurrentSession();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             session = getSessionFactory().openSession();
             customSession = true;
         }
-        try
-        {
-            Criteria criteria = simpleSearchCriteria( session, entityClass, parameter );
+        try {
+            Criteria criteria = simpleSearchCriteria(session, entityClass,
+                parameter);
             return criteria.uniqueResult();
         }
-        catch( Exception e )
-        {
-            throw new IllegalArgumentException( e );
+        catch (Exception e) {
+            throw new IllegalArgumentException(e);
         }
-        finally
-        {
-            if(customSession && session.isOpen())
-            {
+        finally {
+            if (customSession && session.isOpen()) {
                 session.close();
             }
         }
     }
-    
-    protected List<? extends Object> readOtherList( Class entityClass, QueryParameter ... parameter  )
-    {
+
+    protected List<? extends Object> readOtherList(Class entityClass,
+                                                   QueryParameter... parameter) {
         Session session;
         boolean customSession = false;
-        try
-        {
+        try {
             session = getSessionFactory().getCurrentSession();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             session = getSessionFactory().openSession();
             customSession = true;
         }
-        try
-        {
-            Criteria criteria = simpleSearchCriteria( session, entityClass, parameter );
+        try {
+            Criteria criteria = simpleSearchCriteria(session, entityClass,
+                parameter);
             return criteria.list();
         }
-        catch( Exception e )
-        {
-            throw new IllegalArgumentException( e );
+        catch (Exception e) {
+            throw new IllegalArgumentException(e);
         }
-        finally
-        {
-            if(customSession && session.isOpen())
-            {
+        finally {
+            if (customSession && session.isOpen()) {
                 session.close();
             }
         }
     }
-    
-    protected List<Template> readList( Class entityClass, QueryParameter ... parameter )
-    {
+
+    protected List<Template> readList(Class entityClass,
+                                      QueryParameter... parameter) {
         Session session;
         boolean customSession = false;
-        try
-        {
+        try {
             session = getSessionFactory().getCurrentSession();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             session = getSessionFactory().openSession();
             customSession = true;
         }
-        try
-        {
-            Criteria criteria = simpleSearchCriteria( session, entityClass, parameter );
+        try {
+            Criteria criteria = simpleSearchCriteria(session, entityClass,
+                parameter);
             return criteria.list();
         }
-        catch( Exception e )
-        {
-            throw new IllegalArgumentException( e );
+        catch (Exception e) {
+            throw new IllegalArgumentException(e);
         }
-        finally
-        {
-            if(customSession && session.isOpen())
-            {
+        finally {
+            if (customSession && session.isOpen()) {
                 session.close();
             }
         }
     }
-    
-    
-    protected Criteria simpleSearchCriteria( Session session, Class queryClass,
-            Hashtable<String, QueryParameter> parameter )
-    {
-        Criteria criteria = session.createCriteria( queryClass );
+
+    protected Criteria simpleSearchCriteria(Session session,
+                                            Class queryClass,
+                                            Hashtable<String, QueryParameter> parameter) {
+        Criteria criteria = session.createCriteria(queryClass);
         Iterator<String> keys = parameter.keySet().iterator();
-        for( ; keys.hasNext(); )
-        {
+        for (; keys.hasNext();) {
             String element = keys.next();
-            QueryParameter param = parameter.get( element );
+            QueryParameter param = parameter.get(element);
             String propName;
-            if(param.getPropertyName() != null)
-            {
+            if (param.getPropertyName() != null) {
                 propName = param.getPropertyName();
             }
-            else
-            {
+            else {
                 propName = element;
             }
-            processCriterion( criteria, propName, param );
+            processCriterion(criteria, propName, param);
         }
         return criteria;
     }
-    
-    protected Criteria simpleSearchCriteria( Session session, Class queryClass,
-            List<QueryParameter> parameter )
-    {
-        Criteria criteria = session.createCriteria( queryClass );
+
+    protected Criteria simpleSearchCriteria(Session session,
+                                            Class queryClass,
+                                            List<QueryParameter> parameter) {
+        Criteria criteria = session.createCriteria(queryClass);
         Iterator<QueryParameter> keys = parameter.iterator();
-        for( ; keys.hasNext(); )
-        {
+        for (; keys.hasNext();) {
             QueryParameter param = keys.next();
-            processCriterion( criteria, param.getPropertyName(), param );
+            processCriterion(criteria, param.getPropertyName(), param);
         }
         return criteria;
     }
-    
-    protected Criteria simpleSearchCriteria( Session session, Class queryClass,
-            QueryParameter ... parameter )
-    {
-        Criteria criteria = session.createCriteria( queryClass );
-        for( QueryParameter param : parameter )
-        {
-            processCriterion( criteria, param.getPropertyName(), param );
+
+    protected Criteria simpleSearchCriteria(Session session,
+                                            Class queryClass,
+                                            QueryParameter... parameter) {
+        Criteria criteria = session.createCriteria(queryClass);
+        for (QueryParameter param : parameter) {
+            processCriterion(criteria, param.getPropertyName(), param);
         }
         return criteria;
     }
-    
-    
+
     @SuppressWarnings("unchecked")
-    private void processCriterion( Criteria criteria, String element, QueryParameter parameter )
-    {
-        switch( parameter.getType().intValue() )
-        {
-            case 1:
-            {
-                criteria.add( getCriterion( element, parameter.getParameter(), parameter.getParameter2(), parameter
-                        .getOperator(), parameter.getMatchMode() ) );
+    private void processCriterion(Criteria criteria,
+                                  String element,
+                                  QueryParameter parameter) {
+        switch (parameter.getType().intValue()) {
+            case 1: {
+                criteria.add(getCriterion(element, parameter.getParameter(),
+                    parameter.getParameter2(), parameter.getOperator(),
+                    parameter.getMatchMode()));
                 return;
             }
-            case 2:
-            {
-                criteria.addOrder( ( (Order) parameter.getParameter() ) );
+            case 2: {
+                criteria.addOrder(((Order) parameter.getParameter()));
                 return;
             }
-            case 3:
-            {
-                criteria.setMaxResults( (Integer) parameter.getParameter() );
+            case 3: {
+                criteria.setMaxResults((Integer) parameter.getParameter());
                 return;
             }
-            case 4:
-            {
-                criteria.setFirstResult( (Integer) parameter.getParameter() );
+            case 4: {
+                criteria.setFirstResult((Integer) parameter.getParameter());
                 return;
             }
-            case 5:
-            {
-                processDisjunction( criteria, element, parameter );
+            case 5: {
+                processDisjunction(criteria, element, parameter);
                 return;
             }
-            case 6:
-            {
-                processNestedParameter( criteria, element, parameter );
+            case 6: {
+                processNestedParameter(criteria, element, parameter);
                 return;
             }
-            case 7:
-            {
+            case 7: {
                 criteria.setProjection(Projections.count(element));
                 return;
             }
-            case 8:
-            {
+            case 8: {
                 criteria.setProjection(Projections.rowCount());
                 return;
             }
-            case 9:
-            {
+            case 9: {
                 criteria.setProjection(Projections.sum(element));
                 return;
             }
-            case 10:
-            {
+            case 10: {
                 criteria.setProjection(Projections.max(element));
                 return;
             }
-            case 11:
-            {
+            case 11: {
                 criteria.setProjection(Projections.min(element));
                 return;
             }
-            case 12:
-            {
+            case 12: {
                 criteria.setProjection(Projections.avg(element));
                 return;
             }
-            case 13:
-            {
+            case 13: {
                 criteria.setProjection(Projections.groupProperty(element));
                 return;
             }
-            case 14:
-            {
-                criteria.setProjection(Projections.distinct((Projection) parameter.getParameter()));
+            case 14: {
+                criteria.setProjection(Projections.distinct((Projection) parameter.
+                    getParameter()));
                 return;
             }
-            case 15:
-            {
+            case 15: {
                 criteria.setProjection(Projections.countDistinct(element));
                 return;
             }
-            case 16:
-            {
-                criteria.setProjection(Projections.distinct(Projections.property(element)));
+            case 16: {
+                criteria.setProjection(Projections.distinct(Projections.property(
+                    element)));
                 return;
             }
-            case 17:
-            {
+            case 17: {
                 criteria.setProjection(Projections.property(element));
                 return;
             }
-            case 18:
-            {
+            case 18: {
                 ProjectionList list = Projections.projectionList();
                 Object param = parameter.getParameter();
-                if(param instanceof List)
-                {
-                    List listParam = (List)param;
-                    for (Iterator it = listParam.iterator(); it.hasNext();)
-                    {
+                if (param instanceof List) {
+                    List listParam = (List) param;
+                    for (Iterator it = listParam.iterator(); it.hasNext();) {
                         Object elem = (Object) it.next();
                         list.add(Projections.property(elem.toString()));
                     }
@@ -598,111 +509,127 @@ public abstract class AbstractDAO<Template extends PersistentDTO> extends Hibern
             }
         }
     }
-    
+
     @SuppressWarnings("unchecked")
-    private void processNestedParameter( Criteria criteria, String element, QueryParameter parameter )
-    {
+    private void processNestedParameter(Criteria criteria,
+                                        String element,
+                                        QueryParameter parameter) {
         FetchMode mode;
-        switch(parameter.getFetchMode()) {
-            case EAGER: mode = FetchMode.EAGER; break;
-            case SELECT: mode = FetchMode.SELECT; break;
-            case JOIN: mode = FetchMode.JOIN; break;
-            case LAZY: mode = FetchMode.LAZY; break;
+        switch (parameter.getFetchMode()) {
+            case EAGER:
+                mode = FetchMode.EAGER;
+                break;
+            case SELECT:
+                mode = FetchMode.SELECT;
+                break;
+            case JOIN:
+                mode = FetchMode.JOIN;
+                break;
+            case LAZY:
+                mode = FetchMode.LAZY;
+                break;
             default:
-            case DEFAULT: mode = FetchMode.DEFAULT; break;
+            case DEFAULT:
+                mode = FetchMode.DEFAULT;
+                break;
         }
-        criteria.setFetchMode( element, ( ( mode == null ) ? FetchMode.JOIN : mode ) );
-        Hashtable<String, QueryParameter> nestedParameter = parameter.getNestedParameters();
-        if( nestedParameter == null || nestedParameter.size() <= 0 )
-        {
+        criteria.setFetchMode(element, ((mode == null) ? FetchMode.JOIN : mode));
+        Hashtable<String, QueryParameter> nestedParameter = parameter.
+            getNestedParameters();
+        if (nestedParameter == null || nestedParameter.size() <= 0) {
             return;
         }
-        Criteria nestedCriteria = criteria.createCriteria( element );
+        Criteria nestedCriteria = criteria.createCriteria(element);
         Iterator<String> keys = nestedParameter.keySet().iterator();
-        for( ; keys.hasNext(); )
-        {
+        for (; keys.hasNext();) {
             String nestedElement = keys.next();
-            QueryParameter nestedQueryParameter = nestedParameter.get( nestedElement );
-            processCriterion( nestedCriteria, nestedQueryParameter.getPropertyName(), nestedQueryParameter );
+            QueryParameter nestedQueryParameter = nestedParameter.get(
+                nestedElement);
+            processCriterion(nestedCriteria, nestedQueryParameter.
+                getPropertyName(), nestedQueryParameter);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
-    private void processCriterion( Disjunction criteria, String element, QueryParameter parameter )
-    {
-        switch( parameter.getType().intValue() )
-        {
+    private void processCriterion(Disjunction criteria,
+                                  String element,
+                                  QueryParameter parameter) {
+        switch (parameter.getType().intValue()) {
             case 1:
-                criteria.add( getCriterion( element, parameter.getParameter(), parameter.getParameter2(), parameter
-                        .getOperator(), parameter.getMatchMode() ) );
+                criteria.add(getCriterion(element, parameter.getParameter(),
+                    parameter.getParameter2(), parameter.getOperator(),
+                    parameter.getMatchMode()));
                 return;
         }
     }
-    
+
     @SuppressWarnings("unchecked")
-    private void processDisjunction( Criteria criteria, String element, QueryParameter parameter )
-    {
+    private void processDisjunction(Criteria criteria,
+                                    String element,
+                                    QueryParameter parameter) {
         Disjunction disjunction = Expression.disjunction();
-        Hashtable<String, QueryParameter> nestedParameter = parameter.getNestedParameters();
+        Hashtable<String, QueryParameter> nestedParameter = parameter.
+            getNestedParameters();
         Iterator<String> keys = nestedParameter.keySet().iterator();
-        for( ; keys.hasNext(); )
-        {
+        for (; keys.hasNext();) {
             String nestedElement = keys.next();
-            processCriterion( disjunction, element, nestedParameter.get( nestedElement ) );
+            processCriterion(disjunction, element, nestedParameter.get(
+                nestedElement));
         }
-        criteria.add( disjunction );
+        criteria.add(disjunction);
     }
-    
-    private Criterion getCriterion( String element, Object parameter, Object parameter2, Integer operator,
-            QueryParameter.MatchMode matchMode )
-    {
-        if( operator.equals( QueryParameter.OPERATOR_EQUAL ) )
-        {
-            return Expression.eq( element, parameter );
+
+    private Criterion getCriterion(String element,
+                                   Object parameter,
+                                   Object parameter2,
+                                   Integer operator,
+                                   QueryParameter.MatchMode matchMode) {
+        if (operator.equals(QueryParameter.OPERATOR_EQUAL)) {
+            return Expression.eq(element, parameter);
         }
-        else if( operator.equals( QueryParameter.OPERATOR_LESSER ) )
-        {
-            return Expression.lt( element, parameter );
+        else if (operator.equals(QueryParameter.OPERATOR_LESSER)) {
+            return Expression.lt(element, parameter);
         }
-        else if( operator.equals( QueryParameter.OPERATOR_LESSER_EQUAL ) )
-        {
-            return Expression.le( element, parameter );
+        else if (operator.equals(QueryParameter.OPERATOR_LESSER_EQUAL)) {
+            return Expression.le(element, parameter);
         }
-        else if( operator.equals( QueryParameter.OPERATOR_GREATER ) )
-        {
-            return Expression.gt( element, parameter );
+        else if (operator.equals(QueryParameter.OPERATOR_GREATER)) {
+            return Expression.gt(element, parameter);
         }
-        else if( operator.equals( QueryParameter.OPERATOR_GREATER_EQUAL ) )
-        {
-            return Expression.ge( element, parameter );
+        else if (operator.equals(QueryParameter.OPERATOR_GREATER_EQUAL)) {
+            return Expression.ge(element, parameter);
         }
-        else if( operator.equals( QueryParameter.OPERATOR_NOT_EQUAL ) )
-        {
-            return Expression.ne( element, parameter );
+        else if (operator.equals(QueryParameter.OPERATOR_NOT_EQUAL)) {
+            return Expression.ne(element, parameter);
         }
-        else if( operator.equals( QueryParameter.OPERATOR_IS_NULL ) )
-        {
-            return Expression.isEmpty( element );
+        else if (operator.equals(QueryParameter.OPERATOR_IS_NULL)) {
+            return Expression.isEmpty(element);
         }
-        else if( operator.equals( QueryParameter.OPERATOR_IS_NOT_NULL ) )
-        {
-            return Expression.isNotEmpty( element );
+        else if (operator.equals(QueryParameter.OPERATOR_IS_NOT_NULL)) {
+            return Expression.isNotEmpty(element);
         }
-        else if( operator.equals( QueryParameter.OPERATOR_STRING_LIKE ) )
-        {
+        else if (operator.equals(QueryParameter.OPERATOR_STRING_LIKE)) {
             MatchMode hibernateMatchMode;
-            switch(matchMode) {
-                case END: hibernateMatchMode = MatchMode.END; break;
-                case EXACT: hibernateMatchMode = MatchMode.EXACT; break;
-                case START: hibernateMatchMode = MatchMode.START; break;
+            switch (matchMode) {
+                case END:
+                    hibernateMatchMode = MatchMode.END;
+                    break;
+                case EXACT:
+                    hibernateMatchMode = MatchMode.EXACT;
+                    break;
+                case START:
+                    hibernateMatchMode = MatchMode.START;
+                    break;
                 default:
-                case ANYWHERE: hibernateMatchMode = MatchMode.ANYWHERE; break;
+                case ANYWHERE:
+                    hibernateMatchMode = MatchMode.ANYWHERE;
+                    break;
             }
-            return Expression.like( element, parameter.toString(), hibernateMatchMode );
+            return Expression.like(element, parameter.toString(),
+                hibernateMatchMode);
         }
-        else if( operator.equals( QueryParameter.OPERATOR_BETWEEN ) )
-        {
-            return Expression.between( element, parameter, parameter2 );
+        else if (operator.equals(QueryParameter.OPERATOR_BETWEEN)) {
+            return Expression.between(element, parameter, parameter2);
         }
         return null;
     }

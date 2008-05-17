@@ -30,106 +30,89 @@ import java.util.List;
  *
  * @author Imran M Yousuf
  */
-public abstract class AbstractCommonDaoImpl <Template extends PersistentDTO> extends AbstractDAO<Template> implements CommonDao<Template>, CommonDaoWithList<Template>, CommonDaoWithVarArgs<Template>
-{
-    
+public abstract class AbstractCommonDaoImpl<Template extends PersistentDTO>
+    extends AbstractDAO<Template>
+    implements CommonDao<Template>,
+               CommonDaoWithList<Template>,
+               CommonDaoWithVarArgs<Template> {
+
     private Class entityClass;
-    
-    public void save(Template state)
-    {
-        if(entityClass == null)
-        {
+
+    public void save(Template state) {
+        if (entityClass == null) {
             entityClass = state.getClass();
         }
         createEntity(state);
     }
-    
-    public void update(Template state)
-    {
-        if(entityClass == null)
-        {
+
+    public void update(Template state) {
+        if (entityClass == null) {
             entityClass = state.getClass();
         }
         updateEntity(state);
     }
-    
-    public void delete(Template state)
-    {
-        if(entityClass == null)
-        {
+
+    public void delete(Template state) {
+        if (entityClass == null) {
             entityClass = state.getClass();
         }
         deleteEntity(state);
     }
-    
-    public Template getSingle(Hashtable<String, QueryParameter> query)
-    {
+
+    public Template getSingle(Hashtable<String, QueryParameter> query) {
         return readSingle(entityClass, query);
     }
-    
-    public List<Template> getList(Hashtable<String, QueryParameter> query)
-    {
+
+    public List<Template> getList(Hashtable<String, QueryParameter> query) {
         return readList(entityClass, query);
     }
-    
-    public Object getOther(Hashtable<String, QueryParameter> query)
-    {
+
+    public Object getOther(Hashtable<String, QueryParameter> query) {
         return readOther(entityClass, query);
     }
-    
-    protected Class getEntityClass()
-    {
+
+    protected Class getEntityClass() {
         return entityClass;
     }
-    
-    protected void setEntityClass(Class entityClass)
-    {
+
+    protected void setEntityClass(Class entityClass) {
         this.entityClass = entityClass;
     }
 
-    public Template getSingle(List<QueryParameter> query)
-    {
+    public Template getSingle(List<QueryParameter> query) {
         return readSingle(entityClass, query);
     }
 
-    public List<Template> getList(List<QueryParameter> query)
-    {
+    public List<Template> getList(List<QueryParameter> query) {
         return readList(entityClass, query);
     }
 
-    public Object getOther(List<QueryParameter> query)
-    {
+    public Object getOther(List<QueryParameter> query) {
         return readOther(entityClass, query);
     }
-    
-    public Template getSingle(QueryParameter ... query)
-    {
+
+    public Template getSingle(QueryParameter... query) {
         return readSingle(entityClass, query);
     }
 
-    public List<Template> getList(QueryParameter ... query)
-    {
+    public List<Template> getList(QueryParameter... query) {
         return readList(entityClass, query);
     }
 
-    public Object getOther(QueryParameter ... query)
-    {
+    public Object getOther(QueryParameter... query) {
         return readOther(entityClass, query);
     }
 
-    public List<? extends Object> getOtherList(Hashtable<String, QueryParameter> query)
-    {
+    public List<? extends Object> getOtherList(
+        Hashtable<String, QueryParameter> query) {
         return readOtherList(entityClass, query);
     }
 
-    public List<? extends Object> getOtherList(List<QueryParameter> query)
-    {
+    public List<? extends Object> getOtherList(List<QueryParameter> query) {
         return readOtherList(entityClass, query);
     }
 
-    public List<? extends Object> getOtherList(QueryParameter... query)
-    {
+    public List<? extends Object> getOtherList(QueryParameter... query) {
         return readOtherList(entityClass, query);
     }
-    
 }
