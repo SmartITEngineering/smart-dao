@@ -46,12 +46,14 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         if (entities == null) {
             throw new IllegalArgumentException();
         }
-        Session session = getHibernateTemplate().getSessionFactory().
-            getCurrentSession();
-        boolean openedSession = false;
-        if(session == null) {
-            session = getHibernateTemplate().getSessionFactory().openSession();
-            openedSession = true;
+        Session session;
+        boolean customSession = false;
+        try {
+            session = getSessionFactory().getCurrentSession();
+        }
+        catch (Exception ex) {
+            session = getSessionFactory().openSession();
+            customSession = true;
         }
         try {
             for (Template entity : entities) {
@@ -59,7 +61,8 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             }
         }
         finally {
-            if(openedSession) {
+            session.flush();
+            if(customSession) {
                 session.close();
             }
         }
@@ -69,12 +72,14 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         if (entities == null) {
             throw new IllegalArgumentException();
         }
-        Session session = getHibernateTemplate().getSessionFactory().
-            getCurrentSession();
-        boolean openedSession = false;
-        if(session == null) {
-            session = getHibernateTemplate().getSessionFactory().openSession();
-            openedSession = true;
+        Session session;
+        boolean customSession = false;
+        try {
+            session = getSessionFactory().getCurrentSession();
+        }
+        catch (Exception ex) {
+            session = getSessionFactory().openSession();
+            customSession = true;
         }
         try {
             for (Template entity : entities) {
@@ -82,7 +87,8 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             }
         }
         finally {
-            if(openedSession) {
+            session.flush();
+            if(customSession) {
                 session.close();
             }
         }
@@ -92,12 +98,14 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         if (entities == null) {
             throw new IllegalArgumentException();
         }
-        Session session = getHibernateTemplate().getSessionFactory().
-            getCurrentSession();
-        boolean openedSession = false;
-        if(session == null) {
-            session = getHibernateTemplate().getSessionFactory().openSession();
-            openedSession = true;
+        Session session;
+        boolean customSession = false;
+        try {
+            session = getSessionFactory().getCurrentSession();
+        }
+        catch (Exception ex) {
+            session = getSessionFactory().openSession();
+            customSession = true;
         }
         try {
             for (Template entity : entities) {
@@ -105,7 +113,8 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             }
         }
         finally {
-            if(openedSession) {
+            session.flush();
+            if(customSession) {
                 session.close();
             }
         }
