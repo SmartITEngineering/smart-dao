@@ -39,7 +39,7 @@ public abstract class AbstractCommonDaoImpl<Template extends PersistentDTO>
     private Class entityClass;
 
     public void save(Template... states) {
-        if(states != null && states.length > 0) {
+        if(states != null && states.length <= 0) {
             return; 
         }
         if (entityClass == null) {
@@ -49,7 +49,7 @@ public abstract class AbstractCommonDaoImpl<Template extends PersistentDTO>
     }
 
     public void update(Template... states) {
-        if(states != null && states.length > 0) {
+        if(states != null && states.length<= 0) {
             return; 
         }
         if (entityClass == null) {
@@ -59,7 +59,7 @@ public abstract class AbstractCommonDaoImpl<Template extends PersistentDTO>
     }
 
     public void delete(Template... states) {
-        if(states != null && states.length > 0) {
+        if(states != null && states.length <= 0) {
             return; 
         }
         if (entityClass == null) {
