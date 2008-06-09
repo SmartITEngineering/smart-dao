@@ -19,8 +19,6 @@
 package com.smartitengineering.dao.impl.hibernate;
 
 import com.smartitengineering.dao.common.CommonDao;
-import com.smartitengineering.dao.common.CommonDaoWithList;
-import com.smartitengineering.dao.common.CommonDaoWithVarArgs;
 import com.smartitengineering.dao.common.QueryParameter;
 import com.smartitengineering.domain.PersistentDTO;
 import java.util.Hashtable;
@@ -32,9 +30,7 @@ import java.util.List;
  */
 public abstract class AbstractCommonDaoImpl<Template extends PersistentDTO>
     extends AbstractDAO<Template>
-    implements CommonDao<Template>,
-               CommonDaoWithList<Template>,
-               CommonDaoWithVarArgs<Template> {
+    implements CommonDao<Template> {
 
     private Class entityClass;
 

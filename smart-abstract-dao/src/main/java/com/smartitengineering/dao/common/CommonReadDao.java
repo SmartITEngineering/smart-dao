@@ -19,26 +19,13 @@
 package com.smartitengineering.dao.common;
 
 import com.smartitengineering.domain.PersistentDTO;
-import java.util.List;
 
 /**
  *
  * @author Imran M Yousuf
  */
-public interface CommonDaoWithVarArgs<Template extends PersistentDTO>
-{
-    public void save(Template... states);
-    
-    public void update(Template... states);
-    
-    public void delete(Template... states);
-    
-    public Template getSingle(QueryParameter ... query);
-    
-    public List<Template> getList(QueryParameter ... query);
-    
-    public Object getOther(QueryParameter ... query);
-    
-    public List<? extends Object> getOtherList(QueryParameter ... query);
-    
+public interface CommonReadDao<Template extends PersistentDTO>
+    extends CommonReadDaoWithList<Template>,
+            CommonReadDaoWithVarArgs<Template>,
+            CommonReadDaoWithMap<Template> {
 }
