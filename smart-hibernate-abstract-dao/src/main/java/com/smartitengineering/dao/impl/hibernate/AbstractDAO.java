@@ -572,6 +572,9 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
                                         String element,
                                         QueryParameter parameter) {
         FetchMode mode;
+        if(parameter.getFetchMode() == null) {
+            parameter.setFetchMode(QueryParameter.FetchMode.DEFAULT);
+        }
         switch (parameter.getFetchMode()) {
             case EAGER:
                 mode = FetchMode.EAGER;
@@ -667,6 +670,9 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         }
         else if (operator.equals(QueryParameter.OPERATOR_STRING_LIKE)) {
             MatchMode hibernateMatchMode;
+            if(matchMode == null) {
+                matchMode = QueryParameter.MatchMode.EXACT;
+            }
             switch (matchMode) {
                 case END:
                     hibernateMatchMode = MatchMode.END;
