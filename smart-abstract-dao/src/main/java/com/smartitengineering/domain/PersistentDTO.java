@@ -33,6 +33,21 @@ public abstract class PersistentDTO <Template extends PersistentDTO> implements 
     public PersistentDTO()
     {
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        try {
+            return compareTo((Template) obj) == 0;
+        }
+        catch(ClassCastException ex) {
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return id == null ? 0 : id.intValue();
+    }
     
     public int compareTo(Template o)
     {
