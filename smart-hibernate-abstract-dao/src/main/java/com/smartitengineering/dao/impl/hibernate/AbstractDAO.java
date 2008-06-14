@@ -21,6 +21,7 @@ package com.smartitengineering.dao.impl.hibernate;
 import com.smartitengineering.dao.common.QueryParameter;
 import com.smartitengineering.domain.PersistentDTO;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +37,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public abstract class AbstractDAO<Template extends PersistentDTO>
@@ -62,7 +64,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         }
         finally {
             session.flush();
-            if(customSession) {
+            if (customSession) {
                 session.close();
             }
         }
@@ -88,7 +90,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         }
         finally {
             session.flush();
-            if(customSession) {
+            if (customSession) {
                 session.close();
             }
         }
@@ -114,7 +116,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         }
         finally {
             session.flush();
-            if(customSession) {
+            if (customSession) {
                 session.close();
             }
         }
@@ -564,6 +566,18 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
                 criteria.setProjection(list);
                 return;
             }
+            case 19: {
+                Criterion criterion = Restrictions.in(element,
+                    (Collection) parameter.getParameter());
+                criteria.add(criterion);
+                return;
+            }
+            case 20: {
+                Criterion criterion = Restrictions.not(Restrictions.in(element,
+                    (Collection) parameter.getParameter()));
+                criteria.add(criterion);
+                return;
+            }
         }
     }
 
@@ -572,7 +586,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
                                         String element,
                                         QueryParameter parameter) {
         FetchMode mode;
-        if(parameter.getFetchMode() == null) {
+        if (parameter.getFetchMode() == null) {
             parameter.setFetchMode(QueryParameter.FetchMode.DEFAULT);
         }
         switch (parameter.getFetchMode()) {
@@ -670,7 +684,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         }
         else if (operator.equals(QueryParameter.OPERATOR_STRING_LIKE)) {
             MatchMode hibernateMatchMode;
-            if(matchMode == null) {
+            if (matchMode == null) {
                 matchMode = QueryParameter.MatchMode.EXACT;
             }
             switch (matchMode) {
