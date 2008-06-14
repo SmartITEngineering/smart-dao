@@ -32,14 +32,14 @@ public abstract class AbstractCommonDaoImpl<Template extends PersistentDTO>
     extends AbstractDAO<Template>
     implements CommonDao<Template> {
 
-    private Class entityClass;
+    private Class<? extends Template> entityClass;
 
     public void save(Template... states) {
         if(states != null && states.length <= 0) {
             return; 
         }
         if (entityClass == null) {
-            entityClass = states[0].getClass();
+            entityClass = (Class<Template>) states[0].getClass();
         }
         createEntity(states);
     }
@@ -49,7 +49,7 @@ public abstract class AbstractCommonDaoImpl<Template extends PersistentDTO>
             return; 
         }
         if (entityClass == null) {
-            entityClass = states[0].getClass();
+            entityClass = (Class<Template>) states[0].getClass();
         }
         updateEntity(states);
     }
@@ -59,7 +59,7 @@ public abstract class AbstractCommonDaoImpl<Template extends PersistentDTO>
             return; 
         }
         if (entityClass == null) {
-            entityClass = states[0].getClass();
+            entityClass = (Class<Template>) states[0].getClass();
         }
         deleteEntity(states);
     }
@@ -80,7 +80,7 @@ public abstract class AbstractCommonDaoImpl<Template extends PersistentDTO>
         return entityClass;
     }
 
-    protected void setEntityClass(Class entityClass) {
+    protected void setEntityClass(Class<? extends Template> entityClass) {
         this.entityClass = entityClass;
     }
 
