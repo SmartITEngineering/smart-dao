@@ -22,16 +22,14 @@ package com.smartitengineering.domain;
  *
  * @author Imran M Yousuf
  */
-public abstract class PersistentDTO <Template extends PersistentDTO> implements Domain<Template>
-{
-    
+public abstract class PersistentDTO<Template extends PersistentDTO>
+    implements Domain<Template> {
+
     protected Integer id;
-    
     protected Integer version;
-    
+
     /** Creates a new instance of PersistentDTO */
-    public PersistentDTO()
-    {
+    public PersistentDTO() {
     }
 
     @Override
@@ -39,7 +37,7 @@ public abstract class PersistentDTO <Template extends PersistentDTO> implements 
         try {
             return compareTo((Template) obj) == 0;
         }
-        catch(ClassCastException ex) {
+        catch (ClassCastException ex) {
         }
         return false;
     }
@@ -48,59 +46,58 @@ public abstract class PersistentDTO <Template extends PersistentDTO> implements 
     public int hashCode() {
         return id == null ? 0 : id.intValue();
     }
-    
-    public int compareTo(Template o)
-    {
-        if(o == null)
-        {
+
+    public int compareTo(Template o) {
+        if (o == null) {
             throw new IllegalArgumentException();
+        }
+        if(o.getId() == null && id == null) {
+            return 0;
+        }
+        if(o.getId() == null && id != null) {
+            return 1;
+        }
+        if(o.getId() != null && id == null) {
+            return -1;
         }
         return o.getId().compareTo(id);
     }
-    
-    public int compare(Template o1, Template o2)
-    {
-        if(o1 == null && o2 == null)
-        {
+
+    public int compare(Template o1,
+                       Template o2) {
+        if (o1 == null && o2 == null) {
             return 0;
         }
-        if(o1 == null && o2 != null)
-        {
+        if (o1 == null && o2 != null) {
             return -1;
         }
-        if(o1 != null && o2 == null)
-        {
+        if (o1 != null && o2 == null) {
             return 1;
         }
-        return o1.id.compareTo(o2.id);
+        return o1.compareTo(o2);
     }
-    
-    public Integer getId()
-    {
+
+    public Integer getId() {
         return id;
     }
-    
-    public void setId(Integer id)
-    {
+
+    public void setId(Integer id) {
         this.id = id;
     }
-    
-    public Integer getVersion()
-    {
+
+    public Integer getVersion() {
         return version;
     }
-    
-    public void setVersion(Integer version)
-    {
+
+    public void setVersion(Integer version) {
         this.version = version;
     }
-    
+
     protected void clone(Template template) {
-        if(template == null) {
+        if (template == null) {
             return;
         }
         template.setId(id);
         template.setVersion(version);
     }
-    
 }
