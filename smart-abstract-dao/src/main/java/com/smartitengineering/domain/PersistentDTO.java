@@ -52,7 +52,7 @@ public abstract class PersistentDTO<Template extends PersistentDTO>
             throw new IllegalArgumentException();
         }
         if(o.getId() == null && id == null) {
-            return 0;
+            return -1;
         }
         if(o.getId() == null && id != null) {
             return 1;
