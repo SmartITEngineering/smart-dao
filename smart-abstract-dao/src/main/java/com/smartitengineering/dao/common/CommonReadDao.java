@@ -19,6 +19,7 @@
 package com.smartitengineering.dao.common;
 
 import com.smartitengineering.domain.PersistentDTO;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -32,7 +33,7 @@ public interface CommonReadDao<Template extends PersistentDTO>
     
     public Set<Template> getAll();
     
-    public Set<Template> getByIds();
+    public Set<Template> getByIds(List<Integer> ids);
     
-    public Template getById();
+    public Template getById(Integer id);
 }
