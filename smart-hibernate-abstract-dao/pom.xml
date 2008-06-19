@@ -4,7 +4,7 @@
     <groupId>com.smartitengineering</groupId>
     <artifactId>smart-hibernate-abstract-dao</artifactId>
     <packaging>jar</packaging>
-    <version>0.3-SNAPSHOT</version>
+    <version>0.3</version>
     <name>smart-hibernate-abstract-dao</name>
     <url>http://repo.or.cz/w/smart-dao.git</url>
     <developers>
