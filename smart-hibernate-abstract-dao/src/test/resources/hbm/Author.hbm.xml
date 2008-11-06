@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *   
+ * This is a common dao with basic CRUD operations and is not limited to any 
+ * persistent layer implementation
+ * 
+ * Copyright (C) 2008  Imran M Yousuf
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ *
+-->
+
+<!--
+    Document   : Author.hbm.xml
+    Created on : November 4, 2008, 3:00 PM
+    Author     : imyousuf
+    Description:
+        Purpose of the document follows.
+-->
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+    <class
+        name="com.smartitengineering.dao.impl.hibernate.domain.Author"
+        table="author"
+        dynamic-update="false"
+        dynamic-insert="false"
+    >
+        <id
+            name="id"
+            column="id"
+            type="java.lang.Integer"
+        >
+            <generator class = "increment">
+            </generator>
+        </id>
+        <version name="version" column="version" />
+        <property
+            name="name"
+            column="author_name"
+            type="java.lang.String"
+            length="255"
+        />
+        <property
+            name="birthDate"
+            column="publish_date"
+            type="java.util.Date"
+        />
+    </class>
+</hibernate-mapping>
