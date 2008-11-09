@@ -162,11 +162,8 @@ public class AbstractDAOTest
         }
     }
 
-    /**
-     * Test of readList method, of class AbstractDAO.
-     */
-    public void testReadList_Class_QueryParameterArr() {
-        System.out.println("readList");
+    public void testGetAll() {
+        System.out.println("getAll");
         /**
          * Add test for read all
          */
@@ -319,32 +316,11 @@ public class AbstractDAOTest
     }
 
     /**
-     * Test of readOther method, of class AbstractDAO.
-     */
-    public void testReadOther_Class_QueryParameterArr() {
-        System.out.println("readOther");
-    }
-
-    /**
-     * Test of readOtherList method, of class AbstractDAO.
-     */
-    public void testReadOtherList_Class_QueryParameterArr() {
-        System.out.println("readOtherList");
-    }
-
-    /**
-     * Test of updateEntity method, of class AbstractDAO.
-     */
-    public void testUpdateEntity() {
-        System.out.println("updateEntity");
-    }
-
-    /**
      * Test of readSingle method, of class AbstractDAO.
      */
     public void testReadSingle_Class_Hashtable() {
         System.out.println("readSingleHashTable");
-                AbstractDAO<Book> bookInstance = getDaoInstance();
+        AbstractDAO<Book> bookInstance = getDaoInstance();
         AbstractDAO<Author> authorInstance = getDaoInstance();
         AbstractDAO<Publisher> publisherInstance = getDaoInstance();
         Map<String, Integer> bookNameToIdMap = new HashMap<String, Integer>();
@@ -370,7 +346,8 @@ public class AbstractDAOTest
         /**
          * Try to load a book with non-existing id
          */
-        Book nonExistingBook = bookInstance.readSingle(Book.class, getQueryParamHashtable(param));
+        Book nonExistingBook = bookInstance.readSingle(Book.class,
+            getQueryParamHashtable(param));
         assertNull(nonExistingBook);
         /**
          * Test a random single book with id
@@ -380,7 +357,8 @@ public class AbstractDAOTest
             int bookId = bookNameToIdMap.get(kothaoKeoNei.getName());
             param.setParameter(bookId);
             Book kothaoKeoNeiFromDao =
-                bookInstance.readSingle(Book.class, getQueryParamHashtable(param));
+                bookInstance.readSingle(Book.class,
+                getQueryParamHashtable(param));
             assertBook(kothaoKeoNei, kothaoKeoNeiFromDao, bookNameToIdMap, 1);
         }
         /**
@@ -421,7 +399,8 @@ public class AbstractDAOTest
             strParam.setParameter(bookName);
             strParam.setMatchMode(QueryParameter.MatchMode.EXACT);
             Book webDbAppFromDao =
-                bookInstance.readSingle(Book.class, getQueryParamHashtable(strParam));
+                bookInstance.readSingle(Book.class, getQueryParamHashtable(
+                strParam));
             final int numOfAuthors = 2;
             assertBook(webDbApp, webDbAppFromDao, bookNameToIdMap, numOfAuthors);
         }
@@ -470,31 +449,11 @@ public class AbstractDAOTest
             nestedParams.put("name", strParam);
             authorParam.setNestedParameters(nestedParams);
             Book webDbAppFromDao =
-                bookInstance.readSingle(Book.class, getQueryParamHashtable(authorParam));
+                bookInstance.readSingle(Book.class, getQueryParamHashtable(
+                authorParam));
             final int numOfAuthors = 2;
             assertBook(webDbApp, webDbAppFromDao, bookNameToIdMap, numOfAuthors);
         }
-    }
-
-    /**
-     * Test of readOther method, of class AbstractDAO.
-     */
-    public void testReadOther_Class_Hashtable() {
-        System.out.println("readOther");
-    }
-
-    /**
-     * Test of readOtherList method, of class AbstractDAO.
-     */
-    public void testReadOtherList_Class_Hashtable() {
-        System.out.println("readOtherList");
-    }
-
-    /**
-     * Test of readList method, of class AbstractDAO.
-     */
-    public void testReadList_Class_Hashtable() {
-        System.out.println("readList");
     }
 
     /**
@@ -502,7 +461,7 @@ public class AbstractDAOTest
      */
     public void testReadSingle_Class_List() {
         System.out.println("readSingleList");
-                AbstractDAO<Book> bookInstance = getDaoInstance();
+        AbstractDAO<Book> bookInstance = getDaoInstance();
         AbstractDAO<Author> authorInstance = getDaoInstance();
         AbstractDAO<Publisher> publisherInstance = getDaoInstance();
         Map<String, Integer> bookNameToIdMap = new HashMap<String, Integer>();
@@ -528,7 +487,8 @@ public class AbstractDAOTest
         /**
          * Try to load a book with non-existing id
          */
-        Book nonExistingBook = bookInstance.readSingle(Book.class, getQueryParamList(param));
+        Book nonExistingBook = bookInstance.readSingle(Book.class,
+            getQueryParamList(param));
         assertNull(nonExistingBook);
         /**
          * Test a random single book with id
@@ -538,7 +498,8 @@ public class AbstractDAOTest
             int bookId = bookNameToIdMap.get(kothaoKeoNei.getName());
             param.setParameter(bookId);
             Book kothaoKeoNeiFromDao =
-                bookInstance.readSingle(Book.class, getQueryParamHashtable(param));
+                bookInstance.readSingle(Book.class,
+                getQueryParamHashtable(param));
             assertBook(kothaoKeoNei, kothaoKeoNeiFromDao, bookNameToIdMap, 1);
         }
         /**
@@ -579,7 +540,8 @@ public class AbstractDAOTest
             strParam.setParameter(bookName);
             strParam.setMatchMode(QueryParameter.MatchMode.EXACT);
             Book webDbAppFromDao =
-                bookInstance.readSingle(Book.class, getQueryParamHashtable(strParam));
+                bookInstance.readSingle(Book.class, getQueryParamHashtable(
+                strParam));
             final int numOfAuthors = 2;
             assertBook(webDbApp, webDbAppFromDao, bookNameToIdMap, numOfAuthors);
         }
@@ -628,10 +590,39 @@ public class AbstractDAOTest
             nestedParams.put("name", strParam);
             authorParam.setNestedParameters(nestedParams);
             Book webDbAppFromDao =
-                bookInstance.readSingle(Book.class, getQueryParamHashtable(authorParam));
+                bookInstance.readSingle(Book.class, getQueryParamHashtable(
+                authorParam));
             final int numOfAuthors = 2;
             assertBook(webDbApp, webDbAppFromDao, bookNameToIdMap, numOfAuthors);
         }
+    }
+
+    /**
+     * Test of readOther method, of class AbstractDAO.
+     */
+    public void testReadOther_Class_QueryParameterArr() {
+        System.out.println("readOther");
+    }
+
+    /**
+     * Test of readOther method, of class AbstractDAO.
+     */
+    public void testReadOther_Class_Hashtable() {
+        System.out.println("readOther");
+    }
+
+    /**
+     * Test of readOtherList method, of class AbstractDAO.
+     */
+    public void testReadOtherList_Class_QueryParameterArr() {
+        System.out.println("readOtherList");
+    }
+
+    /**
+     * Test of readOtherList method, of class AbstractDAO.
+     */
+    public void testReadOtherList_Class_Hashtable() {
+        System.out.println("readOtherList");
     }
 
     /**
@@ -646,6 +637,27 @@ public class AbstractDAOTest
      */
     public void testReadOtherList_Class_List() {
         System.out.println("readOtherList");
+    }
+
+    /**
+     * Test of updateEntity method, of class AbstractDAO.
+     */
+    public void testUpdateEntity() {
+        System.out.println("updateEntity");
+    }
+
+    /**
+     * Test of readList method, of class AbstractDAO.
+     */
+    public void testReadList_Class_QueryParameterArr() {
+        System.out.println("readList");
+    }
+
+    /**
+     * Test of readList method, of class AbstractDAO.
+     */
+    public void testReadList_Class_Hashtable() {
+        System.out.println("readList");
     }
 
     /**
@@ -768,16 +780,19 @@ public class AbstractDAOTest
         return index;
     }
 
-    private Hashtable<String, QueryParameter> getQueryParamHashtable(QueryParameter... params) {
-        Hashtable<String, QueryParameter> table = new Hashtable<String, QueryParameter>();
-        for(QueryParameter parameter : params) {
+    private Hashtable<String, QueryParameter> getQueryParamHashtable(
+        QueryParameter... params) {
+        Hashtable<String, QueryParameter> table =
+            new Hashtable<String, QueryParameter>();
+        for (QueryParameter parameter : params) {
             String paramName = parameter.getPropertyName();
-            if(table.containsKey(paramName)) {
+            if (table.containsKey(paramName)) {
                 int i = 1;
-                while(table.containsKey(paramName + i)) {
+                while (table.containsKey(new StringBuilder(paramName).append(
+                    i).toString())) {
                     i++;
                 }
-                paramName = paramName + i;
+                paramName = new StringBuilder(paramName).append(i).toString();
             }
             table.put(paramName, parameter);
         }
