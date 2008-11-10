@@ -19,11 +19,13 @@
 package com.smartitengineering.dao.impl.hibernate;
 
 import com.smartitengineering.dao.common.QueryParameter;
+import com.smartitengineering.dao.common.QueryParameter.Order;
 import com.smartitengineering.dao.impl.hibernate.domain.Author;
 import com.smartitengineering.dao.impl.hibernate.domain.Book;
 import com.smartitengineering.dao.impl.hibernate.domain.Publisher;
 import com.smartitengineering.domain.PersistentDTO;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -620,7 +622,7 @@ public class AbstractDAOTest
          * Test count
          */
         {
-            param = getCountPubIdParam();
+            param = getCountIdParam();
             Integer count = (Integer) publisherInstance.readOther(
                 Publisher.class,
                 param);
@@ -695,7 +697,7 @@ public class AbstractDAOTest
          * Test count
          */
         {
-            param = getCountPubIdParam();
+            param = getCountIdParam();
             Integer count = (Integer) publisherInstance.readOther(
                 Publisher.class,
                 getQueryParamHashtable(param));
@@ -752,7 +754,7 @@ public class AbstractDAOTest
      * Test of readOther method, of class AbstractDAO.
      */
     public void testReadOther_Class_List() {
-        System.out.println("readOtherList");
+        System.out.println("readOther_List");
         AbstractDAO<Publisher> publisherInstance = getDaoInstance();
         QueryParameter<String> param;
         /**
@@ -770,7 +772,7 @@ public class AbstractDAOTest
          * Test count
          */
         {
-            param = getCountPubIdParam();
+            param = getCountIdParam();
             Integer count = (Integer) publisherInstance.readOther(
                 Publisher.class,
                 getQueryParamList(param));
@@ -827,21 +829,24 @@ public class AbstractDAOTest
      * Test of readOtherList method, of class AbstractDAO.
      */
     public void testReadOtherList_Class_QueryParameterArr() {
-        System.out.println("readOtherList");
+        System.out.println("readOtherListVarArgs");
+        performTestReadOtherList(MethodInvocationType.VAR_ARGS);
     }
 
     /**
      * Test of readOtherList method, of class AbstractDAO.
      */
     public void testReadOtherList_Class_Hashtable() {
-        System.out.println("readOtherList");
+        System.out.println("readOtherListHashtable");
+        performTestReadOtherList(MethodInvocationType.HASH_TABLE);
     }
 
     /**
      * Test of readOtherList method, of class AbstractDAO.
      */
     public void testReadOtherList_Class_List() {
-        System.out.println("readOtherList");
+        System.out.println("readOtherList_List");
+        performTestReadOtherList(MethodInvocationType.LIST);
     }
 
     /**
@@ -879,6 +884,154 @@ public class AbstractDAOTest
         System.out.println("deleteEntity");
     }
 
+    private void performTestReadOtherList(MethodInvocationType type) {
+        AbstractDAO<Book> bookInstance = getDaoInstance();
+        AbstractDAO<Author> authorInstance = getDaoInstance();
+        AbstractDAO<Publisher> publisherInstance = getDaoInstance();
+        Map<String, Integer> bookNameToIdMap = new HashMap<String, Integer>();
+        Map<String, Integer> publisherNameToIdMap =
+            new HashMap<String, Integer>();
+        Map<String, Integer> authorNameToIdMap = new HashMap<String, Integer>();
+        makeNameToIdMap(bookNameToIdMap, bookInstance, authorNameToIdMap,
+            authorInstance, publisherNameToIdMap, publisherInstance);
+        QueryParameter<String> param;
+        /**
+         * Test group by and order by
+         */
+        {
+            param = getGroupByPubParam();
+            QueryParameter<String> countParam = getCountIdParam();
+            QueryParameter<QueryParameter.Order> orderByParam =
+                getDescOrderByPubParam();
+            List others;
+            switch (type) {
+                case HASH_TABLE: {
+                    others = bookInstance.readOtherList(Book.class,
+                        getQueryParamHashtable(param, countParam, orderByParam));
+                    break;
+                }
+                case LIST: {
+                    others = bookInstance.readOtherList(Book.class,
+                        getQueryParamList(param, countParam, orderByParam));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    others = bookInstance.readOtherList(Book.class, param,
+                        countParam, orderByParam);
+                    break;
+                }
+            }
+            int[] pubId = new int[others.size()];
+            Map<Integer, Integer> bookCount = new HashMap<Integer, Integer>(
+                others.size());
+            int i = 0;
+            for (Object other : others) {
+                assertTrue(other instanceof Object[]);
+                Object[] values = (Object[]) other;
+                pubId[i] = Integer.parseInt(values[0].toString());
+                bookCount.put(pubId[i++], Integer.parseInt(values[1].toString()));
+            }
+            for (i = 1; i < pubId.length; ++i) {
+                assertTrue(pubId[i - 1] > pubId[i]);
+            }
+            Map<Integer, Integer> expectedBookCount = getExpectedBookCount();
+            for (Integer publisherId : getExpectedBookCount().keySet()) {
+                final Integer bookCountForPub = bookCount.get(publisherId);
+                assertNotNull(bookCountForPub);
+                assertEquals(bookCountForPub.intValue(), expectedBookCount.get(
+                    publisherId).intValue());
+            }
+        }
+        /**
+         * Test multiple property projection
+         */
+        {
+            QueryParameter<String> idProjectionParam = getIdProjectionParam();
+            QueryParameter<String> nameProjectionParam =
+                getNameProjectionParam();
+            List others;
+            switch (type) {
+                case HASH_TABLE: {
+                    others = authorInstance.readOtherList(Author.class,
+                        getQueryParamHashtable(nameProjectionParam,
+                        idProjectionParam));
+                    break;
+                }
+                case LIST: {
+                    others =
+                        authorInstance.readOtherList(Author.class,
+                        getQueryParamList(nameProjectionParam, idProjectionParam));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    others = authorInstance.readOtherList(Author.class,
+                        nameProjectionParam, idProjectionParam);
+                    break;
+                }
+            }
+            assertNameIdPair(others, authorNameToIdMap);
+            QueryParameter<List<String>> propsParam = getNameIdPropsParam();
+            switch (type) {
+                case HASH_TABLE: {
+                    others = authorInstance.readOtherList(Author.class,
+                        getQueryParamHashtable(propsParam));
+                    break;
+                }
+                case LIST: {
+                    others = authorInstance.readOtherList(Author.class,
+                        getQueryParamList(propsParam));
+                    break;
+                }
+                case VAR_ARGS:
+                    others = authorInstance.readOtherList(Author.class,
+                        propsParam);
+                default: {
+                    break;
+                }
+            }
+            assertNameIdPair(others, authorNameToIdMap);
+        }
+        /**
+         * Test distinct property projection
+         */
+        {
+            QueryParameter<String> distinctNumOfEmployeeProjectionParam =
+                getDistinctNumOfEmployeeParam();
+            List<Integer> nums;
+            switch (type) {
+                case HASH_TABLE: {
+                    nums = (List<Integer>) publisherInstance.readOtherList(
+                        Publisher.class, getQueryParamHashtable(
+                        distinctNumOfEmployeeProjectionParam));
+                    break;
+                }
+                case LIST: {
+                    nums = (List<Integer>) publisherInstance.readOtherList(
+                        Publisher.class, getQueryParamList(
+                        distinctNumOfEmployeeProjectionParam));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    nums = (List<Integer>) publisherInstance.readOtherList(
+                        Publisher.class, distinctNumOfEmployeeProjectionParam);
+                    break;
+                }
+            }
+            Set<Integer> expectedNums = new HashSet<Integer>();
+            Publisher[] publishers = getAllPublishers();
+            for (Publisher publisher : publishers) {
+                expectedNums.add(publisher.getNumOfEmployees());
+            }
+            assertEquals(expectedNums.size(), nums.size());
+            for (Integer num : nums) {
+                assertTrue(expectedNums.contains(num));
+            }
+        }
+    }
+
     private void assertAuthor(final Author author,
                               final Author authorFromDao,
                               final Map<String, Integer> authorNameToIdMap) {
@@ -899,6 +1052,23 @@ public class AbstractDAOTest
         assertEquals(book.getIsbn(), bookFromDao.getIsbn());
         if (numOfAuthors > -1) {
             assertEquals(numOfAuthors, bookFromDao.getAuthors().size());
+        }
+    }
+
+    private void assertNameIdPair(List others,
+                                  Map<String, Integer> authorNameToIdMap)
+        throws NumberFormatException {
+        Map<String, Integer> nameIds =
+            new HashMap<String, Integer>(others.size());
+        for (Object other : others) {
+            assertTrue(other instanceof Object[]);
+            Object[] values = (Object[]) other;
+            nameIds.put(values[0].toString(),
+                Integer.parseInt(values[1].toString()));
+        }
+        for (String name : authorNameToIdMap.keySet()) {
+            assertEquals(authorNameToIdMap.get(name).intValue(),
+                nameIds.get(name).intValue());
         }
     }
 
@@ -1002,7 +1172,7 @@ public class AbstractDAOTest
             QueryParameter.OPERATOR_EQUAL, "");
     }
 
-    private QueryParameter<String> getCountPubIdParam() {
+    private QueryParameter<String> getCountIdParam() {
         return new QueryParameter<String>("id",
             QueryParameter.PARAMETER_TYPE_COUNT, QueryParameter.OPERATOR_EQUAL,
             "");
@@ -1016,6 +1186,36 @@ public class AbstractDAOTest
         return numbers.size();
     }
 
+    private QueryParameter<String> getDistinctNumOfEmployeeParam() {
+        return new QueryParameter<String>("numOfEmployees",
+            QueryParameter.PARAMETER_TYPE_DISTINCT_PROP,
+            QueryParameter.OPERATOR_EQUAL, "");
+    }
+
+    private HashMap<Integer, Integer> getExpectedBookCount() {
+        final HashMap<Integer, Integer> result =
+            new HashMap<Integer, Integer>();
+        AbstractDAO<Book> bookInstance = getDaoInstance();
+        AbstractDAO<Author> authorInstance = getDaoInstance();
+        AbstractDAO<Publisher> publisherInstance = getDaoInstance();
+        Map<String, Integer> bookNameToIdMap = new HashMap<String, Integer>();
+        Map<String, Integer> publisherNameToIdMap =
+            new HashMap<String, Integer>();
+        Map<String, Integer> authorNameToIdMap = new HashMap<String, Integer>();
+        makeNameToIdMap(bookNameToIdMap, bookInstance, authorNameToIdMap,
+            authorInstance, publisherNameToIdMap, publisherInstance);
+        result.put(publisherNameToIdMap.get(getOReilly().getName()), 2);
+        result.put(publisherNameToIdMap.get(getAnnoProkash().getName()), 2);
+        result.put(publisherNameToIdMap.get(getShebaProkashani().getName()), 1);
+        return result;
+    }
+
+    private QueryParameter<String> getIdProjectionParam() {
+        return new QueryParameter<String>("id",
+            QueryParameter.PARAMETER_TYPE_UNIT_PROP,
+            QueryParameter.OPERATOR_EQUAL, "");
+    }
+
     private QueryParameter<String> getMaxNumOfEmployeeParam() {
         return new QueryParameter<String>("numOfEmployees",
             QueryParameter.PARAMETER_TYPE_MAX, QueryParameter.OPERATOR_EQUAL, "");
@@ -1024,6 +1224,30 @@ public class AbstractDAOTest
     private QueryParameter<String> getMinNumOfEmployeeParam() {
         return new QueryParameter<String>("numOfEmployees",
             QueryParameter.PARAMETER_TYPE_MIN, QueryParameter.OPERATOR_EQUAL, "");
+    }
+
+    private QueryParameter<String> getGroupByPubParam() {
+        return new QueryParameter<String>("publisher.id",
+            QueryParameter.PARAMETER_TYPE_GROUP_BY,
+            QueryParameter.OPERATOR_EQUAL, "");
+    }
+
+    private QueryParameter<Order> getDescOrderByPubParam() {
+        return new QueryParameter<QueryParameter.Order>("publisher.id",
+            QueryParameter.PARAMETER_TYPE_ORDER_BY,
+            QueryParameter.OPERATOR_EQUAL, QueryParameter.Order.DESC);
+    }
+
+    private QueryParameter<List<String>> getNameIdPropsParam() {
+        return new QueryParameter<List<String>>("test",
+            QueryParameter.PARAMETER_TYPE_PROP_LIST,
+            QueryParameter.OPERATOR_EQUAL, Arrays.asList("name", "id"));
+    }
+
+    private QueryParameter<String> getNameProjectionParam() {
+        return new QueryParameter<String>("name",
+            QueryParameter.PARAMETER_TYPE_UNIT_PROP,
+            QueryParameter.OPERATOR_EQUAL, "");
     }
 
     private Hashtable<String, QueryParameter> getQueryParamHashtable(
@@ -1269,5 +1493,10 @@ public class AbstractDAOTest
             min = Math.min(min, publisher.getNumOfEmployees());
         }
         return min;
+    }
+
+    private enum MethodInvocationType {
+
+        VAR_ARGS, HASH_TABLE, LIST;
     }
 }
