@@ -601,14 +601,226 @@ public class AbstractDAOTest
      * Test of readOther method, of class AbstractDAO.
      */
     public void testReadOther_Class_QueryParameterArr() {
-        System.out.println("readOther");
+        System.out.println("readOtherVarArgs");
+        AbstractDAO<Publisher> publisherInstance = getDaoInstance();
+        QueryParameter<String> param;
+        /**
+         * Test average
+         */
+        {
+            param = getAvgEmployeesParam();
+            Double average = (Double) publisherInstance.readOther(
+                Publisher.class,
+                param);
+            int expectedAverage = getTotalNumOfEmployeesFromPubs() /
+                getAllPublishers().length;
+            assertEquals(expectedAverage, average.intValue());
+        }
+        /**
+         * Test count
+         */
+        {
+            param = getCountPubIdParam();
+            Integer count = (Integer) publisherInstance.readOther(
+                Publisher.class,
+                param);
+            int expectedCount = getAllPublishers().length;
+            assertEquals(expectedCount, count.intValue());
+        }
+        /**
+         * Test count distinct
+         */
+        {
+            param = getCountDistinctNumOfEmployeeParam();
+            Integer distinctCount = (Integer) publisherInstance.readOther(
+                Publisher.class,
+                param);
+            int expectedDistinctCount = getDistinctNumOfEmployeeNum();
+            assertEquals(expectedDistinctCount, distinctCount.intValue());
+        }
+        /**
+         * Test Max
+         */
+        {
+            param = getMaxNumOfEmployeeParam();
+            Integer max = (Integer) publisherInstance.readOther(
+                Publisher.class,
+                param);
+            int expectedMax = getMaxEmployeesFromPubs();
+            assertEquals(expectedMax, max.intValue());
+        }
+        /**
+         * Test Min
+         */
+        {
+            param = getMinNumOfEmployeeParam();
+            Integer min = (Integer) publisherInstance.readOther(
+                Publisher.class,
+                param);
+            int expectedMin = getMinEmployeesFromPubs();
+            assertEquals(expectedMin, min.intValue());
+        }
+        /**
+         * Test Sum
+         */
+        {
+            param = getTotalNumOfEmployeesParam();
+            Integer sum = (Integer) publisherInstance.readOther(
+                Publisher.class,
+                param);
+            int expectedSum = getTotalNumOfEmployeesFromPubs();
+            assertEquals(expectedSum, sum.intValue());
+        }
     }
 
     /**
      * Test of readOther method, of class AbstractDAO.
      */
     public void testReadOther_Class_Hashtable() {
-        System.out.println("readOther");
+        System.out.println("readOtherHashtable");
+        AbstractDAO<Publisher> publisherInstance = getDaoInstance();
+        QueryParameter<String> param;
+        /**
+         * Test average
+         */
+        {
+            param = getAvgEmployeesParam();
+            Double average = (Double) publisherInstance.readOther(
+                Publisher.class,
+                getQueryParamHashtable(param));
+            int expectedAverage = getTotalNumOfEmployeesFromPubs() / 3;
+            assertEquals(expectedAverage, average.intValue());
+        }
+        /**
+         * Test count
+         */
+        {
+            param = getCountPubIdParam();
+            Integer count = (Integer) publisherInstance.readOther(
+                Publisher.class,
+                getQueryParamHashtable(param));
+            int expectedCount = 3;
+            assertEquals(expectedCount, count.intValue());
+        }
+        /**
+         * Test count distinct
+         */
+        {
+            param = getCountDistinctNumOfEmployeeParam();
+            Integer distinctCount = (Integer) publisherInstance.readOther(
+                Publisher.class,
+                getQueryParamHashtable(param));
+            int expectedDistinctCount = 2;
+            assertEquals(expectedDistinctCount, distinctCount.intValue());
+        }
+        /**
+         * Test Max
+         */
+        {
+            param = getMaxNumOfEmployeeParam();
+            Integer max = (Integer) publisherInstance.readOther(
+                Publisher.class,
+                getQueryParamHashtable(param));
+            int expectedMax = getMaxEmployeesFromPubs();
+            assertEquals(expectedMax, max.intValue());
+        }
+        /**
+         * Test Min
+         */
+        {
+            param = getMinNumOfEmployeeParam();
+            Integer min = (Integer) publisherInstance.readOther(
+                Publisher.class,
+                getQueryParamHashtable(param));
+            int expectedMin = getMinEmployeesFromPubs();
+            assertEquals(expectedMin, min.intValue());
+        }
+        /**
+         * Test Sum
+         */
+        {
+            param = getTotalNumOfEmployeesParam();
+            Integer sum = (Integer) publisherInstance.readOther(
+                Publisher.class,
+                getQueryParamHashtable(param));
+            int expectedSum = getTotalNumOfEmployeesFromPubs();
+            assertEquals(expectedSum, sum.intValue());
+        }
+    }
+
+    /**
+     * Test of readOther method, of class AbstractDAO.
+     */
+    public void testReadOther_Class_List() {
+        System.out.println("readOtherList");
+        AbstractDAO<Publisher> publisherInstance = getDaoInstance();
+        QueryParameter<String> param;
+        /**
+         * Test average
+         */
+        {
+            param = getAvgEmployeesParam();
+            Double average = (Double) publisherInstance.readOther(
+                Publisher.class,
+                getQueryParamList(param));
+            int expectedAverage = getTotalNumOfEmployeesFromPubs() / 3;
+            assertEquals(expectedAverage, average.intValue());
+        }
+        /**
+         * Test count
+         */
+        {
+            param = getCountPubIdParam();
+            Integer count = (Integer) publisherInstance.readOther(
+                Publisher.class,
+                getQueryParamList(param));
+            int expectedCount = 3;
+            assertEquals(expectedCount, count.intValue());
+        }
+        /**
+         * Test count distinct
+         */
+        {
+            param = getCountDistinctNumOfEmployeeParam();
+            Integer distinctCount = (Integer) publisherInstance.readOther(
+                Publisher.class,
+                getQueryParamList(param));
+            int expectedDistinctCount = 2;
+            assertEquals(expectedDistinctCount, distinctCount.intValue());
+        }
+        /**
+         * Test Max
+         */
+        {
+            param = getMaxNumOfEmployeeParam();
+            Integer max = (Integer) publisherInstance.readOther(
+                Publisher.class,
+                getQueryParamList(param));
+            int expectedMax = getMaxEmployeesFromPubs();
+            assertEquals(expectedMax, max.intValue());
+        }
+        /**
+         * Test Min
+         */
+        {
+            param = getMinNumOfEmployeeParam();
+            Integer min = (Integer) publisherInstance.readOther(
+                Publisher.class,
+                getQueryParamList(param));
+            int expectedMin = getMinEmployeesFromPubs();
+            assertEquals(expectedMin, min.intValue());
+        }
+        /**
+         * Test Sum
+         */
+        {
+            param = getTotalNumOfEmployeesParam();
+            Integer sum = (Integer) publisherInstance.readOther(
+                Publisher.class,
+                getQueryParamList(param));
+            int expectedSum = getTotalNumOfEmployeesFromPubs();
+            assertEquals(expectedSum, sum.intValue());
+        }
     }
 
     /**
@@ -623,13 +835,6 @@ public class AbstractDAOTest
      */
     public void testReadOtherList_Class_Hashtable() {
         System.out.println("readOtherList");
-    }
-
-    /**
-     * Test of readOther method, of class AbstractDAO.
-     */
-    public void testReadOther_Class_List() {
-        System.out.println("readOther");
     }
 
     /**
@@ -757,6 +962,12 @@ public class AbstractDAOTest
         return new LinkedHashSet<Template>(bookInstance.readList(templateClass));
     }
 
+    private Publisher[] getAllPublishers() {
+        return new Publisher[]{getAnnoProkash(), getOReilly(),
+                getShebaProkashani()
+            };
+    }
+
     private Publisher getAnnoProkash() {
         return getPublisher(new Date(), 50, "Anno Prokash");
     }
@@ -765,6 +976,11 @@ public class AbstractDAOTest
         return new QueryParameter<String>("authors",
             QueryParameter.PARAMETER_TYPE_NESTED_PROPERTY,
             QueryParameter.OPERATOR_EQUAL, "");
+    }
+
+    private QueryParameter<String> getAvgEmployeesParam() {
+        return new QueryParameter<String>("numOfEmployees",
+            QueryParameter.PARAMETER_TYPE_AVG, QueryParameter.OPERATOR_EQUAL, "");
     }
 
     private int getBookIndex(final List<Book> bookList,
@@ -778,6 +994,36 @@ public class AbstractDAOTest
             }
         }
         return index;
+    }
+
+    private QueryParameter<String> getCountDistinctNumOfEmployeeParam() {
+        return new QueryParameter<String>("numOfEmployees",
+            QueryParameter.PARAMETER_TYPE_COUNT_DISTINCT,
+            QueryParameter.OPERATOR_EQUAL, "");
+    }
+
+    private QueryParameter<String> getCountPubIdParam() {
+        return new QueryParameter<String>("id",
+            QueryParameter.PARAMETER_TYPE_COUNT, QueryParameter.OPERATOR_EQUAL,
+            "");
+    }
+
+    private int getDistinctNumOfEmployeeNum() {
+        HashSet<Integer> numbers = new HashSet<Integer>();
+        for (Publisher publisher : getAllPublishers()) {
+            numbers.add(publisher.getNumOfEmployees());
+        }
+        return numbers.size();
+    }
+
+    private QueryParameter<String> getMaxNumOfEmployeeParam() {
+        return new QueryParameter<String>("numOfEmployees",
+            QueryParameter.PARAMETER_TYPE_MAX, QueryParameter.OPERATOR_EQUAL, "");
+    }
+
+    private QueryParameter<String> getMinNumOfEmployeeParam() {
+        return new QueryParameter<String>("numOfEmployees",
+            QueryParameter.PARAMETER_TYPE_MIN, QueryParameter.OPERATOR_EQUAL, "");
     }
 
     private Hashtable<String, QueryParameter> getQueryParamHashtable(
@@ -878,7 +1124,7 @@ public class AbstractDAOTest
     }
 
     private Publisher getOReilly() {
-        return getPublisher(new Date(), 110, "O\'Reilly");
+        return getPublisher(new Date(), 100, "O\'Reilly");
     }
 
     private Publisher getShebaProkashani() {
@@ -933,6 +1179,20 @@ public class AbstractDAOTest
             (AbstractDAO<T>) context.getBean("testDao");
         assertNotNull(instance);
         return instance;
+    }
+
+    private int getTotalNumOfEmployeesFromPubs() {
+        Publisher[] publishers = getAllPublishers();
+        int total = 0;
+        for (Publisher publisher : publishers) {
+            total += publisher.getNumOfEmployees();
+        }
+        return total;
+    }
+
+    private QueryParameter<String> getTotalNumOfEmployeesParam() {
+        return new QueryParameter<String>("numOfEmployees",
+            QueryParameter.PARAMETER_TYPE_SUM, QueryParameter.OPERATOR_EQUAL, "");
     }
 
     private Book getWebDbApp(Publisher oReilly,
@@ -991,5 +1251,23 @@ public class AbstractDAOTest
         Author humayunAhmed = getHumayunAhmed();
         enterAuthorToIndex(authorList, humayunAhmed, authorNameToIdMap);
 
+    }
+
+    private int getMaxEmployeesFromPubs() {
+        int max = Integer.MIN_VALUE;
+        Publisher[] publishers = getAllPublishers();
+        for (Publisher publisher : publishers) {
+            max = Math.max(max, publisher.getNumOfEmployees());
+        }
+        return max;
+    }
+
+    private int getMinEmployeesFromPubs() {
+        int min = Integer.MAX_VALUE;
+        Publisher[] publishers = getAllPublishers();
+        for (Publisher publisher : publishers) {
+            min = Math.min(min, publisher.getNumOfEmployees());
+        }
+        return min;
     }
 }
