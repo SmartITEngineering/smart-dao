@@ -185,136 +185,7 @@ public class AbstractDAOTest
      */
     public void testReadSingle_Class_QueryParameterArr() {
         System.out.println("readSingleArgs");
-        AbstractDAO<Book> bookInstance = getDaoInstance();
-        AbstractDAO<Author> authorInstance = getDaoInstance();
-        AbstractDAO<Publisher> publisherInstance = getDaoInstance();
-        Map<String, Integer> bookNameToIdMap = new HashMap<String, Integer>();
-        Map<String, Integer> publisherNameToIdMap =
-            new HashMap<String, Integer>();
-        Map<String, Integer> authorNameToIdMap = new HashMap<String, Integer>();
-        makeNameToIdMap(bookNameToIdMap, bookInstance, authorNameToIdMap,
-            authorInstance, publisherNameToIdMap, publisherInstance);
-        /**
-         * Test non single request
-         */
-        try {
-            bookInstance.readSingle(Book.class);
-            fail("Should not succeed retrieving 1 Book!");
-        }
-        catch (IllegalArgumentException argumentException) {
-        }
-        catch (Exception exception) {
-            fail(exception.getMessage());
-        }
-        QueryParameter<Integer> param =
-            getIdQueryParam();
-        /**
-         * Try to load a book with non-existing id
-         */
-        Book nonExistingBook = bookInstance.readSingle(Book.class, param);
-        assertNull(nonExistingBook);
-        /**
-         * Test a random single book with id
-         */
-        {
-            Book kothaoKeoNei = getKothaoKeoNei(null, null);
-            int bookId = bookNameToIdMap.get(kothaoKeoNei.getName());
-            param.setParameter(bookId);
-            Book kothaoKeoNeiFromDao =
-                bookInstance.readSingle(Book.class, param);
-            assertBook(kothaoKeoNei, kothaoKeoNeiFromDao, bookNameToIdMap, 1);
-        }
-        /**
-         * Test a random single publisher with id
-         */
-        {
-            Publisher annoProkash = getAnnoProkash();
-            int publisherId = publisherNameToIdMap.get(annoProkash.getName());
-            param.setParameter(publisherId);
-            Publisher annoProkashFromDao = publisherInstance.readSingle(
-                Publisher.class,
-                param);
-            assertPublisher(annoProkash, annoProkashFromDao,
-                publisherNameToIdMap);
-        }
-        /**
-         * Test a random single author with id
-         */
-        {
-            Author humayunAhmed = getHumayunAhmed();
-            int authorId = authorNameToIdMap.get(humayunAhmed.getName());
-            param.setParameter(authorId);
-            Author humayunAhmedFromDao = authorInstance.readSingle(Author.class,
-                param);
-            assertAuthor(humayunAhmed, humayunAhmedFromDao, authorNameToIdMap);
-        }
-        QueryParameter<String> strParam =
-            getNameQueryParam();
-        /**
-         * Test different match modes
-         */
-        /**
-         * Test a random single book with exact name
-         */
-        {
-            Book webDbApp = getWebDbApp(null, null, null);
-            String bookName = webDbApp.getName();
-            strParam.setParameter(bookName);
-            strParam.setMatchMode(QueryParameter.MatchMode.EXACT);
-            Book webDbAppFromDao =
-                bookInstance.readSingle(Book.class, strParam);
-            final int numOfAuthors = 2;
-            assertBook(webDbApp, webDbAppFromDao, bookNameToIdMap, numOfAuthors);
-        }
-        /**
-         * Test a random single author with start and end match of name
-         */
-        {
-            Author brett = getBrett();
-            strParam.setParameter(brett.getName().substring(0, 4));
-            strParam.setMatchMode(QueryParameter.MatchMode.START);
-            Author brettFromDao = authorInstance.readSingle(Author.class,
-                strParam);
-            assertAuthor(brett, brettFromDao, authorNameToIdMap);
-            Author anwar = getKaziAnowarHossain();
-            strParam.setParameter(anwar.getName().substring(4));
-            strParam.setMatchMode(QueryParameter.MatchMode.END);
-            Author anwarFromDao = authorInstance.readSingle(Author.class,
-                strParam);
-            assertAuthor(anwar, anwarFromDao, authorNameToIdMap);
-        }
-        /**
-         * Test a random single book with anywhere name
-         */
-        {
-            Publisher sheba = getAnnoProkash();
-            strParam.setParameter(sheba.getName().substring(1, sheba.getName().
-                length() - 2));
-            strParam.setMatchMode(QueryParameter.MatchMode.ANYWHERE);
-            Publisher shebaFromDao = publisherInstance.readSingle(
-                Publisher.class,
-                strParam);
-            assertPublisher(sheba, shebaFromDao,
-                publisherNameToIdMap);
-        }
-        /**
-         * Test a random single book with author's name
-         */
-        {
-            Book webDbApp = getWebDbApp(null, null, null);
-            QueryParameter<String> authorParam = getAuthorNestedParam();
-            Author hughWilliams = getHughWilliams();
-            strParam.setParameter(hughWilliams.getName());
-            strParam.setMatchMode(QueryParameter.MatchMode.EXACT);
-            Hashtable<String, QueryParameter> nestedParams =
-                new Hashtable<String, QueryParameter>();
-            nestedParams.put("name", strParam);
-            authorParam.setNestedParameters(nestedParams);
-            Book webDbAppFromDao =
-                bookInstance.readSingle(Book.class, authorParam);
-            final int numOfAuthors = 2;
-            assertBook(webDbApp, webDbAppFromDao, bookNameToIdMap, numOfAuthors);
-        }
+        performTestReadSingle(MethodInvocationType.VAR_ARGS);
     }
 
     /**
@@ -322,140 +193,7 @@ public class AbstractDAOTest
      */
     public void testReadSingle_Class_Hashtable() {
         System.out.println("readSingleHashTable");
-        AbstractDAO<Book> bookInstance = getDaoInstance();
-        AbstractDAO<Author> authorInstance = getDaoInstance();
-        AbstractDAO<Publisher> publisherInstance = getDaoInstance();
-        Map<String, Integer> bookNameToIdMap = new HashMap<String, Integer>();
-        Map<String, Integer> publisherNameToIdMap =
-            new HashMap<String, Integer>();
-        Map<String, Integer> authorNameToIdMap = new HashMap<String, Integer>();
-        makeNameToIdMap(bookNameToIdMap, bookInstance, authorNameToIdMap,
-            authorInstance, publisherNameToIdMap, publisherInstance);
-        /**
-         * Test non single request
-         */
-        try {
-            bookInstance.readSingle(Book.class);
-            fail("Should not succeed retrieving 1 Book!");
-        }
-        catch (IllegalArgumentException argumentException) {
-        }
-        catch (Exception exception) {
-            fail(exception.getMessage());
-        }
-        QueryParameter<Integer> param =
-            getIdQueryParam();
-        /**
-         * Try to load a book with non-existing id
-         */
-        Book nonExistingBook = bookInstance.readSingle(Book.class,
-            getQueryParamHashtable(param));
-        assertNull(nonExistingBook);
-        /**
-         * Test a random single book with id
-         */
-        {
-            Book kothaoKeoNei = getKothaoKeoNei(null, null);
-            int bookId = bookNameToIdMap.get(kothaoKeoNei.getName());
-            param.setParameter(bookId);
-            Book kothaoKeoNeiFromDao =
-                bookInstance.readSingle(Book.class,
-                getQueryParamHashtable(param));
-            assertBook(kothaoKeoNei, kothaoKeoNeiFromDao, bookNameToIdMap, 1);
-        }
-        /**
-         * Test a random single publisher with id
-         */
-        {
-            Publisher annoProkash = getAnnoProkash();
-            int publisherId = publisherNameToIdMap.get(annoProkash.getName());
-            param.setParameter(publisherId);
-            Publisher annoProkashFromDao = publisherInstance.readSingle(
-                Publisher.class,
-                getQueryParamHashtable(param));
-            assertPublisher(annoProkash, annoProkashFromDao,
-                publisherNameToIdMap);
-        }
-        /**
-         * Test a random single author with id
-         */
-        {
-            Author humayunAhmed = getHumayunAhmed();
-            int authorId = authorNameToIdMap.get(humayunAhmed.getName());
-            param.setParameter(authorId);
-            Author humayunAhmedFromDao = authorInstance.readSingle(Author.class,
-                getQueryParamHashtable(param));
-            assertAuthor(humayunAhmed, humayunAhmedFromDao, authorNameToIdMap);
-        }
-        QueryParameter<String> strParam =
-            getNameQueryParam();
-        /**
-         * Test different match modes
-         */
-        /**
-         * Test a random single book with exact name
-         */
-        {
-            Book webDbApp = getWebDbApp(null, null, null);
-            String bookName = webDbApp.getName();
-            strParam.setParameter(bookName);
-            strParam.setMatchMode(QueryParameter.MatchMode.EXACT);
-            Book webDbAppFromDao =
-                bookInstance.readSingle(Book.class, getQueryParamHashtable(
-                strParam));
-            final int numOfAuthors = 2;
-            assertBook(webDbApp, webDbAppFromDao, bookNameToIdMap, numOfAuthors);
-        }
-        /**
-         * Test a random single author with start and end match of name
-         */
-        {
-            Author brett = getBrett();
-            strParam.setParameter(brett.getName().substring(0, 4));
-            strParam.setMatchMode(QueryParameter.MatchMode.START);
-            Author brettFromDao = authorInstance.readSingle(Author.class,
-                getQueryParamHashtable(strParam));
-            assertAuthor(brett, brettFromDao, authorNameToIdMap);
-            Author anwar = getKaziAnowarHossain();
-            strParam.setParameter(anwar.getName().substring(4));
-            strParam.setMatchMode(QueryParameter.MatchMode.END);
-            Author anwarFromDao = authorInstance.readSingle(Author.class,
-                getQueryParamHashtable(strParam));
-            assertAuthor(anwar, anwarFromDao, authorNameToIdMap);
-        }
-        /**
-         * Test a random single book with anywhere name
-         */
-        {
-            Publisher sheba = getAnnoProkash();
-            strParam.setParameter(sheba.getName().substring(1, sheba.getName().
-                length() - 2));
-            strParam.setMatchMode(QueryParameter.MatchMode.ANYWHERE);
-            Publisher shebaFromDao = publisherInstance.readSingle(
-                Publisher.class,
-                getQueryParamHashtable(strParam));
-            assertPublisher(sheba, shebaFromDao,
-                publisherNameToIdMap);
-        }
-        /**
-         * Test a random single book with author's name
-         */
-        {
-            Book webDbApp = getWebDbApp(null, null, null);
-            QueryParameter<String> authorParam = getAuthorNestedParam();
-            Author hughWilliams = getHughWilliams();
-            strParam.setParameter(hughWilliams.getName());
-            strParam.setMatchMode(QueryParameter.MatchMode.EXACT);
-            Hashtable<String, QueryParameter> nestedParams =
-                new Hashtable<String, QueryParameter>();
-            nestedParams.put("name", strParam);
-            authorParam.setNestedParameters(nestedParams);
-            Book webDbAppFromDao =
-                bookInstance.readSingle(Book.class, getQueryParamHashtable(
-                authorParam));
-            final int numOfAuthors = 2;
-            assertBook(webDbApp, webDbAppFromDao, bookNameToIdMap, numOfAuthors);
-        }
+        performTestReadSingle(MethodInvocationType.HASH_TABLE);
     }
 
     /**
@@ -463,140 +201,7 @@ public class AbstractDAOTest
      */
     public void testReadSingle_Class_List() {
         System.out.println("readSingleList");
-        AbstractDAO<Book> bookInstance = getDaoInstance();
-        AbstractDAO<Author> authorInstance = getDaoInstance();
-        AbstractDAO<Publisher> publisherInstance = getDaoInstance();
-        Map<String, Integer> bookNameToIdMap = new HashMap<String, Integer>();
-        Map<String, Integer> publisherNameToIdMap =
-            new HashMap<String, Integer>();
-        Map<String, Integer> authorNameToIdMap = new HashMap<String, Integer>();
-        makeNameToIdMap(bookNameToIdMap, bookInstance, authorNameToIdMap,
-            authorInstance, publisherNameToIdMap, publisherInstance);
-        /**
-         * Test non single request
-         */
-        try {
-            bookInstance.readSingle(Book.class);
-            fail("Should not succeed retrieving 1 Book!");
-        }
-        catch (IllegalArgumentException argumentException) {
-        }
-        catch (Exception exception) {
-            fail(exception.getMessage());
-        }
-        QueryParameter<Integer> param =
-            getIdQueryParam();
-        /**
-         * Try to load a book with non-existing id
-         */
-        Book nonExistingBook = bookInstance.readSingle(Book.class,
-            getQueryParamList(param));
-        assertNull(nonExistingBook);
-        /**
-         * Test a random single book with id
-         */
-        {
-            Book kothaoKeoNei = getKothaoKeoNei(null, null);
-            int bookId = bookNameToIdMap.get(kothaoKeoNei.getName());
-            param.setParameter(bookId);
-            Book kothaoKeoNeiFromDao =
-                bookInstance.readSingle(Book.class,
-                getQueryParamHashtable(param));
-            assertBook(kothaoKeoNei, kothaoKeoNeiFromDao, bookNameToIdMap, 1);
-        }
-        /**
-         * Test a random single publisher with id
-         */
-        {
-            Publisher annoProkash = getAnnoProkash();
-            int publisherId = publisherNameToIdMap.get(annoProkash.getName());
-            param.setParameter(publisherId);
-            Publisher annoProkashFromDao = publisherInstance.readSingle(
-                Publisher.class,
-                getQueryParamHashtable(param));
-            assertPublisher(annoProkash, annoProkashFromDao,
-                publisherNameToIdMap);
-        }
-        /**
-         * Test a random single author with id
-         */
-        {
-            Author humayunAhmed = getHumayunAhmed();
-            int authorId = authorNameToIdMap.get(humayunAhmed.getName());
-            param.setParameter(authorId);
-            Author humayunAhmedFromDao = authorInstance.readSingle(Author.class,
-                param);
-            assertAuthor(humayunAhmed, humayunAhmedFromDao, authorNameToIdMap);
-        }
-        QueryParameter<String> strParam =
-            getNameQueryParam();
-        /**
-         * Test different match modes
-         */
-        /**
-         * Test a random single book with exact name
-         */
-        {
-            Book webDbApp = getWebDbApp(null, null, null);
-            String bookName = webDbApp.getName();
-            strParam.setParameter(bookName);
-            strParam.setMatchMode(QueryParameter.MatchMode.EXACT);
-            Book webDbAppFromDao =
-                bookInstance.readSingle(Book.class, getQueryParamHashtable(
-                strParam));
-            final int numOfAuthors = 2;
-            assertBook(webDbApp, webDbAppFromDao, bookNameToIdMap, numOfAuthors);
-        }
-        /**
-         * Test a random single author with start and end match of name
-         */
-        {
-            Author brett = getBrett();
-            strParam.setParameter(brett.getName().substring(0, 4));
-            strParam.setMatchMode(QueryParameter.MatchMode.START);
-            Author brettFromDao = authorInstance.readSingle(Author.class,
-                getQueryParamHashtable(strParam));
-            assertAuthor(brett, brettFromDao, authorNameToIdMap);
-            Author anwar = getKaziAnowarHossain();
-            strParam.setParameter(anwar.getName().substring(4));
-            strParam.setMatchMode(QueryParameter.MatchMode.END);
-            Author anwarFromDao = authorInstance.readSingle(Author.class,
-                getQueryParamHashtable(strParam));
-            assertAuthor(anwar, anwarFromDao, authorNameToIdMap);
-        }
-        /**
-         * Test a random single book with anywhere name
-         */
-        {
-            Publisher sheba = getAnnoProkash();
-            strParam.setParameter(sheba.getName().substring(1, sheba.getName().
-                length() - 2));
-            strParam.setMatchMode(QueryParameter.MatchMode.ANYWHERE);
-            Publisher shebaFromDao = publisherInstance.readSingle(
-                Publisher.class,
-                getQueryParamHashtable(strParam));
-            assertPublisher(sheba, shebaFromDao,
-                publisherNameToIdMap);
-        }
-        /**
-         * Test a random single book with author's name
-         */
-        {
-            Book webDbApp = getWebDbApp(null, null, null);
-            QueryParameter<String> authorParam = getAuthorNestedParam();
-            Author hughWilliams = getHughWilliams();
-            strParam.setParameter(hughWilliams.getName());
-            strParam.setMatchMode(QueryParameter.MatchMode.EXACT);
-            Hashtable<String, QueryParameter> nestedParams =
-                new Hashtable<String, QueryParameter>();
-            nestedParams.put("name", strParam);
-            authorParam.setNestedParameters(nestedParams);
-            Book webDbAppFromDao =
-                bookInstance.readSingle(Book.class, getQueryParamHashtable(
-                authorParam));
-            final int numOfAuthors = 2;
-            assertBook(webDbApp, webDbAppFromDao, bookNameToIdMap, numOfAuthors);
-        }
+        performTestReadSingle(MethodInvocationType.LIST);
     }
 
     /**
@@ -604,75 +209,7 @@ public class AbstractDAOTest
      */
     public void testReadOther_Class_QueryParameterArr() {
         System.out.println("readOtherVarArgs");
-        AbstractDAO<Publisher> publisherInstance = getDaoInstance();
-        QueryParameter<String> param;
-        /**
-         * Test average
-         */
-        {
-            param = getAvgEmployeesParam();
-            Double average = (Double) publisherInstance.readOther(
-                Publisher.class,
-                param);
-            int expectedAverage = getTotalNumOfEmployeesFromPubs() /
-                getAllPublishers().length;
-            assertEquals(expectedAverage, average.intValue());
-        }
-        /**
-         * Test count
-         */
-        {
-            param = getCountIdParam();
-            Integer count = (Integer) publisherInstance.readOther(
-                Publisher.class,
-                param);
-            int expectedCount = getAllPublishers().length;
-            assertEquals(expectedCount, count.intValue());
-        }
-        /**
-         * Test count distinct
-         */
-        {
-            param = getCountDistinctNumOfEmployeeParam();
-            Integer distinctCount = (Integer) publisherInstance.readOther(
-                Publisher.class,
-                param);
-            int expectedDistinctCount = getDistinctNumOfEmployeeNum();
-            assertEquals(expectedDistinctCount, distinctCount.intValue());
-        }
-        /**
-         * Test Max
-         */
-        {
-            param = getMaxNumOfEmployeeParam();
-            Integer max = (Integer) publisherInstance.readOther(
-                Publisher.class,
-                param);
-            int expectedMax = getMaxEmployeesFromPubs();
-            assertEquals(expectedMax, max.intValue());
-        }
-        /**
-         * Test Min
-         */
-        {
-            param = getMinNumOfEmployeeParam();
-            Integer min = (Integer) publisherInstance.readOther(
-                Publisher.class,
-                param);
-            int expectedMin = getMinEmployeesFromPubs();
-            assertEquals(expectedMin, min.intValue());
-        }
-        /**
-         * Test Sum
-         */
-        {
-            param = getTotalNumOfEmployeesParam();
-            Integer sum = (Integer) publisherInstance.readOther(
-                Publisher.class,
-                param);
-            int expectedSum = getTotalNumOfEmployeesFromPubs();
-            assertEquals(expectedSum, sum.intValue());
-        }
+        performTestReadOtherSingle(MethodInvocationType.VAR_ARGS);
     }
 
     /**
@@ -680,74 +217,7 @@ public class AbstractDAOTest
      */
     public void testReadOther_Class_Hashtable() {
         System.out.println("readOtherHashtable");
-        AbstractDAO<Publisher> publisherInstance = getDaoInstance();
-        QueryParameter<String> param;
-        /**
-         * Test average
-         */
-        {
-            param = getAvgEmployeesParam();
-            Double average = (Double) publisherInstance.readOther(
-                Publisher.class,
-                getQueryParamHashtable(param));
-            int expectedAverage = getTotalNumOfEmployeesFromPubs() / 3;
-            assertEquals(expectedAverage, average.intValue());
-        }
-        /**
-         * Test count
-         */
-        {
-            param = getCountIdParam();
-            Integer count = (Integer) publisherInstance.readOther(
-                Publisher.class,
-                getQueryParamHashtable(param));
-            int expectedCount = 3;
-            assertEquals(expectedCount, count.intValue());
-        }
-        /**
-         * Test count distinct
-         */
-        {
-            param = getCountDistinctNumOfEmployeeParam();
-            Integer distinctCount = (Integer) publisherInstance.readOther(
-                Publisher.class,
-                getQueryParamHashtable(param));
-            int expectedDistinctCount = 2;
-            assertEquals(expectedDistinctCount, distinctCount.intValue());
-        }
-        /**
-         * Test Max
-         */
-        {
-            param = getMaxNumOfEmployeeParam();
-            Integer max = (Integer) publisherInstance.readOther(
-                Publisher.class,
-                getQueryParamHashtable(param));
-            int expectedMax = getMaxEmployeesFromPubs();
-            assertEquals(expectedMax, max.intValue());
-        }
-        /**
-         * Test Min
-         */
-        {
-            param = getMinNumOfEmployeeParam();
-            Integer min = (Integer) publisherInstance.readOther(
-                Publisher.class,
-                getQueryParamHashtable(param));
-            int expectedMin = getMinEmployeesFromPubs();
-            assertEquals(expectedMin, min.intValue());
-        }
-        /**
-         * Test Sum
-         */
-        {
-            param = getTotalNumOfEmployeesParam();
-            Integer sum = (Integer) publisherInstance.readOther(
-                Publisher.class,
-                getQueryParamHashtable(param));
-            int expectedSum = getTotalNumOfEmployeesFromPubs();
-            assertEquals(expectedSum, sum.intValue());
-        }
+        performTestReadOtherSingle(MethodInvocationType.HASH_TABLE);
     }
 
     /**
@@ -755,74 +225,7 @@ public class AbstractDAOTest
      */
     public void testReadOther_Class_List() {
         System.out.println("readOther_List");
-        AbstractDAO<Publisher> publisherInstance = getDaoInstance();
-        QueryParameter<String> param;
-        /**
-         * Test average
-         */
-        {
-            param = getAvgEmployeesParam();
-            Double average = (Double) publisherInstance.readOther(
-                Publisher.class,
-                getQueryParamList(param));
-            int expectedAverage = getTotalNumOfEmployeesFromPubs() / 3;
-            assertEquals(expectedAverage, average.intValue());
-        }
-        /**
-         * Test count
-         */
-        {
-            param = getCountIdParam();
-            Integer count = (Integer) publisherInstance.readOther(
-                Publisher.class,
-                getQueryParamList(param));
-            int expectedCount = 3;
-            assertEquals(expectedCount, count.intValue());
-        }
-        /**
-         * Test count distinct
-         */
-        {
-            param = getCountDistinctNumOfEmployeeParam();
-            Integer distinctCount = (Integer) publisherInstance.readOther(
-                Publisher.class,
-                getQueryParamList(param));
-            int expectedDistinctCount = 2;
-            assertEquals(expectedDistinctCount, distinctCount.intValue());
-        }
-        /**
-         * Test Max
-         */
-        {
-            param = getMaxNumOfEmployeeParam();
-            Integer max = (Integer) publisherInstance.readOther(
-                Publisher.class,
-                getQueryParamList(param));
-            int expectedMax = getMaxEmployeesFromPubs();
-            assertEquals(expectedMax, max.intValue());
-        }
-        /**
-         * Test Min
-         */
-        {
-            param = getMinNumOfEmployeeParam();
-            Integer min = (Integer) publisherInstance.readOther(
-                Publisher.class,
-                getQueryParamList(param));
-            int expectedMin = getMinEmployeesFromPubs();
-            assertEquals(expectedMin, min.intValue());
-        }
-        /**
-         * Test Sum
-         */
-        {
-            param = getTotalNumOfEmployeesParam();
-            Integer sum = (Integer) publisherInstance.readOther(
-                Publisher.class,
-                getQueryParamList(param));
-            int expectedSum = getTotalNumOfEmployeesFromPubs();
-            assertEquals(expectedSum, sum.intValue());
-        }
+        performTestReadOtherSingle(MethodInvocationType.LIST);
     }
 
     /**
@@ -882,6 +285,462 @@ public class AbstractDAOTest
      */
     public void testDeleteEntity() {
         System.out.println("deleteEntity");
+    }
+
+    private void performTestReadOtherSingle(MethodInvocationType type) {
+        AbstractDAO<Publisher> publisherInstance = getDaoInstance();
+        QueryParameter<String> param;
+        /**
+         * Test average
+         */
+        {
+            param = getAvgEmployeesParam();
+            Double average;
+            switch (type) {
+                case HASH_TABLE: {
+                    average = (Double) publisherInstance.readOther(
+                        Publisher.class, getQueryParamHashtable(param));
+                    break;
+                }
+                case LIST: {
+                    average = (Double) publisherInstance.readOther(
+                        Publisher.class, getQueryParamList(param));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    average = (Double) publisherInstance.readOther(
+                        Publisher.class, param);
+                    break;
+                }
+            }
+            int expectedAverage = getTotalNumOfEmployeesFromPubs() /
+                getAllPublishers().length;
+            assertEquals(expectedAverage, average.intValue());
+        }
+        /**
+         * Test count
+         */
+        {
+            param = getCountIdParam();
+            Integer count;
+            switch (type) {
+                case HASH_TABLE: {
+                    count = (Integer) publisherInstance.readOther(
+                        Publisher.class, getQueryParamHashtable(param));
+                    break;
+                }
+                case LIST: {
+                    count = (Integer) publisherInstance.readOther(
+                        Publisher.class, getQueryParamList(param));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    count = (Integer) publisherInstance.readOther(
+                        Publisher.class, param);
+                    break;
+                }
+            }
+            int expectedCount = getAllPublishers().length;
+            assertEquals(expectedCount, count.intValue());
+        }
+        /**
+         * Test count distinct
+         */
+        {
+            param = getCountDistinctNumOfEmployeeParam();
+            Integer distinctCount;
+            switch (type) {
+                case HASH_TABLE: {
+                    distinctCount = (Integer) publisherInstance.readOther(
+                        Publisher.class, getQueryParamHashtable(param));
+                    break;
+                }
+                case LIST: {
+                    distinctCount = (Integer) publisherInstance.readOther(
+                        Publisher.class, getQueryParamList(param));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    distinctCount = (Integer) publisherInstance.readOther(
+                        Publisher.class, param);
+                    break;
+                }
+            }
+            int expectedDistinctCount = getDistinctNumOfEmployeeNum();
+            assertEquals(expectedDistinctCount, distinctCount.intValue());
+        }
+        /**
+         * Test Max
+         */
+        {
+            param = getMaxNumOfEmployeeParam();
+            Integer max = (Integer) publisherInstance.readOther(Publisher.class,
+                param);
+            switch (type) {
+                case HASH_TABLE: {
+                    max = (Integer) publisherInstance.readOther(Publisher.class,
+                        getQueryParamHashtable(param));
+                    break;
+                }
+                case LIST: {
+                    max = (Integer) publisherInstance.readOther(Publisher.class,
+                        getQueryParamList(param));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    max = (Integer) publisherInstance.readOther(Publisher.class,
+                        param);
+                    break;
+                }
+            }
+            int expectedMax = getMaxEmployeesFromPubs();
+            assertEquals(expectedMax, max.intValue());
+        }
+        /**
+         * Test Min
+         */
+        {
+            param = getMinNumOfEmployeeParam();
+            Integer min;
+            switch (type) {
+                case HASH_TABLE: {
+                    min = (Integer) publisherInstance.readOther(Publisher.class,
+                        getQueryParamHashtable(param));
+                    break;
+                }
+                case LIST: {
+                    min = (Integer) publisherInstance.readOther(Publisher.class,
+                        getQueryParamList(param));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    min = (Integer) publisherInstance.readOther(Publisher.class,
+                        param);
+                    break;
+                }
+            }
+            int expectedMin = getMinEmployeesFromPubs();
+            assertEquals(expectedMin, min.intValue());
+        }
+        /**
+         * Test Sum
+         */
+        {
+            param = getTotalNumOfEmployeesParam();
+            Integer sum;
+            switch (type) {
+                case HASH_TABLE: {
+                    sum = (Integer) publisherInstance.readOther(Publisher.class,
+                        getQueryParamHashtable(param));
+                    break;
+                }
+                case LIST: {
+                    sum = (Integer) publisherInstance.readOther(Publisher.class,
+                        getQueryParamList(param));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    sum = (Integer) publisherInstance.readOther(Publisher.class,
+                        param);
+                    break;
+                }
+            }
+            int expectedSum = getTotalNumOfEmployeesFromPubs();
+            assertEquals(expectedSum, sum.intValue());
+        }
+    }
+
+    private void performTestReadSingle(MethodInvocationType type) {
+        AbstractDAO<Book> bookInstance = getDaoInstance();
+        AbstractDAO<Author> authorInstance = getDaoInstance();
+        AbstractDAO<Publisher> publisherInstance = getDaoInstance();
+        Map<String, Integer> bookNameToIdMap = new HashMap<String, Integer>();
+        Map<String, Integer> publisherNameToIdMap =
+            new HashMap<String, Integer>();
+        Map<String, Integer> authorNameToIdMap = new HashMap<String, Integer>();
+        makeNameToIdMap(bookNameToIdMap, bookInstance, authorNameToIdMap,
+            authorInstance, publisherNameToIdMap, publisherInstance);
+        /**
+         * Test non single request
+         */
+        try {
+            bookInstance.readSingle(Book.class);
+            fail("Should not succeed retrieving 1 Book!");
+        }
+        catch (IllegalArgumentException argumentException) {
+        }
+        catch (Exception exception) {
+            fail(exception.getMessage());
+        }
+        QueryParameter<Integer> param =
+            getIdQueryParam();
+        /**
+         * Try to load a book with non-existing id
+         */
+        Book nonExistingBook;
+        switch (type) {
+            case HASH_TABLE: {
+                nonExistingBook = bookInstance.readSingle(Book.class,
+                    getQueryParamHashtable(param));
+                break;
+            }
+            case LIST: {
+                nonExistingBook = bookInstance.readSingle(Book.class,
+                    getQueryParamList(param));
+                break;
+            }
+            case VAR_ARGS:
+            default: {
+                nonExistingBook = bookInstance.readSingle(Book.class, param);
+                break;
+            }
+        }
+        assertNull(nonExistingBook);
+        /**
+         * Test a random single book with id
+         */
+        {
+            Book kothaoKeoNei = getKothaoKeoNei(null, null);
+            int bookId = bookNameToIdMap.get(kothaoKeoNei.getName());
+            param.setParameter(bookId);
+            Book kothaoKeoNeiFromDao;
+            switch (type) {
+                case HASH_TABLE: {
+                    kothaoKeoNeiFromDao = bookInstance.readSingle(Book.class,
+                        getQueryParamHashtable(param));
+                    break;
+                }
+                case LIST: {
+                    kothaoKeoNeiFromDao = bookInstance.readSingle(Book.class,
+                        getQueryParamList(param));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    kothaoKeoNeiFromDao = bookInstance.readSingle(Book.class,
+                        param);
+                    break;
+                }
+            }
+            assertBook(kothaoKeoNei, kothaoKeoNeiFromDao, bookNameToIdMap, 1);
+        }
+        /**
+         * Test a random single publisher with id
+         */
+        {
+            Publisher annoProkash = getAnnoProkash();
+            int publisherId = publisherNameToIdMap.get(annoProkash.getName());
+            param.setParameter(publisherId);
+            Publisher annoProkashFromDao;
+            switch (type) {
+                case HASH_TABLE: {
+                    annoProkashFromDao = publisherInstance.readSingle(
+                        Publisher.class, getQueryParamHashtable(param));
+                    break;
+                }
+                case LIST: {
+                    annoProkashFromDao = publisherInstance.readSingle(
+                        Publisher.class, getQueryParamList(param));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    annoProkashFromDao = publisherInstance.readSingle(
+                        Publisher.class, param);
+                    break;
+                }
+            }
+            assertPublisher(annoProkash, annoProkashFromDao,
+                publisherNameToIdMap);
+        }
+        /**
+         * Test a random single author with id
+         */
+        {
+            Author humayunAhmed = getHumayunAhmed();
+            int authorId = authorNameToIdMap.get(humayunAhmed.getName());
+            param.setParameter(authorId);
+            Author humayunAhmedFromDao = authorInstance.readSingle(Author.class,
+                param);
+            switch (type) {
+                case HASH_TABLE: {
+                    humayunAhmedFromDao =
+                        authorInstance.readSingle(Author.class,
+                        getQueryParamHashtable(param));
+                    break;
+                }
+                case LIST: {
+                    humayunAhmedFromDao =
+                        authorInstance.readSingle(Author.class,
+                        getQueryParamList(param));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    humayunAhmedFromDao =
+                        authorInstance.readSingle(Author.class, param);
+                    break;
+                }
+            }
+            assertAuthor(humayunAhmed, humayunAhmedFromDao, authorNameToIdMap);
+        }
+        QueryParameter<String> strParam =
+            getNameQueryParam();
+        /**
+         * Test different match modes
+         */
+        /**
+         * Test a random single book with exact name
+         */
+        {
+            Book webDbApp = getWebDbApp(null, null, null);
+            String bookName = webDbApp.getName();
+            strParam.setParameter(bookName);
+            strParam.setMatchMode(QueryParameter.MatchMode.EXACT);
+            Book webDbAppFromDao;
+            final int numOfAuthors = 2;
+            switch (type) {
+                case HASH_TABLE: {
+                    webDbAppFromDao = bookInstance.readSingle(Book.class,
+                        getQueryParamHashtable(strParam));
+                    break;
+                }
+                case LIST: {
+                    webDbAppFromDao = bookInstance.readSingle(Book.class,
+                        getQueryParamList(strParam));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    webDbAppFromDao = bookInstance.readSingle(Book.class,
+                        strParam);
+                    break;
+                }
+            }
+            assertBook(webDbApp, webDbAppFromDao, bookNameToIdMap, numOfAuthors);
+        }
+        /**
+         * Test a random single author with start and end match of name
+         */
+        {
+            Author brett = getBrett();
+            strParam.setParameter(brett.getName().substring(0, 4));
+            strParam.setMatchMode(QueryParameter.MatchMode.START);
+            Author brettFromDao;
+            switch (type) {
+                case HASH_TABLE: {
+                    brettFromDao = authorInstance.readSingle(Author.class,
+                        getQueryParamHashtable(strParam));
+                    break;
+                }
+                case LIST: {
+                    brettFromDao = authorInstance.readSingle(Author.class,
+                        getQueryParamList(strParam));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    brettFromDao = authorInstance.readSingle(Author.class,
+                        strParam);
+                    break;
+                }
+            }
+            assertAuthor(brett, brettFromDao, authorNameToIdMap);
+            Author anwar = getKaziAnowarHossain();
+            strParam.setParameter(anwar.getName().substring(4));
+            strParam.setMatchMode(QueryParameter.MatchMode.END);
+            Author anwarFromDao;
+            switch (type) {
+                case HASH_TABLE: {
+                    anwarFromDao = authorInstance.readSingle(Author.class,
+                        getQueryParamHashtable(strParam));
+                    break;
+                }
+                case LIST: {
+                    anwarFromDao = authorInstance.readSingle(Author.class,
+                        getQueryParamList(strParam));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    anwarFromDao = authorInstance.readSingle(Author.class,
+                        strParam);
+                    break;
+                }
+            }
+            assertAuthor(anwar, anwarFromDao, authorNameToIdMap);
+        }
+        /**
+         * Test a random single book with anywhere name
+         */
+        {
+            Publisher sheba = getAnnoProkash();
+            strParam.setParameter(sheba.getName().substring(1, sheba.getName().
+                length() - 2));
+            strParam.setMatchMode(QueryParameter.MatchMode.ANYWHERE);
+            Publisher shebaFromDao;
+            switch (type) {
+                case HASH_TABLE: {
+                    shebaFromDao = publisherInstance.readSingle(Publisher.class,
+                        getQueryParamHashtable(strParam));
+                    break;
+                }
+                case LIST: {
+                    shebaFromDao = publisherInstance.readSingle(Publisher.class,
+                        getQueryParamList(strParam));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    shebaFromDao = publisherInstance.readSingle(Publisher.class,
+                        strParam);
+                    break;
+                }
+            }
+            assertPublisher(sheba, shebaFromDao,
+                publisherNameToIdMap);
+        }
+        /**
+         * Test a random single book with author's name
+         */
+        {
+            Book webDbApp = getWebDbApp(null, null, null);
+            QueryParameter<String> authorParam = getAuthorNestedParam();
+            Author hughWilliams = getHughWilliams();
+            strParam.setParameter(hughWilliams.getName());
+            strParam.setMatchMode(QueryParameter.MatchMode.EXACT);
+            Hashtable<String, QueryParameter> nestedParams =
+                new Hashtable<String, QueryParameter>();
+            nestedParams.put("name", strParam);
+            authorParam.setNestedParameters(nestedParams);
+            Book webDbAppFromDao;
+            switch (type) {
+                case HASH_TABLE: {
+                    webDbAppFromDao = bookInstance.readSingle(Book.class,
+                        getQueryParamHashtable(authorParam));
+                    break;
+                }
+                case LIST: {
+                    webDbAppFromDao = bookInstance.readSingle(Book.class,
+                        getQueryParamList(authorParam));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    webDbAppFromDao = bookInstance.readSingle(Book.class,
+                        authorParam);
+                    break;
+                }
+            }
+            final int numOfAuthors = 2;
+            assertBook(webDbApp, webDbAppFromDao, bookNameToIdMap, numOfAuthors);
+        }
     }
 
     private void performTestReadOtherList(MethodInvocationType type) {
