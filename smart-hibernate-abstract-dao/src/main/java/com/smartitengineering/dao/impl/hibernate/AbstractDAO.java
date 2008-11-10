@@ -493,7 +493,26 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
                 return;
             }
             case 2: {
-                criteria.addOrder(((Order) parameter.getParameter()));
+                final Order order;
+                QueryParameter.Order requestedOrder =
+                    (QueryParameter.Order) parameter.getParameter();
+                switch(requestedOrder) {
+                    case ASC: {
+                        order = Order.asc(element);
+                        break;
+                    }
+                    case DESC: {
+                        order = Order.desc(element);
+                        break;
+                    }
+                    default: {
+                        order = null;
+                        break;
+                    }
+                }
+                if(order != null) {
+                    criteria.addOrder(order);
+                }
                 return;
             }
             case 3: {
