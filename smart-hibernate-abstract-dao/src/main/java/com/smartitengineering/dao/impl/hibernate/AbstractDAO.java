@@ -26,9 +26,13 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
+import java.util.Map;
+import java.util.WeakHashMap;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
+import org.hibernate.criterion.AggregateProjection;
+import org.hibernate.criterion.CountProjection;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Expression;
@@ -37,6 +41,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.PropertyProjection;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -508,49 +513,57 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
                 return;
             }
             case 7: {
-                criteria.setProjection(Projections.count(element));
+                final Projection countProjection = Projections.count(element);
+                setProjection(criteria, countProjection);
                 return;
             }
             case 8: {
-                criteria.setProjection(Projections.rowCount());
+                final Projection rowCount = Projections.rowCount();
+                setProjection(criteria, rowCount);
                 return;
             }
             case 9: {
-                criteria.setProjection(Projections.sum(element));
+                final AggregateProjection sum = Projections.sum(element);
+                setProjection(criteria, sum);
                 return;
             }
             case 10: {
-                criteria.setProjection(Projections.max(element));
+                final AggregateProjection max = Projections.max(element);
+                setProjection(criteria, max);
                 return;
             }
             case 11: {
-                criteria.setProjection(Projections.min(element));
+                final AggregateProjection min = Projections.min(element);
+                setProjection(criteria, min);
                 return;
             }
             case 12: {
-                criteria.setProjection(Projections.avg(element));
+                final AggregateProjection avg = Projections.avg(element);
+                setProjection(criteria, avg);
                 return;
             }
             case 13: {
-                criteria.setProjection(Projections.groupProperty(element));
-                return;
-            }
-            case 14: {
-                criteria.setProjection(Projections.distinct((Projection) parameter.
-                    getParameter()));
+                final PropertyProjection groupProperty =
+                    Projections.groupProperty(element);
+                setProjection(criteria, groupProperty);
                 return;
             }
             case 15: {
-                criteria.setProjection(Projections.countDistinct(element));
+                final CountProjection countDistinct =
+                    Projections.countDistinct(element);
+                setProjection(criteria, countDistinct);
                 return;
             }
             case 16: {
-                criteria.setProjection(Projections.distinct(Projections.property(
-                    element)));
+                final Projection distinct =
+                    Projections.distinct(Projections.property(element));
+                setProjection(criteria, distinct);
                 return;
             }
             case 17: {
-                criteria.setProjection(Projections.property(element));
+                final PropertyProjection property =
+                    Projections.property(element);
+                setProjection(criteria, property);
                 return;
             }
             case 18: {
@@ -709,5 +722,19 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             return Expression.between(element, parameter, parameter2);
         }
         return null;
+    }
+    private Map<Criteria, ProjectionList> projections =
+        new WeakHashMap<Criteria, ProjectionList>();
+
+    private void setProjection(Criteria criteria,
+                               final Projection projection) {
+        ProjectionList currentProjections = projections.get(
+            criteria);
+        if (currentProjections == null) {
+            currentProjections = Projections.projectionList();
+            projections.put(criteria, currentProjections);
+            criteria.setProjection(currentProjections);
+        }
+        currentProjections.add(projection);
     }
 }
