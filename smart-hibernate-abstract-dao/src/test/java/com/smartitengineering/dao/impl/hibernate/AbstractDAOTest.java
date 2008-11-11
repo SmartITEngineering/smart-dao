@@ -26,6 +26,7 @@ import com.smartitengineering.dao.impl.hibernate.domain.Publisher;
 import com.smartitengineering.domain.PersistentDTO;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -35,6 +36,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -285,6 +287,63 @@ public class AbstractDAOTest
      */
     public void testDeleteEntity() {
         System.out.println("deleteEntity");
+        AbstractDAO<Book> bookInstance = getDaoInstance();
+        AbstractDAO<Author> authorInstance = getDaoInstance();
+        AbstractDAO<Publisher> publisherInstance = getDaoInstance();
+        Map<String, Integer> bookNameToIdMap = new HashMap<String, Integer>();
+        Map<String, Integer> publisherNameToIdMap =
+            new HashMap<String, Integer>();
+        Map<String, Integer> authorNameToIdMap = new HashMap<String, Integer>();
+        makeNameToIdMap(bookNameToIdMap, bookInstance, authorNameToIdMap,
+            authorInstance, publisherNameToIdMap, publisherInstance);
+        /**
+         * Delete one book at a time
+         */
+        {
+            QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+                bookNameToIdMap);
+            Set<Book> books = new HashSet<Book>(
+                bookInstance.readList(Book.class, idInParam));
+            for (Book book : books) {
+                bookInstance.deleteEntity(book);
+            }
+            assertEmpty(bookInstance.readList(Book.class, idInParam));
+        }
+        /**
+         * Delete all publisher at once
+         */
+        {
+            QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+                publisherNameToIdMap);
+            Set<Publisher> publishers = new HashSet<Publisher>(
+                publisherInstance.readList(Publisher.class, idInParam));
+            publisherInstance.deleteEntity(publishers.toArray(new Publisher[]{}));
+            assertEmpty(publisherInstance.readList(Publisher.class, idInParam));
+        }
+        /**
+         * Delete all author at once
+         */
+        {
+            QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+                authorNameToIdMap);
+            Set<Author> authors = new HashSet<Author>(
+                authorInstance.readList(Author.class, idInParam));
+            authorInstance.deleteEntity(authors.toArray(new Author[]{}));
+            assertEmpty(authorInstance.readList(Author.class, idInParam));
+        }
+    }
+
+    private void assertEmpty(List readList) {
+        if(readList != null && !readList.isEmpty()) {
+            throw new AssertionFailedError();
+        }
+    }
+
+    private QueryParameter<Collection<Integer>> getIdInParam(
+        Map<String, Integer> bookNameToIdMap) {
+        return new QueryParameter<Collection<Integer>>("id",
+            QueryParameter.PARAMETER_TYPE_IN, QueryParameter.OPERATOR_EQUAL,
+            bookNameToIdMap.values());
     }
 
     private void performTestReadOtherSingle(MethodInvocationType type) {
