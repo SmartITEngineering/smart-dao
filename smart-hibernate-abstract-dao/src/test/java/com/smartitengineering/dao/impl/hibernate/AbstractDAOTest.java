@@ -26,6 +26,7 @@ import com.smartitengineering.dao.impl.hibernate.domain.Publisher;
 import com.smartitengineering.domain.PersistentDTO;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -172,14 +173,66 @@ public class AbstractDAOTest
          * Add test for read all
          */
         AbstractDAO<Book> bookInstance = getDaoInstance();
-        Set<Book> books = getAll(bookInstance, Book.class);
-        assertEquals(5, books.size());
+        Set<Book> allBooks = getAll(bookInstance, Book.class);
+        assertTrue(5 <= allBooks.size());
         AbstractDAO<Author> authorInstance = getDaoInstance();
-        Set<Author> authors = getAll(authorInstance, Author.class);
-        assertEquals(5, authors.size());
+        Set<Author> allAuthors = getAll(authorInstance, Author.class);
+        assertTrue(5 <= allAuthors.size());
         AbstractDAO<Publisher> publisherInstance = getDaoInstance();
-        Set<Publisher> publishers = getAll(publisherInstance, Publisher.class);
-        assertEquals(3, publishers.size());
+        Set<Publisher> allPublishers =
+            getAll(publisherInstance, Publisher.class);
+        assertTrue(3 <= allPublishers.size());
+        Map<String, Integer> bookNameToIdMap = new HashMap<String, Integer>();
+        Map<String, Integer> publisherNameToIdMap =
+            new HashMap<String, Integer>();
+        Map<String, Integer> authorNameToIdMap = new HashMap<String, Integer>();
+        makeNameToIdMap(bookNameToIdMap, bookInstance, authorNameToIdMap,
+            authorInstance, publisherNameToIdMap, publisherInstance);
+        /**
+         * Update one book at a time
+         */
+        {
+            QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+                bookNameToIdMap);
+            List<Book> books = new ArrayList<Book>(new HashSet<Book>(
+                bookInstance.readList(Book.class, idInParam)));
+            List<String> names = new ArrayList<String>(bookNameToIdMap.keySet());
+            for (Book book : books) {
+                names.remove(book.getName());
+            }
+            assertEmpty(names);
+        }
+        /**
+         * Update all publisher at once
+         */
+        {
+            QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+                publisherNameToIdMap);
+            List<Publisher> publishers = new ArrayList<Publisher>(
+                new HashSet<Publisher>(publisherInstance.readList(
+                Publisher.class, idInParam)));
+            List<String> names = new ArrayList<String>(publisherNameToIdMap.
+                keySet());
+            for (Publisher publisher : publishers) {
+                names.remove(publisher.getName());
+            }
+            assertEmpty(names);
+        }
+        /**
+         * Update all author at once
+         */
+        {
+            QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+                authorNameToIdMap);
+            List<Author> authors = new ArrayList<Author>(new HashSet<Author>(
+                authorInstance.readList(Author.class, idInParam)));
+            List<String> names = new ArrayList<String>(
+                authorNameToIdMap.keySet());
+            for (Author author : authors) {
+                names.remove(author.getName());
+            }
+            assertEmpty(names);
+        }
     }
 
     /**
@@ -259,6 +312,84 @@ public class AbstractDAOTest
      */
     public void testUpdateEntity() {
         System.out.println("updateEntity");
+        AbstractDAO<Book> bookInstance = getDaoInstance();
+        AbstractDAO<Author> authorInstance = getDaoInstance();
+        AbstractDAO<Publisher> publisherInstance = getDaoInstance();
+        Map<String, Integer> bookNameToIdMap = new HashMap<String, Integer>();
+        Map<String, Integer> publisherNameToIdMap =
+            new HashMap<String, Integer>();
+        Map<String, Integer> authorNameToIdMap = new HashMap<String, Integer>();
+        makeNameToIdMap(bookNameToIdMap, bookInstance, authorNameToIdMap,
+            authorInstance, publisherNameToIdMap, publisherInstance);
+        /**
+         * Update one book at a time
+         */
+        {
+            QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+                bookNameToIdMap);
+            List<Book> books = new ArrayList<Book>(new HashSet<Book>(
+                bookInstance.readList(Book.class, idInParam)));
+            Collections.sort(books);
+            Calendar calendar = getBookFirstPubCal();
+            for (Book book : books) {
+                book.setPublishDate(calendar.getTime());
+                bookInstance.updateEntity(book);
+                QueryParameter parameter = getIdQueryParam();
+                parameter.setParameter(book.getId());
+                Book updatedBook =
+                    bookInstance.readSingle(Book.class, parameter);
+                assertEquals(book.getPublishDate(), updatedBook.getPublishDate());
+                calendar.add(Calendar.MONTH, 1);
+            }
+        }
+        /**
+         * Update all publisher at once
+         */
+        {
+            QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+                publisherNameToIdMap);
+            List<Publisher> publishers = new ArrayList<Publisher>(
+                new HashSet<Publisher>(publisherInstance.readList(
+                Publisher.class, idInParam)));
+            Collections.sort(publishers);
+            Calendar calendar = getPubFirstEstCal();
+            for (Publisher publisher : publishers) {
+                publisher.setEstablishedDate(calendar.getTime());
+                calendar.add(Calendar.MONTH, 1);
+            }
+            publisherInstance.updateEntity(publishers.toArray(new Publisher[]{}));
+            for (Publisher publisher : publishers) {
+                QueryParameter parameter = getIdQueryParam();
+                parameter.setParameter(publisher.getId());
+                Publisher updatedPublisher = publisherInstance.readSingle(
+                    Publisher.class, parameter);
+                assertEquals(publisher.getEstablishedDate(), updatedPublisher.
+                    getEstablishedDate());
+            }
+        }
+        /**
+         * Update all author at once
+         */
+        {
+            QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+                authorNameToIdMap);
+            List<Author> authors = new ArrayList<Author>(new HashSet<Author>(
+                authorInstance.readList(Author.class, idInParam)));
+            Collections.sort(authors);
+            Calendar calendar = getAuthorFirstBirthCal();
+            for (Author author : authors) {
+                author.setBirthDate(calendar.getTime());
+                calendar.add(Calendar.MONTH, 1);
+            }
+            authorInstance.updateEntity(authors.toArray(new Author[]{}));
+            for (Author author : authors) {
+                QueryParameter parameter = getIdQueryParam();
+                parameter.setParameter(author.getId());
+                Author updatedAuthor = authorInstance.readSingle(Author.class,
+                    parameter);
+                assertEquals(author.getBirthDate(), updatedAuthor.getBirthDate());
+            }
+        }
     }
 
     /**
@@ -334,9 +465,23 @@ public class AbstractDAOTest
     }
 
     private void assertEmpty(List readList) {
-        if(readList != null && !readList.isEmpty()) {
+        if (readList != null && !readList.isEmpty()) {
             throw new AssertionFailedError();
         }
+    }
+
+    private Calendar getAuthorFirstBirthCal() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(0);
+        calendar.add(Calendar.YEAR, 10);
+        return calendar;
+    }
+
+    private Calendar getBookFirstPubCal() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(0);
+        calendar.add(Calendar.YEAR, 30);
+        return calendar;
     }
 
     private QueryParameter<Collection<Integer>> getIdInParam(
@@ -344,6 +489,13 @@ public class AbstractDAOTest
         return new QueryParameter<Collection<Integer>>("id",
             QueryParameter.PARAMETER_TYPE_IN, QueryParameter.OPERATOR_EQUAL,
             bookNameToIdMap.values());
+    }
+
+    private Calendar getPubFirstEstCal() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(0);
+        calendar.add(Calendar.YEAR, 0);
+        return calendar;
     }
 
     private void performTestReadOtherSingle(MethodInvocationType type) {
