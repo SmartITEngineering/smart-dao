@@ -55,7 +55,7 @@
         />
         <property
             name="birthDate"
-            column="publish_date"
+            column="birth_date"
             type="java.util.Date"
         />
     </class>
