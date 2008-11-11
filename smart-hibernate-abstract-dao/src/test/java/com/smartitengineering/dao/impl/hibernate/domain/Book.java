@@ -34,6 +34,10 @@ public class Book extends PersistentDTO<Book> {
     
     private Date publishDate;
     
+    private Double price;
+    
+    private Integer quantityInStock;
+    
     private Publisher publisher;
 
     private Set<Author> authors; 
@@ -80,6 +84,22 @@ public class Book extends PersistentDTO<Book> {
 
     public void setPublisher(Publisher publisher) {
         this.publisher = publisher;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Integer getQuantityInStock() {
+        return quantityInStock;
+    }
+
+    public void setQuantityInStock(Integer quantityInStock) {
+        this.quantityInStock = quantityInStock;
     }
     
 }

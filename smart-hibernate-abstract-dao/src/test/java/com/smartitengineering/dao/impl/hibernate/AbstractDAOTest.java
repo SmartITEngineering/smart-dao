@@ -909,6 +909,10 @@ public class AbstractDAOTest
             bookFromDao.getId().intValue());
         assertEquals(book.getName(), bookFromDao.getName());
         assertEquals(book.getIsbn(), bookFromDao.getIsbn());
+        assertEquals(book.getPrice().doubleValue(), bookFromDao.getPrice().
+            doubleValue());
+        assertEquals(book.getQuantityInStock().intValue(), bookFromDao.
+            getQuantityInStock().intValue());
         if (numOfAuthors > -1) {
             assertEquals(numOfAuthors, bookFromDao.getAuthors().size());
         }
@@ -976,13 +980,13 @@ public class AbstractDAOTest
         final String bookName = "Agni Sopoth";
         final Date publishDate = new Date();
         final String isbn = "123ABC";
-        return getBook(publisher, bookName, publishDate, isbn, author);
+        return getBook(publisher, bookName, publishDate, isbn, 40, 400.0, author);
     }
 
     private Book getAgunerPoroshMoni(Publisher annoProkash,
                                      Author humayunAhmed) {
         return getBook(annoProkash, "Aguner Poroshmoni", new Date(), "222VFEE3",
-            humayunAhmed);
+            10, 100.0, humayunAhmed);
     }
 
     private <Template extends PersistentDTO<Template>> Set<Template> getAll(
@@ -1190,7 +1194,7 @@ public class AbstractDAOTest
 
     private Book getJavaAndXml(Publisher oReilly,
                                Author brettMcLaugblin) {
-        return getBook(oReilly, "Java & XML", new Date(), "555UIP66",
+        return getBook(oReilly, "Java & XML", new Date(), "555UIP66", 20, 200.0,
             brettMcLaugblin);
     }
 
@@ -1202,8 +1206,8 @@ public class AbstractDAOTest
 
     private Book getKothaoKeoNei(Publisher annoProkash,
                                  Author humayunAhmed) {
-        return getBook(annoProkash, "Kothao Keo Nei", new Date(), "11134BCE",
-            humayunAhmed);
+        return getBook(annoProkash, "Kothao Keo Nei", new Date(), "11134BCE", 30,
+            300.0, humayunAhmed);
     }
 
     private Publisher getOReilly() {
@@ -1241,6 +1245,8 @@ public class AbstractDAOTest
                          final String bookName,
                          final Date publishDate,
                          final String isbn,
+                         final Integer quantityInStock,
+                         final Double price,
                          final Author... authors) {
         Book book = new Book();
         Set<Author> authorSet =
@@ -1253,6 +1259,8 @@ public class AbstractDAOTest
         book.setName(bookName);
         book.setPublishDate(publishDate);
         book.setIsbn(isbn);
+        book.setPrice(price);
+        book.setQuantityInStock(quantityInStock);
         return book;
     }
 
@@ -1282,7 +1290,7 @@ public class AbstractDAOTest
                              Author davidLane,
                              Author hughWilliams) {
         return getBook(oReilly, "Web Database Applications", new Date(),
-            "444ERT6", davidLane, hughWilliams);
+            "444ERT6", 50, 500.0, davidLane, hughWilliams);
     }
 
     private void makeNameToIdMap(Map<String, Integer> bookNameToIdMap,

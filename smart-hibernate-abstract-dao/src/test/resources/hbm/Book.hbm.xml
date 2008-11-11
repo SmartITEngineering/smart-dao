@@ -64,6 +64,16 @@
             column="publish_date"
             type="java.util.Date"
         />
+        <property
+            name="price"
+            column="book_price"
+            type="java.lang.Double"
+        />
+        <property
+            name="quantityInStock"
+            column="qnty_in_stock"
+            type="java.lang.Integer"
+        />
         <many-to-one column="book_publisher" name="publisher" cascade="none" />
         <set name="authors" lazy="false" outer-join="true" cascade="none" table="book_author" inverse="false">
             <key column="book_id" />
