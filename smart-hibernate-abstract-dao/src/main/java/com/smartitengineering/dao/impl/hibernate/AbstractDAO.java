@@ -68,9 +68,11 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             }
         }
         finally {
-            session.flush();
-            if (customSession) {
-                session.close();
+            if(session != null) {
+                session.flush();
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
@@ -94,9 +96,11 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             }
         }
         finally {
-            session.flush();
-            if (customSession) {
-                session.close();
+            if(session != null) {
+                session.flush();
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
@@ -120,9 +124,11 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             }
         }
         finally {
-            session.flush();
-            if (customSession) {
-                session.close();
+            if(session != null) {
+                session.flush();
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
@@ -147,8 +153,10 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if (customSession && session.isOpen()) {
-                session.close();
+            if(session != null) {
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
@@ -173,8 +181,10 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if (customSession && session.isOpen()) {
-                session.close();
+            if(session != null) {
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
@@ -199,8 +209,10 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if (customSession && session.isOpen()) {
-                session.close();
+            if(session != null) {
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
@@ -225,8 +237,10 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if (customSession && session.isOpen()) {
-                session.close();
+            if(session != null) {
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
@@ -251,8 +265,10 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if (customSession && session.isOpen()) {
-                session.close();
+            if(session != null) {
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
@@ -277,8 +293,10 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if (customSession && session.isOpen()) {
-                session.close();
+            if(session != null) {
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
@@ -303,8 +321,10 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if (customSession && session.isOpen()) {
-                session.close();
+            if(session != null) {
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
@@ -329,8 +349,10 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if (customSession && session.isOpen()) {
-                session.close();
+            if(session != null) {
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
@@ -355,8 +377,10 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if (customSession && session.isOpen()) {
-                session.close();
+            if(session != null) {
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
@@ -381,8 +405,10 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if (customSession && session.isOpen()) {
-                session.close();
+            if(session != null) {
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
@@ -407,8 +433,10 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if (customSession && session.isOpen()) {
-                session.close();
+            if(session != null) {
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
@@ -433,8 +461,10 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if (customSession && session.isOpen()) {
-                session.close();
+            if(session != null) {
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
