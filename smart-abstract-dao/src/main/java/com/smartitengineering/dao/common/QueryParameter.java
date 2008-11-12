@@ -37,7 +37,6 @@ public class QueryParameter<TemplateClass extends Object>
     public static final Integer PARAMETER_TYPE_MIN = 11;
     public static final Integer PARAMETER_TYPE_AVG = 12;
     public static final Integer PARAMETER_TYPE_GROUP_BY = 13;
-    public static final Integer PARAMETER_TYPE_DISTINCT = 14;
     public static final Integer PARAMETER_TYPE_COUNT_DISTINCT = 15;
     public static final Integer PARAMETER_TYPE_DISTINCT_PROP = 16;
     public static final Integer PARAMETER_TYPE_UNIT_PROP = 17;
@@ -54,6 +53,8 @@ public class QueryParameter<TemplateClass extends Object>
     public static final Integer OPERATOR_IS_NOT_NULL = 8;
     public static final Integer OPERATOR_STRING_LIKE = 9;
     public static final Integer OPERATOR_BETWEEN = 10;
+    public static final Integer OPERATOR_IS_EMPTY = 11;
+    public static final Integer OPERATOR_IS_NOT_EMPTY = 12;
 
     public QueryParameter(String propertyName,
                           Integer type,
@@ -205,5 +206,9 @@ public class QueryParameter<TemplateClass extends Object>
     public enum MatchMode {
 
         ANYWHERE, END, EXACT, START;
+    }
+    
+    public enum Order {
+        DESC, ASC;
     }
 }

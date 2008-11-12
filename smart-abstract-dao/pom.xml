@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ *   
+ * This is a common dao with basic CRUD operations and is not limited to any 
+ * persistent layer implementation
+ * 
+ * Copyright (C) 2008  Imran M Yousuf
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ *
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.smartitengineering</groupId>
@@ -6,26 +27,6 @@
     <packaging>jar</packaging>
     <version>0.3.1-SNAPSHOT</version>
     <name>smart-abstract-dao</name>
-    <url>http://repo.or.cz/w/smart-dao.git</url>
-    <developers>
-        <developer>
-            <name>Imran M Yousuf</name>
-            <email>imyousuf@smartitengineering.com</email>
-        </developer>
-    </developers>
-    <distributionManagement>
-        <!-- use the following if you're not using a snapshot version. -->
-        <repository>
-            <id>java.net-m2-repository</id>
-            <url>java-net:/maven2-repository/trunk/www/repository/</url>
-        </repository>
-        <!-- use the following if you ARE using a snapshot version. -->
-        <snapshotRepository>
-            <id>free-ftp-snapshot-repo</id>
-            <name>My FTP snapshot</name>
-            <url>ftp://imyousuf.100webspace.net/imyousuf.100webspace.net/maven-repo/snapshot</url>
-        </snapshotRepository>
-    </distributionManagement>
     <repositories>
         <repository>
             <id>maven2-repository.dev.java.net</id>
@@ -62,6 +63,31 @@
                 </configuration>
             </plugin>
             <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.0.2</version>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>gen-javadoc</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>2.0.4</version>
@@ -79,18 +105,6 @@
                 </executions>
             </plugin>
         </plugins>
-        <extensions>
-            <extension>
-                <groupId>org.jvnet.wagon-svn</groupId>
-                <artifactId>wagon-svn</artifactId>
-                <version>1.8</version>
-            </extension>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ftp</artifactId>
-                <version>1.0-alpha-6</version>
-            </extension>
-        </extensions>
     </build>
     <dependencies>
         <dependency>
