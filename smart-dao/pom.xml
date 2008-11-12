@@ -25,7 +25,7 @@
     <groupId>com.smartitengineering</groupId>
     <artifactId>smart-dao</artifactId>
     <packaging>pom</packaging>
-    <version>0.3.1</version>
+    <version>0.3.2-SNAPSHOT</version>
     <name>smart-dao</name>
     <inceptionYear>2007</inceptionYear>
     <description>
