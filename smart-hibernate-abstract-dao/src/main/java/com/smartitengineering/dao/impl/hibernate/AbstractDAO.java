@@ -26,9 +26,13 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
+import java.util.Map;
+import java.util.WeakHashMap;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
+import org.hibernate.criterion.AggregateProjection;
+import org.hibernate.criterion.CountProjection;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Expression;
@@ -37,6 +41,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.PropertyProjection;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -63,9 +68,11 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             }
         }
         finally {
-            session.flush();
-            if (customSession) {
-                session.close();
+            if(session != null) {
+                session.flush();
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
@@ -89,9 +96,11 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             }
         }
         finally {
-            session.flush();
-            if (customSession) {
-                session.close();
+            if(session != null) {
+                session.flush();
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
@@ -115,219 +124,53 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             }
         }
         finally {
-            session.flush();
-            if (customSession) {
-                session.close();
+            if(session != null) {
+                session.flush();
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
 
     protected Template readSingle(Class entityClass,
                                   Hashtable<String, QueryParameter> parameter) {
-        Session session;
-        boolean customSession = false;
-        try {
-            session = getSessionFactory().getCurrentSession();
-        }
-        catch (Exception ex) {
-            session = getSessionFactory().openSession();
-            customSession = true;
-        }
-        try {
-            Criteria criteria = simpleSearchCriteria(session, entityClass,
-                parameter);
-            return (Template) criteria.uniqueResult();
-        }
-        catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-        finally {
-            if (customSession && session.isOpen()) {
-                session.close();
-            }
-        }
+        return readSingle(entityClass, parameter.values().toArray(new QueryParameter[0]));
     }
 
     protected Object readOther(Class entityClass,
                                Hashtable<String, QueryParameter> parameter) {
-        Session session;
-        boolean customSession = false;
-        try {
-            session = getSessionFactory().getCurrentSession();
-        }
-        catch (Exception ex) {
-            session = getSessionFactory().openSession();
-            customSession = true;
-        }
-        try {
-            Criteria criteria = simpleSearchCriteria(session, entityClass,
-                parameter);
-            return criteria.uniqueResult();
-        }
-        catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-        finally {
-            if (customSession && session.isOpen()) {
-                session.close();
-            }
-        }
+        return readOther(entityClass, parameter.values().toArray(new QueryParameter[0]));
     }
 
     protected List<? extends Object> readOtherList(Class entityClass,
                                                    Hashtable<String, QueryParameter> parameter) {
-        Session session;
-        boolean customSession = false;
-        try {
-            session = getSessionFactory().getCurrentSession();
-        }
-        catch (Exception ex) {
-            session = getSessionFactory().openSession();
-            customSession = true;
-        }
-        try {
-            Criteria criteria = simpleSearchCriteria(session, entityClass,
-                parameter);
-            return criteria.list();
-        }
-        catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-        finally {
-            if (customSession && session.isOpen()) {
-                session.close();
-            }
-        }
+        return readOtherList(entityClass, parameter.values().toArray(new QueryParameter[0]));
     }
 
     protected List<Template> readList(Class entityClass,
                                       Hashtable<String, QueryParameter> parameter) {
-        Session session;
-        boolean customSession = false;
-        try {
-            session = getSessionFactory().getCurrentSession();
-        }
-        catch (Exception ex) {
-            session = getSessionFactory().openSession();
-            customSession = true;
-        }
-        try {
-            Criteria criteria = simpleSearchCriteria(session, entityClass,
-                parameter);
-            return criteria.list();
-        }
-        catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-        finally {
-            if (customSession && session.isOpen()) {
-                session.close();
-            }
-        }
+        return readList(entityClass, parameter.values().toArray(new QueryParameter[0]));
     }
 
     protected Template readSingle(Class entityClass,
                                   List<QueryParameter> parameter) {
-        Session session;
-        boolean customSession = false;
-        try {
-            session = getSessionFactory().getCurrentSession();
-        }
-        catch (Exception ex) {
-            session = getSessionFactory().openSession();
-            customSession = true;
-        }
-        try {
-            Criteria criteria = simpleSearchCriteria(session, entityClass,
-                parameter);
-            return (Template) criteria.uniqueResult();
-        }
-        catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-        finally {
-            if (customSession && session.isOpen()) {
-                session.close();
-            }
-        }
+        return readSingle(entityClass, parameter.toArray(new QueryParameter[0]));
     }
 
     protected Object readOther(Class entityClass,
                                List<QueryParameter> parameter) {
-        Session session;
-        boolean customSession = false;
-        try {
-            session = getSessionFactory().getCurrentSession();
-        }
-        catch (Exception ex) {
-            session = getSessionFactory().openSession();
-            customSession = true;
-        }
-        try {
-            Criteria criteria = simpleSearchCriteria(session, entityClass,
-                parameter);
-            return criteria.uniqueResult();
-        }
-        catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-        finally {
-            if (customSession && session.isOpen()) {
-                session.close();
-            }
-        }
+        return readOther(entityClass, parameter.toArray(new QueryParameter[0]));
     }
 
     protected List<? extends Object> readOtherList(Class entityClass,
                                                    List<QueryParameter> parameter) {
-        Session session;
-        boolean customSession = false;
-        try {
-            session = getSessionFactory().getCurrentSession();
-        }
-        catch (Exception ex) {
-            session = getSessionFactory().openSession();
-            customSession = true;
-        }
-        try {
-            Criteria criteria = simpleSearchCriteria(session, entityClass,
-                parameter);
-            return criteria.list();
-        }
-        catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-        finally {
-            if (customSession && session.isOpen()) {
-                session.close();
-            }
-        }
+        return readOtherList(entityClass, parameter.toArray(new QueryParameter[0]));
     }
 
     protected List<Template> readList(Class entityClass,
                                       List<QueryParameter> parameter) {
-        Session session;
-        boolean customSession = false;
-        try {
-            session = getSessionFactory().getCurrentSession();
-        }
-        catch (Exception ex) {
-            session = getSessionFactory().openSession();
-            customSession = true;
-        }
-        try {
-            Criteria criteria = simpleSearchCriteria(session, entityClass,
-                parameter);
-            return criteria.list();
-        }
-        catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-        finally {
-            if (customSession && session.isOpen()) {
-                session.close();
-            }
-        }
+        return readList(entityClass, parameter.toArray(new QueryParameter[0]));
     }
 
     protected Template readSingle(Class entityClass,
@@ -350,8 +193,10 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if (customSession && session.isOpen()) {
-                session.close();
+            if(session != null) {
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
@@ -376,8 +221,10 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if (customSession && session.isOpen()) {
-                session.close();
+            if(session != null) {
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
@@ -402,8 +249,10 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if (customSession && session.isOpen()) {
-                session.close();
+            if(session != null) {
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
     }
@@ -428,42 +277,12 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if (customSession && session.isOpen()) {
-                session.close();
+            if(session != null) {
+                if (customSession && session.isOpen()) {
+                    session.close();
+                }
             }
         }
-    }
-
-    protected Criteria simpleSearchCriteria(Session session,
-                                            Class queryClass,
-                                            Hashtable<String, QueryParameter> parameter) {
-        Criteria criteria = session.createCriteria(queryClass);
-        Iterator<String> keys = parameter.keySet().iterator();
-        for (; keys.hasNext();) {
-            String element = keys.next();
-            QueryParameter param = parameter.get(element);
-            String propName;
-            if (param.getPropertyName() != null) {
-                propName = param.getPropertyName();
-            }
-            else {
-                propName = element;
-            }
-            processCriterion(criteria, propName, param);
-        }
-        return criteria;
-    }
-
-    protected Criteria simpleSearchCriteria(Session session,
-                                            Class queryClass,
-                                            List<QueryParameter> parameter) {
-        Criteria criteria = session.createCriteria(queryClass);
-        Iterator<QueryParameter> keys = parameter.iterator();
-        for (; keys.hasNext();) {
-            QueryParameter param = keys.next();
-            processCriterion(criteria, param.getPropertyName(), param);
-        }
-        return criteria;
     }
 
     protected Criteria simpleSearchCriteria(Session session,
@@ -488,7 +307,26 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
                 return;
             }
             case 2: {
-                criteria.addOrder(((Order) parameter.getParameter()));
+                final Order order;
+                QueryParameter.Order requestedOrder =
+                    (QueryParameter.Order) parameter.getParameter();
+                switch(requestedOrder) {
+                    case ASC: {
+                        order = Order.asc(element);
+                        break;
+                    }
+                    case DESC: {
+                        order = Order.desc(element);
+                        break;
+                    }
+                    default: {
+                        order = null;
+                        break;
+                    }
+                }
+                if(order != null) {
+                    criteria.addOrder(order);
+                }
                 return;
             }
             case 3: {
@@ -508,49 +346,57 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
                 return;
             }
             case 7: {
-                criteria.setProjection(Projections.count(element));
+                final Projection countProjection = Projections.count(element);
+                setProjection(criteria, countProjection);
                 return;
             }
             case 8: {
-                criteria.setProjection(Projections.rowCount());
+                final Projection rowCount = Projections.rowCount();
+                setProjection(criteria, rowCount);
                 return;
             }
             case 9: {
-                criteria.setProjection(Projections.sum(element));
+                final AggregateProjection sum = Projections.sum(element);
+                setProjection(criteria, sum);
                 return;
             }
             case 10: {
-                criteria.setProjection(Projections.max(element));
+                final AggregateProjection max = Projections.max(element);
+                setProjection(criteria, max);
                 return;
             }
             case 11: {
-                criteria.setProjection(Projections.min(element));
+                final AggregateProjection min = Projections.min(element);
+                setProjection(criteria, min);
                 return;
             }
             case 12: {
-                criteria.setProjection(Projections.avg(element));
+                final AggregateProjection avg = Projections.avg(element);
+                setProjection(criteria, avg);
                 return;
             }
             case 13: {
-                criteria.setProjection(Projections.groupProperty(element));
-                return;
-            }
-            case 14: {
-                criteria.setProjection(Projections.distinct((Projection) parameter.
-                    getParameter()));
+                final PropertyProjection groupProperty =
+                    Projections.groupProperty(element);
+                setProjection(criteria, groupProperty);
                 return;
             }
             case 15: {
-                criteria.setProjection(Projections.countDistinct(element));
+                final CountProjection countDistinct =
+                    Projections.countDistinct(element);
+                setProjection(criteria, countDistinct);
                 return;
             }
             case 16: {
-                criteria.setProjection(Projections.distinct(Projections.property(
-                    element)));
+                final Projection distinct =
+                    Projections.distinct(Projections.property(element));
+                setProjection(criteria, distinct);
                 return;
             }
             case 17: {
-                criteria.setProjection(Projections.property(element));
+                final PropertyProjection property =
+                    Projections.property(element);
+                setProjection(criteria, property);
                 return;
             }
             case 18: {
@@ -677,9 +523,15 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             return Expression.ne(element, parameter);
         }
         else if (operator.equals(QueryParameter.OPERATOR_IS_NULL)) {
-            return Expression.isEmpty(element);
+            return Expression.isNull(element);
         }
         else if (operator.equals(QueryParameter.OPERATOR_IS_NOT_NULL)) {
+            return Expression.isNotNull(element);
+        }
+        else if (operator.equals(QueryParameter.OPERATOR_IS_EMPTY)) {
+            return Expression.isEmpty(element);
+        }
+        else if (operator.equals(QueryParameter.OPERATOR_IS_NOT_EMPTY)) {
             return Expression.isNotEmpty(element);
         }
         else if (operator.equals(QueryParameter.OPERATOR_STRING_LIKE)) {
@@ -709,5 +561,19 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             return Expression.between(element, parameter, parameter2);
         }
         return null;
+    }
+    private Map<Criteria, ProjectionList> projections =
+        new WeakHashMap<Criteria, ProjectionList>();
+
+    private void setProjection(Criteria criteria,
+                               final Projection projection) {
+        ProjectionList currentProjections = projections.get(
+            criteria);
+        if (currentProjections == null) {
+            currentProjections = Projections.projectionList();
+            projections.put(criteria, currentProjections);
+            criteria.setProjection(currentProjections);
+        }
+        currentProjections.add(projection);
     }
 }
