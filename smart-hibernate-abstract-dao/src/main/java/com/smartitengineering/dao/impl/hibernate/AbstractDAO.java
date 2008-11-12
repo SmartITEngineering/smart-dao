@@ -135,226 +135,42 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
 
     protected Template readSingle(Class entityClass,
                                   Hashtable<String, QueryParameter> parameter) {
-        Session session;
-        boolean customSession = false;
-        try {
-            session = getSessionFactory().getCurrentSession();
-        }
-        catch (Exception ex) {
-            session = getSessionFactory().openSession();
-            customSession = true;
-        }
-        try {
-            Criteria criteria = simpleSearchCriteria(session, entityClass,
-                parameter);
-            return (Template) criteria.uniqueResult();
-        }
-        catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-        finally {
-            if(session != null) {
-                if (customSession && session.isOpen()) {
-                    session.close();
-                }
-            }
-        }
+        return readSingle(entityClass, parameter.values().toArray(new QueryParameter[0]));
     }
 
     protected Object readOther(Class entityClass,
                                Hashtable<String, QueryParameter> parameter) {
-        Session session;
-        boolean customSession = false;
-        try {
-            session = getSessionFactory().getCurrentSession();
-        }
-        catch (Exception ex) {
-            session = getSessionFactory().openSession();
-            customSession = true;
-        }
-        try {
-            Criteria criteria = simpleSearchCriteria(session, entityClass,
-                parameter);
-            return criteria.uniqueResult();
-        }
-        catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-        finally {
-            if(session != null) {
-                if (customSession && session.isOpen()) {
-                    session.close();
-                }
-            }
-        }
+        return readOther(entityClass, parameter.values().toArray(new QueryParameter[0]));
     }
 
     protected List<? extends Object> readOtherList(Class entityClass,
                                                    Hashtable<String, QueryParameter> parameter) {
-        Session session;
-        boolean customSession = false;
-        try {
-            session = getSessionFactory().getCurrentSession();
-        }
-        catch (Exception ex) {
-            session = getSessionFactory().openSession();
-            customSession = true;
-        }
-        try {
-            Criteria criteria = simpleSearchCriteria(session, entityClass,
-                parameter);
-            return criteria.list();
-        }
-        catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-        finally {
-            if(session != null) {
-                if (customSession && session.isOpen()) {
-                    session.close();
-                }
-            }
-        }
+        return readOtherList(entityClass, parameter.values().toArray(new QueryParameter[0]));
     }
 
     protected List<Template> readList(Class entityClass,
                                       Hashtable<String, QueryParameter> parameter) {
-        Session session;
-        boolean customSession = false;
-        try {
-            session = getSessionFactory().getCurrentSession();
-        }
-        catch (Exception ex) {
-            session = getSessionFactory().openSession();
-            customSession = true;
-        }
-        try {
-            Criteria criteria = simpleSearchCriteria(session, entityClass,
-                parameter);
-            return criteria.list();
-        }
-        catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-        finally {
-            if(session != null) {
-                if (customSession && session.isOpen()) {
-                    session.close();
-                }
-            }
-        }
+        return readList(entityClass, parameter.values().toArray(new QueryParameter[0]));
     }
 
     protected Template readSingle(Class entityClass,
                                   List<QueryParameter> parameter) {
-        Session session;
-        boolean customSession = false;
-        try {
-            session = getSessionFactory().getCurrentSession();
-        }
-        catch (Exception ex) {
-            session = getSessionFactory().openSession();
-            customSession = true;
-        }
-        try {
-            Criteria criteria = simpleSearchCriteria(session, entityClass,
-                parameter);
-            return (Template) criteria.uniqueResult();
-        }
-        catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-        finally {
-            if(session != null) {
-                if (customSession && session.isOpen()) {
-                    session.close();
-                }
-            }
-        }
+        return readSingle(entityClass, parameter.toArray(new QueryParameter[0]));
     }
 
     protected Object readOther(Class entityClass,
                                List<QueryParameter> parameter) {
-        Session session;
-        boolean customSession = false;
-        try {
-            session = getSessionFactory().getCurrentSession();
-        }
-        catch (Exception ex) {
-            session = getSessionFactory().openSession();
-            customSession = true;
-        }
-        try {
-            Criteria criteria = simpleSearchCriteria(session, entityClass,
-                parameter);
-            return criteria.uniqueResult();
-        }
-        catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-        finally {
-            if(session != null) {
-                if (customSession && session.isOpen()) {
-                    session.close();
-                }
-            }
-        }
+        return readOther(entityClass, parameter.toArray(new QueryParameter[0]));
     }
 
     protected List<? extends Object> readOtherList(Class entityClass,
                                                    List<QueryParameter> parameter) {
-        Session session;
-        boolean customSession = false;
-        try {
-            session = getSessionFactory().getCurrentSession();
-        }
-        catch (Exception ex) {
-            session = getSessionFactory().openSession();
-            customSession = true;
-        }
-        try {
-            Criteria criteria = simpleSearchCriteria(session, entityClass,
-                parameter);
-            return criteria.list();
-        }
-        catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-        finally {
-            if(session != null) {
-                if (customSession && session.isOpen()) {
-                    session.close();
-                }
-            }
-        }
+        return readOtherList(entityClass, parameter.toArray(new QueryParameter[0]));
     }
 
     protected List<Template> readList(Class entityClass,
                                       List<QueryParameter> parameter) {
-        Session session;
-        boolean customSession = false;
-        try {
-            session = getSessionFactory().getCurrentSession();
-        }
-        catch (Exception ex) {
-            session = getSessionFactory().openSession();
-            customSession = true;
-        }
-        try {
-            Criteria criteria = simpleSearchCriteria(session, entityClass,
-                parameter);
-            return criteria.list();
-        }
-        catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-        finally {
-            if(session != null) {
-                if (customSession && session.isOpen()) {
-                    session.close();
-                }
-            }
-        }
+        return readList(entityClass, parameter.toArray(new QueryParameter[0]));
     }
 
     protected Template readSingle(Class entityClass,
@@ -467,38 +283,6 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
                 }
             }
         }
-    }
-
-    protected Criteria simpleSearchCriteria(Session session,
-                                            Class queryClass,
-                                            Hashtable<String, QueryParameter> parameter) {
-        Criteria criteria = session.createCriteria(queryClass);
-        Iterator<String> keys = parameter.keySet().iterator();
-        for (; keys.hasNext();) {
-            String element = keys.next();
-            QueryParameter param = parameter.get(element);
-            String propName;
-            if (param.getPropertyName() != null) {
-                propName = param.getPropertyName();
-            }
-            else {
-                propName = element;
-            }
-            processCriterion(criteria, propName, param);
-        }
-        return criteria;
-    }
-
-    protected Criteria simpleSearchCriteria(Session session,
-                                            Class queryClass,
-                                            List<QueryParameter> parameter) {
-        Criteria criteria = session.createCriteria(queryClass);
-        Iterator<QueryParameter> keys = parameter.iterator();
-        for (; keys.hasNext();) {
-            QueryParameter param = keys.next();
-            processCriterion(criteria, param.getPropertyName(), param);
-        }
-        return criteria;
     }
 
     protected Criteria simpleSearchCriteria(Session session,
