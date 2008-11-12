@@ -36,6 +36,7 @@ import java.util.Hashtable;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -397,6 +398,7 @@ public class AbstractDAOTest
      */
     public void testReadList_Class_QueryParameterArr() {
         System.out.println("readList");
+        performTestReadList(MethodInvocationType.VAR_ARGS);
     }
 
     /**
@@ -404,6 +406,7 @@ public class AbstractDAOTest
      */
     public void testReadList_Class_Hashtable() {
         System.out.println("readList");
+        performTestReadList(MethodInvocationType.HASH_TABLE);
     }
 
     /**
@@ -411,6 +414,7 @@ public class AbstractDAOTest
      */
     public void testReadList_Class_List() {
         System.out.println("readList");
+        performTestReadList(MethodInvocationType.LIST);
     }
 
     /**
@@ -484,6 +488,50 @@ public class AbstractDAOTest
         return calendar;
     }
 
+    private QueryParameter<Date> getDateBetweenParam(final String propName,
+                                                     final Date startDate,
+                                                     final Date endDate) {
+        QueryParameter<Date> dateBetweenParam =
+            new QueryParameter<Date>(propName,
+            QueryParameter.PARAMETER_TYPE_PROPERTY,
+            QueryParameter.OPERATOR_BETWEEN, startDate);
+        dateBetweenParam.setParameter2(endDate);
+        return dateBetweenParam;
+    }
+
+    private QueryParameter<Date> getDateGreaterThanParam(final String propName,
+                                                         Date startDate) {
+        return new QueryParameter<Date>(propName,
+            QueryParameter.PARAMETER_TYPE_PROPERTY,
+            QueryParameter.OPERATOR_GREATER, startDate);
+    }
+
+    private QueryParameter<Date> getDateLesserThanParam(final String propName,
+                                                        Date endDate) {
+        return new QueryParameter<Date>(propName,
+            QueryParameter.PARAMETER_TYPE_PROPERTY,
+            QueryParameter.OPERATOR_LESSER, endDate);
+    }
+
+    private QueryParameter<String> getDisjunctionalParam() {
+        return new QueryParameter<String>("birthDate",
+            QueryParameter.PARAMETER_TYPE_DISJUNCTION,
+            QueryParameter.OPERATOR_EQUAL, "");
+    }
+
+    private QueryParameter<Integer> getFirstResultParam(int startIndex) {
+        return new QueryParameter<Integer>("asd",
+            QueryParameter.PARAMETER_TYPE_FIRST_RESULT,
+            QueryParameter.OPERATOR_EQUAL, startIndex);
+    }
+
+    private QueryParameter<Integer> getGreaterThanEqualIntParam(String idProp,
+                                                                int authorId) {
+        return new QueryParameter<Integer>(idProp,
+            QueryParameter.PARAMETER_TYPE_PROPERTY,
+            QueryParameter.OPERATOR_GREATER_EQUAL, authorId);
+    }
+
     private QueryParameter<Collection<Integer>> getIdInParam(
         Map<String, Integer> bookNameToIdMap) {
         return new QueryParameter<Collection<Integer>>("id",
@@ -491,11 +539,357 @@ public class AbstractDAOTest
             bookNameToIdMap.values());
     }
 
+    private QueryParameter<List<Integer>> getIdNotInParam(List<Integer> ids) {
+        return new QueryParameter<List<Integer>>("id",
+            QueryParameter.PARAMETER_TYPE_NOT_IN, QueryParameter.OPERATOR_EQUAL,
+            ids);
+    }
+
+    private QueryParameter<String> getIsNotNullParam(String propertyName) {
+        return new QueryParameter<String>(propertyName,
+            QueryParameter.PARAMETER_TYPE_PROPERTY,
+            QueryParameter.OPERATOR_IS_NOT_NULL, "");
+    }
+
+    private QueryParameter<String> getIsNullParam(String propertyName) {
+        return new QueryParameter<String>(propertyName,
+            QueryParameter.PARAMETER_TYPE_PROPERTY,
+            QueryParameter.OPERATOR_IS_NULL, "");
+    }
+
+    private QueryParameter<Integer> getLesserThanEqualIntParam(String idProp,
+                                                               int authorId) {
+        return new QueryParameter<Integer>(idProp,
+            QueryParameter.PARAMETER_TYPE_PROPERTY,
+            QueryParameter.OPERATOR_LESSER_EQUAL, authorId);
+    }
+
+    private QueryParameter<Integer> getMaxResultParam(int max) {
+        return new QueryParameter<Integer>("asd",
+            QueryParameter.PARAMETER_TYPE_MAX_RESULT,
+            QueryParameter.OPERATOR_EQUAL, max);
+    }
+
+    private QueryParameter<Integer> getNotEqualIdParam(int id) {
+        return new QueryParameter<Integer>("id",
+            QueryParameter.PARAMETER_TYPE_PROPERTY,
+            QueryParameter.OPERATOR_NOT_EQUAL, id);
+    }
+
     private Calendar getPubFirstEstCal() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(0);
         calendar.add(Calendar.YEAR, 0);
         return calendar;
+    }
+
+    private void performTestReadList(MethodInvocationType type) {
+        AbstractDAO<Book> bookInstance = getDaoInstance();
+        AbstractDAO<Author> authorInstance = getDaoInstance();
+        AbstractDAO<Publisher> publisherInstance = getDaoInstance();
+        Map<String, Integer> bookNameToIdMap = new HashMap<String, Integer>();
+        Map<String, Integer> publisherNameToIdMap =
+            new HashMap<String, Integer>();
+        Map<String, Integer> authorNameToIdMap = new HashMap<String, Integer>();
+        makeNameToIdMap(bookNameToIdMap, bookInstance, authorNameToIdMap,
+            authorInstance, publisherNameToIdMap, publisherInstance);
+        QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+            publisherNameToIdMap);
+        List<Publisher> allPublishers = new ArrayList<Publisher>(
+            new HashSet<Publisher>(publisherInstance.readList(Publisher.class,
+            idInParam)));
+        Collections.sort(allPublishers);
+        idInParam = getIdInParam(authorNameToIdMap);
+        List<Author> allAuthors = new ArrayList<Author>(new HashSet<Author>(
+            authorInstance.readList(Author.class, idInParam)));
+        Collections.sort(allAuthors);
+        idInParam = getIdInParam(bookNameToIdMap);
+        List<Book> allBooks = new ArrayList<Book>(new HashSet<Book>(
+            bookInstance.readList(Book.class, idInParam)));
+        Collections.sort(allBooks);
+        /**
+         * Test between
+         */
+        {
+            Calendar calendar = getBookFirstPubCal();
+            Date startDate = calendar.getTime();
+            calendar.add(Calendar.MONTH, 2);
+            Date endDate = calendar.getTime();
+            final String propName = "publishDate";
+            QueryParameter<Date> dateBetweenParam =
+                getDateBetweenParam(propName, startDate, endDate);
+            QueryParameter<Order> orderParam = getOrderByIdParam(Order.DESC);
+            List<Book> result;
+            switch (type) {
+                case HASH_TABLE: {
+                    result = new ArrayList<Book>(new LinkedHashSet<Book>(
+                        bookInstance.readList(Book.class,
+                        getQueryParamHashtable(dateBetweenParam, orderParam))));
+                    break;
+                }
+                case LIST: {
+                    result = new ArrayList<Book>(new LinkedHashSet<Book>(
+                        bookInstance.readList(Book.class, getQueryParamList(
+                        dateBetweenParam, orderParam))));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    result = new ArrayList<Book>(new LinkedHashSet<Book>(
+                        bookInstance.readList(Book.class, dateBetweenParam,
+                        orderParam)));
+                    break;
+                }
+            }
+            List<Book> expectedResult = new ArrayList<Book>();
+            for (Book book : allBooks) {
+                if (book.getPublishDate().compareTo(startDate) > -1 && book.
+                    getPublishDate().compareTo(endDate) < 1) {
+                    expectedResult.add(book);
+                }
+            }
+            assertTrue(Arrays.equals(expectedResult.toArray(), result.toArray()));
+        }
+        /**
+         * Test disjunction
+         */
+        {
+            Calendar calendar = getAuthorFirstBirthCal();
+            calendar.add(Calendar.MONTH, 1);
+            Date endDate = calendar.getTime();
+            calendar = getAuthorFirstBirthCal();
+            calendar.add(Calendar.MONTH, allAuthors.size() - 2);
+            Date startDate = calendar.getTime();
+            final String propName = "birthDate";
+            QueryParameter<Date> gtDateParam = getDateGreaterThanParam(propName,
+                startDate);
+            QueryParameter<Date> ltDateParam = getDateLesserThanParam(propName,
+                endDate);
+            QueryParameter<String> disjunctionalParam = getDisjunctionalParam();
+            Hashtable<String, QueryParameter> nestedParam =
+                new Hashtable<String, QueryParameter>();
+            nestedParam.put("1", gtDateParam);
+            nestedParam.put("2", ltDateParam);
+            disjunctionalParam.setNestedParameters(nestedParam);
+            QueryParameter<Order> orderParam = getOrderByIdParam(Order.DESC);
+            List<Author> result;
+            switch (type) {
+                case HASH_TABLE: {
+                    result = authorInstance.readList(Author.class,
+                        getQueryParamHashtable(disjunctionalParam, orderParam));
+                    break;
+                }
+                case LIST: {
+                    result = authorInstance.readList(Author.class,
+                        getQueryParamList(disjunctionalParam, orderParam));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    result = authorInstance.readList(Author.class,
+                        disjunctionalParam, orderParam);
+                    break;
+                }
+            }
+            result = new ArrayList<Author>(new LinkedHashSet<Author>(result));
+            List<Author> expectedAuthors = new ArrayList<Author>();
+            expectedAuthors.add(allAuthors.get(0));
+            expectedAuthors.add(allAuthors.get(allAuthors.size() - 1));
+            assertTrue(
+                Arrays.equals(expectedAuthors.toArray(), result.toArray()));
+        }
+        /**
+         * Test not in
+         */
+        {
+            List<Integer> ids = Collections.singletonList(allPublishers.get(0).
+                getId());
+            QueryParameter<List<Integer>> idNotInParam = getIdNotInParam(ids);
+            QueryParameter<Order> orderParam = getOrderByIdParam(Order.DESC);
+            List<Publisher> result;
+            switch (type) {
+                case HASH_TABLE: {
+                    result = publisherInstance.readList(Publisher.class,
+                        getQueryParamHashtable(idNotInParam, orderParam));
+                    break;
+                }
+                case LIST: {
+                    result = publisherInstance.readList(Publisher.class,
+                        getQueryParamList(idNotInParam, orderParam));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    result = publisherInstance.readList(Publisher.class,
+                        idNotInParam, orderParam);
+                    break;
+                }
+            }
+            List<Publisher> expectedResult = allPublishers.subList(1,
+                allPublishers.size());
+            assertTrue(Arrays.equals(expectedResult.toArray(), result.toArray()));
+        }
+        /**
+         * Test first result & max result
+         */
+        {
+            /**
+             * There is a bug in Derby JDBC Driver or Hibernate Dialect for it,
+             * as startIndex 1 and 2 returns the same result which is absurd.
+             */
+            int startIndex =
+                Math.abs(new Random().nextInt()) % (allBooks.size() - 1) + 2;
+            int max = 1;
+            QueryParameter<Order> orderParam = getOrderByIdParam(Order.DESC);
+            QueryParameter<Integer> firstResult =
+                getFirstResultParam(startIndex);
+            QueryParameter<Integer> maxResult = getMaxResultParam(max);
+            List<Book> result;
+            switch (type) {
+                case HASH_TABLE: {
+                    result = bookInstance.readList(Book.class,
+                        getQueryParamHashtable(firstResult, maxResult,
+                        orderParam));
+                    break;
+                }
+                case LIST: {
+                    result = bookInstance.readList(Book.class,
+                        getQueryParamList(firstResult, maxResult, orderParam));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    result = bookInstance.readList(Book.class, firstResult,
+                        maxResult, orderParam);
+                    break;
+                }
+            }
+            List<Book> expectedResult = allBooks.subList(startIndex - 1,
+                startIndex + max - 1);
+            assertEquals(max, result.size());
+            assertTrue(Arrays.equals(expectedResult.toArray(), result.toArray()));
+        }
+        /**
+         * Test not equal
+         */
+        {
+            QueryParameter<Order> orderParam = getOrderByIdParam(Order.DESC);
+            int id = allAuthors.get(0).getId();
+            QueryParameter<Integer> notEqualIdParam = getNotEqualIdParam(id);
+            List<Author> result;
+            switch (type) {
+                case HASH_TABLE: {
+                    result = authorInstance.readList(Author.class,
+                        getQueryParamHashtable(notEqualIdParam, orderParam));
+                    break;
+                }
+                case LIST: {
+                    result = authorInstance.readList(Author.class,
+                        getQueryParamList(notEqualIdParam, orderParam));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    result = authorInstance.readList(Author.class,
+                        notEqualIdParam, orderParam);
+                    break;
+                }
+            }
+            List<Author> expectedResult = allAuthors.subList(1,
+                allAuthors.size());
+            assertTrue(Arrays.equals(expectedResult.toArray(), result.toArray()));
+        }
+        /**
+         * Test less-than-equal, greater-than-equal
+         */
+        {
+            int authorIndex = Math.abs(new Random().nextInt()) %
+                allAuthors.size();
+            int authorId = allAuthors.get(authorIndex).getId();
+            String idProp = "id";
+            QueryParameter<Integer> lteParameter = getLesserThanEqualIntParam(
+                idProp, authorId);
+            QueryParameter<Integer> gteParameter = getGreaterThanEqualIntParam(
+                idProp, authorId);
+            List<Author> result;
+            switch (type) {
+                case HASH_TABLE: {
+                    result = authorInstance.readList(Author.class,
+                        getQueryParamHashtable(lteParameter, gteParameter));
+                    break;
+                }
+                case LIST: {
+                    result = authorInstance.readList(Author.class,
+                        getQueryParamList(lteParameter, gteParameter));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    result = authorInstance.readList(Author.class, lteParameter,
+                        gteParameter);
+                    break;
+                }
+            }
+            List<Author> expectedResult = Collections.singletonList(allAuthors.
+                get(authorIndex));
+            assertTrue(Arrays.equals(expectedResult.toArray(), result.toArray()));
+        }
+        /**
+         * Test null
+         */
+        {
+            String propertyName = "establishedDate";
+            QueryParameter<String> nullParam = getIsNullParam(propertyName);
+            List<Publisher> result;
+            switch (type) {
+                case HASH_TABLE: {
+                    result = publisherInstance.readList(Publisher.class,
+                        getQueryParamHashtable(nullParam));
+                    break;
+                }
+                case LIST: {
+                    result = publisherInstance.readList(Publisher.class,
+                        getQueryParamList(nullParam));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    result = publisherInstance.readList(Publisher.class,
+                        nullParam);
+                    break;
+                }
+            }
+            assertEmpty(result);
+        }
+        /**
+         * Test not null
+         */
+        {
+            String propertyName = "establishedDate";
+            QueryParameter<String> notNullParam =
+                getIsNotNullParam(propertyName);
+            QueryParameter<Order> orderParam = getOrderByIdParam(Order.DESC);
+            List<Publisher> result;
+            switch (type) {
+                case HASH_TABLE: {
+                    result = publisherInstance.readList(Publisher.class,
+                        getQueryParamHashtable(notNullParam, orderParam));
+                    break;
+                }
+                case LIST: {
+                    result = publisherInstance.readList(Publisher.class,
+                        getQueryParamList(notNullParam, orderParam));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    result = publisherInstance.readList(Publisher.class,
+                        notNullParam, orderParam);
+                    break;
+                }
+            }
+            assertTrue(Arrays.equals(allPublishers.toArray(), result.toArray()));
+        }
     }
 
     private void performTestReadOtherSingle(MethodInvocationType type) {
@@ -1310,6 +1704,13 @@ public class AbstractDAOTest
         return new QueryParameter<QueryParameter.Order>("publisher.id",
             QueryParameter.PARAMETER_TYPE_ORDER_BY,
             QueryParameter.OPERATOR_EQUAL, QueryParameter.Order.DESC);
+    }
+
+    private QueryParameter<Order> getOrderByIdParam(
+        final QueryParameter.Order order) {
+        return new QueryParameter<QueryParameter.Order>("id",
+            QueryParameter.PARAMETER_TYPE_ORDER_BY,
+            QueryParameter.OPERATOR_EQUAL, order);
     }
 
     private QueryParameter<List<String>> getNameIdPropsParam() {
