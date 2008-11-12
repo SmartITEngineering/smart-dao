@@ -528,6 +528,12 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         else if (operator.equals(QueryParameter.OPERATOR_IS_NOT_NULL)) {
             return Expression.isNotNull(element);
         }
+        else if (operator.equals(QueryParameter.OPERATOR_IS_EMPTY)) {
+            return Expression.isEmpty(element);
+        }
+        else if (operator.equals(QueryParameter.OPERATOR_IS_NOT_EMPTY)) {
+            return Expression.isNotEmpty(element);
+        }
         else if (operator.equals(QueryParameter.OPERATOR_STRING_LIKE)) {
             MatchMode hibernateMatchMode;
             if (matchMode == null) {

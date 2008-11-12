@@ -557,6 +557,18 @@ public class AbstractDAOTest
             QueryParameter.OPERATOR_IS_NULL, "");
     }
 
+    private QueryParameter<String> getIsNotEmptyParam(String propertyName) {
+        return new QueryParameter<String>(propertyName,
+            QueryParameter.PARAMETER_TYPE_PROPERTY,
+            QueryParameter.OPERATOR_IS_NOT_EMPTY, "");
+    }
+
+    private QueryParameter<String> getIsEmptyParam(String propertyName) {
+        return new QueryParameter<String>(propertyName,
+            QueryParameter.PARAMETER_TYPE_PROPERTY,
+            QueryParameter.OPERATOR_IS_EMPTY, "");
+    }
+
     private QueryParameter<Integer> getLesserThanEqualIntParam(String idProp,
                                                                int authorId) {
         return new QueryParameter<Integer>(idProp,
@@ -889,6 +901,62 @@ public class AbstractDAOTest
                 }
             }
             assertTrue(Arrays.equals(allPublishers.toArray(), result.toArray()));
+        }
+        /**
+         * Test empty
+         */
+        {
+            String propertyName = "authors";
+            QueryParameter<String> emptyParam = getIsEmptyParam(propertyName);
+            List<Book> result;
+            switch (type) {
+                case HASH_TABLE: {
+                    result = bookInstance.readList(Book.class,
+                        getQueryParamHashtable(emptyParam));
+                    break;
+                }
+                case LIST: {
+                    result = bookInstance.readList(Book.class,
+                        getQueryParamList(emptyParam));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    result = bookInstance.readList(Book.class, emptyParam);
+                    break;
+                }
+            }
+            assertEmpty(result);
+        }
+        /**
+         * Test not empty
+         */
+        {
+            String propertyName = "authors";
+            QueryParameter<String> notEmptyParam =
+                getIsNotEmptyParam(propertyName);
+            QueryParameter<Order> orderParam = getOrderByIdParam(Order.DESC);
+            List<Book> result;
+            switch (type) {
+                case HASH_TABLE: {
+                    result = bookInstance.readList(Book.class,
+                        getQueryParamHashtable(notEmptyParam, orderParam));
+                    break;
+                }
+                case LIST: {
+                    result = bookInstance.readList(Book.class,
+                        getQueryParamList(notEmptyParam, orderParam));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    result = bookInstance.readList(Book.class,
+                        notEmptyParam, orderParam);
+                    break;
+                }
+            }
+            result = new ArrayList<Book>(new LinkedHashSet<Book>(result));
+            assertTrue(Arrays.equals(allBooks.toArray(), result.toArray()));
         }
     }
 

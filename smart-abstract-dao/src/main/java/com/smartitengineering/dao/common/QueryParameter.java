@@ -53,6 +53,8 @@ public class QueryParameter<TemplateClass extends Object>
     public static final Integer OPERATOR_IS_NOT_NULL = 8;
     public static final Integer OPERATOR_STRING_LIKE = 9;
     public static final Integer OPERATOR_BETWEEN = 10;
+    public static final Integer OPERATOR_IS_EMPTY = 11;
+    public static final Integer OPERATOR_IS_NOT_EMPTY = 12;
 
     public QueryParameter(String propertyName,
                           Integer type,
