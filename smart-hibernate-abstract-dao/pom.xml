@@ -25,12 +25,12 @@
     <parent>
         <groupId>com.smartitengineering</groupId>
         <artifactId>smart-dao</artifactId>
-        <version>0.3.1-SNAPSHOT</version>
+        <version>0.3.1</version>
     </parent>
     <groupId>com.smartitengineering</groupId>
     <artifactId>smart-hibernate-abstract-dao</artifactId>
     <packaging>jar</packaging>
-    <version>${parent.version}</version>
+    <version>0.3.1</version>
     <name>smart-hibernate-abstract-dao</name>
     <repositories>
         <repository>
