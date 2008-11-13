@@ -400,16 +400,15 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
                 return;
             }
             case 18: {
-                ProjectionList list = Projections.projectionList();
                 Object param = parameter.getParameter();
                 if (param instanceof List) {
                     List listParam = (List) param;
                     for (Iterator it = listParam.iterator(); it.hasNext();) {
                         Object elem = (Object) it.next();
-                        list.add(Projections.property(elem.toString()));
+                        setProjection(criteria, Projections.property(elem.
+                            toString()));
                     }
                 }
-                criteria.setProjection(list);
                 return;
             }
             case 19: {
