@@ -18,8 +18,8 @@
  */
 package com.smartitengineering.dao.impl.hibernate;
 
-import com.smartitengineering.dao.common.QueryParameter;
-import com.smartitengineering.dao.common.QueryParameter.Order;
+import com.smartitengineering.dao.common.queryparam.QueryParameter;
+import com.smartitengineering.dao.common.queryparam.QueryParameter.Order;
 import com.smartitengineering.dao.common.queryparam.QueryParameterFactory;
 import com.smartitengineering.dao.impl.hibernate.domain.Author;
 import com.smartitengineering.dao.impl.hibernate.domain.Book;
@@ -492,17 +492,20 @@ public class AbstractDAOTest
     private QueryParameter<Date> getDateBetweenParam(final String propName,
                                                      final Date startDate,
                                                      final Date endDate) {
-        return QueryParameterFactory.<Date>getBetweenPropertyParam(propName, startDate, endDate);
+        return QueryParameterFactory.<Date>getBetweenPropertyParam(propName,
+            startDate, endDate);
     }
 
     private QueryParameter<Date> getDateGreaterThanParam(final String propName,
                                                          Date startDate) {
-        return QueryParameterFactory.<Date>getGreaterThanPropertyParam(propName, startDate);
+        return QueryParameterFactory.<Date>getGreaterThanPropertyParam(propName,
+            startDate);
     }
 
     private QueryParameter<Date> getDateLesserThanParam(final String propName,
                                                         Date endDate) {
-        return QueryParameterFactory.<Date>getLesserThanPropertyParam(propName, endDate);
+        return QueryParameterFactory.<Date>getLesserThanPropertyParam(propName,
+            endDate);
     }
 
     private QueryParameter<String> getDisjunctionalParam() {
@@ -515,16 +518,20 @@ public class AbstractDAOTest
 
     private QueryParameter<Integer> getGreaterThanEqualIntParam(String idProp,
                                                                 int authorId) {
-        return QueryParameterFactory.<Integer>getGreaterThanEqualToPropertyParam(idProp, authorId);
+        return QueryParameterFactory.<Integer>getGreaterThanEqualToPropertyParam(
+            idProp, authorId);
     }
 
     private QueryParameter<Collection<Integer>> getIdInParam(
         Map<String, Integer> bookNameToIdMap) {
-        return QueryParameterFactory.<Integer>getIsInPropertyParam("id", bookNameToIdMap.values().toArray(new Integer[0]));
+        return QueryParameterFactory.<Integer>getIsInPropertyParam("id", bookNameToIdMap.values().
+            toArray(new Integer[0]));
     }
 
-    private QueryParameter<Collection<Integer>> getIdNotInParam(List<Integer> ids) {
-        return QueryParameterFactory.<Integer>getIsNotInPropertyParam("id", ids.toArray(new Integer[0]));
+    private QueryParameter<Collection<Integer>> getIdNotInParam(
+        List<Integer> ids) {
+        return QueryParameterFactory.<Integer>getIsNotInPropertyParam("id", ids.
+            toArray(new Integer[0]));
     }
 
     private QueryParameter<String> getIsNotNullParam(String propertyName) {
@@ -536,16 +543,19 @@ public class AbstractDAOTest
     }
 
     private QueryParameter<String> getIsNotEmptyParam(String propertyName) {
-        return QueryParameterFactory.getIsNotEmptyCollectionPropertyParam(propertyName);
+        return QueryParameterFactory.getIsNotEmptyCollectionPropertyParam(
+            propertyName);
     }
 
     private QueryParameter<String> getIsEmptyParam(String propertyName) {
-        return QueryParameterFactory.getIsEmptyCollectionPropertyParam(propertyName);
+        return QueryParameterFactory.getIsEmptyCollectionPropertyParam(
+            propertyName);
     }
 
     private QueryParameter<Integer> getLesserThanEqualIntParam(String idProp,
                                                                int authorId) {
-        return QueryParameterFactory.<Integer>getLesserThanEqualToPropertyParam(idProp, authorId);
+        return QueryParameterFactory.<Integer>getLesserThanEqualToPropertyParam(
+            idProp, authorId);
     }
 
     private QueryParameter<Integer> getMaxResultParam(int max) {
@@ -684,7 +694,8 @@ public class AbstractDAOTest
         {
             List<Integer> ids = Collections.singletonList(allPublishers.get(0).
                 getId());
-            QueryParameter<Collection<Integer>> idNotInParam = getIdNotInParam(ids);
+            QueryParameter<Collection<Integer>> idNotInParam = getIdNotInParam(
+                ids);
             QueryParameter<Order> orderParam = getOrderByIdParam(Order.DESC);
             List<Publisher> result;
             switch (type) {
@@ -1668,7 +1679,8 @@ public class AbstractDAOTest
     }
 
     private QueryParameter<String> getCountDistinctNumOfEmployeeParam() {
-        return QueryParameterFactory.getDistinctElementCountParam("numOfEmployees");
+        return QueryParameterFactory.getDistinctElementCountParam(
+            "numOfEmployees");
     }
 
     private QueryParameter<String> getCountIdParam() {
@@ -1684,7 +1696,8 @@ public class AbstractDAOTest
     }
 
     private QueryParameter<String> getDistinctNumOfEmployeeParam() {
-        return QueryParameterFactory.getDistinctPropProjectionParam("numOfEmployees");
+        return QueryParameterFactory.getDistinctPropProjectionParam(
+            "numOfEmployees");
     }
 
     private HashMap<Integer, Integer> getExpectedBookCount() {
@@ -1722,7 +1735,8 @@ public class AbstractDAOTest
     }
 
     private QueryParameter<Order> getDescOrderByPubParam() {
-        return QueryParameterFactory.getOrderByParam("publisher.id", QueryParameter.Order.DESC);
+        return QueryParameterFactory.getOrderByParam("publisher.id",
+            QueryParameter.Order.DESC);
     }
 
     private QueryParameter<Order> getOrderByIdParam(
@@ -1768,7 +1782,8 @@ public class AbstractDAOTest
     }
 
     private QueryParameter<String> getNameQueryParam() {
-        return QueryParameterFactory.<String>getStringLikePropertyParam("name", "");
+        return QueryParameterFactory.<String>getStringLikePropertyParam("name",
+            "");
     }
 
     private int getPublisherIndex(final List<Publisher> publisherList,

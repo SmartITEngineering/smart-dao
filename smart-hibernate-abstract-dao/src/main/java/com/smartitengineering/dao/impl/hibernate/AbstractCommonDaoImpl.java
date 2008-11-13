@@ -19,7 +19,7 @@
 package com.smartitengineering.dao.impl.hibernate;
 
 import com.smartitengineering.dao.common.CommonDao;
-import com.smartitengineering.dao.common.QueryParameter;
+import com.smartitengineering.dao.common.queryparam.QueryParameter;
 import com.smartitengineering.domain.PersistentDTO;
 import java.util.Collection;
 import java.util.Collections;

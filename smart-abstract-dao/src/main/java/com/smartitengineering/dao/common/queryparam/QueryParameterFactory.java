@@ -18,7 +18,6 @@
  */
 package com.smartitengineering.dao.common.queryparam;
 
-import com.smartitengineering.dao.common.QueryParameter;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Hashtable;

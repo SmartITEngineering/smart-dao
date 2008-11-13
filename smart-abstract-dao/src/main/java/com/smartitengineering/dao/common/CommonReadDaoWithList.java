@@ -18,6 +18,7 @@
  */
 package com.smartitengineering.dao.common;
 
+import com.smartitengineering.dao.common.queryparam.QueryParameter;
 import com.smartitengineering.domain.PersistentDTO;
 import java.util.List;
 
