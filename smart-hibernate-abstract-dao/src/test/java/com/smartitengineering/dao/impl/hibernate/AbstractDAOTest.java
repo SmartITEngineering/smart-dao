@@ -20,6 +20,7 @@ package com.smartitengineering.dao.impl.hibernate;
 
 import com.smartitengineering.dao.common.QueryParameter;
 import com.smartitengineering.dao.common.QueryParameter.Order;
+import com.smartitengineering.dao.common.queryparam.QueryParameterFactory;
 import com.smartitengineering.dao.impl.hibernate.domain.Author;
 import com.smartitengineering.dao.impl.hibernate.domain.Book;
 import com.smartitengineering.dao.impl.hibernate.domain.Publisher;
@@ -491,101 +492,68 @@ public class AbstractDAOTest
     private QueryParameter<Date> getDateBetweenParam(final String propName,
                                                      final Date startDate,
                                                      final Date endDate) {
-        QueryParameter<Date> dateBetweenParam =
-            new QueryParameter<Date>(propName,
-            QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_BETWEEN, startDate);
-        dateBetweenParam.setParameter2(endDate);
-        return dateBetweenParam;
+        return QueryParameterFactory.<Date>getBetweenPropertyParam(propName, startDate, endDate);
     }
 
     private QueryParameter<Date> getDateGreaterThanParam(final String propName,
                                                          Date startDate) {
-        return new QueryParameter<Date>(propName,
-            QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_GREATER, startDate);
+        return QueryParameterFactory.<Date>getGreaterThanPropertyParam(propName, startDate);
     }
 
     private QueryParameter<Date> getDateLesserThanParam(final String propName,
                                                         Date endDate) {
-        return new QueryParameter<Date>(propName,
-            QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_LESSER, endDate);
+        return QueryParameterFactory.<Date>getLesserThanPropertyParam(propName, endDate);
     }
 
     private QueryParameter<String> getDisjunctionalParam() {
-        return new QueryParameter<String>("birthDate",
-            QueryParameter.PARAMETER_TYPE_DISJUNCTION,
-            QueryParameter.OPERATOR_EQUAL, "");
+        return QueryParameterFactory.getDisjunctionParam();
     }
 
     private QueryParameter<Integer> getFirstResultParam(int startIndex) {
-        return new QueryParameter<Integer>("asd",
-            QueryParameter.PARAMETER_TYPE_FIRST_RESULT,
-            QueryParameter.OPERATOR_EQUAL, startIndex);
+        return QueryParameterFactory.getFirstResultParam(startIndex);
     }
 
     private QueryParameter<Integer> getGreaterThanEqualIntParam(String idProp,
                                                                 int authorId) {
-        return new QueryParameter<Integer>(idProp,
-            QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_GREATER_EQUAL, authorId);
+        return QueryParameterFactory.<Integer>getGreaterThanEqualToPropertyParam(idProp, authorId);
     }
 
     private QueryParameter<Collection<Integer>> getIdInParam(
         Map<String, Integer> bookNameToIdMap) {
-        return new QueryParameter<Collection<Integer>>("id",
-            QueryParameter.PARAMETER_TYPE_IN, QueryParameter.OPERATOR_EQUAL,
-            bookNameToIdMap.values());
+        return QueryParameterFactory.<Integer>getIsInPropertyParam("id", bookNameToIdMap.values().toArray(new Integer[0]));
     }
 
-    private QueryParameter<List<Integer>> getIdNotInParam(List<Integer> ids) {
-        return new QueryParameter<List<Integer>>("id",
-            QueryParameter.PARAMETER_TYPE_NOT_IN, QueryParameter.OPERATOR_EQUAL,
-            ids);
+    private QueryParameter<Collection<Integer>> getIdNotInParam(List<Integer> ids) {
+        return QueryParameterFactory.<Integer>getIsNotInPropertyParam("id", ids.toArray(new Integer[0]));
     }
 
     private QueryParameter<String> getIsNotNullParam(String propertyName) {
-        return new QueryParameter<String>(propertyName,
-            QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_IS_NOT_NULL, "");
+        return QueryParameterFactory.getIsNotNullPropertyParam(propertyName);
     }
 
     private QueryParameter<String> getIsNullParam(String propertyName) {
-        return new QueryParameter<String>(propertyName,
-            QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_IS_NULL, "");
+        return QueryParameterFactory.getIsNullPropertyParam(propertyName);
     }
 
     private QueryParameter<String> getIsNotEmptyParam(String propertyName) {
-        return new QueryParameter<String>(propertyName,
-            QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_IS_NOT_EMPTY, "");
+        return QueryParameterFactory.getIsNotEmptyCollectionPropertyParam(propertyName);
     }
 
     private QueryParameter<String> getIsEmptyParam(String propertyName) {
-        return new QueryParameter<String>(propertyName,
-            QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_IS_EMPTY, "");
+        return QueryParameterFactory.getIsEmptyCollectionPropertyParam(propertyName);
     }
 
     private QueryParameter<Integer> getLesserThanEqualIntParam(String idProp,
                                                                int authorId) {
-        return new QueryParameter<Integer>(idProp,
-            QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_LESSER_EQUAL, authorId);
+        return QueryParameterFactory.<Integer>getLesserThanEqualToPropertyParam(idProp, authorId);
     }
 
     private QueryParameter<Integer> getMaxResultParam(int max) {
-        return new QueryParameter<Integer>("asd",
-            QueryParameter.PARAMETER_TYPE_MAX_RESULT,
-            QueryParameter.OPERATOR_EQUAL, max);
+        return QueryParameterFactory.getMaxResultsParam(max);
     }
 
     private QueryParameter<Integer> getNotEqualIdParam(int id) {
-        return new QueryParameter<Integer>("id",
-            QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_NOT_EQUAL, id);
+        return QueryParameterFactory.<Integer>getNotEqualPropertyParam("id", id);
     }
 
     private Calendar getPubFirstEstCal() {
@@ -716,7 +684,7 @@ public class AbstractDAOTest
         {
             List<Integer> ids = Collections.singletonList(allPublishers.get(0).
                 getId());
-            QueryParameter<List<Integer>> idNotInParam = getIdNotInParam(ids);
+            QueryParameter<Collection<Integer>> idNotInParam = getIdNotInParam(ids);
             QueryParameter<Order> orderParam = getOrderByIdParam(Order.DESC);
             List<Publisher> result;
             switch (type) {
@@ -1679,14 +1647,11 @@ public class AbstractDAOTest
     }
 
     private QueryParameter<String> getAuthorNestedParam() {
-        return new QueryParameter<String>("authors",
-            QueryParameter.PARAMETER_TYPE_NESTED_PROPERTY,
-            QueryParameter.OPERATOR_EQUAL, "");
+        return QueryParameterFactory.getNestedParametersParam("authors", null);
     }
 
     private QueryParameter<String> getAvgEmployeesParam() {
-        return new QueryParameter<String>("numOfEmployees",
-            QueryParameter.PARAMETER_TYPE_AVG, QueryParameter.OPERATOR_EQUAL, "");
+        return QueryParameterFactory.getElementAvgParam("numOfEmployees");
     }
 
     private int getBookIndex(final List<Book> bookList,
@@ -1703,15 +1668,11 @@ public class AbstractDAOTest
     }
 
     private QueryParameter<String> getCountDistinctNumOfEmployeeParam() {
-        return new QueryParameter<String>("numOfEmployees",
-            QueryParameter.PARAMETER_TYPE_COUNT_DISTINCT,
-            QueryParameter.OPERATOR_EQUAL, "");
+        return QueryParameterFactory.getDistinctElementCountParam("numOfEmployees");
     }
 
     private QueryParameter<String> getCountIdParam() {
-        return new QueryParameter<String>("id",
-            QueryParameter.PARAMETER_TYPE_COUNT, QueryParameter.OPERATOR_EQUAL,
-            "");
+        return QueryParameterFactory.getElementCountParam("id");
     }
 
     private int getDistinctNumOfEmployeeNum() {
@@ -1723,9 +1684,7 @@ public class AbstractDAOTest
     }
 
     private QueryParameter<String> getDistinctNumOfEmployeeParam() {
-        return new QueryParameter<String>("numOfEmployees",
-            QueryParameter.PARAMETER_TYPE_DISTINCT_PROP,
-            QueryParameter.OPERATOR_EQUAL, "");
+        return QueryParameterFactory.getDistinctPropProjectionParam("numOfEmployees");
     }
 
     private HashMap<Integer, Integer> getExpectedBookCount() {
@@ -1747,50 +1706,36 @@ public class AbstractDAOTest
     }
 
     private QueryParameter<String> getIdProjectionParam() {
-        return new QueryParameter<String>("id",
-            QueryParameter.PARAMETER_TYPE_UNIT_PROP,
-            QueryParameter.OPERATOR_EQUAL, "");
+        return QueryParameterFactory.getPropProjectionParam("id");
     }
 
     private QueryParameter<String> getMaxNumOfEmployeeParam() {
-        return new QueryParameter<String>("numOfEmployees",
-            QueryParameter.PARAMETER_TYPE_MAX, QueryParameter.OPERATOR_EQUAL, "");
+        return QueryParameterFactory.getElementMaxParam("numOfEmployees");
     }
 
     private QueryParameter<String> getMinNumOfEmployeeParam() {
-        return new QueryParameter<String>("numOfEmployees",
-            QueryParameter.PARAMETER_TYPE_MIN, QueryParameter.OPERATOR_EQUAL, "");
+        return QueryParameterFactory.getElementMinParam("numOfEmployees");
     }
 
     private QueryParameter<String> getGroupByPubParam() {
-        return new QueryParameter<String>("publisher.id",
-            QueryParameter.PARAMETER_TYPE_GROUP_BY,
-            QueryParameter.OPERATOR_EQUAL, "");
+        return QueryParameterFactory.getGroupByPropParam("publisher.id");
     }
 
     private QueryParameter<Order> getDescOrderByPubParam() {
-        return new QueryParameter<QueryParameter.Order>("publisher.id",
-            QueryParameter.PARAMETER_TYPE_ORDER_BY,
-            QueryParameter.OPERATOR_EQUAL, QueryParameter.Order.DESC);
+        return QueryParameterFactory.getOrderByParam("publisher.id", QueryParameter.Order.DESC);
     }
 
     private QueryParameter<Order> getOrderByIdParam(
         final QueryParameter.Order order) {
-        return new QueryParameter<QueryParameter.Order>("id",
-            QueryParameter.PARAMETER_TYPE_ORDER_BY,
-            QueryParameter.OPERATOR_EQUAL, order);
+        return QueryParameterFactory.getOrderByParam("id", order);
     }
 
     private QueryParameter<List<String>> getNameIdPropsParam() {
-        return new QueryParameter<List<String>>("test",
-            QueryParameter.PARAMETER_TYPE_PROP_LIST,
-            QueryParameter.OPERATOR_EQUAL, Arrays.asList("name", "id"));
+        return QueryParameterFactory.getMultiPropProjectionParam("name", "id");
     }
 
     private QueryParameter<String> getNameProjectionParam() {
-        return new QueryParameter<String>("name",
-            QueryParameter.PARAMETER_TYPE_UNIT_PROP,
-            QueryParameter.OPERATOR_EQUAL, "");
+        return QueryParameterFactory.getPropProjectionParam("name");
     }
 
     private Hashtable<String, QueryParameter> getQueryParamHashtable(
@@ -1819,15 +1764,11 @@ public class AbstractDAOTest
     }
 
     private QueryParameter<Integer> getIdQueryParam() {
-        return new QueryParameter<Integer>("id",
-            QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_EQUAL, -1);
+        return QueryParameterFactory.<Integer>getEqualPropertyParam("id", -1);
     }
 
     private QueryParameter<String> getNameQueryParam() {
-        return new QueryParameter<String>("name",
-            QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_STRING_LIKE, "");
+        return QueryParameterFactory.<String>getStringLikePropertyParam("name", "");
     }
 
     private int getPublisherIndex(final List<Publisher> publisherList,
@@ -1962,8 +1903,7 @@ public class AbstractDAOTest
     }
 
     private QueryParameter<String> getTotalNumOfEmployeesParam() {
-        return new QueryParameter<String>("numOfEmployees",
-            QueryParameter.PARAMETER_TYPE_SUM, QueryParameter.OPERATOR_EQUAL, "");
+        return QueryParameterFactory.getElementSumParam("numOfEmployees");
     }
 
     private Book getWebDbApp(Publisher oReilly,
