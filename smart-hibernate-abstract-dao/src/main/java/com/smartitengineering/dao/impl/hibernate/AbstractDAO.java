@@ -338,7 +338,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
                 return;
             }
             case 5: {
-                processDisjunction(criteria, element, parameter);
+                processDisjunction(criteria, parameter);
                 return;
             }
             case 6: {
@@ -400,16 +400,15 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
                 return;
             }
             case 18: {
-                ProjectionList list = Projections.projectionList();
                 Object param = parameter.getParameter();
                 if (param instanceof List) {
                     List listParam = (List) param;
                     for (Iterator it = listParam.iterator(); it.hasNext();) {
                         Object elem = (Object) it.next();
-                        list.add(Projections.property(elem.toString()));
+                        setProjection(criteria, Projections.property(elem.
+                            toString()));
                     }
                 }
-                criteria.setProjection(list);
                 return;
             }
             case 19: {
@@ -485,7 +484,6 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
 
     @SuppressWarnings("unchecked")
     private void processDisjunction(Criteria criteria,
-                                    String element,
                                     QueryParameter parameter) {
         Disjunction disjunction = Expression.disjunction();
         Hashtable<String, QueryParameter> nestedParameter = parameter.
@@ -493,8 +491,9 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         Iterator<String> keys = nestedParameter.keySet().iterator();
         for (; keys.hasNext();) {
             String nestedElement = keys.next();
-            processCriterion(disjunction, element, nestedParameter.get(
-                nestedElement));
+            final QueryParameter nestedParam 
+                = nestedParameter.get(nestedElement);
+            processCriterion(disjunction, nestedParam.getPropertyName(), nestedParam);
         }
         criteria.add(disjunction);
     }
