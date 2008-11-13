@@ -338,7 +338,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
                 return;
             }
             case 5: {
-                processDisjunction(criteria, element, parameter);
+                processDisjunction(criteria, parameter);
                 return;
             }
             case 6: {
@@ -484,7 +484,6 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
 
     @SuppressWarnings("unchecked")
     private void processDisjunction(Criteria criteria,
-                                    String element,
                                     QueryParameter parameter) {
         Disjunction disjunction = Expression.disjunction();
         Hashtable<String, QueryParameter> nestedParameter = parameter.
@@ -492,8 +491,9 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         Iterator<String> keys = nestedParameter.keySet().iterator();
         for (; keys.hasNext();) {
             String nestedElement = keys.next();
-            processCriterion(disjunction, element, nestedParameter.get(
-                nestedElement));
+            final QueryParameter nestedParam 
+                = nestedParameter.get(nestedElement);
+            processCriterion(disjunction, nestedParam.getPropertyName(), nestedParam);
         }
         criteria.add(disjunction);
     }
