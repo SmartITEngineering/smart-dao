@@ -18,10 +18,27 @@
  */
 package com.smartitengineering.dao.common.queryparam;
 
-import java.io.Serializable;
+/**
+ *
+ * @author imyousuf
+ */
+public enum ParameterType {
 
-public interface QueryParameter<Type extends Object>
-    extends Serializable {
-    public ParameterType getParameterType();
-    public boolean isInitialized();
+    PARAMETER_TYPE_PROPERTY,
+    PARAMETER_TYPE_ORDER_BY,
+    PARAMETER_TYPE_MAX_RESULT,
+    PARAMETER_TYPE_FIRST_RESULT,
+    PARAMETER_TYPE_CONJUNCTION,
+    PARAMETER_TYPE_DISJUNCTION,
+    PARAMETER_TYPE_NESTED_PROPERTY,
+    PARAMETER_TYPE_COUNT,
+    PARAMETER_TYPE_ROW_COUNT,
+    PARAMETER_TYPE_SUM,
+    PARAMETER_TYPE_MAX,
+    PARAMETER_TYPE_MIN,
+    PARAMETER_TYPE_AVG,
+    PARAMETER_TYPE_GROUP_BY,
+    PARAMETER_TYPE_COUNT_DISTINCT,
+    PARAMETER_TYPE_DISTINCT_PROP,
+    PARAMETER_TYPE_UNIT_PROP,
 }

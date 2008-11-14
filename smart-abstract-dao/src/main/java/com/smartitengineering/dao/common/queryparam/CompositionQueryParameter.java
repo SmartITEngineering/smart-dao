@@ -18,10 +18,22 @@
  */
 package com.smartitengineering.dao.common.queryparam;
 
-import java.io.Serializable;
+/**
+ *
+ * @author imyousuf
+ */
+public interface CompositionQueryParameter
+    extends CompoundQueryParameter<Void>,
+            QueryParameterWithPropertyName<Void> {
 
-public interface QueryParameter<Type extends Object>
-    extends Serializable {
-    public ParameterType getParameterType();
-    public boolean isInitialized();
+    public void init(ParameterType type,
+                     String propertyName,
+                     QueryParameter... parameters);
+
+    public void init(ParameterType type,
+                     String propertyName,
+                     FetchMode fetchMode,
+                     QueryParameter... parameters);
+    
+    public FetchMode getFetchMode();
 }
