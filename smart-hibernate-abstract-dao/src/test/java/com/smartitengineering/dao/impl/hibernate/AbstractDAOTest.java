@@ -18,9 +18,12 @@
  */
 package com.smartitengineering.dao.impl.hibernate;
 
+import com.smartitengineering.dao.common.queryparam.FetchMode;
+import com.smartitengineering.dao.common.queryparam.MatchMode;
+import com.smartitengineering.dao.common.queryparam.Order;
 import com.smartitengineering.dao.common.queryparam.QueryParameter;
-import com.smartitengineering.dao.common.queryparam.QueryParameter.Order;
 import com.smartitengineering.dao.common.queryparam.QueryParameterFactory;
+import com.smartitengineering.dao.common.queryparam.QueryParameterWithPropertyName;
 import com.smartitengineering.dao.impl.hibernate.domain.Author;
 import com.smartitengineering.dao.impl.hibernate.domain.Book;
 import com.smartitengineering.dao.impl.hibernate.domain.Publisher;
@@ -28,7 +31,6 @@ import com.smartitengineering.domain.PersistentDTO;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -194,7 +196,7 @@ public class AbstractDAOTest
          * Update one book at a time
          */
         {
-            QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+            QueryParameter<Integer> idInParam = getIdInParam(
                 bookNameToIdMap);
             List<Book> books = new ArrayList<Book>(new HashSet<Book>(
                 bookInstance.readList(Book.class, idInParam)));
@@ -208,7 +210,7 @@ public class AbstractDAOTest
          * Update all publisher at once
          */
         {
-            QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+            QueryParameter<Integer> idInParam = getIdInParam(
                 publisherNameToIdMap);
             List<Publisher> publishers = new ArrayList<Publisher>(
                 new HashSet<Publisher>(publisherInstance.readList(
@@ -224,7 +226,7 @@ public class AbstractDAOTest
          * Update all author at once
          */
         {
-            QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+            QueryParameter<Integer> idInParam = getIdInParam(
                 authorNameToIdMap);
             List<Author> authors = new ArrayList<Author>(new HashSet<Author>(
                 authorInstance.readList(Author.class, idInParam)));
@@ -327,7 +329,7 @@ public class AbstractDAOTest
          * Update one book at a time
          */
         {
-            QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+            QueryParameter<Integer> idInParam = getIdInParam(
                 bookNameToIdMap);
             List<Book> books = new ArrayList<Book>(new HashSet<Book>(
                 bookInstance.readList(Book.class, idInParam)));
@@ -336,8 +338,7 @@ public class AbstractDAOTest
             for (Book book : books) {
                 book.setPublishDate(calendar.getTime());
                 bookInstance.updateEntity(book);
-                QueryParameter parameter = getIdQueryParam();
-                parameter.setParameter(book.getId());
+                QueryParameter parameter = getIdQueryParam(book.getId());
                 Book updatedBook =
                     bookInstance.readSingle(Book.class, parameter);
                 assertEquals(book.getPublishDate(), updatedBook.getPublishDate());
@@ -348,7 +349,7 @@ public class AbstractDAOTest
          * Update all publisher at once
          */
         {
-            QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+            QueryParameter<Integer> idInParam = getIdInParam(
                 publisherNameToIdMap);
             List<Publisher> publishers = new ArrayList<Publisher>(
                 new HashSet<Publisher>(publisherInstance.readList(
@@ -361,8 +362,7 @@ public class AbstractDAOTest
             }
             publisherInstance.updateEntity(publishers.toArray(new Publisher[]{}));
             for (Publisher publisher : publishers) {
-                QueryParameter parameter = getIdQueryParam();
-                parameter.setParameter(publisher.getId());
+                QueryParameter parameter = getIdQueryParam(publisher.getId());
                 Publisher updatedPublisher = publisherInstance.readSingle(
                     Publisher.class, parameter);
                 assertEquals(publisher.getEstablishedDate(), updatedPublisher.
@@ -373,7 +373,7 @@ public class AbstractDAOTest
          * Update all author at once
          */
         {
-            QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+            QueryParameter<Integer> idInParam = getIdInParam(
                 authorNameToIdMap);
             List<Author> authors = new ArrayList<Author>(new HashSet<Author>(
                 authorInstance.readList(Author.class, idInParam)));
@@ -385,8 +385,7 @@ public class AbstractDAOTest
             }
             authorInstance.updateEntity(authors.toArray(new Author[]{}));
             for (Author author : authors) {
-                QueryParameter parameter = getIdQueryParam();
-                parameter.setParameter(author.getId());
+                QueryParameter parameter = getIdQueryParam(author.getId());
                 Author updatedAuthor = authorInstance.readSingle(Author.class,
                     parameter);
                 assertEquals(author.getBirthDate(), updatedAuthor.getBirthDate());
@@ -436,7 +435,7 @@ public class AbstractDAOTest
          * Delete one book at a time
          */
         {
-            QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+            QueryParameter<Integer> idInParam = getIdInParam(
                 bookNameToIdMap);
             Set<Book> books = new HashSet<Book>(
                 bookInstance.readList(Book.class, idInParam));
@@ -449,7 +448,7 @@ public class AbstractDAOTest
          * Delete all publisher at once
          */
         {
-            QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+            QueryParameter<Integer> idInParam = getIdInParam(
                 publisherNameToIdMap);
             Set<Publisher> publishers = new HashSet<Publisher>(
                 publisherInstance.readList(Publisher.class, idInParam));
@@ -460,7 +459,7 @@ public class AbstractDAOTest
          * Delete all author at once
          */
         {
-            QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+            QueryParameter<Integer> idInParam = getIdInParam(
                 authorNameToIdMap);
             Set<Author> authors = new HashSet<Author>(
                 authorInstance.readList(Author.class, idInParam));
@@ -508,8 +507,9 @@ public class AbstractDAOTest
             endDate);
     }
 
-    private QueryParameter<String> getDisjunctionalParam() {
-        return QueryParameterFactory.getDisjunctionParam();
+    private QueryParameter<Void> getDisjunctionalParam(
+        QueryParameter... parameters) {
+        return QueryParameterFactory.getDisjunctionParam(parameters);
     }
 
     private QueryParameter<Integer> getFirstResultParam(int startIndex) {
@@ -522,32 +522,32 @@ public class AbstractDAOTest
             idProp, authorId);
     }
 
-    private QueryParameter<Collection<Integer>> getIdInParam(
+    private QueryParameter<Integer> getIdInParam(
         Map<String, Integer> bookNameToIdMap) {
         return QueryParameterFactory.<Integer>getIsInPropertyParam("id", bookNameToIdMap.values().
             toArray(new Integer[0]));
     }
 
-    private QueryParameter<Collection<Integer>> getIdNotInParam(
+    private QueryParameter<Integer> getIdNotInParam(
         List<Integer> ids) {
         return QueryParameterFactory.<Integer>getIsNotInPropertyParam("id", ids.
             toArray(new Integer[0]));
     }
 
-    private QueryParameter<String> getIsNotNullParam(String propertyName) {
+    private QueryParameter<Void> getIsNotNullParam(String propertyName) {
         return QueryParameterFactory.getIsNotNullPropertyParam(propertyName);
     }
 
-    private QueryParameter<String> getIsNullParam(String propertyName) {
+    private QueryParameter<Void> getIsNullParam(String propertyName) {
         return QueryParameterFactory.getIsNullPropertyParam(propertyName);
     }
 
-    private QueryParameter<String> getIsNotEmptyParam(String propertyName) {
+    private QueryParameter<Void> getIsNotEmptyParam(String propertyName) {
         return QueryParameterFactory.getIsNotEmptyCollectionPropertyParam(
             propertyName);
     }
 
-    private QueryParameter<String> getIsEmptyParam(String propertyName) {
+    private QueryParameter<Void> getIsEmptyParam(String propertyName) {
         return QueryParameterFactory.getIsEmptyCollectionPropertyParam(
             propertyName);
     }
@@ -583,7 +583,7 @@ public class AbstractDAOTest
         Map<String, Integer> authorNameToIdMap = new HashMap<String, Integer>();
         makeNameToIdMap(bookNameToIdMap, bookInstance, authorNameToIdMap,
             authorInstance, publisherNameToIdMap, publisherInstance);
-        QueryParameter<Collection<Integer>> idInParam = getIdInParam(
+        QueryParameter<Integer> idInParam = getIdInParam(
             publisherNameToIdMap);
         List<Publisher> allPublishers = new ArrayList<Publisher>(
             new HashSet<Publisher>(publisherInstance.readList(Publisher.class,
@@ -655,12 +655,8 @@ public class AbstractDAOTest
                 startDate);
             QueryParameter<Date> ltDateParam = getDateLesserThanParam(propName,
                 endDate);
-            QueryParameter<String> disjunctionalParam = getDisjunctionalParam();
-            Hashtable<String, QueryParameter> nestedParam =
-                new Hashtable<String, QueryParameter>();
-            nestedParam.put("1", gtDateParam);
-            nestedParam.put("2", ltDateParam);
-            disjunctionalParam.setNestedParameters(nestedParam);
+            QueryParameter<Void> disjunctionalParam = getDisjunctionalParam(
+                gtDateParam, ltDateParam);
             QueryParameter<Order> orderParam = getOrderByIdParam(Order.DESC);
             List<Author> result;
             switch (type) {
@@ -694,7 +690,7 @@ public class AbstractDAOTest
         {
             List<Integer> ids = Collections.singletonList(allPublishers.get(0).
                 getId());
-            QueryParameter<Collection<Integer>> idNotInParam = getIdNotInParam(
+            QueryParameter<Integer> idNotInParam = getIdNotInParam(
                 ids);
             QueryParameter<Order> orderParam = getOrderByIdParam(Order.DESC);
             List<Publisher> result;
@@ -830,7 +826,7 @@ public class AbstractDAOTest
          */
         {
             String propertyName = "establishedDate";
-            QueryParameter<String> nullParam = getIsNullParam(propertyName);
+            QueryParameter<Void> nullParam = getIsNullParam(propertyName);
             List<Publisher> result;
             switch (type) {
                 case HASH_TABLE: {
@@ -857,7 +853,7 @@ public class AbstractDAOTest
          */
         {
             String propertyName = "establishedDate";
-            QueryParameter<String> notNullParam =
+            QueryParameter<Void> notNullParam =
                 getIsNotNullParam(propertyName);
             QueryParameter<Order> orderParam = getOrderByIdParam(Order.DESC);
             List<Publisher> result;
@@ -886,7 +882,7 @@ public class AbstractDAOTest
          */
         {
             String propertyName = "authors";
-            QueryParameter<String> emptyParam = getIsEmptyParam(propertyName);
+            QueryParameter<Void> emptyParam = getIsEmptyParam(propertyName);
             List<Book> result;
             switch (type) {
                 case HASH_TABLE: {
@@ -912,7 +908,7 @@ public class AbstractDAOTest
          */
         {
             String propertyName = "authors";
-            QueryParameter<String> notEmptyParam =
+            QueryParameter<Void> notEmptyParam =
                 getIsNotEmptyParam(propertyName);
             QueryParameter<Order> orderParam = getOrderByIdParam(Order.DESC);
             List<Book> result;
@@ -941,7 +937,7 @@ public class AbstractDAOTest
 
     private void performTestReadOtherSingle(MethodInvocationType type) {
         AbstractDAO<Publisher> publisherInstance = getDaoInstance();
-        QueryParameter<String> param;
+        QueryParameter<Void> param;
         /**
          * Test average
          */
@@ -1130,37 +1126,39 @@ public class AbstractDAOTest
         catch (Exception exception) {
             fail(exception.getMessage());
         }
-        QueryParameter<Integer> param =
-            getIdQueryParam();
+        QueryParameter<Integer> param;
         /**
          * Try to load a book with non-existing id
          */
-        Book nonExistingBook;
-        switch (type) {
-            case HASH_TABLE: {
-                nonExistingBook = bookInstance.readSingle(Book.class,
-                    getQueryParamHashtable(param));
-                break;
+        {
+            param = getIdQueryParam(-1);
+            Book nonExistingBook;
+            switch (type) {
+                case HASH_TABLE: {
+                    nonExistingBook = bookInstance.readSingle(Book.class,
+                        getQueryParamHashtable(param));
+                    break;
+                }
+                case LIST: {
+                    nonExistingBook = bookInstance.readSingle(Book.class,
+                        getQueryParamList(param));
+                    break;
+                }
+                case VAR_ARGS:
+                default: {
+                    nonExistingBook = bookInstance.readSingle(Book.class, param);
+                    break;
+                }
             }
-            case LIST: {
-                nonExistingBook = bookInstance.readSingle(Book.class,
-                    getQueryParamList(param));
-                break;
-            }
-            case VAR_ARGS:
-            default: {
-                nonExistingBook = bookInstance.readSingle(Book.class, param);
-                break;
-            }
+            assertNull(nonExistingBook);
         }
-        assertNull(nonExistingBook);
         /**
          * Test a random single book with id
          */
         {
             Book kothaoKeoNei = getKothaoKeoNei(null, null);
             int bookId = bookNameToIdMap.get(kothaoKeoNei.getName());
-            param.setParameter(bookId);
+            param = getIdQueryParam(bookId);
             Book kothaoKeoNeiFromDao;
             switch (type) {
                 case HASH_TABLE: {
@@ -1188,7 +1186,7 @@ public class AbstractDAOTest
         {
             Publisher annoProkash = getAnnoProkash();
             int publisherId = publisherNameToIdMap.get(annoProkash.getName());
-            param.setParameter(publisherId);
+            param = getIdQueryParam(publisherId);
             Publisher annoProkashFromDao;
             switch (type) {
                 case HASH_TABLE: {
@@ -1217,7 +1215,7 @@ public class AbstractDAOTest
         {
             Author humayunAhmed = getHumayunAhmed();
             int authorId = authorNameToIdMap.get(humayunAhmed.getName());
-            param.setParameter(authorId);
+            param = getIdQueryParam(authorId);
             Author humayunAhmedFromDao = authorInstance.readSingle(Author.class,
                 param);
             switch (type) {
@@ -1242,8 +1240,7 @@ public class AbstractDAOTest
             }
             assertAuthor(humayunAhmed, humayunAhmedFromDao, authorNameToIdMap);
         }
-        QueryParameter<String> strParam =
-            getNameQueryParam();
+        QueryParameter<String> strParam;
         /**
          * Test different match modes
          */
@@ -1253,8 +1250,7 @@ public class AbstractDAOTest
         {
             Book webDbApp = getWebDbApp(null, null, null);
             String bookName = webDbApp.getName();
-            strParam.setParameter(bookName);
-            strParam.setMatchMode(QueryParameter.MatchMode.EXACT);
+            strParam = getNameQueryParam(bookName, MatchMode.EXACT);
             Book webDbAppFromDao;
             final int numOfAuthors = 2;
             switch (type) {
@@ -1282,8 +1278,8 @@ public class AbstractDAOTest
          */
         {
             Author brett = getBrett();
-            strParam.setParameter(brett.getName().substring(0, 4));
-            strParam.setMatchMode(QueryParameter.MatchMode.START);
+            strParam = getNameQueryParam(brett.getName().substring(0, 4),
+                MatchMode.START);
             Author brettFromDao;
             switch (type) {
                 case HASH_TABLE: {
@@ -1305,8 +1301,8 @@ public class AbstractDAOTest
             }
             assertAuthor(brett, brettFromDao, authorNameToIdMap);
             Author anwar = getKaziAnowarHossain();
-            strParam.setParameter(anwar.getName().substring(4));
-            strParam.setMatchMode(QueryParameter.MatchMode.END);
+            strParam = getNameQueryParam(anwar.getName().substring(4),
+                MatchMode.END);
             Author anwarFromDao;
             switch (type) {
                 case HASH_TABLE: {
@@ -1333,9 +1329,9 @@ public class AbstractDAOTest
          */
         {
             Publisher sheba = getAnnoProkash();
-            strParam.setParameter(sheba.getName().substring(1, sheba.getName().
-                length() - 2));
-            strParam.setMatchMode(QueryParameter.MatchMode.ANYWHERE);
+            strParam = getNameQueryParam(sheba.getName().substring(1, sheba.
+                getName().
+                length() - 2), MatchMode.ANYWHERE);
             Publisher shebaFromDao;
             switch (type) {
                 case HASH_TABLE: {
@@ -1363,14 +1359,10 @@ public class AbstractDAOTest
          */
         {
             Book webDbApp = getWebDbApp(null, null, null);
-            QueryParameter<String> authorParam = getAuthorNestedParam();
             Author hughWilliams = getHughWilliams();
-            strParam.setParameter(hughWilliams.getName());
-            strParam.setMatchMode(QueryParameter.MatchMode.EXACT);
-            Hashtable<String, QueryParameter> nestedParams =
-                new Hashtable<String, QueryParameter>();
-            nestedParams.put("name", strParam);
-            authorParam.setNestedParameters(nestedParams);
+            strParam =
+                getNameQueryParam(hughWilliams.getName(), MatchMode.EXACT);
+            QueryParameter<Void> authorParam = getAuthorNestedParam(strParam);
             Book webDbAppFromDao;
             switch (type) {
                 case HASH_TABLE: {
@@ -1405,14 +1397,14 @@ public class AbstractDAOTest
         Map<String, Integer> authorNameToIdMap = new HashMap<String, Integer>();
         makeNameToIdMap(bookNameToIdMap, bookInstance, authorNameToIdMap,
             authorInstance, publisherNameToIdMap, publisherInstance);
-        QueryParameter<String> param;
+        QueryParameter<Void> param;
         /**
          * Test group by and order by
          */
         {
             param = getGroupByPubParam();
-            QueryParameter<String> countParam = getCountIdParam();
-            QueryParameter<QueryParameter.Order> orderByParam =
+            QueryParameter<Void> countParam = getCountIdParam();
+            QueryParameter<Order> orderByParam =
                 getDescOrderByPubParam();
             List others;
             switch (type) {
@@ -1458,8 +1450,8 @@ public class AbstractDAOTest
          * Test multiple property projection
          */
         {
-            QueryParameter<String> idProjectionParam = getIdProjectionParam();
-            QueryParameter<String> nameProjectionParam =
+            QueryParameter<Void> idProjectionParam = getIdProjectionParam();
+            QueryParameter<Void> nameProjectionParam =
                 getNameProjectionParam();
             List others;
             switch (type) {
@@ -1483,21 +1475,23 @@ public class AbstractDAOTest
                 }
             }
             assertNameIdPair(others, authorNameToIdMap);
-            QueryParameter<List<String>> propsParam = getNameIdPropsParam();
+            List<QueryParameter<Void>> propsParam = getNameIdPropsParam();
             switch (type) {
                 case HASH_TABLE: {
                     others = authorInstance.readOtherList(Author.class,
-                        getQueryParamHashtable(propsParam));
+                        getQueryParamHashtable(propsParam.toArray(
+                        new QueryParameter[0])));
                     break;
                 }
                 case LIST: {
                     others = authorInstance.readOtherList(Author.class,
-                        getQueryParamList(propsParam));
+                        getQueryParamList(propsParam.toArray(
+                        new QueryParameter[0])));
                     break;
                 }
                 case VAR_ARGS:
                     others = authorInstance.readOtherList(Author.class,
-                        propsParam);
+                        propsParam.toArray(new QueryParameter[0]));
                 default: {
                     break;
                 }
@@ -1508,7 +1502,7 @@ public class AbstractDAOTest
          * Test distinct property projection
          */
         {
-            QueryParameter<String> distinctNumOfEmployeeProjectionParam =
+            QueryParameter<Void> distinctNumOfEmployeeProjectionParam =
                 getDistinctNumOfEmployeeParam();
             List<Integer> nums;
             switch (type) {
@@ -1657,11 +1651,13 @@ public class AbstractDAOTest
         return getPublisher(new Date(), 50, "Anno Prokash");
     }
 
-    private QueryParameter<String> getAuthorNestedParam() {
-        return QueryParameterFactory.getNestedParametersParam("authors", null);
+    private QueryParameter<Void> getAuthorNestedParam(
+        QueryParameter... parameters) {
+        return QueryParameterFactory.getNestedParametersParam("authors",
+            FetchMode.DEFAULT, parameters);
     }
 
-    private QueryParameter<String> getAvgEmployeesParam() {
+    private QueryParameter<Void> getAvgEmployeesParam() {
         return QueryParameterFactory.getElementAvgParam("numOfEmployees");
     }
 
@@ -1678,12 +1674,12 @@ public class AbstractDAOTest
         return index;
     }
 
-    private QueryParameter<String> getCountDistinctNumOfEmployeeParam() {
+    private QueryParameter<Void> getCountDistinctNumOfEmployeeParam() {
         return QueryParameterFactory.getDistinctElementCountParam(
             "numOfEmployees");
     }
 
-    private QueryParameter<String> getCountIdParam() {
+    private QueryParameter<Void> getCountIdParam() {
         return QueryParameterFactory.getElementCountParam("id");
     }
 
@@ -1695,7 +1691,7 @@ public class AbstractDAOTest
         return numbers.size();
     }
 
-    private QueryParameter<String> getDistinctNumOfEmployeeParam() {
+    private QueryParameter<Void> getDistinctNumOfEmployeeParam() {
         return QueryParameterFactory.getDistinctPropProjectionParam(
             "numOfEmployees");
     }
@@ -1718,37 +1714,35 @@ public class AbstractDAOTest
         return result;
     }
 
-    private QueryParameter<String> getIdProjectionParam() {
+    private QueryParameter<Void> getIdProjectionParam() {
         return QueryParameterFactory.getPropProjectionParam("id");
     }
 
-    private QueryParameter<String> getMaxNumOfEmployeeParam() {
+    private QueryParameter<Void> getMaxNumOfEmployeeParam() {
         return QueryParameterFactory.getElementMaxParam("numOfEmployees");
     }
 
-    private QueryParameter<String> getMinNumOfEmployeeParam() {
+    private QueryParameter<Void> getMinNumOfEmployeeParam() {
         return QueryParameterFactory.getElementMinParam("numOfEmployees");
     }
 
-    private QueryParameter<String> getGroupByPubParam() {
+    private QueryParameter<Void> getGroupByPubParam() {
         return QueryParameterFactory.getGroupByPropParam("publisher.id");
     }
 
     private QueryParameter<Order> getDescOrderByPubParam() {
-        return QueryParameterFactory.getOrderByParam("publisher.id",
-            QueryParameter.Order.DESC);
+        return QueryParameterFactory.getOrderByParam("publisher.id", Order.DESC);
     }
 
-    private QueryParameter<Order> getOrderByIdParam(
-        final QueryParameter.Order order) {
+    private QueryParameter<Order> getOrderByIdParam(final Order order) {
         return QueryParameterFactory.getOrderByParam("id", order);
     }
 
-    private QueryParameter<List<String>> getNameIdPropsParam() {
+    private List<QueryParameter<Void>> getNameIdPropsParam() {
         return QueryParameterFactory.getMultiPropProjectionParam("name", "id");
     }
 
-    private QueryParameter<String> getNameProjectionParam() {
+    private QueryParameter<Void> getNameProjectionParam() {
         return QueryParameterFactory.getPropProjectionParam("name");
     }
 
@@ -1757,7 +1751,7 @@ public class AbstractDAOTest
         Hashtable<String, QueryParameter> table =
             new Hashtable<String, QueryParameter>();
         for (QueryParameter parameter : params) {
-            String paramName = parameter.getPropertyName();
+            String paramName = getPropertyName(parameter);
             if (table.containsKey(paramName)) {
                 int i = 1;
                 while (table.containsKey(new StringBuilder(paramName).append(
@@ -1777,13 +1771,14 @@ public class AbstractDAOTest
         return result;
     }
 
-    private QueryParameter<Integer> getIdQueryParam() {
-        return QueryParameterFactory.<Integer>getEqualPropertyParam("id", -1);
+    private QueryParameter<Integer> getIdQueryParam(int id) {
+        return QueryParameterFactory.<Integer>getEqualPropertyParam("id", id);
     }
 
-    private QueryParameter<String> getNameQueryParam() {
+    private QueryParameter<String> getNameQueryParam(String name,
+                                                     MatchMode mode) {
         return QueryParameterFactory.<String>getStringLikePropertyParam("name",
-            "");
+            name, mode);
     }
 
     private int getPublisherIndex(final List<Publisher> publisherList,
@@ -1917,7 +1912,7 @@ public class AbstractDAOTest
         return total;
     }
 
-    private QueryParameter<String> getTotalNumOfEmployeesParam() {
+    private QueryParameter<Void> getTotalNumOfEmployeesParam() {
         return QueryParameterFactory.getElementSumParam("numOfEmployees");
     }
 
@@ -1995,6 +1990,21 @@ public class AbstractDAOTest
             min = Math.min(min, publisher.getNumOfEmployees());
         }
         return min;
+    }
+
+    private String getPropertyName(
+        QueryParameter param) {
+        final String propertyName;
+
+        if (param instanceof QueryParameterWithPropertyName) {
+            propertyName =
+                ((QueryParameterWithPropertyName) param).getPropertyName();
+        }
+        else {
+            propertyName = "";
+        }
+
+        return propertyName;
     }
 
     private enum MethodInvocationType {
