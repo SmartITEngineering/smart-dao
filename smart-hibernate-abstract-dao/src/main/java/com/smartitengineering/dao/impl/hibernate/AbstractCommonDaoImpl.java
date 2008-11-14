@@ -20,6 +20,7 @@ package com.smartitengineering.dao.impl.hibernate;
 
 import com.smartitengineering.dao.common.CommonDao;
 import com.smartitengineering.dao.common.queryparam.QueryParameter;
+import com.smartitengineering.dao.common.queryparam.QueryParameterFactory;
 import com.smartitengineering.domain.PersistentDTO;
 import java.util.Collection;
 import java.util.Collections;
@@ -74,12 +75,8 @@ public abstract class AbstractCommonDaoImpl<Template extends PersistentDTO>
     }
 
     public Template getById(Integer id) {
-        QueryParameter<Integer> param =
-            new QueryParameter<Integer>(
-            "id",
-            QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_EQUAL,
-            id);
+        QueryParameter<Integer> param = QueryParameterFactory.<Integer>
+            getEqualPropertyParam("id", id);
         try {
             return getSingle(param);
         }
@@ -90,12 +87,8 @@ public abstract class AbstractCommonDaoImpl<Template extends PersistentDTO>
     }
 
     public Set<Template> getByIds(List<Integer> ids) {
-        QueryParameter<Collection<Integer>> param =
-            new QueryParameter<Collection<Integer>>(
-            "id",
-            QueryParameter.PARAMETER_TYPE_IN,
-            QueryParameter.OPERATOR_EQUAL,
-            ids);
+        QueryParameter<Integer> param = QueryParameterFactory.<Integer>
+            getIsInPropertyParam("id", ids.toArray(new Integer[0]));
         Collection<Template> result;
         try {
             result = getList(param);
