@@ -27,5 +27,5 @@ import java.util.Collection;
 public interface CompoundQueryParameter<Template extends Object>
     extends QueryParameter<Template> {
 
-    public Collection<QueryParameter> getNestedParamaters();
+    public Collection<QueryParameter> getNestedParameters();
 }
