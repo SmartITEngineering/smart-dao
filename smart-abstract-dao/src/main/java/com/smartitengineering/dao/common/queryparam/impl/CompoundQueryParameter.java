@@ -41,7 +41,8 @@ public class CompoundQueryParameter
 
     public void init(ParameterType type,
                      QueryParameter... parameters) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        setType(type);
+        setNestedParameters(Arrays.asList(parameters));
     }
 
     public void init(ParameterType type,

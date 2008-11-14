@@ -39,7 +39,7 @@ public class QueryParameterForStringOperand
                      String propertyName,
                      String value,
                      MatchMode mode) {
-        setMatchMode(matchMode);
+        setMatchMode(mode);
         super.init(type, propertyName, OperatorType.OPERATOR_STRING_LIKE, value);
     }
 

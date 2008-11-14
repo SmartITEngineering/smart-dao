@@ -588,11 +588,13 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
                 return Expression.between(element, parameter, parameter2);
             }
             case OPERATOR_IS_IN: {
-                Collection inCollectin = (Collection) parameter;
+                Collection inCollectin =
+                    ((QueryParameterWithValues) queryParamemter).getValues();
                 return Restrictions.in(element, inCollectin);
             }
             case OPERATOR_IS_NOT_IN: {
-                Collection inCollectin = (Collection) parameter;
+                Collection inCollectin =
+                    ((QueryParameterWithValues) queryParamemter).getValues();
                 return Restrictions.not(Restrictions.in(element, inCollectin));
             }
         }
@@ -647,18 +649,11 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
     }
 
     private Object getValue(QueryParameter queryParamemter) {
-        if (queryParamemter instanceof QueryParameterWithValue) {
-            return ((QueryParameterWithValue) queryParamemter).getValue();
+        Object value = ((QueryParameterWithValue) queryParamemter).getValue();
+        if (value == null) {
+            value = "";
         }
-        else if (queryParamemter instanceof QueryParameterWith2Values) {
-            return ((QueryParameterWith2Values) queryParamemter).getFirstValue();
-        }
-        else if (queryParamemter instanceof QueryParameterWithValues) {
-            return ((QueryParameterWithValues) queryParamemter).getValues();
-        }
-        else {
-            return "";
-        }
+        return value;
     }
 
     private Object getSecondParameter(QueryParameter queryParamemter) {

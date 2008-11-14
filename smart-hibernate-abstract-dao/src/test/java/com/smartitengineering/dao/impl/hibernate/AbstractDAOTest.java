@@ -1994,13 +1994,11 @@ public class AbstractDAOTest
 
     private String getPropertyName(
         QueryParameter param) {
-        final String propertyName;
+        String propertyName;
 
-        if (param instanceof QueryParameterWithPropertyName) {
-            propertyName =
-                ((QueryParameterWithPropertyName) param).getPropertyName();
-        }
-        else {
+        propertyName =
+            ((QueryParameterWithPropertyName) param).getPropertyName();
+        if(propertyName == null){
             propertyName = "";
         }
 
