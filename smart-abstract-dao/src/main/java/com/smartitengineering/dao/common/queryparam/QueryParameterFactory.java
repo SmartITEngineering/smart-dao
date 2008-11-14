@@ -18,9 +18,8 @@
  */
 package com.smartitengineering.dao.common.queryparam;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Hashtable;
+import com.smartitengineering.dao.common.queryparam.impl.QueryParameterInstantiationFactory;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,107 +32,87 @@ public final class QueryParameterFactory {
         throw new AssertionError("Factory is not instantiable");
     }
 
-    public static QueryParameter<String> getIsEmptyCollectionPropertyParam(
+    public static QueryParameter<Void> getIsEmptyCollectionPropertyParam(
         final String propertyName) {
-        QueryParameter<String> queryParameter = new QueryParameter<String>(
-            propertyName, QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_IS_EMPTY, "");
-        return queryParameter;
+        OperatorType operatorType = OperatorType.OPERATOR_IS_EMPTY;
+        return getNoOperandQueryParameter(propertyName, operatorType);
     }
 
-    public static QueryParameter<String> getIsNotEmptyCollectionPropertyParam(
+    public static QueryParameter<Void> getIsNotEmptyCollectionPropertyParam(
         final String propertyName) {
-        QueryParameter<String> queryParameter = new QueryParameter<String>(
-            propertyName, QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_IS_NOT_EMPTY, "");
-        return queryParameter;
+        OperatorType operatorType = OperatorType.OPERATOR_IS_NOT_EMPTY;
+        return getNoOperandQueryParameter(propertyName, operatorType);
     }
 
-    public static QueryParameter<String> getIsNullPropertyParam(
+    public static QueryParameter<Void> getIsNullPropertyParam(
         final String propertyName) {
-        QueryParameter<String> queryParameter = new QueryParameter<String>(
-            propertyName, QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_IS_NULL, "");
-        return queryParameter;
+        OperatorType operatorType = OperatorType.OPERATOR_IS_NULL;
+        return getNoOperandQueryParameter(propertyName, operatorType);
     }
 
-    public static QueryParameter<String> getIsNotNullPropertyParam(
+    public static QueryParameter<Void> getIsNotNullPropertyParam(
         final String propertyName) {
-        QueryParameter<String> queryParameter = new QueryParameter<String>(
-            propertyName, QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_IS_NOT_NULL, "");
-        return queryParameter;
+        OperatorType operatorType = OperatorType.OPERATOR_IS_NOT_NULL;
+        return getNoOperandQueryParameter(propertyName, operatorType);
     }
 
     public static <Template> QueryParameter<Template> getEqualPropertyParam(
         final String propertyName,
         final Template parameter) {
-        QueryParameter<Template> queryParameter = new QueryParameter<Template>(
-            propertyName, QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_EQUAL, parameter);
-        return queryParameter;
+        OperatorType operatorType = OperatorType.OPERATOR_EQUAL;
+        return getUniOperandQueryParam(propertyName, operatorType, parameter);
     }
 
     public static <Template> QueryParameter<Template> getLesserThanPropertyParam(
         final String propertyName,
         final Template parameter) {
-        QueryParameter<Template> queryParameter = new QueryParameter<Template>(
-            propertyName, QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_LESSER, parameter);
-        return queryParameter;
+        OperatorType operatorType = OperatorType.OPERATOR_LESSER;
+        return getUniOperandQueryParam(propertyName, operatorType, parameter);
     }
 
     public static <Template> QueryParameter<Template> getGreaterThanPropertyParam(
         final String propertyName,
         final Template parameter) {
-        QueryParameter<Template> queryParameter = new QueryParameter<Template>(
-            propertyName, QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_GREATER, parameter);
-        return queryParameter;
+        OperatorType operatorType = OperatorType.OPERATOR_GREATER;
+        return getUniOperandQueryParam(propertyName, operatorType, parameter);
     }
 
     public static <Template> QueryParameter<Template> getLesserThanEqualToPropertyParam(
         final String propertyName,
         final Template parameter) {
-        QueryParameter<Template> queryParameter = new QueryParameter<Template>(
-            propertyName, QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_LESSER_EQUAL, parameter);
-        return queryParameter;
+        OperatorType operatorType = OperatorType.OPERATOR_LESSER_EQUAL;
+        return getUniOperandQueryParam(propertyName, operatorType, parameter);
     }
 
     public static <Template> QueryParameter<Template> getGreaterThanEqualToPropertyParam(
         final String propertyName,
         final Template parameter) {
-        QueryParameter<Template> queryParameter = new QueryParameter<Template>(
-            propertyName, QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_GREATER_EQUAL, parameter);
-        return queryParameter;
+        OperatorType operatorType = OperatorType.OPERATOR_GREATER_EQUAL;
+        return getUniOperandQueryParam(propertyName, operatorType, parameter);
     }
 
     public static <Template> QueryParameter<Template> getNotEqualPropertyParam(
         final String propertyName,
         final Template parameter) {
-        QueryParameter<Template> queryParameter = new QueryParameter<Template>(
-            propertyName, QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_NOT_EQUAL, parameter);
-        return queryParameter;
+        OperatorType operatorType = OperatorType.OPERATOR_NOT_EQUAL;
+        return getUniOperandQueryParam(propertyName, operatorType, parameter);
     }
 
     public static <Template> QueryParameter<String> getStringLikePropertyParam(
         final String propertyName,
         final Template parameter) {
         return getStringLikePropertyParam(propertyName, parameter,
-            QueryParameter.MatchMode.ANYWHERE);
+            MatchMode.ANYWHERE);
     }
 
     public static <Template> QueryParameter<String> getStringLikePropertyParam(
         final String propertyName,
         final Template parameter,
-        final QueryParameter.MatchMode matchMode) {
-        QueryParameter<String> queryParameter = new QueryParameter<String>(
-            propertyName, QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_STRING_LIKE, parameter.toString());
-        queryParameter.setMatchMode(matchMode);
+        final MatchMode matchMode) {
+        StringLikeQueryParameter queryParameter =
+            QueryParameterInstantiationFactory.getStringLikeQueryParameter();
+        queryParameter.init(ParameterType.PARAMETER_TYPE_PROPERTY, propertyName,
+            parameter.toString(), matchMode);
         return queryParameter;
     }
 
@@ -141,176 +120,192 @@ public final class QueryParameterFactory {
         final String propertyName,
         final Template parameter,
         final Template secondParameter) {
-        QueryParameter<Template> queryParameter = new QueryParameter<Template>(
-            propertyName, QueryParameter.PARAMETER_TYPE_PROPERTY,
-            QueryParameter.OPERATOR_BETWEEN, parameter);
-        queryParameter.setParameter2(secondParameter);
+        BiOperandQueryParameter<Template> queryParameter =
+            QueryParameterInstantiationFactory.getBiOperandQueryParameter();
+        queryParameter.init(ParameterType.PARAMETER_TYPE_PROPERTY, propertyName,
+            OperatorType.OPERATOR_BETWEEN, parameter,
+            secondParameter);
         return queryParameter;
     }
 
-    public static <Template> QueryParameter<Collection<Template>> getIsInPropertyParam(
+    public static <Template> QueryParameter<Template> getIsInPropertyParam(
         final String propertyName,
         final Template... parameters) {
-        List<Template> parameter = Arrays.asList(parameters);
-        QueryParameter<Collection<Template>> queryParameter =
-            new QueryParameter<Collection<Template>>(propertyName,
-            QueryParameter.PARAMETER_TYPE_IN, QueryParameter.OPERATOR_EQUAL,
-            parameter);
-        return queryParameter;
+        OperatorType operatorType = OperatorType.OPERATOR_IS_IN;
+        return getMultiOperandQueryParameter(propertyName, operatorType,
+            parameters);
     }
 
-    public static <Template> QueryParameter<Collection<Template>> getIsNotInPropertyParam(
+    public static <Template> QueryParameter<Template> getIsNotInPropertyParam(
         final String propertyName,
         final Template... parameters) {
-        List<Template> parameter = Arrays.asList(parameters);
-        QueryParameter<Collection<Template>> queryParameter =
-            new QueryParameter<Collection<Template>>(propertyName,
-            QueryParameter.PARAMETER_TYPE_NOT_IN, QueryParameter.OPERATOR_EQUAL,
-            parameter);
-        return queryParameter;
+        OperatorType operatorType = OperatorType.OPERATOR_IS_NOT_IN;
+        return getMultiOperandQueryParameter(propertyName, operatorType,
+            parameters);
     }
 
-    public static QueryParameter<QueryParameter.Order> getOrderByParam(
+    public static QueryParameter<Order> getOrderByParam(
         final String propertyName,
-        final QueryParameter.Order order) {
-        QueryParameter<QueryParameter.Order> queryParameter =
-            new QueryParameter<QueryParameter.Order>(propertyName,
-            QueryParameter.PARAMETER_TYPE_ORDER_BY,
-            QueryParameter.OPERATOR_EQUAL, order);
+        final Order order) {
+        SimpleNameValueQueryParameter<Order> queryParameter =
+            QueryParameterInstantiationFactory.<Order>
+            getSimpleNameValueQueryParameter();
+        queryParameter.init(ParameterType.PARAMETER_TYPE_ORDER_BY, propertyName,
+            order);
         return queryParameter;
     }
 
     public static QueryParameter<Integer> getMaxResultsParam(
         final Integer maxResult) {
-        QueryParameter<Integer> queryParameter =
-            new QueryParameter<Integer>("a",
-            QueryParameter.PARAMETER_TYPE_MAX_RESULT,
-            QueryParameter.OPERATOR_EQUAL, maxResult);
+        ValueOnlyQueryParameter<Integer> queryParameter =
+            QueryParameterInstantiationFactory.getValueOnlyQueryParameter();
+        queryParameter.init(ParameterType.PARAMETER_TYPE_MAX_RESULT, maxResult);
         return queryParameter;
     }
 
     public static QueryParameter<Integer> getFirstResultParam(
-        final Integer maxResult) {
-        QueryParameter<Integer> queryParameter =
-            new QueryParameter<Integer>("a",
-            QueryParameter.PARAMETER_TYPE_FIRST_RESULT,
-            QueryParameter.OPERATOR_EQUAL, maxResult);
+        final Integer firstResult) {
+        ValueOnlyQueryParameter<Integer> queryParameter =
+            QueryParameterInstantiationFactory.getValueOnlyQueryParameter();
+        queryParameter.init(ParameterType.PARAMETER_TYPE_FIRST_RESULT,
+            firstResult);
         return queryParameter;
     }
 
-    public static QueryParameter<String> getDisjunctionParam(
+    public static QueryParameter<Void> getDisjunctionParam(
         final QueryParameter... parameters) {
-        QueryParameter<String> queryParameter = new QueryParameter<String>("b",
-            QueryParameter.PARAMETER_TYPE_DISJUNCTION,
-            QueryParameter.OPERATOR_EQUAL, "");
-        queryParameter.setNestedParameters(getQueryParamHashtable(parameters));
+        BasicCompoundQueryParameter queryParameter =
+            QueryParameterInstantiationFactory.getBasicCompoundQueryParameter();
+        queryParameter.init(ParameterType.PARAMETER_TYPE_DISJUNCTION, parameters);
         return queryParameter;
     }
 
-    public static QueryParameter<String> getNestedParametersParam(
+    public static QueryParameter<Void> getConjunctionParam(
+        final QueryParameter... parameters) {
+        BasicCompoundQueryParameter queryParameter =
+            QueryParameterInstantiationFactory.getBasicCompoundQueryParameter();
+        queryParameter.init(ParameterType.PARAMETER_TYPE_CONJUNCTION, parameters);
+        return queryParameter;
+    }
+
+    public static QueryParameter<Void> getNestedParametersParam(
         final String propertyName,
-        final QueryParameter.FetchMode fetchMode,
+        final FetchMode fetchMode,
         final QueryParameter... parameters) {
-        QueryParameter<String> queryParameter = new QueryParameter<String>(
-            propertyName, QueryParameter.PARAMETER_TYPE_NESTED_PROPERTY,
-            QueryParameter.OPERATOR_EQUAL, "");
-        queryParameter.setNestedParameters(getQueryParamHashtable(parameters));
-        queryParameter.setFetchMode(fetchMode);
+        CompositionQueryParameter queryParameter =
+            QueryParameterInstantiationFactory.getCompositionQueryParameter();
+        queryParameter.init(ParameterType.PARAMETER_TYPE_NESTED_PROPERTY,
+            propertyName, fetchMode, parameters);
         return queryParameter;
     }
 
-    public static QueryParameter<String> getRowCountParam() {
+    public static QueryParameter<Void> getRowCountParam() {
         return getQueryParameterForProjection(
-            QueryParameter.PARAMETER_TYPE_ROW_COUNT, "a");
+            ParameterType.PARAMETER_TYPE_ROW_COUNT, "a");
     }
 
-    public static QueryParameter<String> getElementCountParam(
+    public static QueryParameter<Void> getElementCountParam(
         final String propertyName) {
         return getQueryParameterForProjection(
-            QueryParameter.PARAMETER_TYPE_COUNT, propertyName);
+            ParameterType.PARAMETER_TYPE_COUNT, propertyName);
     }
 
-    public static QueryParameter<String> getElementSumParam(
+    public static QueryParameter<Void> getElementSumParam(
         final String propertyName) {
-        return getQueryParameterForProjection(QueryParameter.PARAMETER_TYPE_SUM,
+        return getQueryParameterForProjection(ParameterType.PARAMETER_TYPE_SUM,
             propertyName);
     }
 
-    public static QueryParameter<String> getElementMaxParam(
+    public static QueryParameter<Void> getElementMaxParam(
         final String propertyName) {
-        return getQueryParameterForProjection(QueryParameter.PARAMETER_TYPE_MAX,
+        return getQueryParameterForProjection(ParameterType.PARAMETER_TYPE_MAX,
             propertyName);
     }
 
-    public static QueryParameter<String> getElementMinParam(
+    public static QueryParameter<Void> getElementMinParam(
         final String propertyName) {
-        return getQueryParameterForProjection(QueryParameter.PARAMETER_TYPE_MIN,
+        return getQueryParameterForProjection(ParameterType.PARAMETER_TYPE_MIN,
             propertyName);
     }
 
-    public static QueryParameter<String> getElementAvgParam(
+    public static QueryParameter<Void> getElementAvgParam(
         final String propertyName) {
-        return getQueryParameterForProjection(QueryParameter.PARAMETER_TYPE_AVG,
+        return getQueryParameterForProjection(ParameterType.PARAMETER_TYPE_AVG,
             propertyName);
     }
 
-    public static QueryParameter<String> getDistinctElementCountParam(
+    public static QueryParameter<Void> getDistinctElementCountParam(
         final String propertyName) {
         return getQueryParameterForProjection(
-            QueryParameter.PARAMETER_TYPE_COUNT_DISTINCT, propertyName);
+            ParameterType.PARAMETER_TYPE_COUNT_DISTINCT, propertyName);
     }
 
-    public static QueryParameter<String> getGroupByPropParam(
+    public static QueryParameter<Void> getGroupByPropParam(
         final String propertyName) {
         return getQueryParameterForProjection(
-            QueryParameter.PARAMETER_TYPE_GROUP_BY, propertyName);
+            ParameterType.PARAMETER_TYPE_GROUP_BY, propertyName);
     }
 
-    public static QueryParameter<String> getDistinctPropProjectionParam(
+    public static QueryParameter<Void> getDistinctPropProjectionParam(
         final String propertyName) {
         return getQueryParameterForProjection(
-            QueryParameter.PARAMETER_TYPE_DISTINCT_PROP, propertyName);
+            ParameterType.PARAMETER_TYPE_DISTINCT_PROP, propertyName);
     }
 
-    public static QueryParameter<String> getPropProjectionParam(
+    public static QueryParameter<Void> getPropProjectionParam(
         final String propertyName) {
         return getQueryParameterForProjection(
-            QueryParameter.PARAMETER_TYPE_UNIT_PROP, propertyName);
+            ParameterType.PARAMETER_TYPE_UNIT_PROP, propertyName);
     }
 
-    public static QueryParameter<List<String>> getMultiPropProjectionParam(
+    public static List<QueryParameter<Void>> getMultiPropProjectionParam(
         final String... propertyNames) {
-        QueryParameter<List<String>> queryParameter =
-            new QueryParameter<List<String>>("a",
-            QueryParameter.PARAMETER_TYPE_PROP_LIST,
-            QueryParameter.OPERATOR_EQUAL, Arrays.asList(propertyNames));
-        return queryParameter;
-    }
-
-    private static QueryParameter<String> getQueryParameterForProjection(
-        final Integer type,
-        final String propertyName) {
-        QueryParameter<String> queryParameter = new QueryParameter<String>(
-            propertyName, type, QueryParameter.OPERATOR_EQUAL, "");
-        return queryParameter;
-    }
-
-    private static Hashtable<String, QueryParameter> getQueryParamHashtable(
-        final QueryParameter... params) {
-        Hashtable<String, QueryParameter> table =
-            new Hashtable<String, QueryParameter>();
-        for (QueryParameter parameter : params) {
-            String paramName = parameter.getPropertyName();
-            if (table.containsKey(paramName)) {
-                int i = 1;
-                while (table.containsKey(new StringBuilder(paramName).append(
-                    i).toString())) {
-                    i++;
-                }
-                paramName = new StringBuilder(paramName).append(i).toString();
-            }
-            table.put(paramName, parameter);
+        List<QueryParameter<Void>> params = new ArrayList<QueryParameter<Void>>(
+            propertyNames.length);
+        for (String propertyName : propertyNames) {
+            params.add(getPropProjectionParam(propertyName));
         }
-        return table;
+        return params;
+    }
+
+    private static QueryParameter<Void> getQueryParameterForProjection(
+        final ParameterType type,
+        final String propertyName) {
+        NameOnlyQueryParameter queryParameter =
+            QueryParameterInstantiationFactory.getNameOnlyQueryParameter();
+        queryParameter.init(type, propertyName);
+        return queryParameter;
+    }
+
+    private static <Template> QueryParameter<Template> getUniOperandQueryParam(
+        final String propertyName,
+        OperatorType operatorType,
+        final Template parameter) {
+        UniOperandQueryParameter<Template> queryParameter =
+            QueryParameterInstantiationFactory.getUniOperandQueryParameter();
+        queryParameter.init(ParameterType.PARAMETER_TYPE_PROPERTY, propertyName,
+            operatorType, parameter);
+        return queryParameter;
+    }
+
+    private static QueryParameter<Void> getNoOperandQueryParameter(
+        final String propertyName,
+        OperatorType operatorType) {
+        NoOperandQueryParamater queryParameter =
+            QueryParameterInstantiationFactory.getNoOperandQueryParamater();
+        queryParameter.init(ParameterType.PARAMETER_TYPE_PROPERTY, propertyName,
+            operatorType);
+        return queryParameter;
+    }
+
+    private static <Template> QueryParameter<Template> getMultiOperandQueryParameter(
+        final String propertyName,
+        OperatorType operatorType,
+        final Template[] parameters) {
+        MultiOperandQueryParameter<Template> queryParameter =
+            QueryParameterInstantiationFactory.getMultiOperandQueryParameter();
+        queryParameter.init(ParameterType.PARAMETER_TYPE_PROPERTY, propertyName,
+            operatorType, parameters);
+        return queryParameter;
     }
 }
