@@ -310,6 +310,9 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
                                             QueryParameter... parameter) {
         Criteria criteria = session.createCriteria(queryClass);
         for (QueryParameter param : parameter) {
+            if(!param.isInitialized()) {
+                continue;
+            }
             String propertyName = getPropertyName(param);
             processCriteria(criteria, propertyName, param);
         }
@@ -464,6 +467,9 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         }
         Criteria nestedCriteria = criteria.createCriteria(element);
         for (QueryParameter nestedQueryParameter : nestedParameters) {
+            if(!nestedQueryParameter.isInitialized()) {
+                continue;
+            }
             processCriteria(nestedCriteria,
                 getPropertyName(nestedQueryParameter), nestedQueryParameter);
         }
@@ -637,6 +643,9 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         Collection<QueryParameter> nestedParameters =
             queryParameter.getNestedParameters();
         for (QueryParameter nestedParam : nestedParameters) {
+            if(!nestedParam.isInitialized()) {
+                continue;
+            }
             processCriterion(criterion, getPropertyName(nestedParam),
                 nestedParam);
         }

@@ -41,6 +41,7 @@ public class CompoundQueryParameter
                      QueryParameter... parameters) {
         queryParameter.setType(type);
         queryParameter.setNestedParameters(Arrays.asList(parameters));
+        queryParameter.setInitialized(true);
     }
 
     public Collection<QueryParameter> getNestedParameters() {
