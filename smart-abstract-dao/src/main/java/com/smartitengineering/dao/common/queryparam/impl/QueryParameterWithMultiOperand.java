@@ -18,36 +18,53 @@
  */
 package com.smartitengineering.dao.common.queryparam.impl;
 
-import com.smartitengineering.dao.common.queryparam.MatchMode;
+import com.smartitengineering.dao.common.queryparam.MultiOperandQueryParameter;
 import com.smartitengineering.dao.common.queryparam.OperatorType;
 import com.smartitengineering.dao.common.queryparam.ParameterType;
-import com.smartitengineering.dao.common.queryparam.StringLikeQueryParameter;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  *
  * @author imyousuf
  */
-public class QueryParameterForStringOperand
-    extends QueryParameterWithUniOperand<String>
-    implements StringLikeQueryParameter {
+public class QueryParameterWithMultiOperand<Template extends Object>
+    implements MultiOperandQueryParameter<Template> {
+    
+    private QueryParameterAdapter<Template> queryParameter = new QueryParameterAdapter<Template>();
 
-    protected QueryParameterForStringOperand() {
+    protected QueryParameterWithMultiOperand() {
     }
-    private MatchMode matchMode;
+
+    public ParameterType getParameterType() {
+        return queryParameter.getParameterType();
+    }
+
+    public boolean isInitialized() {
+        return queryParameter.isInitialized();
+    }
+
+    public OperatorType getOperatorType() {
+        return queryParameter.getOperatorType();
+    }
+
+    public String getPropertyName() {
+        return queryParameter.getPropertyName();
+    }
 
     public void init(ParameterType type,
                      String propertyName,
-                     String value,
-                     MatchMode mode) {
-        setMatchMode(mode);
-        super.init(type, propertyName, OperatorType.OPERATOR_STRING_LIKE, value);
+                     OperatorType operatorType,
+                     Template... values) {
+        queryParameter.setPropertyName(propertyName);
+        queryParameter.setType(type);
+        queryParameter.setOperatorType(operatorType);
+        queryParameter.setValues(Arrays.asList(values));
+        queryParameter.setInitialized(true);
     }
 
-    public MatchMode getMatchMode() {
-        return matchMode;
+    public Collection<Template> getValues() {
+        return queryParameter.getValues();
     }
 
-    protected void setMatchMode(MatchMode matchMode) {
-        this.matchMode = matchMode;
-    }
 }

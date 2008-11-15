@@ -26,7 +26,7 @@ import com.smartitengineering.dao.common.queryparam.ParameterType;
  * @author imyousuf
  */
 public class OnlyValueQueryParameter<Template extends Object>
-    extends AbstractQueryParameter<Template>
+    extends QueryParameterAdapter<Template>
     implements ValueOnlyQueryParameter<Template> {
 
     protected OnlyValueQueryParameter() {

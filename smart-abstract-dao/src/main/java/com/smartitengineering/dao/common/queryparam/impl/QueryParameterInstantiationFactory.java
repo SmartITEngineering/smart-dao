@@ -44,15 +44,15 @@ public final class QueryParameterInstantiationFactory {
     }
 
     public static CompositionQueryParameter getCompositionQueryParameter() {
-        return new CompoundQueryParameter();
+        return new com.smartitengineering.dao.common.queryparam.impl.CompositionQueryParameter();
     }
-    
+
     public static NoOperandQueryParamater getNoOperandQueryParamater() {
-        return new NameQueryParameter();
+        return new QueryParameterNoOperand();
     }
 
     public static <Template> UniOperandQueryParameter<Template> getUniOperandQueryParameter() {
-        return new QueryParametersWithOperands<Template>();
+        return new QueryParameterWithUniOperand<Template>();
     }
 
     public static StringLikeQueryParameter getStringLikeQueryParameter() {
@@ -60,15 +60,15 @@ public final class QueryParameterInstantiationFactory {
     }
 
     public static <Template> BiOperandQueryParameter<Template> getBiOperandQueryParameter() {
-        return new QueryParametersWithOperands<Template>();
+        return new QueryParameterWithBiOperand<Template>();
     }
 
     public static <Template> MultiOperandQueryParameter<Template> getMultiOperandQueryParameter() {
-        return new QueryParametersWithOperands<Template>();
+        return new QueryParameterWithMultiOperand<Template>();
     }
 
     public static NameOnlyQueryParameter getNameOnlyQueryParameter() {
-        return new NameQueryParameter();
+        return new OnlyNameQueryParameter();
     }
 
     public static <Template> ValueOnlyQueryParameter<Template> getValueOnlyQueryParameter() {
@@ -76,6 +76,6 @@ public final class QueryParameterInstantiationFactory {
     }
 
     public static <Template> SimpleNameValueQueryParameter<Template> getSimpleNameValueQueryParameter() {
-        return new QueryParametersWithOperands<Template>();
+        return new QueryParameterWithNameValue<Template>();
     }
 }

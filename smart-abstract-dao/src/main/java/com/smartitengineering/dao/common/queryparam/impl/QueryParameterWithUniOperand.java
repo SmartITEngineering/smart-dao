@@ -18,36 +18,51 @@
  */
 package com.smartitengineering.dao.common.queryparam.impl;
 
-import com.smartitengineering.dao.common.queryparam.MatchMode;
 import com.smartitengineering.dao.common.queryparam.OperatorType;
 import com.smartitengineering.dao.common.queryparam.ParameterType;
-import com.smartitengineering.dao.common.queryparam.StringLikeQueryParameter;
+import com.smartitengineering.dao.common.queryparam.UniOperandQueryParameter;
 
 /**
  *
  * @author imyousuf
  */
-public class QueryParameterForStringOperand
-    extends QueryParameterWithUniOperand<String>
-    implements StringLikeQueryParameter {
+public class QueryParameterWithUniOperand<Template extends Object>
+    implements UniOperandQueryParameter<Template> {
+    
+    private QueryParameterAdapter<Template> queryParameter = new QueryParameterAdapter<Template>();
 
-    protected QueryParameterForStringOperand() {
+    protected QueryParameterWithUniOperand() {
     }
-    private MatchMode matchMode;
 
     public void init(ParameterType type,
                      String propertyName,
-                     String value,
-                     MatchMode mode) {
-        setMatchMode(mode);
-        super.init(type, propertyName, OperatorType.OPERATOR_STRING_LIKE, value);
+                     OperatorType operatorType,
+                     Template value) {
+        queryParameter.setPropertyName(propertyName);
+        queryParameter.setType(type);
+        queryParameter.setOperatorType(operatorType);
+        queryParameter.setValue(value);
+        queryParameter.setInitialized(true);
     }
 
-    public MatchMode getMatchMode() {
-        return matchMode;
+    public Template getValue() {
+        return queryParameter.getValue();
     }
 
-    protected void setMatchMode(MatchMode matchMode) {
-        this.matchMode = matchMode;
+    public ParameterType getParameterType() {
+        return queryParameter.getParameterType();
     }
+
+    public boolean isInitialized() {
+        return queryParameter.isInitialized();
+    }
+
+    public OperatorType getOperatorType() {
+        return queryParameter.getOperatorType();
+    }
+
+    public String getPropertyName() {
+        return queryParameter.getPropertyName();
+    }
+
 }

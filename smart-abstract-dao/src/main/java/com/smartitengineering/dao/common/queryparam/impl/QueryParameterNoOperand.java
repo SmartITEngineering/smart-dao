@@ -18,36 +18,45 @@
  */
 package com.smartitengineering.dao.common.queryparam.impl;
 
-import com.smartitengineering.dao.common.queryparam.MatchMode;
+import com.smartitengineering.dao.common.queryparam.NoOperandQueryParamater;
 import com.smartitengineering.dao.common.queryparam.OperatorType;
 import com.smartitengineering.dao.common.queryparam.ParameterType;
-import com.smartitengineering.dao.common.queryparam.StringLikeQueryParameter;
 
 /**
  *
  * @author imyousuf
  */
-public class QueryParameterForStringOperand
-    extends QueryParameterWithUniOperand<String>
-    implements StringLikeQueryParameter {
+public class QueryParameterNoOperand
+    implements NoOperandQueryParamater {
 
-    protected QueryParameterForStringOperand() {
+    private QueryParameterAdapter<Void> queryParameter =
+        new QueryParameterAdapter<Void>();
+
+    protected QueryParameterNoOperand() {
     }
-    private MatchMode matchMode;
 
     public void init(ParameterType type,
                      String propertyName,
-                     String value,
-                     MatchMode mode) {
-        setMatchMode(mode);
-        super.init(type, propertyName, OperatorType.OPERATOR_STRING_LIKE, value);
+                     OperatorType operatorType) {
+        queryParameter.setType(type);
+        queryParameter.setPropertyName(propertyName);
+        queryParameter.setOperatorType(operatorType);
+        queryParameter.setInitialized(true);
     }
 
-    public MatchMode getMatchMode() {
-        return matchMode;
+    public String getPropertyName() {
+        return queryParameter.getPropertyName();
     }
 
-    protected void setMatchMode(MatchMode matchMode) {
-        this.matchMode = matchMode;
+    public ParameterType getParameterType() {
+        return queryParameter.getParameterType();
+    }
+
+    public boolean isInitialized() {
+        return queryParameter.isInitialized();
+    }
+
+    public OperatorType getOperatorType() {
+        return queryParameter.getOperatorType();
     }
 }

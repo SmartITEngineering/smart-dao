@@ -18,7 +18,7 @@
  */
 package com.smartitengineering.dao.common.queryparam.impl;
 
-import com.smartitengineering.dao.common.queryparam.BasicCompoundQueryParameter;
+import com.smartitengineering.dao.common.queryparam.FetchMode;
 import com.smartitengineering.dao.common.queryparam.ParameterType;
 import com.smartitengineering.dao.common.queryparam.QueryParameter;
 import java.util.Arrays;
@@ -28,19 +28,39 @@ import java.util.Collection;
  *
  * @author imyousuf
  */
-public class CompoundQueryParameter
-    implements BasicCompoundQueryParameter {
+public class CompositionQueryParameter
+    implements com.smartitengineering.dao.common.queryparam.CompositionQueryParameter {
 
+    private FetchMode fetchMode;
     private QueryParameterAdapter<Void> queryParameter =
         new QueryParameterAdapter<Void>();
 
-    protected CompoundQueryParameter() {
+    protected CompositionQueryParameter() {
     }
 
     public void init(ParameterType type,
+                     String propertyName,
                      QueryParameter... parameters) {
+        init(type, propertyName, FetchMode.DEFAULT, parameters);
+    }
+
+    public void init(ParameterType type,
+                     String propertyName,
+                     FetchMode fetchMode,
+                     QueryParameter... parameters) {
+        setFetchMode(fetchMode);
         queryParameter.setType(type);
+        queryParameter.setPropertyName(propertyName);
         queryParameter.setNestedParameters(Arrays.asList(parameters));
+        queryParameter.setInitialized(true);
+    }
+
+    public FetchMode getFetchMode() {
+        return fetchMode;
+    }
+
+    protected void setFetchMode(FetchMode fetchMode) {
+        this.fetchMode = fetchMode;
     }
 
     public Collection<QueryParameter> getNestedParameters() {
@@ -53,5 +73,9 @@ public class CompoundQueryParameter
 
     public boolean isInitialized() {
         return queryParameter.isInitialized();
+    }
+
+    public String getPropertyName() {
+        return queryParameter.getPropertyName();
     }
 }

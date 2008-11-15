@@ -584,6 +584,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
                     hibernateMatchMode);
             }
             case OPERATOR_BETWEEN: {
+                parameter = getFirstParameter(queryParamemter);
                 Object parameter2 = getSecondParameter(queryParamemter);
                 return Expression.between(element, parameter, parameter2);
             }
@@ -649,7 +650,13 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
     }
 
     private Object getValue(QueryParameter queryParamemter) {
-        Object value = ((QueryParameterWithValue) queryParamemter).getValue();
+        Object value;
+        if(queryParamemter instanceof QueryParameterWithValue) {
+            value = ((QueryParameterWithValue) queryParamemter).getValue();
+        }
+        else {
+            value = null;
+        }
         if (value == null) {
             value = "";
         }
@@ -659,6 +666,15 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
     private Object getSecondParameter(QueryParameter queryParamemter) {
         if (queryParamemter instanceof QueryParameterWith2Values) {
             return ((QueryParameterWith2Values) queryParamemter).getSecondValue();
+        }
+        else {
+            return "";
+        }
+    }
+
+    private Object getFirstParameter(QueryParameter queryParamemter) {
+        if (queryParamemter instanceof QueryParameterWith2Values) {
+            return ((QueryParameterWith2Values) queryParamemter).getFirstValue();
         }
         else {
             return "";

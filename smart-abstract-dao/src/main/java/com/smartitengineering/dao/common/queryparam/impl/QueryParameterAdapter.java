@@ -34,7 +34,7 @@ import java.util.Collections;
  *
  * @author imyousuf
  */
-public abstract class AbstractQueryParameter<Template extends Object>
+public class QueryParameterAdapter<Template extends Object>
     implements QueryParameter<Template>,
                QueryParameterWithPropertyName<Template>,
                QueryParameterWithOperator<Template>,
@@ -52,7 +52,7 @@ public abstract class AbstractQueryParameter<Template extends Object>
     private Collection<Template> values;
     private Collection<QueryParameter> nestedParameters;
 
-    protected AbstractQueryParameter() {
+    public QueryParameterAdapter() {
         initialized = false;
     }
 

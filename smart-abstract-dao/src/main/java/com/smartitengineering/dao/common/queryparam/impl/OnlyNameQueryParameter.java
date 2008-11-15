@@ -19,35 +19,37 @@
 package com.smartitengineering.dao.common.queryparam.impl;
 
 import com.smartitengineering.dao.common.queryparam.NameOnlyQueryParameter;
-import com.smartitengineering.dao.common.queryparam.NoOperandQueryParamater;
-import com.smartitengineering.dao.common.queryparam.OperatorType;
 import com.smartitengineering.dao.common.queryparam.ParameterType;
 
 /**
  *
  * @author imyousuf
  */
-public class NameQueryParameter
-    extends AbstractQueryParameter<Void>
-    implements NameOnlyQueryParameter,
-               NoOperandQueryParamater {
+public class OnlyNameQueryParameter
+    implements NameOnlyQueryParameter {
 
-    protected NameQueryParameter() {
+    private QueryParameterAdapter<Void> queryParameter =
+        new QueryParameterAdapter<Void>();
+
+    protected OnlyNameQueryParameter() {
     }
 
     public void init(ParameterType type,
                      String propertyName) {
-        setType(type);
-        setPropertyName(propertyName);
-        setInitialized(true);
+        queryParameter.setType(type);
+        queryParameter.setPropertyName(propertyName);
+        queryParameter.setInitialized(true);
     }
 
-    public void init(ParameterType type,
-                     String propertyName,
-                     OperatorType operatorType) {
-        setType(type);
-        setPropertyName(propertyName);
-        setOperatorType(operatorType);
-        setInitialized(true);
+    public String getPropertyName() {
+        return queryParameter.getPropertyName();
+    }
+
+    public ParameterType getParameterType() {
+        return queryParameter.getParameterType();
+    }
+
+    public boolean isInitialized() {
+        return queryParameter.isInitialized();
     }
 }
