@@ -18,10 +18,24 @@
  */
 package com.smartitengineering.dao.common.queryparam;
 
-import java.io.Serializable;
+/**
+ *
+ * @author imyousuf
+ */
+public enum OperatorType {
 
-public interface QueryParameter<Type extends Object>
-    extends Serializable {
-    public ParameterType getParameterType();
-    public boolean isInitialized();
+    OPERATOR_EQUAL,
+    OPERATOR_LESSER_EQUAL,
+    OPERATOR_GREATER_EQUAL,
+    OPERATOR_LESSER,
+    OPERATOR_GREATER,
+    OPERATOR_NOT_EQUAL,
+    OPERATOR_IS_EMPTY,
+    OPERATOR_IS_NOT_EMPTY,
+    OPERATOR_IS_NULL,
+    OPERATOR_IS_NOT_NULL,
+    OPERATOR_STRING_LIKE,
+    OPERATOR_BETWEEN,
+    OPERATOR_IS_IN,
+    OPERATOR_IS_NOT_IN,
 }

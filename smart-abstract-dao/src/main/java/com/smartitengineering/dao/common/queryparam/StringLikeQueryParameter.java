@@ -18,10 +18,17 @@
  */
 package com.smartitengineering.dao.common.queryparam;
 
-import java.io.Serializable;
+/**
+ *
+ * @author imyousuf
+ */
+public interface StringLikeQueryParameter
+    extends UniOperandQueryParameter<String> {
 
-public interface QueryParameter<Type extends Object>
-    extends Serializable {
-    public ParameterType getParameterType();
-    public boolean isInitialized();
+    public void init(ParameterType type,
+                     String propertyName,
+                     String value,
+                     MatchMode mode);
+    
+    public MatchMode getMatchMode();
 }

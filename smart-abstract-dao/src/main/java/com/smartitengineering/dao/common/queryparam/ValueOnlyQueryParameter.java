@@ -18,10 +18,11 @@
  */
 package com.smartitengineering.dao.common.queryparam;
 
-import java.io.Serializable;
-
-public interface QueryParameter<Type extends Object>
-    extends Serializable {
-    public ParameterType getParameterType();
-    public boolean isInitialized();
+/**
+ *
+ * @author imyousuf
+ */
+public interface ValueOnlyQueryParameter<Template extends Object>
+    extends QueryParameterWithValue<Template> {
+    public void init(ParameterType type, Template value);
 }

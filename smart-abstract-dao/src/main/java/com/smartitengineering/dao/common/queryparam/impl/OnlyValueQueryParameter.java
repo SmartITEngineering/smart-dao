@@ -16,12 +16,26 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-package com.smartitengineering.dao.common.queryparam;
+package com.smartitengineering.dao.common.queryparam.impl;
 
-import java.io.Serializable;
+import com.smartitengineering.dao.common.queryparam.ValueOnlyQueryParameter;
+import com.smartitengineering.dao.common.queryparam.ParameterType;
 
-public interface QueryParameter<Type extends Object>
-    extends Serializable {
-    public ParameterType getParameterType();
-    public boolean isInitialized();
+/**
+ *
+ * @author imyousuf
+ */
+public class OnlyValueQueryParameter<Template extends Object>
+    extends QueryParameterAdapter<Template>
+    implements ValueOnlyQueryParameter<Template> {
+
+    protected OnlyValueQueryParameter() {
+    }
+
+    public void init(ParameterType type,
+                     Template value) {
+        setType(type);
+        setValue(value);
+        setInitialized(true);
+    }
 }
