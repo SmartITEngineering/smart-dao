@@ -28,8 +28,7 @@ import java.util.Set;
  */
 public interface CommonReadDao<Template extends PersistentDTO>
     extends CommonReadDaoWithList<Template>,
-            CommonReadDaoWithVarArgs<Template>,
-            CommonReadDaoWithMap<Template> {
+            CommonReadDaoWithVarArgs<Template> {
     
     public Set<Template> getAll();
     
