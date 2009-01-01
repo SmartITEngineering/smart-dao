@@ -28,29 +28,29 @@ import java.util.Map;
  */
 public interface CacheServiceProvider<Key, Value> {
 
-    public void putToCache(Key pKey,
-                           Value pValue);
+    public void putToCache(Key key,
+                           Value value);
 
-    public void putToCache(Map<Key, Value> pKeyValueMap);
+    public void putToCache(Map<Key, Value> keyValueMap);
 
-    public void putToCache(Key pKey,
-                           Value pValue,
-                           Date pExpiryDateTime);
+    public void putToCache(Key key,
+                           Value value,
+                           Date expiryDateTime);
 
-    public void putToCache(Map<Key, Value> pKeyValueMap,
-                           Date pExpiryDateTime);
+    public void putToCache(Map<Key, Value> keyValueMap,
+                           Date expiryDateTime);
 
-    public Value expireFromCache(Key pKey);
+    public Value expireFromCache(Key key);
 
-    public Value retrieveFromCache(Key pKey);
+    public Value retrieveFromCache(Key key);
 
-    public Map<Key, Value> retrieveFromCache(List<Key> pKeys);
+    public Map<Key, Value> retrieveFromCache(List<Key> keys);
 
-    public Map<Key, Value> retrieveFromCache(Key... pKeys);
+    public Map<Key, Value> retrieveFromCache(Key... keys);
 
-    public boolean containsKey(Key pKey);
+    public boolean containsKey(Key key);
 
-    public void setPrefixStrategy(CacheKeyPrefixStrategy pCacheKeyPrefixStrategy);
+    public void setPrefixStrategy(CacheKeyPrefixStrategy cacheKeyPrefixStrategy);
 
     public CacheKeyPrefixStrategy getPrefixStrategy();
 
