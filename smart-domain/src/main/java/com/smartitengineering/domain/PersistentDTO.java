@@ -22,82 +22,14 @@ package com.smartitengineering.domain;
  *
  * @author Imran M Yousuf
  */
-public abstract class PersistentDTO<Template extends PersistentDTO>
-    implements Domain<Template> {
+public interface PersistentDTO<Template extends PersistentDTO>
+    extends Domain<Template> {
 
-    protected Integer id;
-    protected Integer version;
+    public Integer getId();
 
-    /** Creates a new instance of PersistentDTO */
-    public PersistentDTO() {
-    }
+    public void setId(Integer id);
 
-    @Override
-    public boolean equals(Object obj) {
-        try {
-            return compareTo((Template) obj) == 0;
-        }
-        catch (ClassCastException ex) {
-        }
-        return false;
-    }
+    public Integer getVersion();
 
-    @Override
-    public int hashCode() {
-        return id == null ? 0 : id.intValue();
-    }
-
-    public int compareTo(Template o) {
-        if (o == null) {
-            throw new IllegalArgumentException();
-        }
-        if(o.getId() == null && id == null) {
-            return -1;
-        }
-        if(o.getId() == null && id != null) {
-            return 1;
-        }
-        if(o.getId() != null && id == null) {
-            return -1;
-        }
-        return o.getId().compareTo(id);
-    }
-
-    public int compare(Template o1,
-                       Template o2) {
-        if (o1 == null && o2 == null) {
-            return 0;
-        }
-        if (o1 == null && o2 != null) {
-            return -1;
-        }
-        if (o1 != null && o2 == null) {
-            return 1;
-        }
-        return o1.compareTo(o2);
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-    protected void clone(Template template) {
-        if (template == null) {
-            return;
-        }
-        template.setId(id);
-        template.setVersion(version);
-    }
+    public void setVersion(Integer version);
 }

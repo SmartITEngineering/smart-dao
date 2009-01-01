@@ -18,6 +18,7 @@
  */
 package com.smartitengineering.dao.impl.hibernate.domain;
 
+import com.smartitengineering.domain.AbstractPersistentDTO;
 import com.smartitengineering.domain.PersistentDTO;
 import java.util.Date;
 
@@ -25,7 +26,7 @@ import java.util.Date;
  *
  * @author imyousuf
  */
-public class Author extends PersistentDTO<Author> {
+public class Author extends AbstractPersistentDTO<Author> implements PersistentDTO<Author> {
     
     private String name;
     
