@@ -22,14 +22,14 @@ package com.smartitengineering.domain;
  *
  * @author Imran M Yousuf
  */
-public abstract class PersistentDTO<Template extends PersistentDTO>
-    implements Domain<Template> {
+public abstract class AbstractPersistentDTO<Template extends PersistentDTO>
+    implements PersistentDTO<Template> {
 
     protected Integer id;
     protected Integer version;
 
     /** Creates a new instance of PersistentDTO */
-    public PersistentDTO() {
+    protected AbstractPersistentDTO() {
     }
 
     @Override

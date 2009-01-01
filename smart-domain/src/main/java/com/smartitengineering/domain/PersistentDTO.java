@@ -16,40 +16,20 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-package com.smartitengineering.dao.impl.hibernate.domain;
-
-import com.smartitengineering.domain.AbstractPersistentDTO;
-import com.smartitengineering.domain.PersistentDTO;
-import java.util.Date;
+package com.smartitengineering.domain;
 
 /**
  *
- * @author imyousuf
+ * @author Imran M Yousuf
  */
-public class Author extends AbstractPersistentDTO<Author> implements PersistentDTO<Author> {
-    
-    private String name;
-    
-    private Date birthDate;
-    
-    public boolean isValid() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+public interface PersistentDTO<Template extends PersistentDTO>
+    extends Domain<Template> {
 
-    public Date getBirthDate() {
-        return birthDate;
-    }
+    public Integer getId();
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-    }
+    public void setId(Integer id);
 
-    public String getName() {
-        return name;
-    }
+    public Integer getVersion();
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    public void setVersion(Integer version);
 }

@@ -123,5 +123,10 @@
             <artifactId>ehcache</artifactId>
             <version>1.5.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.smartitengineering</groupId>
+            <artifactId>smart-domain</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>
