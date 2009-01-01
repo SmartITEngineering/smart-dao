@@ -19,6 +19,7 @@
 package com.smartitengineering.dao.common.cache.impl;
 
 import com.smartitengineering.dao.common.cache.BasicKey;
+import com.smartitengineering.dao.common.cache.CacheEventRegistrar;
 import com.smartitengineering.dao.common.cache.CacheKeyPrefixStrategy;
 import com.smartitengineering.dao.common.cache.ChangeEvent;
 import com.smartitengineering.dao.common.cache.Lock;
@@ -30,6 +31,8 @@ import com.smartitengineering.domain.PersistentDTO;
  * @author imyousuf
  */
 public final class CacheAPIFactory {
+    
+    private static CacheEventRegistrar registrar;
 
     private CacheAPIFactory() {
         throw new AssertionError();
@@ -71,9 +74,19 @@ public final class CacheAPIFactory {
 
     public static <P extends PersistentDTO> ChangeEvent getChangeEvent(P source,
                                                                        ChangeEvent.ChangeType changeType) {
+        if(source == null || changeType == null) {
+            throw new IllegalArgumentException();
+        }
         ChangeEventImpl eventImpl = new ChangeEventImpl();
         eventImpl.setChangeType(changeType);
         eventImpl.setSource(source);
         return eventImpl;
+    }
+
+    public static CacheEventRegistrar getCacheEventRegistrar() {
+        if(registrar == null) {
+            registrar = new CacheEventRegistrarImpl();
+        }
+        return registrar;
     }
 }
