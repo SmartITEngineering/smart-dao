@@ -90,7 +90,7 @@ public class CacheEventRegistrarImpl
                             while(tupleIterator.hasNext()) {
                                 ListenerTuple tuple = tupleIterator.next();
                                 if(tuple.getListener() != null && tuple.getListener() == listener) {
-                                    tuples.remove(listener);
+                                    tuples.remove(tuple);
                                 }
                             }
                         }
