@@ -26,5 +26,6 @@ import com.smartitengineering.domain.PersistentDTO;
  */
 public interface CommonCompassSearchDao<Template extends PersistentDTO> {
 
-    public <Return> Return customSearch(CompassReadExtender<Return> extender);
+    public <Return> Return customOperation(CompassReadExtender<Return> extender)
+        throws IllegalArgumentException;
 }
