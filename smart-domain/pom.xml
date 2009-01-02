@@ -33,7 +33,6 @@
     <packaging>jar</packaging>
     <version>${parent.version}</version>
     <name>smart-domain</name>
-    <url>http://maven.apache.org</url>
     <build>
         <plugins>
             <plugin>
