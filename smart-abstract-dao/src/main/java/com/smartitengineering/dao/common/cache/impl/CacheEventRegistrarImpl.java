@@ -25,6 +25,7 @@ import com.smartitengineering.dao.common.cache.ChangeListener;
 import com.smartitengineering.domain.PersistentDTO;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -86,7 +87,8 @@ public class CacheEventRegistrarImpl
                     for(Class observe : classes) {
                         Set<ListenerTuple> tuples = observers.get(observe);
                         if(tuples != null && !tuples.isEmpty()) {
-                            Iterator<ListenerTuple> tupleIterator = tuples.iterator();
+                            Iterator<ListenerTuple> tupleIterator 
+                                = new HashSet(tuples).iterator();
                             while(tupleIterator.hasNext()) {
                                 ListenerTuple tuple = tupleIterator.next();
                                 if(tuple.getListener() != null && tuple.getListener() == listener) {
