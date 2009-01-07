@@ -135,5 +135,6 @@
         <module>../smart-hibernate-abstract-dao</module>
         <module>../smart-abstract-dao</module>
         <module>../smart-domain</module>
+        <module>../smart-cache</module>
     </modules>
 </project>
