@@ -18,6 +18,7 @@
  */
 package com.smartitengineering.dao.common.search.compass.impl;
 
+import com.smartitengineering.dao.common.CommonReadDao;
 import com.smartitengineering.dao.common.queryparam.QueryParameter;
 import com.smartitengineering.dao.common.search.CommonFreeTextPersistentDao;
 import com.smartitengineering.dao.common.search.CommonFreeTextSearchDao;
@@ -41,6 +42,8 @@ public class CompassSearchDao<Template extends PersistentDTO>
                CommonCompassSearchDao<Template> {
 
     private Compass compass;
+    
+    private CommonReadDao<Template> readDao;
 
     public Collection<Template> search(List<QueryParameter> parameters) {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -145,5 +148,13 @@ public class CompassSearchDao<Template extends PersistentDTO>
 
     public void setCompass(Compass compass) {
         this.compass = compass;
+    }
+
+    public CommonReadDao<Template> getReadDao() {
+        return readDao;
+    }
+
+    public void setReadDao(CommonReadDao<Template> readDao) {
+        this.readDao = readDao;
     }
 }
