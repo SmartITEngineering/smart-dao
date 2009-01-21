@@ -27,8 +27,12 @@ import com.smartitengineering.dao.common.search.compass.CompassReadExtender;
 import com.smartitengineering.domain.PersistentDTO;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.compass.core.Compass;
+import org.compass.core.CompassHits;
+import org.compass.core.CompassQuery;
 import org.compass.core.CompassSession;
 import org.compass.core.CompassTransaction;
 
@@ -45,8 +49,19 @@ public class CompassSearchDao<Template extends PersistentDTO>
     
     private CommonReadDao<Template> readDao;
 
-    public Collection<Template> search(List<QueryParameter> parameters) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Collection<Template> search(final List<QueryParameter> parameters) {
+        return this.<Collection<Template>>customOperation(new CompassReadExtender<Collection<Template>>(){
+
+            public Collection<Template> customSearch(CompassSession compassSession) {
+                CompassQuery query = CompassQueryBuilder.getCompassQueryFromQueryParam(compassSession, parameters);
+                CompassHits hits = query.hits();
+                Set<Template> result = new LinkedHashSet<Template>();
+                for(int i = 0; i < hits.length(); ++i) {
+                    result.add((Template)hits.data(i));
+                }
+                return result;
+            }
+        });
     }
 
     public Collection<Template> search(QueryParameter... parameters) {
