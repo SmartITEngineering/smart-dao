@@ -16,19 +16,20 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-package com.smartitengineering.dao.common.search;
+package com.smartitengineering.common.dao.search;
 
+import com.smartitengineering.dao.common.queryparam.QueryParameter;
 import com.smartitengineering.domain.PersistentDTO;
+import java.util.Collection;
+import java.util.List;
 
 /**
  *
  * @author imyousuf
  */
-public interface CommonFreeTextPersistentDao<Template extends PersistentDTO> {
+public interface CommonFreeTextSearchDao<Template extends PersistentDTO> {
 
-    public void save(Template... data);
-
-    public void update(Template... data);
-
-    public void delete(Template... data);
+    public Collection<Template> search(List<QueryParameter> parameters);
+    
+    public Collection<Template> search(QueryParameter... parameters);
 }

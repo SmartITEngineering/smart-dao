@@ -20,8 +20,8 @@ package com.smartitengineering.dao.common.search.compass.impl;
 
 import com.smartitengineering.dao.common.CommonReadDao;
 import com.smartitengineering.dao.common.queryparam.QueryParameter;
-import com.smartitengineering.dao.common.search.CommonFreeTextPersistentDao;
-import com.smartitengineering.dao.common.search.CommonFreeTextSearchDao;
+import com.smartitengineering.common.dao.search.CommonFreeTextPersistentDao;
+import com.smartitengineering.common.dao.search.CommonFreeTextSearchDao;
 import com.smartitengineering.dao.common.search.compass.CommonCompassSearchDao;
 import com.smartitengineering.dao.common.search.compass.CompassReadExtender;
 import com.smartitengineering.domain.PersistentDTO;
