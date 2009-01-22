@@ -150,5 +150,6 @@
         <module>smart-domain</module>
         <module>smart-cache</module>
         <module>smart-dao-search</module>
+        <module>smart-version</module>
     </modules>
 </project>
