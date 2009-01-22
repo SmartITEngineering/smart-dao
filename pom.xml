@@ -145,10 +145,10 @@
         </extensions>
     </build>
     <modules>
-        <module>../smart-hibernate-abstract-dao</module>
-        <module>../smart-abstract-dao</module>
-        <module>../smart-domain</module>
-        <module>../smart-cache</module>
-        <module>../smart-dao-search</module>
+        <module>smart-hibernate-abstract-dao</module>
+        <module>smart-abstract-dao</module>
+        <module>smart-domain</module>
+        <module>smart-cache</module>
+        <module>smart-dao-search</module>
     </modules>
 </project>
