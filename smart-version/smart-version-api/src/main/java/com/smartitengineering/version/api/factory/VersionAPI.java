@@ -18,11 +18,15 @@
  */
 package com.smartitengineering.version.api.factory;
 
+import com.smartitengineering.util.spring.BeanFactoryRegistrar;
+import com.smartitengineering.util.spring.annotations.Aggregator;
+import com.smartitengineering.util.spring.annotations.InjectableField;
 import com.smartitengineering.version.api.Author;
 import com.smartitengineering.version.api.Commit;
 import com.smartitengineering.version.api.Resource;
 import com.smartitengineering.version.api.Revision;
 import com.smartitengineering.version.api.VersionedResource;
+import com.smartitengineering.version.api.dao.VersionControlDao;
 import com.smartitengineering.version.api.impl.AuthorImpl;
 import com.smartitengineering.version.api.impl.CommitImpl;
 import com.smartitengineering.version.api.impl.ResourceImpl;
@@ -37,9 +41,27 @@ import org.apache.commons.lang.StringUtils;
  * Factory API for creating concrete class for Version's API interfaces
  * @author imyousuf
  */
+@Aggregator(contextName="com.smartitnengineering.smart-dao.smart-version")
 public final class VersionAPI {
+    
+    @InjectableField
+    private VersionControlDao versionControlDao;
+    
+    private static VersionAPI versionAPI;
 
     private VersionAPI() {
+        BeanFactoryRegistrar.aggregate(this);
+    }
+    
+    /**
+     * Retrieve API factory for context dependent resources.
+     * @return API Factory
+     */
+    public static VersionAPI getInstance() {
+        if(versionAPI == null) {
+            versionAPI = new VersionAPI();
+        }
+        return versionAPI;
     }
 
     /**
@@ -158,5 +180,13 @@ public final class VersionAPI {
         commitImpl.setParentCommitId(parentCommitId);
         commitImpl.setRevisions(revisions);
         return commitImpl;
+    }
+
+    /**
+     * Returns the injected versionControlDao.
+     * @return Injected from context or else null if not available.
+     */
+    public VersionControlDao getVersionControlDao() {
+        return versionControlDao;
     }
 }

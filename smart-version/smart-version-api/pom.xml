@@ -89,5 +89,15 @@
             <artifactId>commons-lang</artifactId>
             <version>${commons-lang.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.smartitengineering</groupId>
+            <artifactId>smart-dao-queryparam</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.smartitengineering.smart-util</groupId>
+            <artifactId>smart-spring-util</artifactId>
+            <version>${smart-util.version}</version>
+        </dependency>
     </dependencies>
 </project>

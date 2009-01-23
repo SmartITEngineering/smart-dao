@@ -155,5 +155,6 @@
     </modules>
     <properties>
         <commons-lang.version>2.3</commons-lang.version>
+        <smart-util.version>0.1.1-SNAPSHOT</smart-util.version>
     </properties>
 </project>
