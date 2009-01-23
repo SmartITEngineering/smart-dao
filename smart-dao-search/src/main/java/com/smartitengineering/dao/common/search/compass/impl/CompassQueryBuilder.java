@@ -23,6 +23,7 @@ import com.smartitengineering.dao.common.queryparam.CompositionQueryParameter;
 import com.smartitengineering.dao.common.queryparam.CompoundQueryParameter;
 import com.smartitengineering.dao.common.queryparam.MultiOperandQueryParameter;
 import com.smartitengineering.dao.common.queryparam.QueryParameter;
+import com.smartitengineering.dao.common.queryparam.QueryParameterCastHelper;
 import com.smartitengineering.dao.common.queryparam.QueryParameterWithOperator;
 import com.smartitengineering.dao.common.queryparam.UniOperandQueryParameter;
 import java.util.Collection;
@@ -74,7 +75,8 @@ public abstract class CompassQueryBuilder {
                     conjuction, context);
             case PARAMETER_TYPE_NESTED_PROPERTY:
                 CompositionQueryParameter compositionQueryParameter =
-                    (CompositionQueryParameter) param;
+                    QueryParameterCastHelper.COMPOSITION_PARAM_FOR_NESTED_TYPE.
+                    cast(param);
                 StringBuilder newContext = new StringBuilder();
                 if (context != null) {
                     newContext.append(context);
@@ -103,56 +105,65 @@ public abstract class CompassQueryBuilder {
         switch (withOperator.getOperatorType()) {
             case OPERATOR_BETWEEN:
                 BiOperandQueryParameter biOperandQueryParameter =
-                    ((BiOperandQueryParameter) parameter);
+                    QueryParameterCastHelper.BI_OPERAND_PARAM_HELPER.cast(
+                    parameter);
                 return session.queryBuilder().between(getPropertyName(
                     context, biOperandQueryParameter.getPropertyName()),
                     biOperandQueryParameter.getFirstValue(),
                     biOperandQueryParameter.getSecondValue(), true);
             case OPERATOR_EQUAL:
                 UniOperandQueryParameter queryParameter =
-                    (UniOperandQueryParameter) parameter;
+                    QueryParameterCastHelper.UNI_OPERAND_PARAM_HELPER.cast(
+                    parameter);
                 return session.queryBuilder().term(getPropertyName(context,
                     queryParameter.getPropertyName()), queryParameter.getValue());
             case OPERATOR_LESSER:
                 UniOperandQueryParameter ltQueryParameter =
-                    (UniOperandQueryParameter) parameter;
+                    QueryParameterCastHelper.UNI_OPERAND_PARAM_HELPER.cast(
+                    parameter);
                 return session.queryBuilder().lt(getPropertyName(context,
                     ltQueryParameter.getPropertyName()), ltQueryParameter.
                     getValue());
             case OPERATOR_LESSER_EQUAL:
                 UniOperandQueryParameter leQueryParameter =
-                    (UniOperandQueryParameter) parameter;
+                    QueryParameterCastHelper.UNI_OPERAND_PARAM_HELPER.cast(
+                    parameter);
                 return session.queryBuilder().le(getPropertyName(context,
                     leQueryParameter.getPropertyName()), leQueryParameter.
                     getValue());
             case OPERATOR_GREATER:
                 UniOperandQueryParameter gtQueryParameter =
-                    (UniOperandQueryParameter) parameter;
+                    QueryParameterCastHelper.UNI_OPERAND_PARAM_HELPER.cast(
+                    parameter);
                 return session.queryBuilder().gt(getPropertyName(context,
                     gtQueryParameter.getPropertyName()), gtQueryParameter.
                     getValue());
             case OPERATOR_GREATER_EQUAL:
                 UniOperandQueryParameter geQueryParameter =
-                    (UniOperandQueryParameter) parameter;
+                    QueryParameterCastHelper.UNI_OPERAND_PARAM_HELPER.cast(
+                    parameter);
                 return session.queryBuilder().ge(getPropertyName(context,
                     geQueryParameter.getPropertyName()), geQueryParameter.
                     getValue());
             case OPERATOR_NOT_EQUAL:
                 UniOperandQueryParameter nQueryParameter =
-                    (UniOperandQueryParameter) parameter;
+                    QueryParameterCastHelper.UNI_OPERAND_PARAM_HELPER.cast(
+                    parameter);
                 return session.queryBuilder().bool().addMustNot(session.
                     queryBuilder().term(getPropertyName(context,
                     nQueryParameter.getPropertyName()),
                     nQueryParameter.getValue())).toQuery();
             case OPERATOR_IS_IN:
                 MultiOperandQueryParameter moqp =
-                    (MultiOperandQueryParameter) parameter;
+                    QueryParameterCastHelper.MULTI_OPERAND_PARAM_HELPER.cast(
+                    parameter);
                 return session.queryBuilder().multiPhrase(getPropertyName(
                     context, moqp.getPropertyName())).add(moqp.getValues().
                     toArray()).toQuery();
             case OPERATOR_IS_NOT_IN:
                 MultiOperandQueryParameter nmoqp =
-                    (MultiOperandQueryParameter) parameter;
+                    QueryParameterCastHelper.MULTI_OPERAND_PARAM_HELPER.cast(
+                    parameter);
                 return session.queryBuilder().bool().addMustNot(
                     session.queryBuilder().multiPhrase(getPropertyName(context,
                     nmoqp.getPropertyName())).add(nmoqp.getValues().toArray()).

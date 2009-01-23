@@ -19,16 +19,15 @@
 package com.smartitengineering.dao.impl.hibernate;
 
 import com.smartitengineering.dao.common.queryparam.BasicCompoundQueryParameter;
+import com.smartitengineering.dao.common.queryparam.BiOperandQueryParameter;
 import com.smartitengineering.dao.common.queryparam.CompositionQueryParameter;
 import com.smartitengineering.dao.common.queryparam.OperatorType;
 import com.smartitengineering.dao.common.queryparam.QueryParameter;
-import com.smartitengineering.dao.common.queryparam.QueryParameterWith2Values;
+import com.smartitengineering.dao.common.queryparam.QueryParameterCastHelper;
 import com.smartitengineering.dao.common.queryparam.QueryParameterWithOperator;
 import com.smartitengineering.dao.common.queryparam.QueryParameterWithPropertyName;
 import com.smartitengineering.dao.common.queryparam.QueryParameterWithValue;
-import com.smartitengineering.dao.common.queryparam.QueryParameterWithValues;
 import com.smartitengineering.dao.common.queryparam.SimpleNameValueQueryParameter;
-import com.smartitengineering.dao.common.queryparam.StringLikeQueryParameter;
 import com.smartitengineering.dao.common.queryparam.ValueOnlyQueryParameter;
 import com.smartitengineering.domain.PersistentDTO;
 import java.io.Serializable;
@@ -310,7 +309,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
                                             QueryParameter... parameter) {
         Criteria criteria = session.createCriteria(queryClass);
         for (QueryParameter param : parameter) {
-            if(!param.isInitialized()) {
+            if (!param.isInitialized()) {
                 continue;
             }
             String propertyName = getPropertyName(param);
@@ -331,7 +330,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             case PARAMETER_TYPE_ORDER_BY: {
                 final Order order;
                 SimpleNameValueQueryParameter<com.smartitengineering.dao.common.queryparam.Order> queryParameter =
-                    (SimpleNameValueQueryParameter<com.smartitengineering.dao.common.queryparam.Order>) parameter;
+                    QueryParameterCastHelper.SIMPLE_PARAM_HELPER.cast(parameter);
                 com.smartitengineering.dao.common.queryparam.Order requestedOrder =
                     queryParameter.getValue();
                 switch (requestedOrder) {
@@ -355,13 +354,13 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             }
             case PARAMETER_TYPE_MAX_RESULT: {
                 ValueOnlyQueryParameter<Integer> queryParameter =
-                    (ValueOnlyQueryParameter<Integer>) parameter;
+                    QueryParameterCastHelper.VALUE_PARAM_HELPER.cast(parameter);
                 criteria.setMaxResults(queryParameter.getValue());
                 return;
             }
             case PARAMETER_TYPE_FIRST_RESULT: {
                 ValueOnlyQueryParameter<Integer> queryParameter =
-                    (ValueOnlyQueryParameter<Integer>) parameter;
+                    QueryParameterCastHelper.VALUE_PARAM_HELPER.cast(parameter);
                 criteria.setFirstResult(queryParameter.getValue());
                 return;
             }
@@ -440,7 +439,8 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
                                         QueryParameter parameter) {
         FetchMode mode;
         CompositionQueryParameter queryParameter =
-            (CompositionQueryParameter) parameter;
+            QueryParameterCastHelper.COMPOSITION_PARAM_FOR_NESTED_TYPE.cast(
+            parameter);
         switch (queryParameter.getFetchMode()) {
             case EAGER:
                 mode = FetchMode.EAGER;
@@ -467,7 +467,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         }
         Criteria nestedCriteria = criteria.createCriteria(element);
         for (QueryParameter nestedQueryParameter : nestedParameters) {
-            if(!nestedQueryParameter.isInitialized()) {
+            if (!nestedQueryParameter.isInitialized()) {
                 continue;
             }
             processCriteria(nestedCriteria,
@@ -596,12 +596,14 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             }
             case OPERATOR_IS_IN: {
                 Collection inCollectin =
-                    ((QueryParameterWithValues) queryParamemter).getValues();
+                    QueryParameterCastHelper.MULTI_OPERAND_PARAM_HELPER.cast(
+                    queryParamemter).getValues();
                 return Restrictions.in(element, inCollectin);
             }
             case OPERATOR_IS_NOT_IN: {
                 Collection inCollectin =
-                    ((QueryParameterWithValues) queryParamemter).getValues();
+                    QueryParameterCastHelper.MULTI_OPERAND_PARAM_HELPER.cast(
+                    queryParamemter).getValues();
                 return Restrictions.not(Restrictions.in(element, inCollectin));
             }
         }
@@ -639,11 +641,11 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
     private void workOnNestedParams(QueryParameter parameter,
                                     Junction criterion) {
         BasicCompoundQueryParameter queryParameter =
-            (BasicCompoundQueryParameter) parameter;
+            QueryParameterCastHelper.BASIC_COMPOUND_PARAM_HELPER.cast(parameter);
         Collection<QueryParameter> nestedParameters =
             queryParameter.getNestedParameters();
         for (QueryParameter nestedParam : nestedParameters) {
-            if(!nestedParam.isInitialized()) {
+            if (!nestedParam.isInitialized()) {
                 continue;
             }
             processCriterion(criterion, getPropertyName(nestedParam),
@@ -653,14 +655,22 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
     }
 
     private OperatorType getOperator(QueryParameter queryParamemter) {
-        QueryParameterWithOperator parameterWithOperator =
-            (QueryParameterWithOperator) queryParamemter;
-        return parameterWithOperator.getOperatorType();
+        if (QueryParameterCastHelper.BASIC_COMPOUND_PARAM_HELPER.isWithOperator(
+            queryParamemter)) {
+            QueryParameterWithOperator parameterWithOperator =
+                QueryParameterCastHelper.BI_OPERAND_PARAM_HELPER.
+                castToOperatorParam(
+                queryParamemter);
+            return parameterWithOperator.getOperatorType();
+        }
+        else {
+            return null;
+        }
     }
 
     private Object getValue(QueryParameter queryParamemter) {
         Object value;
-        if(queryParamemter instanceof QueryParameterWithValue) {
+        if (queryParamemter instanceof QueryParameterWithValue) {
             value = ((QueryParameterWithValue) queryParamemter).getValue();
         }
         else {
@@ -673,8 +683,9 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
     }
 
     private Object getSecondParameter(QueryParameter queryParamemter) {
-        if (queryParamemter instanceof QueryParameterWith2Values) {
-            return ((QueryParameterWith2Values) queryParamemter).getSecondValue();
+        if (queryParamemter instanceof BiOperandQueryParameter) {
+            return QueryParameterCastHelper.BI_OPERAND_PARAM_HELPER.cast(
+                queryParamemter).getSecondValue();
         }
         else {
             return "";
@@ -682,8 +693,9 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
     }
 
     private Object getFirstParameter(QueryParameter queryParamemter) {
-        if (queryParamemter instanceof QueryParameterWith2Values) {
-            return ((QueryParameterWith2Values) queryParamemter).getFirstValue();
+        if (queryParamemter instanceof BiOperandQueryParameter) {
+            return QueryParameterCastHelper.BI_OPERAND_PARAM_HELPER.cast(
+                queryParamemter).getFirstValue();
         }
         else {
             return "";
@@ -692,6 +704,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
 
     private com.smartitengineering.dao.common.queryparam.MatchMode getMatchMode(
         QueryParameter queryParamemter) {
-        return ((StringLikeQueryParameter) queryParamemter).getMatchMode();
+        return QueryParameterCastHelper.STRING_PARAM_HELPER.cast(queryParamemter).
+            getMatchMode();
     }
 }

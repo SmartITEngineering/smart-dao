@@ -20,6 +20,7 @@ package com.smartitengineering.dao.common.queryparam;
 
 import com.smartitengineering.dao.common.queryparam.impl.QueryParameterInstantiationFactory;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -266,6 +267,22 @@ public final class QueryParameterFactory {
             params.add(getPropProjectionParam(propertyName));
         }
         return params;
+    }
+
+    public static <T> T getCastedQueryParameter(final Class<T> castClass,
+                                                final Collection<ParameterType> parameterTypes,
+                                                final Collection<OperatorType> operators,
+                                                final QueryParameter parameter) {
+        if (parameterTypes.contains(parameter.getParameterType())) {
+            if (operators.isEmpty() ||
+                (QueryParameterCastHelper.BI_OPERAND_PARAM_HELPER.isWithOperator(
+                parameter) && operators.contains(
+                QueryParameterCastHelper.BI_OPERAND_PARAM_HELPER.
+                castToOperatorParam(parameter).getOperatorType()))) {
+                return castClass.cast(parameter);
+            }
+        }
+        throw new IllegalArgumentException("Parameter type not supported");
     }
 
     private static QueryParameter<Void> getQueryParameterForProjection(
