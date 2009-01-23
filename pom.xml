@@ -151,6 +151,7 @@
         <module>smart-cache</module>
         <module>smart-dao-search</module>
         <module>smart-version</module>
+        <module>smart-dao-queryparam</module>
     </modules>
     <properties>
         <commons-lang.version>2.3</commons-lang.version>

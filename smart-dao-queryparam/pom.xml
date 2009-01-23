@@ -20,19 +20,17 @@
  *
  *
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project>
     <parent>
-        <groupId>com.smartitengineering</groupId>
         <artifactId>smart-dao</artifactId>
+        <groupId>com.smartitengineering</groupId>
         <version>0.4-SNAPSHOT</version>
     </parent>
+    <modelVersion>4.0.0</modelVersion>
     <groupId>com.smartitengineering</groupId>
-    <artifactId>smart-dao-search</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>smart-dao-queryparam</artifactId>
+    <name>smart-dao-queryparam</name>
     <version>0.4-SNAPSHOT</version>
-    <name>smart-dao-search</name>
     <build>
         <plugins>
             <plugin>
@@ -85,31 +83,6 @@
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.smartitengineering</groupId>
-            <artifactId>smart-domain</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.smartitengineering</groupId>
-            <artifactId>smart-dao-queryparam</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.smartitengineering</groupId>
-            <artifactId>smart-abstract-dao</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.compass-project</groupId>
-            <artifactId>compass</artifactId>
-            <version>2.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>${commons-lang.version}</version>
         </dependency>
     </dependencies>
 </project>

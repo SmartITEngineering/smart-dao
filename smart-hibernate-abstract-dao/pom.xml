@@ -119,6 +119,11 @@
         </dependency>
         <dependency>
             <groupId>com.smartitengineering</groupId>
+            <artifactId>smart-dao-queryparam</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.smartitengineering</groupId>
             <artifactId>smart-domain</artifactId>
             <version>${project.version}</version>
         </dependency>
