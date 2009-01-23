@@ -152,4 +152,7 @@
         <module>smart-dao-search</module>
         <module>smart-version</module>
     </modules>
+    <properties>
+        <commons-lang.version>2.3</commons-lang.version>
+    </properties>
 </project>
