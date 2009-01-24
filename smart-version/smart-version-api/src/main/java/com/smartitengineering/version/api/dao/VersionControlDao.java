@@ -35,15 +35,17 @@ public interface VersionControlDao {
      * It will store the resources referred in the 'commit' with other
      * informations provided.
      * @param commit Commit to store (create or update)
+     * @param callback Callback handler for this write operation
      */
-    public void store(final Commit commit);
+    public void store(final Commit commit, final WriterCallback callback);
 
     /**
      * Remove all resources specified in the 'commit' and perform commit using
      * other meta information provided in the 'commit'.
-     * @param commit
+     * @param commit Commit from which the resources are to be deleted.
+     * @param callback Callback handler for this write operation
      */
-    public void remove(final Commit commit);
+    public void remove(final Commit commit, final WriterCallback callback);
 
     /**
      * Get a resource with its versions specified by the resource id.
