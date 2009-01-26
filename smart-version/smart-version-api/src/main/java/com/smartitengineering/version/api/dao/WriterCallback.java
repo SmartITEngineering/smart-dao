@@ -35,8 +35,10 @@ public interface WriterCallback {
      * @param comment Comment on the outcome of the right operation, in case the
      *                operation is successful it will either be blank (null or
      *                "") or status and if its unsuccessful it will be the cause.
+     * @param error Throwable that caused the operation to fail
      */
     public void handle(Commit commit,
                        WriteStatus status,
-                       String comment);
+                       String comment,
+                       Throwable error);
 }
