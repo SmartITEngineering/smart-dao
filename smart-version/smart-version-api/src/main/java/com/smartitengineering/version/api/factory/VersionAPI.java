@@ -91,7 +91,8 @@ public final class VersionAPI {
      */
     public static Resource createResource(final String resourceId,
                                           final String content) {
-        if (StringUtils.isBlank(resourceId) || content == null) {
+        String trimmedResourceId = trimToPropertResourceId(resourceId);
+        if (StringUtils.isBlank(trimmedResourceId) || content == null) {
             throw new IllegalArgumentException(
                 "Content can't be NULL and resourceId can't be blank!");
         }
@@ -124,7 +125,7 @@ public final class VersionAPI {
      * @param revisions Revisions of a resource
      * @return VersionedResource of the revisions.
      */
-    public static VersionedResource getVersionedResource(
+    public static VersionedResource createVersionedResource(
         Collection<Revision> revisions) {
         if (revisions == null) {
             revisions = Collections.emptyList();
@@ -158,7 +159,7 @@ public final class VersionAPI {
      *                   null if commit id is not null or not blank.
      * @return Commit object representing the information supplied
      */
-    public static Commit getCommit(final Collection<Revision> revisions,
+    public static Commit createCommit(final Collection<Revision> revisions,
                                    final String commitId,
                                    final String parentCommitId,
                                    final String commitMessage,
@@ -180,6 +181,25 @@ public final class VersionAPI {
         commitImpl.setParentCommitId(parentCommitId);
         commitImpl.setRevisions(revisions);
         return commitImpl;
+    }
+    
+    /**
+     * Throw away all the '/' from beginning and end of the resourceId.
+     * @param resourceId Id to trim
+     * @return Trimmed version of the resourceId
+     */
+    public static String trimToPropertResourceId(String resourceId) {
+        if(StringUtils.isBlank(resourceId)) {
+            return "";
+        }
+        StringBuilder result = new StringBuilder(resourceId.trim());
+        while(result.charAt(0) == '/') {
+            result.deleteCharAt(0);
+        }
+        while(result.charAt(result.length() - 1) == '/') {
+            result.deleteCharAt(result.length() - 1);
+        }
+        return result.toString();
     }
 
     /**

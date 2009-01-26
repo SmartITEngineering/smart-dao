@@ -97,7 +97,7 @@ public class JGitVersionControlDao
                 revisions[i++] = VersionAPI.createRevision(VersionAPI.
                     createResource(resourceId, content), revisionId);
             }
-            return VersionAPI.getVersionedResource(Arrays.asList(revisions));
+            return VersionAPI.createVersionedResource(Arrays.asList(revisions));
         }
         catch (Exception ex) {
             ex.printStackTrace();

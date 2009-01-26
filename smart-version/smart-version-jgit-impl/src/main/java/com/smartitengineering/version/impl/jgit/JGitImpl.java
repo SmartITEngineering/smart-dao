@@ -85,7 +85,7 @@ public class JGitImpl
         }
         File writeRepoDir = new File(writeRepositoryLocation);
         writeRepository = new Repository(writeRepoDir);
-        if (writeRepoDir.exists()) {
+        if (!writeRepoDir.exists()) {
             writeRepository.create();
         }
         File readRepoDir = new File(readRepositoryLocation);
@@ -143,6 +143,15 @@ public class JGitImpl
         return readRepository;
     }
 
+    protected void reInitReadRepository()
+        throws IOException {
+        synchronized (readRepository) {
+            readRepository.close();
+            File readRepoDir = new File(readRepositoryLocation);
+            readRepository = new Repository(readRepoDir);
+        }
+    }
+
     public Repository getWriteRepository() {
         return writeRepository;
     }
@@ -170,6 +179,12 @@ public class JGitImpl
             if (callback != null) {
                 callback.handle(commit, status, comment, error);
             }
+            try {
+                reInitReadRepository();
+            }
+            catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -196,21 +211,35 @@ public class JGitImpl
             if (callback != null) {
                 callback.handle(commit, status, comment, error);
             }
+            try {
+                reInitReadRepository();
+            }
+            catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
     public VersionedResource getVersionedResource(final String resourceId) {
         try {
-            Set<ObjectId> revisionIds = getGraphForResourceId(resourceId);
+            String trimmedResourceId = VersionAPI.trimToPropertResourceId(
+                resourceId);
+            if (StringUtils.isBlank(trimmedResourceId)) {
+                return null;
+            }
+            Set<ObjectId> revisionIds = getGraphForResourceId(trimmedResourceId);
+            if (revisionIds == null || revisionIds.isEmpty()) {
+                return null;
+            }
             Revision[] revisions = new Revision[revisionIds.size()];
             int i = 0;
             for (ObjectId revisionId : revisionIds) {
                 String revisionIdStr = ObjectId.toString(revisionId);
                 String content = new String(readObject(revisionIdStr));
                 revisions[i++] = VersionAPI.createRevision(VersionAPI.
-                    createResource(resourceId, content), revisionIdStr);
+                    createResource(trimmedResourceId, content), revisionIdStr);
             }
-            return VersionAPI.getVersionedResource(Arrays.asList(revisions));
+            return VersionAPI.createVersionedResource(Arrays.asList(revisions));
         }
         catch (Throwable ex) {
             throw new RuntimeException(ex);
@@ -219,12 +248,20 @@ public class JGitImpl
 
     public Resource getResource(String resourceId) {
         try {
+            String trimmedResourceId = VersionAPI.trimToPropertResourceId(
+                resourceId);
+            if (StringUtils.isBlank(trimmedResourceId)) {
+                return null;
+            }
             ObjectId resourceObjectId;
             Tree head = getHeadTree(getReadRepository());
-            TreeEntry treeEntry = head.findBlobMember(resourceId);
+            if (!head.existsBlob(trimmedResourceId)) {
+                return null;
+            }
+            TreeEntry treeEntry = head.findBlobMember(trimmedResourceId);
             resourceObjectId = treeEntry.getId();
-            return VersionAPI.createResource(resourceId, new String(readObject(
-                ObjectId.toString(resourceObjectId))));
+            return VersionAPI.createResource(trimmedResourceId, new String(
+                readObject(ObjectId.toString(resourceObjectId))));
         }
         catch (Throwable ex) {
             throw new RuntimeException(ex);
@@ -256,9 +293,14 @@ public class JGitImpl
 
     protected Tree getHeadTree(Repository repository)
         throws IOException {
-        Tree head = repository.mapTree(Constants.HEAD);
-        if (head == null) {
+        Tree head;
+        org.spearce.jgit.lib.Commit headCommit = repository.mapCommit(
+            Constants.HEAD);
+        if (headCommit == null) {
             head = new Tree(repository);
+        }
+        else {
+            head = headCommit.getTree();
         }
         return head;
     }
@@ -352,10 +394,11 @@ public class JGitImpl
         commit.setAuthor(person);
         commit.setCommitter(person);
         commit.setMessage(newCommit.getCommitMessage());
-        ObjectId newCommitId = objectWriter.writeCommit(commit);
+        ObjectId newCommitId = getObjectWriter().writeCommit(commit);
         if (newCommit instanceof MutableCommit) {
             MutableCommit mutableCommit = (MutableCommit) newCommit;
             mutableCommit.setCommitId(ObjectId.toString(newCommitId));
+            mutableCommit.setCommitTime(commit.getCommitter().getWhen());
             commit.setCommitId(newCommitId);
         }
         else {
@@ -414,8 +457,7 @@ public class JGitImpl
                     // This path was modified relative to the ancestor(s)
                     String s = tw.getPathString();
                     if (s != null && s.equals(resourceId)) {
-                        Set<ObjectId> i = versions;
-                        i.add(tw.getObjectId(me));
+                        versions.add(tw.getObjectId(me));
                     }
                 }
                 if (tw.isSubtree()) {
