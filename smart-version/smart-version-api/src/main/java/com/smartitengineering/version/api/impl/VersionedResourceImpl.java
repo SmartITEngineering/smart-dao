@@ -21,6 +21,7 @@ package com.smartitengineering.version.api.impl;
 import com.smartitengineering.version.api.Resource;
 import com.smartitengineering.version.api.Revision;
 import com.smartitengineering.version.api.VersionedResource;
+import com.smartitengineering.version.api.spi.MutableVersionedResource;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -29,7 +30,7 @@ import java.util.Collections;
  * @author imyousuf
  */
 public class VersionedResourceImpl
-    implements VersionedResource {
+    implements VersionedResource, MutableVersionedResource {
 
     private Resource headVersionResource;
     private Collection<Revision> revisions;

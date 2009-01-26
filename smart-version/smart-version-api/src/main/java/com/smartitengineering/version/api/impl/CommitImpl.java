@@ -21,6 +21,7 @@ package com.smartitengineering.version.api.impl;
 import com.smartitengineering.version.api.Author;
 import com.smartitengineering.version.api.Commit;
 import com.smartitengineering.version.api.Revision;
+import com.smartitengineering.version.api.spi.MutableCommit;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -31,7 +32,7 @@ import org.apache.commons.lang.StringUtils;
  * @author imyousuf
  */
 public class CommitImpl
-    implements Commit {
+    implements Commit, MutableCommit {
 
     private Collection<Revision> revisions;
     private String commitId;

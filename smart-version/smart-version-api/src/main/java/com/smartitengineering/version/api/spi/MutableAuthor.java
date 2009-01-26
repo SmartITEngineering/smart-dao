@@ -16,54 +16,13 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-package com.smartitengineering.version.api.impl;
-
-import com.smartitengineering.version.api.Resource;
-import com.smartitengineering.version.api.spi.MutableResource;
+package com.smartitengineering.version.api.spi;
 
 /**
- * Default implementation of resource
+ * Represents a committer. MutableAuthor only has Name and Email address mandatory.
  * @author imyousuf
  */
-public class ResourceImpl
-    implements Resource, MutableResource {
-
-    private String id;
-    private String content;
-
-    /**
-     * Get the value of content
-     *
-     * @return the value of content
-     */
-    public String getContent() {
-        return content;
-    }
-
-    /**
-     * Set the value of content
-     *
-     * @param content new value of content
-     */
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    /**
-     * Get the value of id
-     *
-     * @return the value of id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Set the value of id
-     *
-     * @param id new value of id
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
+public interface MutableAuthor {
+    public void setName(String name);
+    public void setEmail(String email);
 }

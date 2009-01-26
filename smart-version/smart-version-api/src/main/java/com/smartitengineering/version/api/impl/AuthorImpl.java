@@ -19,6 +19,7 @@
 package com.smartitengineering.version.api.impl;
 
 import com.smartitengineering.version.api.Author;
+import com.smartitengineering.version.api.spi.MutableAuthor;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -26,7 +27,7 @@ import org.apache.commons.lang.StringUtils;
  * @author imyousuf
  */
 public class AuthorImpl
-    implements Author {
+    implements Author, MutableAuthor {
 
     private String name;
     private String email;

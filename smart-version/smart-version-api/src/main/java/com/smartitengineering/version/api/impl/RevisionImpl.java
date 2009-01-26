@@ -20,13 +20,14 @@ package com.smartitengineering.version.api.impl;
 
 import com.smartitengineering.version.api.Resource;
 import com.smartitengineering.version.api.Revision;
+import com.smartitengineering.version.api.spi.MutableRevision;
 
 /**
  *
  * @author imyousuf
  */
 public class RevisionImpl
-    implements Revision {
+    implements Revision, MutableRevision {
 
     private String revisionId;
     private Resource resource;

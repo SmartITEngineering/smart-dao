@@ -16,54 +16,20 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-package com.smartitengineering.version.api.impl;
+package com.smartitengineering.version.api.spi;
 
 import com.smartitengineering.version.api.Resource;
-import com.smartitengineering.version.api.spi.MutableResource;
+import com.smartitengineering.version.api.Revision;
+import java.util.Collection;
 
 /**
- * Default implementation of resource
+ * This object represents an resource that is versioned. It provides easy access
+ * to versions of the resource.
  * @author imyousuf
  */
-public class ResourceImpl
-    implements Resource, MutableResource {
+public interface MutableVersionedResource {
 
-    private String id;
-    private String content;
+    public void setHeadVersionResource(Resource headVersionResource);
 
-    /**
-     * Get the value of content
-     *
-     * @return the value of content
-     */
-    public String getContent() {
-        return content;
-    }
-
-    /**
-     * Set the value of content
-     *
-     * @param content new value of content
-     */
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    /**
-     * Get the value of id
-     *
-     * @return the value of id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Set the value of id
-     *
-     * @param id new value of id
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
+    public void setRevisions(Collection<Revision> revisions);
 }
