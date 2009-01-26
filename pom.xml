@@ -156,5 +156,6 @@
     <properties>
         <commons-lang.version>2.3</commons-lang.version>
         <smart-util.version>0.1.1-SNAPSHOT</smart-util.version>
+        <jgit.version>0.4-SNAPSHOT</jgit.version>
     </properties>
 </project>

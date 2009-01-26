@@ -20,6 +20,7 @@ package com.smartitengineering.version.api.dao;
 
 import com.smartitengineering.dao.common.queryparam.QueryParameter;
 import com.smartitengineering.version.api.Commit;
+import com.smartitengineering.version.api.Resource;
 import com.smartitengineering.version.api.VersionedResource;
 import java.util.Collection;
 
@@ -52,7 +53,14 @@ public interface VersionControlDao {
      * @param resourceId Unique identifier of the resource
      * @return The versioned representation of the resource.
      */
-    public VersionedResource getResource(final String resourceId);
+    public VersionedResource getVersionedResource(final String resourceId);
+    
+    /**
+     * Retrieve the HEAD version of the specified resource id.
+     * @param resourceId The resource's id to fetch
+     * @return Fetched resource for id
+     */
+    public Resource getResource(final String resourceId);
 
     /**
      * Search for commits. Please implementation documentation to check whether
