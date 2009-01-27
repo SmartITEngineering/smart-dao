@@ -95,6 +95,21 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.smartitengineering</groupId>
+            <artifactId>smart-domain</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.smartitengineering</groupId>
+            <artifactId>smart-abstract-dao</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.smartitengineering</groupId>
+            <artifactId>smart-hibernate-abstract-dao</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.smartitengineering.smart-util</groupId>
             <artifactId>smart-spring-util</artifactId>
             <version>${smart-util.version}</version>
