@@ -26,7 +26,7 @@ import com.smartitengineering.version.api.Commit;
  * make search easier and faster.
  * @author imyousuf
  */
-public interface MetaVCService {
+public interface MetaRCSService {
 
     /**
      * Save resurces in a commit; it could also trigger update of resources and

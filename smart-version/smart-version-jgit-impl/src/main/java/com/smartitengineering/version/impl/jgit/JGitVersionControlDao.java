@@ -27,7 +27,7 @@ import com.smartitengineering.version.api.dao.VersionControlDao;
 import com.smartitengineering.version.api.dao.WriteStatus;
 import com.smartitengineering.version.api.dao.WriterCallback;
 import com.smartitengineering.version.api.factory.VersionAPI;
-import com.smartitengineering.version.impl.jgit.service.MetaVCService;
+import com.smartitengineering.version.impl.jgit.service.MetaRCSService;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -41,46 +41,99 @@ public class JGitVersionControlDao
 
     private VersionControlDao jGitImpl;
     private JGitDaoExtension jGitExtension;
-    private MetaVCService jGitService;
+    private MetaRCSService jGitService;
 
     public void store(Commit commit,
                       final WriterCallback callback) {
-        WriteStatus status = null;
-        String comment = null;
-        Throwable error = null;
+        final Status myStatus = new Status();
         try {
-            jGitImpl.store(commit, null);
-            jGitService.saveResources(commit);
+            jGitImpl.store(commit, new WriterCallback() {
+
+                public void handle(Commit commit,
+                                   WriteStatus status,
+                                   String comment,
+                                   Throwable error) {
+                    myStatus.myStatus = status;
+                    myStatus.myComment = comment;
+                    myStatus.myError = error;
+                    if (status == WriteStatus.STORE_PASS) {
+                        try {
+                            jGitService.saveResources(commit);
+                        }
+                        catch (Throwable ex) {
+                            myStatus.myStatus = WriteStatus.STORE_FAIL;
+                            myStatus.myComment = ex.getMessage();
+                            myStatus.myError = ex;
+                        }
+                        finally {
+                            if (callback != null) {
+                                callback.handle(commit, myStatus.myStatus,
+                                    myStatus.myComment,
+                                    myStatus.myError);
+                            }
+                        }
+                    }
+                }
+            });
         }
         catch (Throwable ex) {
-            status = WriteStatus.STORE_FAIL;
-            comment = ex.getMessage();
-            error = ex;
-        }
-        finally {
+            myStatus.myStatus = WriteStatus.STORE_FAIL;
+            myStatus.myComment = ex.getMessage();
+            myStatus.myError = ex;
             if (callback != null) {
-                callback.handle(commit, status, comment, error);
+                callback.handle(commit, myStatus.myStatus, myStatus.myComment,
+                    myStatus.myError);
             }
         }
     }
 
+    private class Status {
+
+        public WriteStatus myStatus;
+        public String myComment;
+        public Throwable myError;
+    }
+
     public void remove(Commit commit,
                        final WriterCallback callback) {
-        WriteStatus status = null;
-        String comment = null;
-        Throwable error = null;
+        final Status myStatus = new Status();
         try {
-            jGitImpl.remove(commit, null);
-            jGitService.deleteResources(commit);
+            jGitImpl.remove(commit, new WriterCallback() {
+
+                public void handle(Commit commit,
+                                   WriteStatus status,
+                                   String comment,
+                                   Throwable error) {
+                    myStatus.myStatus = status;
+                    myStatus.myComment = comment;
+                    myStatus.myError = error;
+                    if (status == WriteStatus.STORE_PASS) {
+                        try {
+                            jGitService.deleteResources(commit);
+                        }
+                        catch (Throwable ex) {
+                            myStatus.myStatus = WriteStatus.STORE_FAIL;
+                            myStatus.myComment = ex.getMessage();
+                            myStatus.myError = ex;
+                        }
+                        finally {
+                            if (callback != null) {
+                                callback.handle(commit, myStatus.myStatus,
+                                    myStatus.myComment,
+                                    myStatus.myError);
+                            }
+                        }
+                    }
+                }
+            });
         }
         catch (Throwable ex) {
-            status = WriteStatus.STORE_FAIL;
-            comment = ex.getMessage();
-            error = ex;
-        }
-        finally {
+            myStatus.myStatus = WriteStatus.STORE_FAIL;
+            myStatus.myComment = ex.getMessage();
+            myStatus.myError = ex;
             if (callback != null) {
-                callback.handle(commit, status, comment, error);
+                callback.handle(commit, myStatus.myStatus, myStatus.myComment,
+                    myStatus.myError);
             }
         }
     }
@@ -143,11 +196,11 @@ public class JGitVersionControlDao
         this.jGitImpl = jGitImpl;
     }
 
-    public MetaVCService getJGitService() {
+    public MetaRCSService getJGitService() {
         return jGitService;
     }
 
-    public void setJGitService(MetaVCService jGitService) {
+    public void setJGitService(MetaRCSService jGitService) {
         this.jGitService = jGitService;
     }
 }

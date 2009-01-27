@@ -38,6 +38,11 @@ public class JGitImplTest
 
     private static final String DEFAULT_PATH = "target/jgit-impl/.git";
     private JGitImpl jGitImpl;
+    private boolean finished = false;
+
+    private boolean isFinished() {
+        return finished;
+    }
 
     public JGitImplTest(String testName) {
         super(testName);
@@ -50,6 +55,7 @@ public class JGitImplTest
         jGitImpl = new JGitImpl();
         jGitImpl.setRepositoryLocation(DEFAULT_PATH);
         jGitImpl.init();
+        finished = false;
     }
 
     @Override
@@ -60,6 +66,7 @@ public class JGitImplTest
     }
 
     public void testStore() {
+
         jGitImpl.store(VersionAPI.createCommit(Arrays.asList(VersionAPI.
             createRevision(
             VersionAPI.createResource("a/a.xml", "Content of a/a"),
@@ -77,14 +84,25 @@ public class JGitImplTest
                 }
                 assertEquals(WriteStatus.STORE_PASS, status);
                 assertNull(error);
+                finished = true;
             }
         });
+        while (!isFinished()) {
+            try {
+                Thread.sleep(10);
+            }
+            catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+        finished = false;
     }
 
     public void testReadResource() {
         Resource a = jGitImpl.getResource("a/a.xml");
         assertEquals("a/a.xml", a.getId());
         assertEquals("Content of a/a", a.getContent());
+        finished = false;
         jGitImpl.store(VersionAPI.createCommit(Arrays.asList(VersionAPI.
             createRevision(VersionAPI.createResource("a/a.xml",
             "UPDATE-1 Content of a/a"),
@@ -101,8 +119,18 @@ public class JGitImplTest
                 }
                 assertEquals(status, WriteStatus.STORE_PASS);
                 assertNull(error);
+                finished = true;
             }
         });
+        while (!isFinished()) {
+            try {
+                Thread.sleep(10);
+            }
+            catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+        finished = false;
         Resource b = jGitImpl.getResource("b/a.xml");
         assertEquals("b/a.xml", b.getId());
         assertEquals("Content of b/a", b.getContent());
@@ -112,6 +140,7 @@ public class JGitImplTest
     }
 
     public void testRemove() {
+        finished = false;
         jGitImpl.remove(VersionAPI.createCommit(Arrays.asList(VersionAPI.
             createRevision(VersionAPI.createResource("b/a.xml", "DELETE"),
             null)), null,
@@ -127,8 +156,18 @@ public class JGitImplTest
                 }
                 assertEquals(WriteStatus.STORE_PASS, status);
                 assertNull(error);
+                finished = true;
             }
         });
+        while (!isFinished()) {
+            try {
+                Thread.sleep(10);
+            }
+            catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+        finished = false;
         Resource b = jGitImpl.getResource("b/a.xml");
         assertNull(b);
     }

@@ -29,6 +29,8 @@ import com.smartitengineering.version.api.dao.WriterCallback;
 import com.smartitengineering.version.api.factory.VersionAPI;
 import com.smartitengineering.version.api.spi.MutableCommit;
 import com.smartitengineering.version.api.spi.MutableRevision;
+import com.smartitengineering.version.impl.jgit.service.MetaFactory;
+import com.smartitengineering.version.impl.jgit.service.RCSConfig;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -37,6 +39,8 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import org.apache.commons.lang.StringUtils;
 import org.spearce.jgit.errors.IncorrectObjectTypeException;
 import org.spearce.jgit.errors.MissingObjectException;
@@ -69,6 +73,8 @@ public class JGitImpl
     private Repository writeRepository;
     private ObjectWriter objectWriter;
     private Repository readRepository;
+    private ExecutorService executorService;
+    private RCSConfig config;
     private boolean initialized;
 
     public JGitImpl() {
@@ -93,6 +99,8 @@ public class JGitImpl
         if (!readRepoDir.exists()) {
             readRepository.create();
         }
+        executorService = Executors.newFixedThreadPool(getConfig().
+            getConcurrentWriteOperations());
         initialized = true;
     }
 
@@ -107,6 +115,17 @@ public class JGitImpl
                 "set repository location and then invoke init() before " +
                 "attempting to use any other operations");
         }
+    }
+
+    public RCSConfig getConfig() {
+        if (config == null) {
+            return MetaFactory.getInstance().getConfig();
+        }
+        return config;
+    }
+
+    public void setConfig(RCSConfig config) {
+        this.config = config;
     }
 
     public void setRepositoryLocation(final String repositoryLocation) {
@@ -158,66 +177,77 @@ public class JGitImpl
 
     public void store(final Commit commit,
                       final WriterCallback callback) {
-        WriteStatus status = null;
-        String comment = null;
-        Throwable error = null;
-        try {
-            Tree head = getHeadTree(writeRepository);
-            addOrUpdateToHead(commit, head);
-            prepareCommit(head, commit);
-            status = WriteStatus.STORE_PASS;
-            comment = "OK";
-            error = null;
-        }
-        catch (Throwable ex) {
-            status = WriteStatus.STORE_FAIL;
-            comment = ex.getMessage();
-            error = ex;
-            throw new RuntimeException(ex);
-        }
-        finally {
-            if (callback != null) {
-                callback.handle(commit, status, comment, error);
+        executorService.submit(new Runnable() {
+
+            public void run() {
+                WriteStatus status = null;
+                String comment = null;
+                Throwable error = null;
+                try {
+                    Tree head = getHeadTree(writeRepository);
+                    addOrUpdateToHead(commit, head);
+                    prepareCommit(head, commit);
+                    status = WriteStatus.STORE_PASS;
+                    comment = "OK";
+                    error = null;
+                }
+                catch (Throwable ex) {
+                    status = WriteStatus.STORE_FAIL;
+                    comment = ex.getMessage();
+                    error = ex;
+                    throw new RuntimeException(ex);
+                }
+                finally {
+                    if (callback != null) {
+                        callback.handle(commit, status, comment, error);
+                    }
+                    try {
+                        reInitReadRepository();
+                    }
+                    catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
-            try {
-                reInitReadRepository();
-            }
-            catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+        });
     }
 
     public void remove(final Commit commit,
                        final WriterCallback callback) {
-        WriteStatus status = null;
-        String comment = null;
-        Throwable error = null;
-        try {
-            Tree head = getHeadTree(writeRepository);
-            removeFromHead(commit, head);
-            prepareCommit(head, commit);
-            status = WriteStatus.STORE_PASS;
-            comment = "OK";
-            error = null;
-        }
-        catch (Throwable ex) {
-            status = WriteStatus.STORE_FAIL;
-            comment = ex.getMessage();
-            error = ex;
-            throw new RuntimeException(ex);
-        }
-        finally {
-            if (callback != null) {
-                callback.handle(commit, status, comment, error);
+        executorService.submit(new Runnable() {
+
+            public void run() {
+
+                WriteStatus status = null;
+                String comment = null;
+                Throwable error = null;
+                try {
+                    Tree head = getHeadTree(writeRepository);
+                    removeFromHead(commit, head);
+                    prepareCommit(head, commit);
+                    status = WriteStatus.STORE_PASS;
+                    comment = "OK";
+                    error = null;
+                }
+                catch (Throwable ex) {
+                    status = WriteStatus.STORE_FAIL;
+                    comment = ex.getMessage();
+                    error = ex;
+                    throw new RuntimeException(ex);
+                }
+                finally {
+                    if (callback != null) {
+                        callback.handle(commit, status, comment, error);
+                    }
+                    try {
+                        reInitReadRepository();
+                    }
+                    catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
-            try {
-                reInitReadRepository();
-            }
-            catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+        });
     }
 
     public VersionedResource getVersionedResource(final String resourceId) {
@@ -428,7 +458,7 @@ public class JGitImpl
                 }
             }
         }
-        if (commitAvailable) {
+        if (commitAvailable || getConfig().isAllowNoChangeCommit()) {
             performCommit(commit, head);
         }
     }
