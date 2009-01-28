@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *   
+ * This is a common dao with basic CRUD operations and is not limited to any 
+ * persistent layer implementation
+ * 
+ * Copyright (C) 2008  Imran M Yousuf (imyousuf@smartitengineering.com)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ *
+-->
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+    <class
+        name="com.smartitengineering.version.impl.jgit.domain.Commit"
+        table="commit"
+        dynamic-update="false"
+        dynamic-insert="false"
+    >
+        <id
+            name="id"
+            column="id"
+            type="java.lang.Integer"
+        >
+            <generator class = "increment">
+            </generator>
+        </id>
+        <version name="version" column="version" />
+        <property
+            name="commitId"
+            column="commit_id"
+            type="java.lang.String"
+            length="255"
+        />
+        <property
+            name="commitMessage"
+            column="commit_message"
+            type="java.lang.String"
+            length="255"
+        />
+        <property
+            name="parentCommitId"
+            column="parent_commit_id"
+            type="java.lang.String"
+            length="255"
+        />
+        <property
+            name="dateTime"
+            column="date_time"
+            type="java.util.Date"
+        />
+        <component name="committer" class="com.smartitengineering.version.impl.jgit.domain.Author">
+            <property
+                name="email"
+                column="comitter_email"
+                type="java.lang.String"
+                length="255"
+            />
+            <property
+                name="name"
+                column="committer_name"
+                type="java.lang.String"
+                length="255"
+            />
+        </component>
+        <set name="revisions" lazy="false" outer-join="true" cascade="all" inverse="false">
+            <key column="commit_id" />
+            <one-to-many class="com.smartitengineering.version.impl.jgit.domain.Revision" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *   
+ * This is a common dao with basic CRUD operations and is not limited to any 
+ * persistent layer implementation
+ * 
+ * Copyright (C) 2008  Imran M Yousuf (imyousuf@smartitengineering.com)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ *
+-->
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "spring-beans.dtd"  >
+<beans>
+
+    <!-- Hibernate SessionFactory -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+        <property name="mappingResources">
+            <list>
+                <value>com/smartitengineering/smart-dao/smart-version-jgit/Commit.hbm.xml</value>
+                <value>com/smartitengineering/smart-dao/smart-version-jgit/Revision.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}
+                </prop>
+                <prop key="hibernate.autoCommit">${hibernate.autoCommit}
+                </prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}
+                </prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}
+                </prop>
+                <prop key="hibernate.query.substitutions">${hibernate.query.substitutions}
+                </prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="abstractDao" class="com.smartitengineering.dao.impl.hibernate.AbstractCommonDaoImpl" abstract="true">
+        <property name="sessionFactory">
+            <ref local="sessionFactory" />
+        </property>
+    </bean>
+    <bean id="commitDao" class="com.smartitengineering.version.impl.jgit.dao.impl.CommitDaoImpl" parent="abstractDao"/>
+    <bean id="revisionDao" class="com.smartitengineering.version.impl.jgit.dao.impl.RevisionDaoImpl" parent="abstractDao" />
+    <bean id="metaRCSService" class="com.smartitengineering.version.impl.jgit.service.impl.MetaRCSServiceImpl">
+        <property name="commitReader">
+            <ref local="commitDao" />
+        </property>
+        <property name="commitWriter">
+            <ref local="commitDao" />
+        </property>
+        <property name="revisionReader">
+            <ref local="revisionDao" />
+        </property>
+        <property name="revisionWriter">
+            <ref local="revisionDao" />
+        </property>
+    </bean>
+    <bean id="propertyConfigurer2" class="com.smartitengineering.util.spring.PropertiesLocatorConfigurer">
+        <property name="smartLocations">
+            <list>
+                <value>com/smartitengineering/smart-dao/smart-version-jgit/jgit-config.properties</value>
+            </list>
+        </property>
+        <property name="placeholderPrefix">
+            <value>$[</value>
+        </property>
+        <property name="placeholderSuffix">
+            <value>]</value>
+        </property>
+    </bean>
+    <bean id="metaRCSConfig" class="com.smartitengineering.version.impl.jgit.service.RCSConfig">
+        <property name="allowNoChangeCommit"><value>$[smart-version.allowEmptyCommit]</value></property>
+        <property name="concurrentWriteOperations"><value>$[smart-version.concurrentWrites]</value></property>
+        <property name="repositoryPath"><value>$[smart-version.repoPath]</value></property>
+    </bean>
+    <bean id="jgitImpl" class="com.smartitengineering.version.impl.jgit.JGitImpl" init-method="init" destroy-method="finish">
+        <property name="config">
+            <ref local="metaRCSConfig" />
+        </property>
+    </bean>
+    <bean id="versionControlDao" class="com.smartitengineering.version.impl.jgit.JGitVersionControlDao">
+        <property name="JGitService">
+            <ref local="metaRCSService" />
+        </property>
+        <property name="JGitImpl">
+            <ref local="jgitImpl" />
+        </property>
+        <property name="JGitExtension">
+            <ref local="jgitImpl" />
+        </property>
+    </bean>
+    <bean id="metaReg" class="com.smartitengineering.util.spring.BeanFactoryRegistrar">
+        <property name="beanFactoryContextName" value="com.smartitnengineering.smart-dao.smart-version-jgit"/>
+    </bean>
+    <bean id="apiReg" class="com.smartitengineering.util.spring.BeanFactoryRegistrar">
+        <property name="beanFactoryContextName" value="com.smartitnengineering.smart-dao.smart-version"/>
+    </bean>
+</beans>

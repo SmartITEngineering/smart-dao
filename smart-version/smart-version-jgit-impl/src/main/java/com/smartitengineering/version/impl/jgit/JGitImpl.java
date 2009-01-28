@@ -85,16 +85,16 @@ public class JGitImpl
         if (initialized) {
             throw new IllegalStateException("Impl already initialized");
         }
-        if (StringUtils.isBlank(readRepositoryLocation) || StringUtils.isBlank(
-            writeRepositoryLocation)) {
+        if (StringUtils.isBlank(getReadRepositoryLocation()) || StringUtils.
+            isBlank(getWriteRepositoryLocation())) {
             throw new IllegalStateException("Repository location not set!");
         }
-        File writeRepoDir = new File(writeRepositoryLocation);
+        File writeRepoDir = new File(getWriteRepositoryLocation());
         writeRepository = new Repository(writeRepoDir);
         if (!writeRepoDir.exists()) {
             writeRepository.create();
         }
-        File readRepoDir = new File(readRepositoryLocation);
+        File readRepoDir = new File(getReadRepositoryLocation());
         readRepository = new Repository(readRepoDir);
         if (!readRepoDir.exists()) {
             readRepository.create();
@@ -137,6 +137,9 @@ public class JGitImpl
     }
 
     public String getReadRepositoryLocation() {
+        if (StringUtils.isBlank(readRepositoryLocation)) {
+            return getConfig().getRepositoryPath();
+        }
         return readRepositoryLocation;
     }
 
@@ -148,6 +151,9 @@ public class JGitImpl
     }
 
     public String getWriteRepositoryLocation() {
+        if (StringUtils.isBlank(writeRepositoryLocation)) {
+            return getConfig().getRepositoryPath();
+        }
         return writeRepositoryLocation;
     }
 
