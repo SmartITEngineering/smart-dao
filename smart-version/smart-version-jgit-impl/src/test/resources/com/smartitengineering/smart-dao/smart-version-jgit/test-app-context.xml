@@ -32,23 +32,23 @@
         </property>
         <property name="properties" >
             <props>
-                <prop key="hibernate.connection.driver_class">${com.smartitengineering.dao.connection.driver_class}
+                <prop key="hibernate.connection.driver_class">${com.smartitengineering.smart-dao.smart-version.jgit.connection.driver_class}
                 </prop>
-                <prop key="hibernate.connection.url">${com.smartitengineering.dao.connection.url}
+                <prop key="hibernate.connection.url">${com.smartitengineering.smart-dao.smart-version.jgit.connection.url}
                 </prop>
-                <prop key="hibernate.connection.username">${com.smartitengineering.dao.connection.username}
+                <prop key="hibernate.connection.username">${com.smartitengineering.smart-dao.smart-version.jgit.connection.username}
                 </prop>
-                <prop key="hibernate.connection.password">${com.smartitengineering.dao.connection.password}
+                <prop key="hibernate.connection.password">${com.smartitengineering.smart-dao.smart-version.jgit.connection.password}
                 </prop>
-                <prop key="hibernate.dialect">${com.smartitengineering.dao.dialect}
+                <prop key="hibernate.dialect">${com.smartitengineering.smart-dao.smart-version.jgit.dialect}
                 </prop>
-                <prop key="hibernate.show_sql">${com.smartitengineering.dao.show_sql}
+                <prop key="hibernate.show_sql">${com.smartitengineering.smart-dao.smart-version.jgit.show_sql}
                 </prop>
-                <prop key="hibernate.autoCommit">${com.smartitengineering.dao.autoCommit}
+                <prop key="hibernate.autoCommit">${com.smartitengineering.smart-dao.smart-version.jgit.autoCommit}
                 </prop>
-                <prop key="hibernate.hbm2ddl.auto">${com.smartitengineering.dao.hbm2ddl.auto}
+                <prop key="hibernate.hbm2ddl.auto">${com.smartitengineering.smart-dao.smart-version.jgit.hbm2ddl.auto}
                 </prop>
-                <prop key="hibernate.query.substitutions">${com.smartitengineering.dao.query.substitutions}
+                <prop key="hibernate.query.substitutions">${com.smartitengineering.smart-dao.smart-version.jgit.query.substitutions}
                 </prop>
             </props>
         </property>

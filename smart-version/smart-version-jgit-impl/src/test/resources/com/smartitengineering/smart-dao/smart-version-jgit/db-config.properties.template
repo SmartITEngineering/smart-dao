@@ -1,9 +1,9 @@
-com.smartitengineering.dao.connection.driver_class=org.apache.derby.jdbc.EmbeddedDriver
-com.smartitengineering.dao.connection.url=jdbc:derby:target/TestDB;create=true;
-com.smartitengineering.dao.connection.username=
-com.smartitengineering.dao.connection.password=
-com.smartitengineering.dao.dialect=org.hibernate.dialect.DerbyDialect
-com.smartitengineering.dao.show_sql=true
-com.smartitengineering.dao.autoCommit=true
-com.smartitengineering.dao.hbm2ddl.auto=create-drop
-com.smartitengineering.dao.query.substitutions=true 'T', false 'F'
+com.smartitengineering.smart-dao.smart-version.jgit.connection.driver_class=org.apache.derby.jdbc.EmbeddedDriver
+com.smartitengineering.smart-dao.smart-version.jgit.connection.url=jdbc:derby:target/TestDB;create=true;
+com.smartitengineering.smart-dao.smart-version.jgit.connection.username=
+com.smartitengineering.smart-dao.smart-version.jgit.connection.password=
+com.smartitengineering.smart-dao.smart-version.jgit.dialect=org.hibernate.dialect.DerbyDialect
+com.smartitengineering.smart-dao.smart-version.jgit.show_sql=true
+com.smartitengineering.smart-dao.smart-version.jgit.autoCommit=true
+com.smartitengineering.smart-dao.smart-version.jgit.hbm2ddl.auto=create-drop
+com.smartitengineering.smart-dao.smart-version.jgit.query.substitutions=true 'T', false 'F'
