@@ -24,10 +24,10 @@
 
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "spring-beans.dtd"  >
 <beans>
-    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations">
+    <bean id="propertyConfigurer" class="com.smartitengineering.util.spring.PropertiesLocatorConfigurer">
+        <property name="smartLocations">
             <list>
-                <value>classpath:com/smartitengineering/smart-dao/smart-version-jgit/db-config.properties</value>
+                <value>com/smartitengineering/smart-dao/smart-version-jgit/db-config.properties</value>
             </list>
         </property>
         <property name="properties" >

@@ -30,7 +30,6 @@
     </parent>
     <groupId>com.smartitengineering</groupId>
     <artifactId>smart-dao-search</artifactId>
-    <packaging>jar</packaging>
     <version>0.4-SNAPSHOT</version>
     <name>smart-dao-search</name>
     <packaging>jar</packaging>

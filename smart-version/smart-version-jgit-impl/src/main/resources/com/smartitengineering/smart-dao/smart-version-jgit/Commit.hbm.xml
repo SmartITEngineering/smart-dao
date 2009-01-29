@@ -26,7 +26,7 @@
 <hibernate-mapping>
     <class
         name="com.smartitengineering.version.impl.jgit.domain.Commit"
-        table="commit"
+        table="commit_log"
         dynamic-update="false"
         dynamic-insert="false"
     >

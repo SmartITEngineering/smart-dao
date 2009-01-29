@@ -72,7 +72,7 @@
             <ref local="revisionDao" />
         </property>
     </bean>
-    <bean id="propertyConfigurer2" class="com.smartitengineering.util.spring.PropertiesLocatorConfigurer">
+    <bean id="propertyConfigurerForJgitImpl" class="com.smartitengineering.util.spring.PropertiesLocatorConfigurer">
         <property name="smartLocations">
             <list>
                 <value>com/smartitengineering/smart-dao/smart-version-jgit/jgit-config.properties</value>

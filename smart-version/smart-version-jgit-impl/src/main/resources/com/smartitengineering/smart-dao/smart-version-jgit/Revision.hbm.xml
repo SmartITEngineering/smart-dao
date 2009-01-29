@@ -26,7 +26,7 @@
 <hibernate-mapping>
     <class
         name="com.smartitengineering.version.impl.jgit.domain.Revision"
-        table="revision"
+        table="revision_log"
         dynamic-update="false"
         dynamic-insert="false"
     >

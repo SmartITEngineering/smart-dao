@@ -33,7 +33,6 @@
     <packaging>jar</packaging>
     <version>${parent.version}</version>
     <name>smart-cache</name>
-    <packaging>jar</packaging>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
