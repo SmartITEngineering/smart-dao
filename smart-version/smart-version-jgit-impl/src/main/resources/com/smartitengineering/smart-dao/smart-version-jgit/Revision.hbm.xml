@@ -50,6 +50,11 @@
             column="head_revision"
             type="boolean"
         />
+        <property
+            name="deleted"
+            column="is_deleted"
+            type="boolean"
+        />
         <component name="resource"
             class="com.smartitengineering.version.impl.jgit.domain.Resource">
             <property

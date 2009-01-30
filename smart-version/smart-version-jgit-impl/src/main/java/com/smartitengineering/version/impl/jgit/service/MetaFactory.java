@@ -21,6 +21,12 @@ package com.smartitengineering.version.impl.jgit.service;
 import com.smartitengineering.util.spring.BeanFactoryRegistrar;
 import com.smartitengineering.util.spring.annotations.Aggregator;
 import com.smartitengineering.util.spring.annotations.InjectableField;
+import com.smartitengineering.version.api.factory.VersionAPI;
+import com.smartitengineering.version.impl.jgit.domain.Author;
+import com.smartitengineering.version.impl.jgit.domain.Commit;
+import com.smartitengineering.version.impl.jgit.domain.Resource;
+import com.smartitengineering.version.impl.jgit.domain.Revision;
+import java.util.LinkedHashSet;
 
 /**
  *
@@ -36,7 +42,7 @@ public class MetaFactory {
     private MetaRCSService metaRCSService;
 
     public RCSConfig getConfig() {
-        if(config == null) {
+        if (config == null) {
             config = new RCSConfig();
             config.setAllowNoChangeCommit(false);
             config.setConcurrentWriteOperations(1);
@@ -57,5 +63,71 @@ public class MetaFactory {
             factory = new MetaFactory();
         }
         return factory;
+    }
+
+    public static Commit transformAPICommit(
+        final com.smartitengineering.version.api.Commit apiCommit,
+        final boolean deleted) {
+        Commit commit = new Commit();
+        commit.setCommitId(apiCommit.getCommitId());
+        commit.setCommitMessage(apiCommit.getCommitMessage());
+        Author committer = new Author();
+        committer.setName(apiCommit.getAuthor().getName());
+        committer.setEmail(apiCommit.getAuthor().getEmail());
+        commit.setCommitter(committer);
+        commit.setDateTime(apiCommit.getCommitTime());
+        commit.setParentCommitId(apiCommit.getParentCommitId());
+        for (com.smartitengineering.version.api.Revision apiRevision : apiCommit.
+            getRevisions()) {
+            commit.getRevisions().add(transformAPIRevision(commit, apiRevision,
+                deleted));
+        }
+        return commit;
+    }
+
+    public static Revision transformAPIRevision(
+        final Commit commit,
+        final com.smartitengineering.version.api.Revision apiRevision,
+        final boolean deleted) {
+        Revision revision = new Revision();
+        revision.setCommit(commit);
+        revision.setDeleted(deleted);
+        Resource resource = new Resource();
+        resource.setResourceId(apiRevision.getResource().getId());
+        revision.setResource(resource);
+        revision.setRevisionId(apiRevision.getRevisionId());
+        return revision;
+    }
+
+    public com.smartitengineering.version.api.Commit transformMetaCommit(
+        Commit commit) {
+        com.smartitengineering.version.api.Author apiAuthor = VersionAPI.
+            createAuthor(commit.getCommitter().getName(), commit.getCommitter().
+            getEmail());
+        LinkedHashSet<com.smartitengineering.version.api.Revision> apiRevisions =
+            new LinkedHashSet<com.smartitengineering.version.api.Revision>(commit.getRevisions().
+            size());
+        for (Revision revision : commit.getRevisions()) {
+            apiRevisions.add(transformMetaRevision(revision));
+        }
+        return VersionAPI.createCommit(apiRevisions, commit.getCommitId(),
+            commit.getParentCommitId(), commit.getCommitMessage(), apiAuthor,
+            commit.getDateTime());
+    }
+
+    public com.smartitengineering.version.api.Revision transformMetaRevision(
+        Revision revision) {
+        final com.smartitengineering.version.api.Resource apiResource;
+        if (VersionAPI.getInstance().getVersionControlDao() == null) {
+            apiResource = VersionAPI.createResource(revision.getResource().
+                getResourceId(), "");
+        }
+        else {
+            apiResource =
+                VersionAPI.getInstance().getVersionControlDao().
+                getResourceByRevision(
+                revision.getRevisionId(), revision.getResource().getResourceId());
+        }
+        return VersionAPI.createRevision(apiResource, revision.getRevisionId());
     }
 }

@@ -34,10 +34,30 @@ public class Revision
     public static final String PROP_REVISIONID = "revisionId";
     public static final String PROP_HEADREVISION = "headRevision";
     public static final String PROP_COMMIT = "commit";
+    public static final String PROP_DELETE = "deleted";
     protected Resource resource;
     protected String revisionId;
     protected boolean headRevision;
     protected Commit commit;
+    protected boolean deleted;
+
+    /**
+     * Get the value of deleted
+     *
+     * @return the value of deleted
+     */
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    /**
+     * Set the value of deleted
+     *
+     * @param deleted new value of deleted
+     */
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     /**
      * Get the value of commit
