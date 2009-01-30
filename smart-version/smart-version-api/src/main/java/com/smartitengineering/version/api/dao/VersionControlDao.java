@@ -63,6 +63,14 @@ public interface VersionControlDao {
     public Resource getResource(final String resourceId);
 
     /**
+     * Retrieve the specified revision of the specified resource
+     * @param revisionId The revision to get
+     * @param resourceId The resource to get
+     * @return The resource with the specified resource id and revision id
+     */
+    public Resource getResourceByRevision(final String revisionId, final String resourceId);
+
+    /**
      * Search for commits. Please implementation documentation to check whether
      * this operation is supported or not and how to use it.
      * @param parameters Parameters to be used for search

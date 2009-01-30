@@ -1,3 +1,4 @@
+
 /*
  * This is a common dao with basic CRUD operations and is not limited to any 
  * persistent layer implementation
@@ -28,6 +29,7 @@ import com.smartitengineering.version.api.factory.VersionAPI;
 import java.util.Arrays;
 import java.util.Iterator;
 import junit.framework.TestCase;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -39,6 +41,7 @@ public class JGitImplTest
     private static final String DEFAULT_PATH = "target/jgit-impl/.git";
     private JGitImpl jGitImpl;
     private boolean finished = false;
+    private static String firstRevisionId = "";
 
     private boolean isFinished() {
         return finished;
@@ -66,12 +69,14 @@ public class JGitImplTest
     }
 
     public void testStore() {
+        final Revision revision =
+            VersionAPI.createRevision(VersionAPI.createResource("a/a.xml",
+            "Content of a/a"), null);
 
-        jGitImpl.store(VersionAPI.createCommit(Arrays.asList(VersionAPI.
+        jGitImpl.store(VersionAPI.createCommit(Arrays.asList(revision,VersionAPI.
             createRevision(
-            VersionAPI.createResource("a/a.xml", "Content of a/a"),
-            null), VersionAPI.createRevision(
-            VersionAPI.createResource("b/a.xml", "Content of b/a"), null)), null,
+            VersionAPI.createResource("b/a.xml", "Content of b/a"),
+            null)), null,
             null, "Commit message for A", VersionAPI.createAuthor(
             "Imran M Yousuf", "imran@smartitengineering.com"), null), new WriterCallback() {
 
@@ -84,6 +89,8 @@ public class JGitImplTest
                 }
                 assertEquals(WriteStatus.STORE_PASS, status);
                 assertNull(error);
+                assertNotNull(revision.getRevisionId());
+                firstRevisionId = revision.getRevisionId();
                 finished = true;
             }
         });
@@ -137,6 +144,27 @@ public class JGitImplTest
         a = jGitImpl.getResource("a/a.xml");
         assertEquals("a/a.xml", a.getId());
         assertEquals("UPDATE-1 Content of a/a", a.getContent());
+        if(StringUtils.isNotBlank(firstRevisionId)) {
+            a = jGitImpl.getResourceByRevision(firstRevisionId, "a/a.xml");
+            assertEquals("a/a.xml", a.getId());
+            assertEquals("Content of a/a", a.getContent());
+        }
+        /**
+         * Try non-existing resource id and revision id
+         */
+        String rubbish = "asdassdasd";
+        try {
+            jGitImpl.getResource(rubbish);
+            fail("Should not be able to return");
+        }
+        catch(RuntimeException ex) {
+        }
+        try {
+            jGitImpl.getResourceByRevision(rubbish, rubbish);
+            fail("Should not be able to return");
+        }
+        catch(RuntimeException ex) {
+        }
     }
 
     public void testRemove() {
@@ -168,10 +196,14 @@ public class JGitImplTest
             }
         }
         finished = false;
-        Resource b = jGitImpl.getResource("b/a.xml");
-        assertNull(b);
+        try {
+            jGitImpl.getResource("b/a.xml");
+            fail("Should not be able to return");
+        }
+        catch(RuntimeException ex) {
+        }
     }
-
+    
     public void testVersionedResource() {
         VersionedResource versionedResource = jGitImpl.getVersionedResource(
             "/////a/a.xml///");

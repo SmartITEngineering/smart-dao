@@ -282,17 +282,17 @@ public class JGitImpl
         }
     }
 
-    public Resource getResource(String resourceId) {
+    public Resource getResource(final String resourceId) {
         try {
             String trimmedResourceId = VersionAPI.trimToPropertResourceId(
                 resourceId);
             if (StringUtils.isBlank(trimmedResourceId)) {
-                return null;
+                throw new IllegalArgumentException("Invalid resource id!");
             }
             ObjectId resourceObjectId;
             Tree head = getHeadTree(getReadRepository());
             if (!head.existsBlob(trimmedResourceId)) {
-                return null;
+                throw new IllegalArgumentException("Resource id doesn't exist!");
             }
             TreeEntry treeEntry = head.findBlobMember(trimmedResourceId);
             resourceObjectId = treeEntry.getId();
@@ -302,6 +302,35 @@ public class JGitImpl
         catch (Throwable ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    public Resource getResourceByRevision(final String revisionId,
+                                          final String resourceId) {
+        try {
+            String trimmedResourceId = VersionAPI.trimToPropertResourceId(
+                resourceId);
+            if (StringUtils.isBlank(trimmedResourceId)) {
+                throw new IllegalArgumentException("Invalid resource id!");
+            }
+            ObjectId resourceObjectId;
+            resourceObjectId = ObjectId.fromString(revisionId);
+            return VersionAPI.createResource(trimmedResourceId, new String(
+                readObject(ObjectId.toString(resourceObjectId))));
+        }
+        catch (Throwable ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public byte[] readObject(final String objectIdStr)
+        throws IOException,
+               IllegalArgumentException {
+        ObjectId objectId = ObjectId.fromString(objectIdStr);
+        ObjectLoader objectLoader = getReadRepository().openObject(objectId);
+        if (objectLoader.getType() != Constants.OBJ_BLOB) {
+            throw new IllegalArgumentException("Not a blob: " + objectIdStr);
+        }
+        return objectLoader.getBytes();
     }
 
     public Collection<Commit> searchForCommit(
@@ -436,6 +465,14 @@ public class JGitImpl
             mutableCommit.setCommitId(ObjectId.toString(newCommitId));
             mutableCommit.setCommitTime(commit.getCommitter().getWhen());
             commit.setCommitId(newCommitId);
+            if (commit.getParentIds().length > 0) {
+                mutableCommit.setParentCommitId(ObjectId.toString(commit.
+                    getParentIds()[0]));
+            }
+            else {
+                mutableCommit.setParentCommitId(ObjectId.toString(ObjectId.
+                    zeroId()));
+            }
         }
         else {
             throw new IllegalArgumentException("SPI not implemented by API!");
@@ -503,16 +540,5 @@ public class JGitImpl
             }
         }
         return versions;
-    }
-
-    public byte[] readObject(String objectIdStr)
-        throws IOException,
-               IllegalArgumentException {
-        ObjectId objectId = ObjectId.fromString(objectIdStr);
-        ObjectLoader objectLoader = getReadRepository().openObject(objectId);
-        if (objectLoader.getType() != Constants.OBJ_BLOB) {
-            throw new IllegalArgumentException("Not a blob: " + objectIdStr);
-        }
-        return objectLoader.getBytes();
     }
 }

@@ -170,6 +170,18 @@ public class JGitVersionControlDao
         }
     }
 
+    public Resource getResourceByRevision(String revisionId,
+                                          String resourceId) {
+        try {
+            return VersionAPI.createResource(resourceId,
+                new String(jGitExtension.readObject(revisionId)));
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
     public Collection<Commit> searchForCommit(
         Collection<QueryParameter> parameters) {
         throw new UnsupportedOperationException("Not supported yet.");
