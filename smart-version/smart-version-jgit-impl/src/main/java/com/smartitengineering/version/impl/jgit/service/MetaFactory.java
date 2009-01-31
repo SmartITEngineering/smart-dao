@@ -99,7 +99,7 @@ public class MetaFactory {
         return revision;
     }
 
-    public com.smartitengineering.version.api.Commit transformMetaCommit(
+    public static com.smartitengineering.version.api.Commit transformMetaCommit(
         Commit commit) {
         com.smartitengineering.version.api.Author apiAuthor = VersionAPI.
             createAuthor(commit.getCommitter().getName(), commit.getCommitter().
@@ -115,7 +115,7 @@ public class MetaFactory {
             commit.getDateTime());
     }
 
-    public com.smartitengineering.version.api.Revision transformMetaRevision(
+    public static com.smartitengineering.version.api.Revision transformMetaRevision(
         Revision revision) {
         final com.smartitengineering.version.api.Resource apiResource;
         if (VersionAPI.getInstance().getVersionControlDao() == null) {

@@ -18,7 +18,11 @@
  */
 package com.smartitengineering.version.impl.jgit.service;
 
+import com.smartitengineering.dao.common.queryparam.QueryParameter;
 import com.smartitengineering.version.api.Commit;
+import com.smartitengineering.version.api.Revision;
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * The API for alternate storage access of versioning meta info. It will be used
@@ -54,4 +58,18 @@ public interface MetaRCSService {
      * @return Head revision id of the resource
      */
     public String getHeadVersionForResource(String resourceId);
+
+    /**
+     * Search for commits with the params and return search result as a set
+     * @param parameters Search filters
+     * @return Search result, should not return null
+     */
+    public Set<Commit> searchForCommits(Collection<QueryParameter> parameters);
+
+    /**
+     * Search for revisions with the params and return search result as a set
+     * @param parameters Search filters
+     * @return Search result, should not return null
+     */
+    public Set<Revision> searchForRevisions(Collection<QueryParameter> parameters);
 }

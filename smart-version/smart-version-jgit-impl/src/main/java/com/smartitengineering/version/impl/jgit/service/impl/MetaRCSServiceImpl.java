@@ -22,13 +22,17 @@ import com.smartitengineering.dao.common.CommonReadDao;
 import com.smartitengineering.dao.common.CommonWriteDao;
 import com.smartitengineering.dao.common.queryparam.MatchMode;
 import com.smartitengineering.dao.common.queryparam.Order;
+import com.smartitengineering.dao.common.queryparam.QueryParameter;
 import com.smartitengineering.dao.common.queryparam.QueryParameterFactory;
 import com.smartitengineering.version.impl.jgit.domain.Commit;
 import com.smartitengineering.version.impl.jgit.domain.Resource;
 import com.smartitengineering.version.impl.jgit.domain.Revision;
 import com.smartitengineering.version.impl.jgit.service.MetaFactory;
 import com.smartitengineering.version.impl.jgit.service.MetaRCSService;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
@@ -125,14 +129,13 @@ public class MetaRCSServiceImpl
             (List<String>) revisionReader.getOtherList(
             QueryParameterFactory.<String>getStringLikePropertyParam(
             new StringBuilder(Revision.PROP_RESOURCE).append('.').
-            append(Resource.PROP_RESOURCEID).toString(), 
+            append(Resource.PROP_RESOURCEID).toString(),
             resourceId, MatchMode.EXACT),
             QueryParameterFactory.getPropProjectionParam(
             Revision.PROP_REVISIONID),
             QueryParameterFactory.<Boolean>getEqualPropertyParam(
             Revision.PROP_DELETE, false),
-            QueryParameterFactory.getOrderByParam("id", Order.DESC)
-            );
+            QueryParameterFactory.getOrderByParam("id", Order.DESC));
         return revisions.toArray(new String[0]);
     }
 
@@ -144,7 +147,7 @@ public class MetaRCSServiceImpl
             (String) revisionReader.getOther(QueryParameterFactory.<String>
             getStringLikePropertyParam(new StringBuilder(
             Revision.PROP_RESOURCE).append('.').
-            append(Resource.PROP_RESOURCEID).toString(), 
+            append(Resource.PROP_RESOURCEID).toString(),
             resourceId, MatchMode.EXACT),
             QueryParameterFactory.<Boolean>getEqualPropertyParam(
             Revision.PROP_HEADREVISION, true),
@@ -183,9 +186,8 @@ public class MetaRCSServiceImpl
             resourceIds.add(resourceId);
         }
         currentHeads = new HashSet<Revision>(revisionReader.getList(
-            QueryParameterFactory.<String>
-            getIsInPropertyParam(new StringBuilder(Revision.PROP_RESOURCE).
-            append('.').append(Resource.PROP_RESOURCEID).toString(),
+            QueryParameterFactory.<String>getIsInPropertyParam(new StringBuilder(Revision.PROP_RESOURCE).append('.').
+            append(Resource.PROP_RESOURCEID).toString(),
             resourceIds.toArray(new String[0])),
             QueryParameterFactory.<Boolean>getEqualPropertyParam(
             Revision.PROP_HEADREVISION, true)));
@@ -196,5 +198,37 @@ public class MetaRCSServiceImpl
             }
             revisionWriter.update(currentHeads.toArray(new Revision[0]));
         }
+    }
+
+    public Set<com.smartitengineering.version.api.Commit> searchForCommits(
+        Collection<QueryParameter> parameters) {
+        Collection<QueryParameter> params = parameters == null ? Collections.<QueryParameter>emptyList()
+            : parameters;
+        List<Commit> commits = commitReader.getList(params.toArray(
+            new QueryParameter[0]));
+        LinkedHashSet<com.smartitengineering.version.api.Commit> result =
+            new LinkedHashSet<com.smartitengineering.version.api.Commit>();
+        if (commits != null) {
+            for (Commit commit : commits) {
+                result.add(MetaFactory.transformMetaCommit(commit));
+            }
+        }
+        return result;
+    }
+
+    public Set<com.smartitengineering.version.api.Revision> searchForRevisions(
+        Collection<QueryParameter> parameters) {
+        Collection<QueryParameter> params = parameters == null ? Collections.<QueryParameter>emptyList()
+            : parameters;
+        List<Revision> revisions = revisionReader.getList(params.toArray(
+            new QueryParameter[0]));
+        LinkedHashSet<com.smartitengineering.version.api.Revision> result =
+            new LinkedHashSet<com.smartitengineering.version.api.Revision>();
+        if (revisions != null) {
+            for (Revision revision : revisions) {
+                result.add(MetaFactory.transformMetaRevision(revision));
+            }
+        }
+        return result;
     }
 }

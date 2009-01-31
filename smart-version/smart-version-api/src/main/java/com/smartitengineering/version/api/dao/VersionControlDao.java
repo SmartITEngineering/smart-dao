@@ -21,6 +21,7 @@ package com.smartitengineering.version.api.dao;
 import com.smartitengineering.dao.common.queryparam.QueryParameter;
 import com.smartitengineering.version.api.Commit;
 import com.smartitengineering.version.api.Resource;
+import com.smartitengineering.version.api.Revision;
 import com.smartitengineering.version.api.VersionedResource;
 import java.util.Collection;
 
@@ -76,7 +77,7 @@ public interface VersionControlDao {
      * @param parameters Parameters to be used for search
      * @return Search result or empty collection if nothing could be matched
      */
-    public Collection<Commit> searchForCommit(
+    public Collection<Commit> searchForCommits(
         final Collection<QueryParameter> parameters);
 
     /**
@@ -85,6 +86,6 @@ public interface VersionControlDao {
      * @param parameters Parameters to be used fo search
      * @return Search result or empty collection if nothing could be matched
      */
-    public Collection<VersionedResource> searchForVersionedResource(
+    public Collection<Revision> searchForRevisions(
         final Collection<QueryParameter> parameters);
 }

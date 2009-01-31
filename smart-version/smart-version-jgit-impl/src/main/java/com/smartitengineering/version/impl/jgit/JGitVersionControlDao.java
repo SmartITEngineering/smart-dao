@@ -31,6 +31,7 @@ import com.smartitengineering.version.impl.jgit.service.MetaRCSService;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -206,14 +207,28 @@ public class JGitVersionControlDao
         }
     }
 
-    public Collection<Commit> searchForCommit(
+    /**
+     * Only use property param from SearchProperty that start with 'COMMIT'.
+     * @see VersionControlDao#searchForCommits(java.util.Collection) 
+     * @see SearchParam#getPropertyName() 
+     * @see SearchProperties
+     */
+    public Collection<Commit> searchForCommits(
         Collection<QueryParameter> parameters) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Set<Commit> commits = jGitService.searchForCommits(parameters);
+        return commits;
     }
 
-    public Collection<VersionedResource> searchForVersionedResource(
+    /**
+     * Only use property param from SearchProperty that start with 'REVISION'.
+     * @see VersionControlDao#searchForRevisions(java.util.Collection)
+     * @see SearchParam#getPropertyName() 
+     * @see SearchProperties
+     */
+    public Collection<Revision> searchForRevisions(
         Collection<QueryParameter> parameters) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Set<Revision> revisions = jGitService.searchForRevisions(parameters);
+        return revisions;
     }
 
     public JGitDaoExtension getJGitExtension() {

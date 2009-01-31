@@ -336,12 +336,12 @@ public class JGitImpl
         return objectLoader.getBytes();
     }
 
-    public Collection<Commit> searchForCommit(
+    public Collection<Commit> searchForCommits(
         final Collection<QueryParameter> parameters) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public Collection<VersionedResource> searchForVersionedResource(
+    public Collection<Revision> searchForRevisions(
         final Collection<QueryParameter> parameters) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
