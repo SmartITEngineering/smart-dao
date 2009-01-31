@@ -1508,14 +1508,14 @@ public class AbstractDAOTest
                     break;
                 }
                 case LIST: {
-                    nums = (List<Integer>) publisherInstance.readOtherList(
+                    nums = publisherInstance.<Integer>readOtherList(
                         Publisher.class, getQueryParamList(
                         distinctNumOfEmployeeProjectionParam));
                     break;
                 }
                 case VAR_ARGS:
                 default: {
-                    nums = (List<Integer>) publisherInstance.readOtherList(
+                    nums = publisherInstance.<Integer>readOtherList(
                         Publisher.class, distinctNumOfEmployeeProjectionParam);
                     break;
                 }

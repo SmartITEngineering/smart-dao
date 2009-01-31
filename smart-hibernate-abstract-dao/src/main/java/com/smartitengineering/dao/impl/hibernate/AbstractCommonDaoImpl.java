@@ -123,8 +123,9 @@ public abstract class AbstractCommonDaoImpl<Template extends PersistentDTO>
         return readList(entityClass, query);
     }
 
-    public Object getOther(List<QueryParameter> query) {
-        return readOther(entityClass, query);
+    public <OtherTemplate extends Object> OtherTemplate getOther(
+        List<QueryParameter> query) {
+        return (OtherTemplate) readOther(entityClass, query);
     }
 
     public Template getSingle(QueryParameter... query) {
@@ -135,8 +136,9 @@ public abstract class AbstractCommonDaoImpl<Template extends PersistentDTO>
         return readList(entityClass, query);
     }
 
-    public Object getOther(QueryParameter... query) {
-        return readOther(entityClass, query);
+    public <OtherTemplate extends Object> OtherTemplate getOther(
+        QueryParameter... query) {
+        return (OtherTemplate) readOther(entityClass, query);
     }
 
     public List<? extends Object> getOtherList(
@@ -144,11 +146,13 @@ public abstract class AbstractCommonDaoImpl<Template extends PersistentDTO>
         return readOtherList(entityClass, query);
     }
 
-    public List<? extends Object> getOtherList(List<QueryParameter> query) {
+    public <OtherTemplate extends Object> List<OtherTemplate> getOtherList(
+        List<QueryParameter> query) {
         return readOtherList(entityClass, query);
     }
 
-    public List<? extends Object> getOtherList(QueryParameter... query) {
+    public <OtherTemplate extends Object> List<OtherTemplate> getOtherList(
+        QueryParameter... query) {
         return readOtherList(entityClass, query);
     }
 }
