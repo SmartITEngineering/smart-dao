@@ -68,7 +68,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             }
         }
         finally {
-            if(session != null) {
+            if (session != null) {
                 session.flush();
                 if (customSession && session.isOpen()) {
                     session.close();
@@ -96,7 +96,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             }
         }
         finally {
-            if(session != null) {
+            if (session != null) {
                 session.flush();
                 if (customSession && session.isOpen()) {
                     session.close();
@@ -124,7 +124,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             }
         }
         finally {
-            if(session != null) {
+            if (session != null) {
                 session.flush();
                 if (customSession && session.isOpen()) {
                     session.close();
@@ -135,22 +135,26 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
 
     protected Template readSingle(Class entityClass,
                                   Hashtable<String, QueryParameter> parameter) {
-        return readSingle(entityClass, parameter.values().toArray(new QueryParameter[0]));
+        return readSingle(entityClass, parameter.values().toArray(
+            new QueryParameter[0]));
     }
 
     protected Object readOther(Class entityClass,
                                Hashtable<String, QueryParameter> parameter) {
-        return readOther(entityClass, parameter.values().toArray(new QueryParameter[0]));
+        return readOther(entityClass, parameter.values().toArray(
+            new QueryParameter[0]));
     }
 
     protected List<? extends Object> readOtherList(Class entityClass,
                                                    Hashtable<String, QueryParameter> parameter) {
-        return readOtherList(entityClass, parameter.values().toArray(new QueryParameter[0]));
+        return readOtherList(entityClass, parameter.values().toArray(
+            new QueryParameter[0]));
     }
 
     protected List<Template> readList(Class entityClass,
                                       Hashtable<String, QueryParameter> parameter) {
-        return readList(entityClass, parameter.values().toArray(new QueryParameter[0]));
+        return readList(entityClass, parameter.values().toArray(
+            new QueryParameter[0]));
     }
 
     protected Template readSingle(Class entityClass,
@@ -163,9 +167,11 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         return readOther(entityClass, parameter.toArray(new QueryParameter[0]));
     }
 
-    protected List<? extends Object> readOtherList(Class entityClass,
-                                                   List<QueryParameter> parameter) {
-        return readOtherList(entityClass, parameter.toArray(new QueryParameter[0]));
+    public <OtherTemplate extends Object> List<OtherTemplate> readOtherList(
+        Class entityClass,
+        List<QueryParameter> parameter) {
+        return readOtherList(entityClass, parameter.toArray(
+            new QueryParameter[0]));
     }
 
     protected List<Template> readList(Class entityClass,
@@ -193,7 +199,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if(session != null) {
+            if (session != null) {
                 if (customSession && session.isOpen()) {
                     session.close();
                 }
@@ -221,7 +227,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if(session != null) {
+            if (session != null) {
                 if (customSession && session.isOpen()) {
                     session.close();
                 }
@@ -229,8 +235,9 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         }
     }
 
-    protected List<? extends Object> readOtherList(Class entityClass,
-                                                   QueryParameter... parameter) {
+    public <OtherTemplate extends Object> List<OtherTemplate> readOtherList(
+        Class entityClass,
+        QueryParameter... parameter) {
         Session session;
         boolean customSession = false;
         try {
@@ -249,7 +256,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if(session != null) {
+            if (session != null) {
                 if (customSession && session.isOpen()) {
                     session.close();
                 }
@@ -277,7 +284,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
             throw new IllegalArgumentException(e);
         }
         finally {
-            if(session != null) {
+            if (session != null) {
                 if (customSession && session.isOpen()) {
                     session.close();
                 }
@@ -310,7 +317,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
                 final Order order;
                 QueryParameter.Order requestedOrder =
                     (QueryParameter.Order) parameter.getParameter();
-                switch(requestedOrder) {
+                switch (requestedOrder) {
                     case ASC: {
                         order = Order.asc(element);
                         break;
@@ -324,7 +331,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
                         break;
                     }
                 }
-                if(order != null) {
+                if (order != null) {
                     criteria.addOrder(order);
                 }
                 return;
@@ -491,9 +498,10 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         Iterator<String> keys = nestedParameter.keySet().iterator();
         for (; keys.hasNext();) {
             String nestedElement = keys.next();
-            final QueryParameter nestedParam 
-                = nestedParameter.get(nestedElement);
-            processCriterion(disjunction, nestedParam.getPropertyName(), nestedParam);
+            final QueryParameter nestedParam =
+                nestedParameter.get(nestedElement);
+            processCriterion(disjunction, nestedParam.getPropertyName(),
+                nestedParam);
         }
         criteria.add(disjunction);
     }
