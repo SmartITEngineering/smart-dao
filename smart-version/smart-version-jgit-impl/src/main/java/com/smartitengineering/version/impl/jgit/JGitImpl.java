@@ -261,11 +261,11 @@ public class JGitImpl
             String trimmedResourceId = VersionAPI.trimToPropertResourceId(
                 resourceId);
             if (StringUtils.isBlank(trimmedResourceId)) {
-                return null;
+                throw new IllegalArgumentException("Invalid resource id!");
             }
             Set<ObjectId> revisionIds = getGraphForResourceId(trimmedResourceId);
             if (revisionIds == null || revisionIds.isEmpty()) {
-                return null;
+                throw new IllegalArgumentException("Resource id doesn't exist!");
             }
             Revision[] revisions = new Revision[revisionIds.size()];
             int i = 0;
@@ -325,6 +325,9 @@ public class JGitImpl
     public byte[] readObject(final String objectIdStr)
         throws IOException,
                IllegalArgumentException {
+        if (StringUtils.isBlank(objectIdStr)) {
+            throw new IllegalArgumentException("Invalid Object id!");
+        }
         ObjectId objectId = ObjectId.fromString(objectIdStr);
         ObjectLoader objectLoader = getReadRepository().openObject(objectId);
         if (objectLoader.getType() != Constants.OBJ_BLOB) {
@@ -347,6 +350,9 @@ public class JGitImpl
         throws IOException,
                IllegalArgumentException {
         checkInitialized();
+        if (objectIds == null || objectIds.length <= 0) {
+            throw new IllegalArgumentException("Empty Object IDs!");
+        }
         Map<String, byte[]> blobs =
             new HashMap<String, byte[]>(objectIds.length);
         for (String objectIdStr : objectIds) {

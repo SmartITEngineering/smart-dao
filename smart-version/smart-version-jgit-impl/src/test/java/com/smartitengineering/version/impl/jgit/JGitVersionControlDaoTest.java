@@ -23,6 +23,7 @@ import com.smartitengineering.version.api.Commit;
 import com.smartitengineering.version.api.Resource;
 import com.smartitengineering.version.api.Revision;
 import com.smartitengineering.version.api.VersionedResource;
+import com.smartitengineering.version.api.dao.VersionControlDao;
 import com.smartitengineering.version.api.dao.WriteStatus;
 import com.smartitengineering.version.api.dao.WriterCallback;
 import com.smartitengineering.version.api.factory.VersionAPI;
@@ -30,24 +31,26 @@ import java.util.Arrays;
 import java.util.Iterator;
 import junit.framework.TestCase;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
  * @author imyousuf
  */
-public class JGitImplTest
+public class JGitVersionControlDaoTest
     extends TestCase {
 
-    private static final String DEFAULT_PATH = "target/jgit-impl/.git";
-    private JGitImpl jGitImpl;
+    private VersionControlDao jGitImpl;
     private boolean finished = false;
     private static String firstRevisionId = "";
+    private static ApplicationContext applicationContext;
 
     private boolean isFinished() {
         return finished;
     }
 
-    public JGitImplTest(String testName) {
+    public JGitVersionControlDaoTest(String testName) {
         super(testName);
     }
 
@@ -55,17 +58,14 @@ public class JGitImplTest
     protected void setUp()
         throws Exception {
         super.setUp();
-        jGitImpl = new JGitImpl();
-        jGitImpl.setRepositoryLocation(DEFAULT_PATH);
-        jGitImpl.init();
+        if(applicationContext != null) {
+            applicationContext =
+                new ClassPathXmlApplicationContext(
+                "com/smartitengineering/smart-dao/smart-version-jgit/" +
+                "test-app-context.xml");
+        }
+        jGitImpl = VersionAPI.getInstance().getVersionControlDao();
         finished = false;
-    }
-
-    @Override
-    protected void tearDown()
-        throws Exception {
-        super.tearDown();
-        jGitImpl.finish();
     }
 
     public void testStore() {
@@ -228,5 +228,6 @@ public class JGitImplTest
         }
         catch(RuntimeException exception) {
         }
+        
     }
 }

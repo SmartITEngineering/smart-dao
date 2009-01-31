@@ -31,6 +31,7 @@ import com.smartitengineering.version.impl.jgit.service.MetaRCSService;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -77,6 +78,7 @@ public class JGitVersionControlDao
             });
         }
         catch (Throwable ex) {
+            ex.printStackTrace();
             myStatus.myStatus = WriteStatus.STORE_FAIL;
             myStatus.myComment = ex.getMessage();
             myStatus.myError = ex;
@@ -128,6 +130,7 @@ public class JGitVersionControlDao
             });
         }
         catch (Throwable ex) {
+            ex.printStackTrace();
             myStatus.myStatus = WriteStatus.STORE_FAIL;
             myStatus.myComment = ex.getMessage();
             myStatus.myError = ex;
@@ -139,7 +142,12 @@ public class JGitVersionControlDao
     }
 
     public VersionedResource getVersionedResource(String resourceId) {
-        String[] versions = jGitService.getVersionsForResource(resourceId);
+        String trimmedResourceId = VersionAPI.trimToPropertResourceId(
+            resourceId);
+        if (StringUtils.isBlank(trimmedResourceId)) {
+            throw new IllegalArgumentException("Invalid resource id!");
+        }
+        String[] versions = jGitService.getVersionsForResource(trimmedResourceId);
         try {
             Map<String, byte[]> objectMap =
                 jGitExtension.readBlobObjects(versions);
@@ -148,37 +156,53 @@ public class JGitVersionControlDao
             for (String revisionId : versions) {
                 String content = new String(objectMap.get(revisionId));
                 revisions[i++] = VersionAPI.createRevision(VersionAPI.
-                    createResource(resourceId, content), revisionId);
+                    createResource(trimmedResourceId, content), revisionId);
             }
             return VersionAPI.createVersionedResource(Arrays.asList(revisions));
         }
         catch (Exception ex) {
             ex.printStackTrace();
-            return null;
+            throw new RuntimeException(ex);
         }
     }
 
     public Resource getResource(String resourceId) {
         try {
-            return VersionAPI.createResource(resourceId,
-                new String(jGitExtension.readObject(jGitService.
-                getHeadVersionForResource(resourceId))));
+            String trimmedResourceId = VersionAPI.trimToPropertResourceId(
+                resourceId);
+            if (StringUtils.isBlank(trimmedResourceId)) {
+                throw new IllegalArgumentException("Invalid resource id!");
+            }
+            final String headVersionForResource =
+                jGitService.getHeadVersionForResource(trimmedResourceId);
+            final byte[] objectBytes =
+                jGitExtension.readObject(headVersionForResource);
+            if(objectBytes == null || objectBytes.length <= 0) {
+                throw new IllegalArgumentException("Resource doesn't exist!");
+            }
+            return VersionAPI.createResource(trimmedResourceId,
+                new String(objectBytes));
         }
         catch (Exception ex) {
             ex.printStackTrace();
-            return null;
+            throw new RuntimeException(ex);
         }
     }
 
     public Resource getResourceByRevision(String revisionId,
                                           String resourceId) {
         try {
-            return VersionAPI.createResource(resourceId,
+            String trimmedResourceId = VersionAPI.trimToPropertResourceId(
+                resourceId);
+            if (StringUtils.isBlank(trimmedResourceId)) {
+                throw new IllegalArgumentException("Invalid resource id!");
+            }
+            return VersionAPI.createResource(trimmedResourceId,
                 new String(jGitExtension.readObject(revisionId)));
         }
         catch (Exception ex) {
             ex.printStackTrace();
-            return null;
+            throw new RuntimeException(ex);
         }
     }
 
@@ -215,4 +239,5 @@ public class JGitVersionControlDao
     public void setJGitService(MetaRCSService jGitService) {
         this.jGitService = jGitService;
     }
+
 }

@@ -20,9 +20,18 @@ package com.smartitengineering.version.impl.jgit.service.impl;
 
 import com.smartitengineering.dao.common.CommonReadDao;
 import com.smartitengineering.dao.common.CommonWriteDao;
+import com.smartitengineering.dao.common.queryparam.MatchMode;
+import com.smartitengineering.dao.common.queryparam.Order;
+import com.smartitengineering.dao.common.queryparam.QueryParameterFactory;
 import com.smartitengineering.version.impl.jgit.domain.Commit;
+import com.smartitengineering.version.impl.jgit.domain.Resource;
 import com.smartitengineering.version.impl.jgit.domain.Revision;
+import com.smartitengineering.version.impl.jgit.service.MetaFactory;
 import com.smartitengineering.version.impl.jgit.service.MetaRCSService;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -109,20 +118,83 @@ public class MetaRCSServiceImpl
     }
 
     public String[] getVersionsForResource(final String resourceId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (StringUtils.isBlank(resourceId)) {
+            throw new IllegalArgumentException("Blank resource not supported!");
+        }
+        final List<String> revisions =
+            (List<String>) revisionReader.getOtherList(
+            QueryParameterFactory.<String>getStringLikePropertyParam(
+            new StringBuilder(Revision.PROP_RESOURCE).append('.').
+            append(Resource.PROP_RESOURCEID).toString(), 
+            resourceId, MatchMode.EXACT),
+            QueryParameterFactory.getPropProjectionParam(
+            Revision.PROP_REVISIONID),
+            QueryParameterFactory.<Boolean>getEqualPropertyParam(
+            Revision.PROP_DELETE, false),
+            QueryParameterFactory.getOrderByParam("id", Order.DESC)
+            );
+        return revisions.toArray(new String[0]);
     }
 
     public String getHeadVersionForResource(final String resourceId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (StringUtils.isBlank(resourceId)) {
+            throw new IllegalArgumentException("Blank resource not supported!");
+        }
+        final String revision =
+            (String) revisionReader.getOther(QueryParameterFactory.<String>
+            getStringLikePropertyParam(new StringBuilder(
+            Revision.PROP_RESOURCE).append('.').
+            append(Resource.PROP_RESOURCEID).toString(), 
+            resourceId, MatchMode.EXACT),
+            QueryParameterFactory.<Boolean>getEqualPropertyParam(
+            Revision.PROP_HEADREVISION, true),
+            QueryParameterFactory.getPropProjectionParam(
+            Revision.PROP_REVISIONID),
+            QueryParameterFactory.<Boolean>getEqualPropertyParam(
+            Revision.PROP_DELETE, false));
+        return revision;
     }
 
     public void saveResources(
         final com.smartitengineering.version.api.Commit commit) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Commit commitDomain = MetaFactory.transformAPICommit(commit, false);
+        persistCommit(commitDomain);
     }
 
     public void deleteResources(
         final com.smartitengineering.version.api.Commit commit) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Commit commitDomain = MetaFactory.transformAPICommit(commit, true);
+        persistCommit(commitDomain);
+    }
+
+    private void persistCommit(Commit commitDomain)
+        throws IllegalStateException {
+        //Set all revisions in commit to 'head' and update all the revisions for
+        //the resources already in the system to 'not head'
+        if (!commitDomain.isValid()) {
+            throw new IllegalStateException(
+                "Commit domain's current state is not valid!");
+        }
+        Set<String> resourceIds = new HashSet<String>();
+        Set<Revision> currentHeads = new HashSet<Revision>();
+        for (Revision revision : commitDomain.getRevisions()) {
+            revision.setHeadRevision(true);
+            String resourceId = revision.getResource().getResourceId();
+            resourceIds.add(resourceId);
+        }
+        currentHeads = new HashSet<Revision>(revisionReader.getList(
+            QueryParameterFactory.<String>
+            getIsInPropertyParam(new StringBuilder(Revision.PROP_RESOURCE).
+            append('.').append(Resource.PROP_RESOURCEID).toString(),
+            resourceIds.toArray(new String[0])),
+            QueryParameterFactory.<Boolean>getEqualPropertyParam(
+            Revision.PROP_HEADREVISION, true)));
+        commitWriter.save(commitDomain);
+        if (currentHeads != null && !currentHeads.isEmpty()) {
+            for (Revision revision : currentHeads) {
+                revision.setHeadRevision(false);
+            }
+            revisionWriter.update(currentHeads.toArray(new Revision[0]));
+        }
     }
 }
