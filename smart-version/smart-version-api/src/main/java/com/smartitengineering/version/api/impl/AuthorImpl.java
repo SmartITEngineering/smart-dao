@@ -27,7 +27,8 @@ import org.apache.commons.lang.StringUtils;
  * @author imyousuf
  */
 public class AuthorImpl
-    implements Author, MutableAuthor {
+    implements Author,
+               MutableAuthor {
 
     private String name;
     private String email;
@@ -38,8 +39,9 @@ public class AuthorImpl
      * @return the value of email
      */
     public String getEmail() {
-        if(StringUtils.isBlank(this.email)) {
-            throw new IllegalStateException("Email must be set before invoking it!");
+        if (StringUtils.isBlank(this.email)) {
+            throw new IllegalStateException(
+                "Email must be set before invoking it!");
         }
         return email;
     }
@@ -50,7 +52,7 @@ public class AuthorImpl
      * @param email new value of email
      */
     public void setEmail(String email) {
-        if(StringUtils.isNotBlank(email)) {
+        if (StringUtils.isNotBlank(email)) {
             this.email = email;
         }
     }
@@ -61,7 +63,7 @@ public class AuthorImpl
      * @return the value of name
      */
     public String getName() {
-        if(name == null) {
+        if (name == null) {
             return "";
         }
         return name;
@@ -74,5 +76,24 @@ public class AuthorImpl
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Author) {
+            Author authorObj = (Author) obj;
+            if (StringUtils.isNotBlank(getEmail())) {
+                return getEmail().equals(authorObj.getEmail());
+            }
+        }
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        if (StringUtils.isNotBlank(getEmail())) {
+            return getEmail().hashCode();
+        }
+        return super.hashCode();
     }
 }

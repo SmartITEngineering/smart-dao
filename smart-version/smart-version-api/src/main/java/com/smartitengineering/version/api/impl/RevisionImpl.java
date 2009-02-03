@@ -21,13 +21,15 @@ package com.smartitengineering.version.api.impl;
 import com.smartitengineering.version.api.Resource;
 import com.smartitengineering.version.api.Revision;
 import com.smartitengineering.version.api.spi.MutableRevision;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
  * @author imyousuf
  */
 public class RevisionImpl
-    implements Revision, MutableRevision {
+    implements Revision,
+               MutableRevision {
 
     private String revisionId;
     private Resource resource;
@@ -70,5 +72,31 @@ public class RevisionImpl
      */
     public void setRevisionId(String revisionId) {
         this.revisionId = revisionId;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Revision) {
+            Revision revisionObj = (Revision) obj;
+            if (StringUtils.isNotBlank(getRevisionId())) {
+                return getRevisionId().equals(revisionObj.getRevisionId());
+            }
+            else if (StringUtils.isBlank(getRevisionId()) && StringUtils.isBlank(
+                revisionObj.getRevisionId()) && getResource() != null) {
+                return getResource().equals(revisionObj.getResource());
+            }
+        }
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        if (StringUtils.isNotBlank(getRevisionId())) {
+            return getRevisionId().hashCode();
+        }
+        else if (StringUtils.isBlank(getRevisionId()) && getResource() != null) {
+            return getResource().hashCode();
+        }
+        return super.hashCode();
     }
 }

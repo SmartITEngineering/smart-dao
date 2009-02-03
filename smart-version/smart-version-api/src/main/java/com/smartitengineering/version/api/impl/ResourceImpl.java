@@ -20,6 +20,7 @@ package com.smartitengineering.version.api.impl;
 
 import com.smartitengineering.version.api.Resource;
 import com.smartitengineering.version.api.spi.MutableResource;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Default implementation of resource
@@ -65,5 +66,24 @@ public class ResourceImpl
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Resource) {
+            Resource resourceObj = (Resource) obj;
+            if(StringUtils.isNotBlank(getId())) {
+                return getId().equals(resourceObj.getId());
+            }
+        }
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        if(StringUtils.isNotBlank(getId())) {
+            return getId().hashCode();
+        }
+        return super.hashCode();
     }
 }

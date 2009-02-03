@@ -32,7 +32,8 @@ import org.apache.commons.lang.StringUtils;
  * @author imyousuf
  */
 public class CommitImpl
-    implements Commit, MutableCommit {
+    implements Commit,
+               MutableCommit {
 
     private Collection<Revision> revisions;
     private String commitId;
@@ -121,8 +122,8 @@ public class CommitImpl
      * @param commitMessage new value of commitMessage
      */
     public void setCommitMessage(String commitMessage) {
-        if(StringUtils.isBlank(commitMessage)) {
-            return ;
+        if (StringUtils.isBlank(commitMessage)) {
+            return;
         }
         this.commitMessage = commitMessage;
     }
@@ -151,7 +152,7 @@ public class CommitImpl
      * @return the value of revisions
      */
     public Collection<Revision> getRevisions() {
-        if(revisions == null) {
+        if (revisions == null) {
             return Collections.emptySet();
         }
         return revisions;
@@ -164,5 +165,24 @@ public class CommitImpl
      */
     public void setRevisions(Collection<Revision> revisions) {
         this.revisions = revisions;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Commit) {
+            Commit commitObj = (Commit) obj;
+            if (StringUtils.isNotBlank(getCommitId())) {
+                return getCommitId().equals(commitObj.getCommitId());
+            }
+        }
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        if (StringUtils.isNotBlank(getCommitId())) {
+            return getCommitId().hashCode();
+        }
+        return super.hashCode();
     }
 }
