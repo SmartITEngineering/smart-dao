@@ -42,6 +42,11 @@ public enum SearchProperties
      */
     COMMIT_MSG(Commit.PROP_COMMITMESSAGE),
     /**
+     * Use revisions as a nested parameters to filter commits by revisions props
+     * available as in 'REVISION*'
+     */
+    COMMIT_REVISIONS(Commit.PROP_REVISIONS),
+    /**
      * The full name of an committer, a string.
      */
     COMMITTER_NAME(Commit.PROP_COMMITTER + '.' + Author.PROP_NAME),
@@ -58,6 +63,10 @@ public enum SearchProperties
      * not
      */
     REVISION_HEAD(Revision.PROP_HEADREVISION),
+    /**
+     * Filter whether the revision's resource is deleted or not, its a boolean.
+     */
+    REVISION_RESOURCE_DELETED(Revision.PROP_DELETE),
     /**
      * <p>Use this to search for properties of a commit of a revision</p>
      * <p>While others can be used as property directly, in order to use this we
