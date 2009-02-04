@@ -176,13 +176,15 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         return readSingle(entityClass, parameter.toArray(new QueryParameter[0]));
     }
 
-    protected Object readOther(Class entityClass,
-                               List<QueryParameter> parameter) {
-        return readOther(entityClass, parameter.toArray(new QueryParameter[0]));
+    protected <OtherTemplate extends Object> OtherTemplate readOther(
+        Class entityClass,
+        List<QueryParameter> parameter) {
+        return this.<OtherTemplate>readOther(entityClass, parameter.toArray(new QueryParameter[0]));
     }
 
-    protected List<? extends Object> readOtherList(Class entityClass,
-                                                   List<QueryParameter> parameter) {
+    protected <OtherTemplate extends Object> List<OtherTemplate> readOtherList(
+        Class entityClass,
+        List<QueryParameter> parameter) {
         return readOtherList(entityClass, parameter.toArray(
             new QueryParameter[0]));
     }
@@ -220,8 +222,9 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         }
     }
 
-    protected Object readOther(Class entityClass,
-                               QueryParameter... parameter) {
+    protected <OtherTemplate extends Object> OtherTemplate readOther(
+        Class entityClass,
+        QueryParameter... parameter) {
         Session session;
         boolean customSession = false;
         try {
@@ -234,7 +237,7 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         try {
             Criteria criteria = simpleSearchCriteria(session, entityClass,
                 parameter);
-            return criteria.uniqueResult();
+            return (OtherTemplate) criteria.uniqueResult();
         }
         catch (Exception e) {
             throw new IllegalArgumentException(e);
@@ -248,8 +251,9 @@ public abstract class AbstractDAO<Template extends PersistentDTO>
         }
     }
 
-    protected List<? extends Object> readOtherList(Class entityClass,
-                                                   QueryParameter... parameter) {
+    protected <OtherTemplate extends Object> List<OtherTemplate> readOtherList(
+        Class entityClass,
+        QueryParameter... parameter) {
         Session session;
         boolean customSession = false;
         try {

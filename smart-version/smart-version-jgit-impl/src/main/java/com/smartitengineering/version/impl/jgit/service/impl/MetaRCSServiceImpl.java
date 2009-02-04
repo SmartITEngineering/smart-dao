@@ -127,7 +127,7 @@ public class MetaRCSServiceImpl
             throw new IllegalArgumentException("Blank resource not supported!");
         }
         final List<String> revisions =
-            (List<String>) revisionReader.getOtherList(
+            revisionReader.<String>getOtherList(
             QueryParameterFactory.<String>getStringLikePropertyParam(
             new StringBuilder(Revision.PROP_RESOURCE).append('.').
             append(Resource.PROP_RESOURCEID).toString(),

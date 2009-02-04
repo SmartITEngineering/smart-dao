@@ -26,14 +26,15 @@ import java.util.List;
  *
  * @author Imran M Yousuf
  */
-public interface CommonReadDaoWithList<Template extends PersistentDTO>
-{
+public interface CommonReadDaoWithList<Template extends PersistentDTO> {
+
     public Template getSingle(List<QueryParameter> query);
-    
+
     public List<Template> getList(List<QueryParameter> query);
-    
-    public Object getOther(List<QueryParameter> query);
-    
-    public List<? extends Object> getOtherList(List<QueryParameter> query);
-    
+
+    public <OtherTemplate extends Object> OtherTemplate getOther(
+        List<QueryParameter> query);
+
+    public <OtherTemplate extends Object> List<OtherTemplate> getOtherList(
+        List<QueryParameter> query);
 }
