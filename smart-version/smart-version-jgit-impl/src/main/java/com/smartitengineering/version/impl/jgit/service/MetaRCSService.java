@@ -40,12 +40,6 @@ public interface MetaRCSService {
     public void saveResources(Commit commit);
 
     /**
-     * Delete resources from system denoted by the commit
-     * @param commit To delete resource referred from
-     */
-    public void deleteResources(Commit commit);
-
-    /**
      * Get all version ids of the resource denoted by resource id.
      * @param resourceId The resource of which versions are to be retrieved
      * @return Descendending sorted versions, that is HEAD at index 0

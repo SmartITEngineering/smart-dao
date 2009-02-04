@@ -170,8 +170,8 @@ public class JGitImplTest
 
     public void testRemove() {
         finished = false;
-        jGitImpl.remove(VersionAPI.createCommit(Arrays.asList(VersionAPI.
-            createRevision(VersionAPI.createResource("b/a.xml", "DELETE"),
+        jGitImpl.store(VersionAPI.createCommit(Arrays.asList(VersionAPI.
+            createRevision(VersionAPI.createResource("b/a.xml", "", true),
             null)), null,
             null, "Commit message for B-2, delete", VersionAPI.createAuthor(
             "Imran M Yousuf", "imran@smartitengineering.com"), null), new WriterCallback() {

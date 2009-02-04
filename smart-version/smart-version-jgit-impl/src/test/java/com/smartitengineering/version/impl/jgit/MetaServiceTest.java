@@ -52,7 +52,9 @@ public class MetaServiceTest
     }
 
     public void testDI() {
-        assertNotNull(MetaFactory.getInstance().getConfig().getRepositoryPath());
-        assertNotNull(VersionAPI.getInstance().getVersionControlDao());
+        assertNotNull(MetaFactory.getInstance().getConfig().getRepositoryReadPath());
+        assertNotNull(MetaFactory.getInstance().getConfig().getRepositoryWritePath());
+        assertNotNull(VersionAPI.getInstance().getVersionControlWriteDao());
+        assertNotNull(VersionAPI.getInstance().getVersionControlReadDao());
     }
 }

@@ -66,8 +66,7 @@ public class MetaFactory {
     }
 
     public static Commit transformAPICommit(
-        final com.smartitengineering.version.api.Commit apiCommit,
-        final boolean deleted) {
+        final com.smartitengineering.version.api.Commit apiCommit) {
         Commit commit = new Commit();
         commit.setCommitId(apiCommit.getCommitId());
         commit.setCommitMessage(apiCommit.getCommitMessage());
@@ -79,21 +78,20 @@ public class MetaFactory {
         commit.setParentCommitId(apiCommit.getParentCommitId());
         for (com.smartitengineering.version.api.Revision apiRevision : apiCommit.
             getRevisions()) {
-            commit.getRevisions().add(transformAPIRevision(commit, apiRevision,
-                deleted));
+            commit.getRevisions().add(transformAPIRevision(commit, apiRevision));
         }
         return commit;
     }
 
     public static Revision transformAPIRevision(
         final Commit commit,
-        final com.smartitengineering.version.api.Revision apiRevision,
-        final boolean deleted) {
+        final com.smartitengineering.version.api.Revision apiRevision) {
         Revision revision = new Revision();
         revision.setCommit(commit);
-        revision.setDeleted(deleted);
         Resource resource = new Resource();
         resource.setResourceId(apiRevision.getResource().getId());
+        resource.setDeleted(apiRevision.getResource().isDeleted());
+        resource.setMimeType(apiRevision.getResource().getMimeType());
         revision.setResource(resource);
         revision.setRevisionId(apiRevision.getRevisionId());
         return revision;
@@ -118,15 +116,20 @@ public class MetaFactory {
     public static com.smartitengineering.version.api.Revision transformMetaRevision(
         Revision revision) {
         final com.smartitengineering.version.api.Resource apiResource;
-        if (VersionAPI.getInstance().getVersionControlDao() == null) {
+        if (VersionAPI.getInstance().getVersionControlReadDao() == null) {
             apiResource = VersionAPI.createResource(revision.getResource().
-                getResourceId(), "");
+                getResourceId(), "", revision.getResource().isDeleted(),
+                revision.getResource().getMimeType());
         }
         else {
-            apiResource =
-                VersionAPI.getInstance().getVersionControlDao().
+            final com.smartitengineering.version.api.Resource apiResourceFromApi =
+                VersionAPI.getInstance().getVersionControlReadDao().
                 getResourceByRevision(
                 revision.getRevisionId(), revision.getResource().getResourceId());
+            apiResource = VersionAPI.createResource(revision.getResource().
+                getResourceId(), apiResourceFromApi.getContent(),
+                revision.getResource().isDeleted(), revision.getResource().
+                getMimeType());
         }
         return VersionAPI.createRevision(apiResource, revision.getRevisionId());
     }

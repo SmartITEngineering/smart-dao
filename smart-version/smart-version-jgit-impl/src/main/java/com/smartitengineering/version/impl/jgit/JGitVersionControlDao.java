@@ -23,7 +23,8 @@ import com.smartitengineering.version.api.Commit;
 import com.smartitengineering.version.api.Resource;
 import com.smartitengineering.version.api.Revision;
 import com.smartitengineering.version.api.VersionedResource;
-import com.smartitengineering.version.api.dao.VersionControlDao;
+import com.smartitengineering.version.api.dao.VersionControlReadDao;
+import com.smartitengineering.version.api.dao.VersionControlWriteDao;
 import com.smartitengineering.version.api.dao.WriteStatus;
 import com.smartitengineering.version.api.dao.WriterCallback;
 import com.smartitengineering.version.api.factory.VersionAPI;
@@ -39,9 +40,9 @@ import org.apache.commons.lang.StringUtils;
  * @author imyousuf
  */
 public class JGitVersionControlDao
-    implements VersionControlDao {
+    implements VersionControlWriteDao, VersionControlReadDao {
 
-    private VersionControlDao jGitImpl;
+    private VersionControlWriteDao jGitWriteImpl;
     private JGitDaoExtension jGitExtension;
     private MetaRCSService jGitService;
 
@@ -49,7 +50,7 @@ public class JGitVersionControlDao
                       final WriterCallback callback) {
         final Status myStatus = new Status();
         try {
-            jGitImpl.store(commit, new WriterCallback() {
+            jGitWriteImpl.store(commit, new WriterCallback() {
 
                 public void handle(Commit commit,
                                    WriteStatus status,
@@ -95,51 +96,6 @@ public class JGitVersionControlDao
         public WriteStatus myStatus;
         public String myComment;
         public Throwable myError;
-    }
-
-    public void remove(Commit commit,
-                       final WriterCallback callback) {
-        final Status myStatus = new Status();
-        try {
-            jGitImpl.remove(commit, new WriterCallback() {
-
-                public void handle(Commit commit,
-                                   WriteStatus status,
-                                   String comment,
-                                   Throwable error) {
-                    myStatus.myStatus = status;
-                    myStatus.myComment = comment;
-                    myStatus.myError = error;
-                    if (status == WriteStatus.STORE_PASS) {
-                        try {
-                            jGitService.deleteResources(commit);
-                        }
-                        catch (Throwable ex) {
-                            myStatus.myStatus = WriteStatus.STORE_FAIL;
-                            myStatus.myComment = ex.getMessage();
-                            myStatus.myError = ex;
-                        }
-                        finally {
-                            if (callback != null) {
-                                callback.handle(commit, myStatus.myStatus,
-                                    myStatus.myComment,
-                                    myStatus.myError);
-                            }
-                        }
-                    }
-                }
-            });
-        }
-        catch (Throwable ex) {
-            ex.printStackTrace();
-            myStatus.myStatus = WriteStatus.STORE_FAIL;
-            myStatus.myComment = ex.getMessage();
-            myStatus.myError = ex;
-            if (callback != null) {
-                callback.handle(commit, myStatus.myStatus, myStatus.myComment,
-                    myStatus.myError);
-            }
-        }
     }
 
     public VersionedResource getVersionedResource(String resourceId) {
@@ -209,7 +165,7 @@ public class JGitVersionControlDao
 
     /**
      * Only use property param from SearchProperty that start with 'COMMIT'.
-     * @see VersionControlDao#searchForCommits(java.util.Collection) 
+     * @see VersionControlWriteDao#searchForCommits(java.util.Collection) 
      * @see SearchParam#getPropertyName() 
      * @see SearchProperties
      */
@@ -221,7 +177,7 @@ public class JGitVersionControlDao
 
     /**
      * Only use property param from SearchProperty that start with 'REVISION'.
-     * @see VersionControlDao#searchForRevisions(java.util.Collection)
+     * @see VersionControlWriteDao#searchForRevisions(java.util.Collection)
      * @see SearchParam#getPropertyName() 
      * @see SearchProperties
      */
@@ -239,12 +195,12 @@ public class JGitVersionControlDao
         this.jGitExtension = jGitExtension;
     }
 
-    public VersionControlDao getJGitImpl() {
-        return jGitImpl;
+    public VersionControlWriteDao getJGitWriteImpl() {
+        return jGitWriteImpl;
     }
 
-    public void setJGitImpl(VersionControlDao jGitImpl) {
-        this.jGitImpl = jGitImpl;
+    public void setJGitWriteImpl(VersionControlWriteDao jGitImpl) {
+        this.jGitWriteImpl = jGitImpl;
     }
 
     public MetaRCSService getJGitService() {

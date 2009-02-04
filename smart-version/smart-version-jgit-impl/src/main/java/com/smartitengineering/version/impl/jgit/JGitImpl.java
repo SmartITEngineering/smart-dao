@@ -23,7 +23,8 @@ import com.smartitengineering.version.api.Commit;
 import com.smartitengineering.version.api.Resource;
 import com.smartitengineering.version.api.Revision;
 import com.smartitengineering.version.api.VersionedResource;
-import com.smartitengineering.version.api.dao.VersionControlDao;
+import com.smartitengineering.version.api.dao.VersionControlReadDao;
+import com.smartitengineering.version.api.dao.VersionControlWriteDao;
 import com.smartitengineering.version.api.dao.WriteStatus;
 import com.smartitengineering.version.api.dao.WriterCallback;
 import com.smartitengineering.version.api.factory.VersionAPI;
@@ -65,7 +66,8 @@ import org.spearce.jgit.treewalk.filter.TreeFilter;
  * @author imyousuf
  */
 public class JGitImpl
-    implements VersionControlDao,
+    implements VersionControlWriteDao,
+               VersionControlReadDao,
                JGitDaoExtension {
 
     private String readRepositoryLocation;
@@ -94,19 +96,25 @@ public class JGitImpl
         if (!writeRepoDir.exists()) {
             writeRepository.create();
         }
+        writeRepository.close();
         File readRepoDir = new File(getReadRepositoryLocation());
         readRepository = new Repository(readRepoDir);
         if (!readRepoDir.exists()) {
             readRepository.create();
         }
+        readRepository.close();
         executorService = Executors.newFixedThreadPool(getConfig().
             getConcurrentWriteOperations());
         initialized = true;
     }
 
     public void finish() {
-        writeRepository.close();
-        readRepository.close();
+        if (writeRepository != null) {
+            writeRepository.close();
+        }
+        if (readRepository != null) {
+            readRepository.close();
+        }
     }
 
     protected void checkInitialized() {
@@ -138,7 +146,7 @@ public class JGitImpl
 
     public String getReadRepositoryLocation() {
         if (StringUtils.isBlank(readRepositoryLocation)) {
-            return getConfig().getRepositoryPath();
+            return getConfig().getRepositoryReadPath();
         }
         return readRepositoryLocation;
     }
@@ -152,7 +160,7 @@ public class JGitImpl
 
     public String getWriteRepositoryLocation() {
         if (StringUtils.isBlank(writeRepositoryLocation)) {
-            return getConfig().getRepositoryPath();
+            return getConfig().getRepositoryWritePath();
         }
         return writeRepositoryLocation;
     }
@@ -172,8 +180,7 @@ public class JGitImpl
         throws IOException {
         synchronized (readRepository) {
             readRepository.close();
-            File readRepoDir = new File(readRepositoryLocation);
-            readRepository = new Repository(readRepoDir);
+            readRepository.refreshFromDisk();
         }
     }
 
@@ -192,44 +199,6 @@ public class JGitImpl
                 try {
                     Tree head = getHeadTree(writeRepository);
                     addOrUpdateToHead(commit, head);
-                    prepareCommit(head, commit);
-                    status = WriteStatus.STORE_PASS;
-                    comment = "OK";
-                    error = null;
-                }
-                catch (Throwable ex) {
-                    status = WriteStatus.STORE_FAIL;
-                    comment = ex.getMessage();
-                    error = ex;
-                    throw new RuntimeException(ex);
-                }
-                finally {
-                    if (callback != null) {
-                        callback.handle(commit, status, comment, error);
-                    }
-                    try {
-                        reInitReadRepository();
-                    }
-                    catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        });
-    }
-
-    public void remove(final Commit commit,
-                       final WriterCallback callback) {
-        executorService.submit(new Runnable() {
-
-            public void run() {
-
-                WriteStatus status = null;
-                String comment = null;
-                Throwable error = null;
-                try {
-                    Tree head = getHeadTree(writeRepository);
-                    removeFromHead(commit, head);
                     prepareCommit(head, commit);
                     status = WriteStatus.STORE_PASS;
                     comment = "OK";
@@ -382,53 +351,40 @@ public class JGitImpl
         for (Revision revision : commit.getRevisions()) {
             String objectPath = revision.getResource().getId();
             FileTreeEntry treeEntry;
+            boolean newEntry = false;
             if (head.existsBlob(objectPath)) {
                 treeEntry = (FileTreeEntry) head.findBlobMember(objectPath);
             }
             else {
                 treeEntry = head.addFile(objectPath);
+                newEntry = true;
             }
             treeEntry.setExecutable(false);
-            ObjectId revisionId = getObjectWriter().writeBlob(revision.
-                getResource().getContent().getBytes());
-            if (revision instanceof MutableRevision) {
-                MutableRevision mutableRevision = (MutableRevision) revision;
-                mutableRevision.setRevisionId(ObjectId.toString(revisionId));
-                treeEntry.setId(revisionId);
+            if (!revision.getResource().isDeleted()) {
+                if (revision instanceof MutableRevision) {
+                    ObjectId revisionId = getObjectWriter().writeBlob(revision.
+                        getResource().getContent().getBytes());
+                    MutableRevision mutableRevision = (MutableRevision) revision;
+                    mutableRevision.setRevisionId(ObjectId.toString(revisionId));
+                    treeEntry.setId(revisionId);
+                }
+                else {
+                    throw new IllegalArgumentException(
+                        "SPI not implemented by API!");
+                }
             }
-            else {
-                throw new IllegalArgumentException("SPI not implemented by API!");
+            else if (!newEntry) {
+                if (revision instanceof MutableRevision) {
+                    ObjectId revisionId = treeEntry.getId();
+                    MutableRevision mutableRevision = (MutableRevision) revision;
+                    mutableRevision.setRevisionId(ObjectId.toString(revisionId));
+                    treeEntry.delete();
+                }
+                else {
+                    throw new IllegalArgumentException(
+                        "SPI not implemented by API!");
+                }
             }
-        }
-        GitIndex index = getWriteRepository().getIndex();
-        index.readTree(head);
-        index.write();
-        ObjectId newHeadId = index.writeTree();
-        head.setId(newHeadId);
-        return newHeadId;
-    }
-
-    protected ObjectId removeFromHead(final Commit commit,
-                                      final Tree head)
-        throws IOException {
-        for (Revision revision : commit.getRevisions()) {
-            String objectPath = revision.getResource().getId();
-            FileTreeEntry treeEntry;
-            if (head.existsBlob(objectPath)) {
-                treeEntry = (FileTreeEntry) head.findBlobMember(objectPath);
-            }
-            else {
-                continue;
-            }
-            ObjectId revisionId = treeEntry.getId();
-            if (revision instanceof MutableRevision) {
-                MutableRevision mutableRevision = (MutableRevision) revision;
-                mutableRevision.setRevisionId(ObjectId.toString(revisionId));
-            }
-            else {
-                throw new IllegalArgumentException("SPI not implemented by API!");
-            }
-            treeEntry.delete();
         }
         GitIndex index = getWriteRepository().getIndex();
         index.readTree(head);

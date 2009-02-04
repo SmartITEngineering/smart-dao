@@ -66,7 +66,7 @@ public enum SearchProperties
     /**
      * Filter whether the revision's resource is deleted or not, its a boolean.
      */
-    REVISION_RESOURCE_DELETED(Revision.PROP_DELETE),
+    REVISION_RESOURCE_DELETED(Revision.PROP_RESOURCE + '.' + Resource.PROP_DELETE),
     /**
      * <p>Use this to search for properties of a commit of a revision</p>
      * <p>While others can be used as property directly, in order to use this we

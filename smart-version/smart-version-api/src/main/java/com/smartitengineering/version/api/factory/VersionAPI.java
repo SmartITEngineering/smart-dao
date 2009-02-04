@@ -26,7 +26,8 @@ import com.smartitengineering.version.api.Commit;
 import com.smartitengineering.version.api.Resource;
 import com.smartitengineering.version.api.Revision;
 import com.smartitengineering.version.api.VersionedResource;
-import com.smartitengineering.version.api.dao.VersionControlDao;
+import com.smartitengineering.version.api.dao.VersionControlReadDao;
+import com.smartitengineering.version.api.dao.VersionControlWriteDao;
 import com.smartitengineering.version.api.impl.AuthorImpl;
 import com.smartitengineering.version.api.impl.CommitImpl;
 import com.smartitengineering.version.api.impl.ResourceImpl;
@@ -45,7 +46,9 @@ import org.apache.commons.lang.StringUtils;
 public final class VersionAPI {
     
     @InjectableField
-    private VersionControlDao versionControlDao;
+    private VersionControlWriteDao versionControlWriteDao;
+    @InjectableField
+    private VersionControlReadDao versionControlReadDao;
     
     private static VersionAPI versionAPI;
 
@@ -91,6 +94,36 @@ public final class VersionAPI {
      */
     public static Resource createResource(final String resourceId,
                                           final String content) {
+        return createResource(resourceId, content, false, null);
+    }
+
+    /**
+     * Creates resource to versioned, it could be a new version or an old
+     * resource's new version.
+     * @param resourceId Id for the resource, not blank
+     * @param content Content of the resource, not null
+     * @param deleted Whether the resource is deleted or not
+     * @return Returns the resource
+     */
+    public static Resource createResource(final String resourceId,
+                                          final String content,
+                                          final boolean deleted) {
+        return createResource(resourceId, content, deleted, null);
+    }
+
+    /**
+     * Creates resource to versioned, it could be a new version or an old
+     * resource's new version.
+     * @param resourceId Id for the resource, not blank
+     * @param content Content of the resource, not null
+     * @param deleted Whether the resource is deleted or not
+     * @param mimeType MIME type of the resource, can be null.
+     * @return Returns the resource
+     */
+    public static Resource createResource(final String resourceId,
+                                          final String content,
+                                          final boolean deleted,
+                                          final String mimeType) {
         String trimmedResourceId = trimToPropertResourceId(resourceId);
         if (StringUtils.isBlank(trimmedResourceId) || content == null) {
             throw new IllegalArgumentException(
@@ -99,6 +132,8 @@ public final class VersionAPI {
         ResourceImpl resourceImpl = new ResourceImpl();
         resourceImpl.setContent(content);
         resourceImpl.setId(resourceId);
+        resourceImpl.setDeleted(deleted);
+        resourceImpl.setMimeType(mimeType);
         return resourceImpl;
     }
 
@@ -203,10 +238,18 @@ public final class VersionAPI {
     }
 
     /**
-     * Returns the injected versionControlDao.
+     * Returns the injected RCS Writer.
      * @return Injected from context or else null if not available.
      */
-    public VersionControlDao getVersionControlDao() {
-        return versionControlDao;
+    public VersionControlWriteDao getVersionControlWriteDao() {
+        return versionControlWriteDao;
+    }
+
+    /**
+     * Returns the injected RCS Reader
+     * @return Injected from context or else null if not available
+     */
+    public VersionControlReadDao getVersionControlReadDao() {
+        return versionControlReadDao;
     }
 }

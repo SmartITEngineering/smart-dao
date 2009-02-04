@@ -26,7 +26,8 @@ public class RCSConfig {
 
     private int concurrentWriteOperations;
     private boolean allowNoChangeCommit;
-    private String repositoryPath;
+    private String repositoryReadPath;
+    private String repositoryWritePath;
 
     public boolean isAllowNoChangeCommit() {
         return allowNoChangeCommit;
@@ -44,11 +45,19 @@ public class RCSConfig {
         this.concurrentWriteOperations = concurrentWriteOperations;
     }
 
-    public String getRepositoryPath() {
-        return repositoryPath;
+    public String getRepositoryReadPath() {
+        return repositoryReadPath;
     }
 
-    public void setRepositoryPath(String repositoryPath) {
-        this.repositoryPath = repositoryPath;
+    public void setRepositoryReadPath(String repositoryPath) {
+        this.repositoryReadPath = repositoryPath;
+    }
+
+    public String getRepositoryWritePath() {
+        return repositoryWritePath;
+    }
+
+    public void setRepositoryWritePath(String repositoryWritePath) {
+        this.repositoryWritePath = repositoryWritePath;
     }
 }

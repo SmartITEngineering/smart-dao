@@ -18,13 +18,20 @@
  */
 package com.smartitengineering.version.api.spi;
 
+import com.smartitengineering.version.api.Resource;
+
 /**
  * MutableResource represents an object intended to versioned.
  * @author imyousuf
  */
-public interface MutableResource {
+public interface MutableResource
+    extends Resource {
 
     public void setContent(String content);
 
     public void setId(String id);
+    
+    public void setDeleted(boolean deleted);
+    
+    public void setMimeType(String mimeType);
 }

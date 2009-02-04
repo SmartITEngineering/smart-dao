@@ -27,7 +27,8 @@ import com.smartitengineering.version.api.Commit;
 import com.smartitengineering.version.api.Resource;
 import com.smartitengineering.version.api.Revision;
 import com.smartitengineering.version.api.VersionedResource;
-import com.smartitengineering.version.api.dao.VersionControlDao;
+import com.smartitengineering.version.api.dao.VersionControlReadDao;
+import com.smartitengineering.version.api.dao.VersionControlWriteDao;
 import com.smartitengineering.version.api.dao.WriteStatus;
 import com.smartitengineering.version.api.dao.WriterCallback;
 import com.smartitengineering.version.api.factory.VersionAPI;
@@ -48,7 +49,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class JGitVersionControlDaoTest
     extends TestCase {
 
-    private VersionControlDao jGitImpl;
+    private VersionControlReadDao jGitReadImpl;
+    private VersionControlWriteDao jGitWriteImpl;
     private boolean finished = false;
     private static String firstRevisionId = "";
     private static ApplicationContext applicationContext;
@@ -71,7 +73,8 @@ public class JGitVersionControlDaoTest
                 "com/smartitengineering/smart-dao/smart-version-jgit/" +
                 "test-app-context.xml");
         }
-        jGitImpl = VersionAPI.getInstance().getVersionControlDao();
+        jGitReadImpl = VersionAPI.getInstance().getVersionControlReadDao();
+        jGitWriteImpl = VersionAPI.getInstance().getVersionControlWriteDao();
         finished = false;
     }
 
@@ -80,7 +83,7 @@ public class JGitVersionControlDaoTest
             VersionAPI.createRevision(VersionAPI.createResource("a/a.xml",
             "Content of a/a"), null);
 
-        jGitImpl.store(VersionAPI.createCommit(Arrays.asList(revision, VersionAPI.createRevision(
+        jGitWriteImpl.store(VersionAPI.createCommit(Arrays.asList(revision, VersionAPI.createRevision(
             VersionAPI.createResource("b/a.xml", "Content of b/a"),
             null)), null,
             null, "Commit message for A", VersionAPI.createAuthor(
@@ -112,12 +115,12 @@ public class JGitVersionControlDaoTest
     }
 
     public void testReadResource() {
-        Resource a = jGitImpl.getResource("a/a.xml");
+        Resource a = jGitReadImpl.getResource("a/a.xml");
         assertNotNull(a);
         assertEquals("a/a.xml", a.getId());
         assertEquals("Content of a/a", a.getContent());
         finished = false;
-        jGitImpl.store(VersionAPI.createCommit(Arrays.asList(VersionAPI.
+        jGitWriteImpl.store(VersionAPI.createCommit(Arrays.asList(VersionAPI.
             createRevision(VersionAPI.createResource("a/a.xml",
             "UPDATE-1 Content of a/a"),
             null)), null,
@@ -145,14 +148,14 @@ public class JGitVersionControlDaoTest
             }
         }
         finished = false;
-        Resource b = jGitImpl.getResource("b/a.xml");
+        Resource b = jGitReadImpl.getResource("b/a.xml");
         assertEquals("b/a.xml", b.getId());
         assertEquals("Content of b/a", b.getContent());
-        a = jGitImpl.getResource("a/a.xml");
+        a = jGitReadImpl.getResource("a/a.xml");
         assertEquals("a/a.xml", a.getId());
         assertEquals("UPDATE-1 Content of a/a", a.getContent());
         if (StringUtils.isNotBlank(firstRevisionId)) {
-            a = jGitImpl.getResourceByRevision(firstRevisionId, "a/a.xml");
+            a = jGitReadImpl.getResourceByRevision(firstRevisionId, "a/a.xml");
             assertEquals("a/a.xml", a.getId());
             assertEquals("Content of a/a", a.getContent());
         }
@@ -161,13 +164,13 @@ public class JGitVersionControlDaoTest
          */
         String rubbish = "asdassdasd";
         try {
-            jGitImpl.getResource(rubbish);
+            jGitReadImpl.getResource(rubbish);
             fail("Should not be able to return");
         }
         catch (RuntimeException ex) {
         }
         try {
-            jGitImpl.getResourceByRevision(rubbish, rubbish);
+            jGitReadImpl.getResourceByRevision(rubbish, rubbish);
             fail("Should not be able to return");
         }
         catch (RuntimeException ex) {
@@ -176,8 +179,8 @@ public class JGitVersionControlDaoTest
 
     public void testRemove() {
         finished = false;
-        jGitImpl.remove(VersionAPI.createCommit(Arrays.asList(VersionAPI.
-            createRevision(VersionAPI.createResource("b/a.xml", "DELETE"),
+        jGitWriteImpl.store(VersionAPI.createCommit(Arrays.asList(VersionAPI.
+            createRevision(VersionAPI.createResource("b/a.xml", "", true),
             null)), null,
             null, "Commit message for B-2, delete", VersionAPI.createAuthor(
             "Imran M Yousuf", "imran.yousuf@smartitengineering.com"), null), new WriterCallback() {
@@ -204,7 +207,7 @@ public class JGitVersionControlDaoTest
         }
         finished = false;
         try {
-            jGitImpl.getResource("b/a.xml");
+            jGitReadImpl.getResource("b/a.xml");
             fail("Should not be able to return");
         }
         catch (RuntimeException ex) {
@@ -212,7 +215,7 @@ public class JGitVersionControlDaoTest
     }
 
     public void testVersionedResource() {
-        VersionedResource versionedResource = jGitImpl.getVersionedResource(
+        VersionedResource versionedResource = jGitReadImpl.getVersionedResource(
             "/////a/a.xml///");
         assertNotNull(versionedResource);
         assertNotNull(versionedResource.getHeadVersionResource());
@@ -229,7 +232,7 @@ public class JGitVersionControlDaoTest
         assertEquals("a/a.xml", a.getId());
         assertEquals("Content of a/a", a.getContent());
         try {
-            jGitImpl.getVersionedResource("aaaa/a.xml");
+            jGitReadImpl.getVersionedResource("aaaa/a.xml");
             fail("Should not return!");
         }
         catch (RuntimeException exception) {
@@ -247,24 +250,24 @@ public class JGitVersionControlDaoTest
          */
         collection.add(QueryParameterFactory.getStringLikePropertyParam(SearchProperties.COMMITTER_NAME.
             getPropertyName(), "I M Yousuf", MatchMode.EXACT));
-        commitResult = jGitImpl.searchForCommits(collection);
+        commitResult = jGitReadImpl.searchForCommits(collection);
         assertEquals(1, commitResult.size());
         collection.clear();
         collection.add(QueryParameterFactory.getStringLikePropertyParam(SearchProperties.COMMITTER_NAME.
             getPropertyName(), "Imran", MatchMode.START));
-        commitResult = jGitImpl.searchForCommits(collection);
+        commitResult = jGitReadImpl.searchForCommits(collection);
         assertEquals(2, commitResult.size());
         collection.clear();
         collection.add(QueryParameterFactory.getStringLikePropertyParam(SearchProperties.COMMITTER_NAME.
             getPropertyName(), "Yousuf", MatchMode.ANYWHERE));
-        commitResult = jGitImpl.searchForCommits(collection);
+        commitResult = jGitReadImpl.searchForCommits(collection);
         assertEquals(3, commitResult.size());
         /**
          * Search by commit date
          */
         collection.add(QueryParameterFactory.getOrderByParam(SearchProperties.COMMIT_DATE.
             getPropertyName(), Order.DESC));
-        commitResult = jGitImpl.searchForCommits(collection);
+        commitResult = jGitReadImpl.searchForCommits(collection);
         assertEquals(3, commitResult.size());
         Iterator<Commit> commitIterator = commitResult.iterator();
         commitIterator.next();
@@ -273,7 +276,7 @@ public class JGitVersionControlDaoTest
         collection.clear();
         collection.add(QueryParameterFactory.<Date>getEqualPropertyParam(
             SearchProperties.COMMIT_DATE.getPropertyName(), when));
-        commitResult = jGitImpl.searchForCommits(collection);
+        commitResult = jGitReadImpl.searchForCommits(collection);
         assertEquals(1, commitResult.size());
         assertEquals(commit, commitResult.iterator().next());
         collection.clear();
@@ -283,7 +286,7 @@ public class JGitVersionControlDaoTest
         collection.clear();
         collection.add(QueryParameterFactory.getStringLikePropertyParam(SearchProperties.COMMIT_MSG.
             getPropertyName(), "A-2", MatchMode.END));
-        commitResult = jGitImpl.searchForCommits(collection);
+        commitResult = jGitReadImpl.searchForCommits(collection);
         assertEquals(1, commitResult.size());
         commit = commitResult.iterator().next();
         assertEquals(1, commit.getRevisions().size());
@@ -300,7 +303,7 @@ public class JGitVersionControlDaoTest
             SearchProperties.COMMIT_REVISIONS.getPropertyName(), FetchMode.JOIN,
             QueryParameterFactory.getEqualPropertyParam(
             SearchProperties.REVISION_RESOURCE.getPropertyName(), "a/a.xml")));
-        commitResult = jGitImpl.searchForCommits(collection);
+        commitResult = jGitReadImpl.searchForCommits(collection);
         assertEquals(2, commitResult.size());
         collection.clear();
         collection.add(QueryParameterFactory.<Boolean>getEqualPropertyParam(
@@ -314,7 +317,7 @@ public class JGitVersionControlDaoTest
             SearchProperties.REVISION_RESOURCE.getPropertyName(), "a/a.xml"),
             QueryParameterFactory.getEqualPropertyParam(
             SearchProperties.REVISION_HEAD.getPropertyName(), true)));
-        commitResult = jGitImpl.searchForCommits(collection);
+        commitResult = jGitReadImpl.searchForCommits(collection);
         assertEquals(1, commitResult.size());
         /**
          * Search by committer email
@@ -322,12 +325,12 @@ public class JGitVersionControlDaoTest
         collection.clear();
         collection.add(QueryParameterFactory.getStringLikePropertyParam(SearchProperties.COMMITTER_EMAIL.
             getPropertyName(), "imran@smartitengineering.com", MatchMode.EXACT));
-        commitResult = jGitImpl.searchForCommits(collection);
+        commitResult = jGitReadImpl.searchForCommits(collection);
         assertEquals(1, commitResult.size());
         collection.clear();
         collection.add(QueryParameterFactory.getStringLikePropertyParam(SearchProperties.COMMITTER_EMAIL.
             getPropertyName(), "@smartitengineering.com", MatchMode.END));
-        commitResult = jGitImpl.searchForCommits(collection);
+        commitResult = jGitReadImpl.searchForCommits(collection);
         assertEquals(3, commitResult.size());
         collection.clear();
         collection.add(QueryParameterFactory.getNestedParametersParam(
@@ -335,7 +338,7 @@ public class JGitVersionControlDaoTest
             QueryParameterFactory.getStringLikePropertyParam(
             SearchProperties.COMMITTER_EMAIL.getPropertyName(),
             "imran@smartitengineering.com", MatchMode.EXACT)));
-        revisionResult = jGitImpl.searchForRevisions(collection);
+        revisionResult = jGitReadImpl.searchForRevisions(collection);
         assertEquals(2, revisionResult.size());
         /**
          * Search by resource id and others, Also filters by committer email
@@ -343,12 +346,12 @@ public class JGitVersionControlDaoTest
         collection.add(QueryParameterFactory.getStringLikePropertyParam(
             SearchProperties.REVISION_RESOURCE.getPropertyName(), ".xml",
             MatchMode.END));
-        revisionResult = jGitImpl.searchForRevisions(collection);
+        revisionResult = jGitReadImpl.searchForRevisions(collection);
         assertEquals(2, revisionResult.size());
         collection.add(QueryParameterFactory.getStringLikePropertyParam(
             SearchProperties.REVISION_RESOURCE.getPropertyName(), "a/a.xml",
             MatchMode.EXACT));
-        revisionResult = jGitImpl.searchForRevisions(collection);
+        revisionResult = jGitReadImpl.searchForRevisions(collection);
         assertEquals(1, revisionResult.size());
         /**
          * Apply head filter and delete filter
@@ -358,7 +361,7 @@ public class JGitVersionControlDaoTest
             SearchProperties.REVISION_HEAD.getPropertyName(), true));
         collection.add(QueryParameterFactory.getEqualPropertyParam(
             SearchProperties.REVISION_RESOURCE_DELETED.getPropertyName(), true));
-        revisionResult = jGitImpl.searchForRevisions(collection);
+        revisionResult = jGitReadImpl.searchForRevisions(collection);
         assertEquals(1, revisionResult.size());
         a = revisionResult.iterator().next().getResource();
         assertEquals("b/a.xml", a.getId());
@@ -367,7 +370,7 @@ public class JGitVersionControlDaoTest
             SearchProperties.REVISION_HEAD.getPropertyName(), true));
         collection.add(QueryParameterFactory.getEqualPropertyParam(
             SearchProperties.REVISION_RESOURCE_DELETED.getPropertyName(), false));
-        revisionResult = jGitImpl.searchForRevisions(collection);
+        revisionResult = jGitReadImpl.searchForRevisions(collection);
         assertEquals(1, revisionResult.size());
         a = revisionResult.iterator().next().getResource();
         assertEquals("a/a.xml", a.getId());
@@ -378,7 +381,7 @@ public class JGitVersionControlDaoTest
         collection.add(QueryParameterFactory.getStringLikePropertyParam(
             SearchProperties.REVISION_RESOURCE.getPropertyName(), "a/a.xml",
             MatchMode.EXACT));
-        revisionResult = jGitImpl.searchForRevisions(collection);
+        revisionResult = jGitReadImpl.searchForRevisions(collection);
         assertEquals(1, revisionResult.size());
         a = revisionResult.iterator().next().getResource();
         assertEquals("a/a.xml", a.getId());
@@ -389,7 +392,7 @@ public class JGitVersionControlDaoTest
         collection.add(QueryParameterFactory.getStringLikePropertyParam(
             SearchProperties.REVISION_RESOURCE.getPropertyName(), "a/a.xml",
             MatchMode.EXACT));
-        revisionResult = jGitImpl.searchForRevisions(collection);
+        revisionResult = jGitReadImpl.searchForRevisions(collection);
         assertEquals(1, revisionResult.size());
         a = revisionResult.iterator().next().getResource();
         assertEquals("a/a.xml", a.getId());

@@ -24,6 +24,7 @@ import com.smartitengineering.dao.common.queryparam.MatchMode;
 import com.smartitengineering.dao.common.queryparam.Order;
 import com.smartitengineering.dao.common.queryparam.QueryParameter;
 import com.smartitengineering.dao.common.queryparam.QueryParameterFactory;
+import com.smartitengineering.version.impl.jgit.SearchProperties;
 import com.smartitengineering.version.impl.jgit.domain.Commit;
 import com.smartitengineering.version.impl.jgit.domain.Resource;
 import com.smartitengineering.version.impl.jgit.domain.Revision;
@@ -134,7 +135,7 @@ public class MetaRCSServiceImpl
             QueryParameterFactory.getPropProjectionParam(
             Revision.PROP_REVISIONID),
             QueryParameterFactory.<Boolean>getEqualPropertyParam(
-            Revision.PROP_DELETE, false),
+            SearchProperties.REVISION_RESOURCE_DELETED.getPropertyName(), false),
             QueryParameterFactory.getOrderByParam("id", Order.DESC));
         return revisions.toArray(new String[0]);
     }
@@ -154,19 +155,13 @@ public class MetaRCSServiceImpl
             QueryParameterFactory.getPropProjectionParam(
             Revision.PROP_REVISIONID),
             QueryParameterFactory.<Boolean>getEqualPropertyParam(
-            Revision.PROP_DELETE, false));
+            SearchProperties.REVISION_RESOURCE_DELETED.getPropertyName(), false));
         return revision;
     }
 
     public void saveResources(
         final com.smartitengineering.version.api.Commit commit) {
-        Commit commitDomain = MetaFactory.transformAPICommit(commit, false);
-        persistCommit(commitDomain);
-    }
-
-    public void deleteResources(
-        final com.smartitengineering.version.api.Commit commit) {
-        Commit commitDomain = MetaFactory.transformAPICommit(commit, true);
+        Commit commitDomain = MetaFactory.transformAPICommit(commit);
         persistCommit(commitDomain);
     }
 

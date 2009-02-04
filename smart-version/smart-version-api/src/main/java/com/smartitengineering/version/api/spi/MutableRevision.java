@@ -19,12 +19,14 @@
 package com.smartitengineering.version.api.spi;
 
 import com.smartitengineering.version.api.Resource;
+import com.smartitengineering.version.api.Revision;
 
 /**
  * MutableRevision represents a unique version of an MutableResource
  * @author imyousuf
  */
-public interface MutableRevision {
+public interface MutableRevision
+    extends Revision {
 
     public void setResource(Resource resource);
 

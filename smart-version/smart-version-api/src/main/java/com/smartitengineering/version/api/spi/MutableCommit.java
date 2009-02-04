@@ -19,6 +19,7 @@
 package com.smartitengineering.version.api.spi;
 
 import com.smartitengineering.version.api.Author;
+import com.smartitengineering.version.api.Commit;
 import com.smartitengineering.version.api.Revision;
 import java.util.Collection;
 import java.util.Date;
@@ -27,7 +28,8 @@ import java.util.Date;
  * It represents a change in the system.
  * @author imyousuf
  */
-public interface MutableCommit {
+public interface MutableCommit
+    extends Commit {
 
     public void setRevisions(Collection<Revision> revisions);
 

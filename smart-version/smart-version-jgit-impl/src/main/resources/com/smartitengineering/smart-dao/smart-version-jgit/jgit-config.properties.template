@@ -1,3 +1,4 @@
 smart-version.allowEmptyCommit=false
 smart-version.concurrentWrites=1
-smart-version.repoPath=target/jgit-impl/.smart-version-jgit
+smart-version.repoReadPath=target/jgit-impl/.smart-version-jgit
+smart-version.repoWritePath=target/jgit-impl/.smart-version-jgit

@@ -50,11 +50,6 @@
             column="head_revision"
             type="boolean"
         />
-        <property
-            name="deleted"
-            column="is_deleted"
-            type="boolean"
-        />
         <component name="resource"
             class="com.smartitengineering.version.impl.jgit.domain.Resource">
             <property
@@ -62,8 +57,17 @@
                 column="resource_id"
                 type="java.lang.String"
             />
+            <property
+                name="deleted"
+                column="is_deleted"
+                type="boolean"
+            />
+            <property
+                name="mimeType"
+                column="mime_type"
+                type="java.lang.String"
+            />
         </component>
-        
         <many-to-one column="commit_id" name="commit" cascade="none" />
     </class>
 </hibernate-mapping>

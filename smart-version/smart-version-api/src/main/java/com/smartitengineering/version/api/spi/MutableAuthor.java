@@ -18,11 +18,16 @@
  */
 package com.smartitengineering.version.api.spi;
 
+import com.smartitengineering.version.api.Author;
+
 /**
  * Represents a committer. MutableAuthor only has Name and Email address mandatory.
  * @author imyousuf
  */
-public interface MutableAuthor {
+public interface MutableAuthor
+    extends Author {
+
     public void setName(String name);
+
     public void setEmail(String email);
 }

@@ -31,6 +31,44 @@ public class ResourceImpl
 
     private String id;
     private String content;
+    private boolean deleted;
+    protected String mimeType;
+
+    /**
+     * Get the value of mimeType
+     *
+     * @return the value of mimeType
+     */
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    /**
+     * Set the value of mimeType
+     *
+     * @param mimeType new value of mimeType
+     */
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
+    }
+
+    /**
+     * Get the value of deleted
+     *
+     * @return the value of deleted
+     */
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    /**
+     * Set the value of deleted
+     *
+     * @param deleted new value of deleted
+     */
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     /**
      * Get the value of content

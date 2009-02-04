@@ -20,6 +20,7 @@ package com.smartitengineering.version.api.spi;
 
 import com.smartitengineering.version.api.Resource;
 import com.smartitengineering.version.api.Revision;
+import com.smartitengineering.version.api.VersionedResource;
 import java.util.Collection;
 
 /**
@@ -27,7 +28,8 @@ import java.util.Collection;
  * to versions of the resource.
  * @author imyousuf
  */
-public interface MutableVersionedResource {
+public interface MutableVersionedResource
+    extends VersionedResource {
 
     public void setHeadVersionResource(Resource headVersionResource);
 

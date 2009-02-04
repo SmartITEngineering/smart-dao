@@ -88,18 +88,30 @@
     <bean id="metaRCSConfig" class="com.smartitengineering.version.impl.jgit.service.RCSConfig">
         <property name="allowNoChangeCommit"><value>$[smart-version.allowEmptyCommit]</value></property>
         <property name="concurrentWriteOperations"><value>$[smart-version.concurrentWrites]</value></property>
-        <property name="repositoryPath"><value>$[smart-version.repoPath]</value></property>
+        <property name="repositoryReadPath"><value>$[smart-version.repoReadPath]</value></property>
+        <property name="repositoryWritePath"><value>$[smart-version.repoWritePath]</value></property>
     </bean>
     <bean id="jgitImpl" class="com.smartitengineering.version.impl.jgit.JGitImpl" init-method="init" destroy-method="finish">
         <property name="config">
             <ref local="metaRCSConfig" />
         </property>
     </bean>
-    <bean id="versionControlDao" class="com.smartitengineering.version.impl.jgit.JGitVersionControlDao">
+    <bean id="versionControlReadDao" class="com.smartitengineering.version.impl.jgit.JGitVersionControlDao">
         <property name="JGitService">
             <ref local="metaRCSService" />
         </property>
-        <property name="JGitImpl">
+        <property name="JGitWriteImpl">
+            <ref local="jgitImpl" />
+        </property>
+        <property name="JGitExtension">
+            <ref local="jgitImpl" />
+        </property>
+    </bean>
+    <bean id="versionControlWriteDao" class="com.smartitengineering.version.impl.jgit.JGitVersionControlDao">
+        <property name="JGitService">
+            <ref local="metaRCSService" />
+        </property>
+        <property name="JGitWriteImpl">
             <ref local="jgitImpl" />
         </property>
         <property name="JGitExtension">

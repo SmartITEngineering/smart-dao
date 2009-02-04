@@ -31,23 +31,7 @@ import java.util.Collection;
  * users.
  * @author imyousuf
  */
-public interface VersionControlDao {
-
-    /**
-     * It will store the resources referred in the 'commit' with other
-     * informations provided.
-     * @param commit Commit to store (create or update)
-     * @param callback Callback handler for this write operation
-     */
-    public void store(final Commit commit, final WriterCallback callback);
-
-    /**
-     * Remove all resources specified in the 'commit' and perform commit using
-     * other meta information provided in the 'commit'.
-     * @param commit Commit from which the resources are to be deleted.
-     * @param callback Callback handler for this write operation
-     */
-    public void remove(final Commit commit, final WriterCallback callback);
+public interface VersionControlReadDao {
 
     /**
      * Get a resource with its versions specified by the resource id.
@@ -55,7 +39,7 @@ public interface VersionControlDao {
      * @return The versioned representation of the resource.
      */
     public VersionedResource getVersionedResource(final String resourceId);
-    
+
     /**
      * Retrieve the HEAD version of the specified resource id.
      * @param resourceId The resource's id to fetch
@@ -69,7 +53,8 @@ public interface VersionControlDao {
      * @param resourceId The resource to get
      * @return The resource with the specified resource id and revision id
      */
-    public Resource getResourceByRevision(final String revisionId, final String resourceId);
+    public Resource getResourceByRevision(final String revisionId,
+                                          final String resourceId);
 
     /**
      * Search for commits. Please implementation documentation to check whether

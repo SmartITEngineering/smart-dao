@@ -16,37 +16,24 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-package com.smartitengineering.version.api;
+package com.smartitengineering.version.api.dao;
+
+import com.smartitengineering.version.api.Commit;
 
 /**
- * Resource represents an object intended to versioned.
+ * Its the main interface through which all CRUD opertation to the RCS will be
+ * made. Service providers will mainly implement this and provide access to
+ * users.
  * @author imyousuf
  */
-public interface Resource {
+public interface VersionControlWriteDao {
 
     /**
-     * Retrieves the content of the resource, it can be anything that represents
-     * the resource.
-     * @return Content of the resource
+     * It will store the resources referred in the 'commit' with other
+     * informations provided.
+     * @param commit Commit to store (create or update)
+     * @param callback Callback handler for this write operation
      */
-    public String getContent();
-
-    /**
-     * Retrieves the id of the resource using which the resource can be uniquely
-     * identified.
-     * @return Unique identifier of the resource
-     */
-    public String getId();
-
-    /**
-     * Returns whether the resource is deleted or not
-     * @return True iff deleted
-     */
-    public boolean isDeleted();
-
-    /**
-     * Returns the MIME type of the resource.
-     * @return MIME type - could be NULL if user does not set one
-     */
-    public String getMimeType();
+    public void store(final Commit commit,
+                      final WriterCallback callback);
 }
