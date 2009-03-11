@@ -88,7 +88,7 @@
         <!-- use the following if you're not using a snapshot version. -->
         <repository>
             <id>java.net-m2-repository</id>
-            <url>java-net:/maven2-repository/trunk/www/repository/</url>
+            <url>java-net:/maven2-repository/trunk/repository/</url>
         </repository>
         <!-- use the following if you ARE using a snapshot version. -->
         <snapshotRepository>
