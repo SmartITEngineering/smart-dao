@@ -18,7 +18,9 @@
  */
 package com.smartitengineering.version.api.spi;
 
+import com.smartitengineering.version.api.Content;
 import com.smartitengineering.version.api.Resource;
+import java.io.InputStream;
 
 /**
  * MutableResource represents an object intended to versioned.
@@ -27,11 +29,30 @@ import com.smartitengineering.version.api.Resource;
 public interface MutableResource
     extends Resource {
 
-    public void setContent(String content);
-
+    /**
+     * Sets the content of the resource. Setting the content directly will
+     * reset the contentAsStream, contentLoaded and contentSize.
+     * @param content Can not be null
+     * @throws IllegalArgumentException If and only if content is NULL
+     */
+    public void setContent(Content content) throws IllegalArgumentException;
+    
+    /**
+     * Return the ID of the resource.
+     * @param id Identifier for the resource
+     */
     public void setId(String id);
     
+    /**
+     * Set whether the resource's current state represents whether the its been
+     * deleted or not.
+     * @param deleted True if resource has been deleted.
+     */
     public void setDeleted(boolean deleted);
     
+    /**
+     * Set the mime-type of the resource.
+     * @param mimeType MIME Type of the resource
+     */
     public void setMimeType(String mimeType);
 }

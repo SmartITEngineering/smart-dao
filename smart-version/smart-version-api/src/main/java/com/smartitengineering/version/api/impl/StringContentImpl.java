@@ -16,30 +16,46 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-package com.smartitengineering.version.api;
+package com.smartitengineering.version.api.impl;
+
+import com.smartitengineering.util.simple.IOFactory;
+import com.smartitengineering.version.api.Content;
+import java.io.InputStream;
 
 /**
- * Resource represents an object intended to versioned.
+ *
  * @author imyousuf
  */
-public interface Resource extends Content {
+public class StringContentImpl
+    implements Content {
 
-    /**
-     * Retrieves the id of the resource using which the resource can be uniquely
-     * identified.
-     * @return Unique identifier of the resource
-     */
-    public String getId();
+    private String content;
+    private InputStream inputStream;
 
-    /**
-     * Returns whether the resource is deleted or not
-     * @return True iff deleted
-     */
-    public boolean isDeleted();
+    public StringContentImpl(final String content) {
+        if (content == null) {
+            throw new IllegalArgumentException();
+        }
+        this.content = content;
+    }
 
-    /**
-     * Returns the MIME type of the resource.
-     * @return MIME type - could be NULL if user does not set one
-     */
-    public String getMimeType();
+    public String getContent()
+        throws IllegalStateException {
+        return content;
+    }
+
+    public InputStream getContentAsStream() {
+        if (inputStream == null) {
+            this.inputStream = IOFactory.getStringInputStream(this.content);
+        }
+        return inputStream;
+    }
+
+    public int getContentSize() {
+        return content.length();
+    }
+
+    public boolean isContentLoaded() {
+        return true;
+    }
 }

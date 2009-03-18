@@ -18,8 +18,10 @@
  */
 package com.smartitengineering.version.api.impl;
 
+import com.smartitengineering.version.api.Content;
 import com.smartitengineering.version.api.Resource;
 import com.smartitengineering.version.api.spi.MutableResource;
+import java.io.InputStream;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -30,9 +32,9 @@ public class ResourceImpl
     implements Resource, MutableResource {
 
     private String id;
-    private String content;
     private boolean deleted;
     protected String mimeType;
+    protected Content content;
 
     /**
      * Get the value of mimeType
@@ -76,16 +78,19 @@ public class ResourceImpl
      * @return the value of content
      */
     public String getContent() {
-        return content;
+        return content.getContent();
     }
 
-    /**
-     * Set the value of content
-     *
-     * @param content new value of content
-     */
-    public void setContent(String content) {
-        this.content = content;
+    public InputStream getContentAsStream() {
+        return content.getContentAsStream();
+    }
+
+    public int getContentSize() {
+        return content.getContentSize();
+    }
+
+    public boolean isContentLoaded() {
+        return content.isContentLoaded();
     }
 
     /**
@@ -106,6 +111,14 @@ public class ResourceImpl
         this.id = id;
     }
 
+    public void setContent(Content content)
+        throws IllegalArgumentException {
+        if(content == null) {
+            throw new IllegalArgumentException();
+        }
+        this.content = content;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Resource) {
@@ -124,4 +137,5 @@ public class ResourceImpl
         }
         return super.hashCode();
     }
+
 }

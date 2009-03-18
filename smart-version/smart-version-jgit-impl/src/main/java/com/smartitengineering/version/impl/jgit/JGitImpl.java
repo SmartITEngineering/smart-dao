@@ -362,8 +362,9 @@ public class JGitImpl
             treeEntry.setExecutable(false);
             if (!revision.getResource().isDeleted()) {
                 if (revision instanceof MutableRevision) {
-                    ObjectId revisionId = getObjectWriter().writeBlob(revision.
-                        getResource().getContent().getBytes());
+                    ObjectId revisionId = getObjectWriter().writeBlob(
+                        revision.getResource().getContentSize(),
+                        revision.getResource().getContentAsStream());
                     MutableRevision mutableRevision = (MutableRevision) revision;
                     mutableRevision.setRevisionId(ObjectId.toString(revisionId));
                     treeEntry.setId(revisionId);

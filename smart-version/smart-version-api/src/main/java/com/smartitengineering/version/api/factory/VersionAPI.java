@@ -30,9 +30,12 @@ import com.smartitengineering.version.api.dao.VersionControlReadDao;
 import com.smartitengineering.version.api.dao.VersionControlWriteDao;
 import com.smartitengineering.version.api.impl.AuthorImpl;
 import com.smartitengineering.version.api.impl.CommitImpl;
+import com.smartitengineering.version.api.impl.InputStreamContentImpl;
 import com.smartitengineering.version.api.impl.ResourceImpl;
 import com.smartitengineering.version.api.impl.RevisionImpl;
+import com.smartitengineering.version.api.impl.StringContentImpl;
 import com.smartitengineering.version.api.impl.VersionedResourceImpl;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -42,26 +45,25 @@ import org.apache.commons.lang.StringUtils;
  * Factory API for creating concrete class for Version's API interfaces
  * @author imyousuf
  */
-@Aggregator(contextName="com.smartitnengineering.smart-dao.smart-version")
+@Aggregator(contextName = "com.smartitnengineering.smart-dao.smart-version")
 public final class VersionAPI {
-    
+
     @InjectableField
     private VersionControlWriteDao versionControlWriteDao;
     @InjectableField
     private VersionControlReadDao versionControlReadDao;
-    
     private static VersionAPI versionAPI;
 
     private VersionAPI() {
         BeanFactoryRegistrar.aggregate(this);
     }
-    
+
     /**
      * Retrieve API factory for context dependent resources.
      * @return API Factory
      */
     public static VersionAPI getInstance() {
-        if(versionAPI == null) {
+        if (versionAPI == null) {
             versionAPI = new VersionAPI();
         }
         return versionAPI;
@@ -130,7 +132,28 @@ public final class VersionAPI {
                 "Content can't be NULL and resourceId can't be blank!");
         }
         ResourceImpl resourceImpl = new ResourceImpl();
-        resourceImpl.setContent(content);
+        resourceImpl.setContent(new StringContentImpl(content));
+        resourceImpl.setId(resourceId);
+        resourceImpl.setDeleted(deleted);
+        resourceImpl.setMimeType(mimeType);
+        return resourceImpl;
+    }
+
+    public static Resource createResource(final String resourceId,
+                                          final int contentSize,
+                                          final InputStream contentStream,
+                                          final boolean deleted,
+                                          final String mimeType) {
+        String trimmedResourceId = trimToPropertResourceId(resourceId);
+        if (StringUtils.isBlank(trimmedResourceId) || contentStream == null ||
+            contentSize < 0) {
+            throw new IllegalArgumentException(
+                "Content stream can't be NULL, size can't negative " +
+                "and resourceId can't be blank!");
+        }
+        ResourceImpl resourceImpl = new ResourceImpl();
+        resourceImpl.setContent(new InputStreamContentImpl(contentSize,
+            contentStream));
         resourceImpl.setId(resourceId);
         resourceImpl.setDeleted(deleted);
         resourceImpl.setMimeType(mimeType);
@@ -195,11 +218,11 @@ public final class VersionAPI {
      * @return Commit object representing the information supplied
      */
     public static Commit createCommit(final Collection<Revision> revisions,
-                                   final String commitId,
-                                   final String parentCommitId,
-                                   final String commitMessage,
-                                   final Author committer,
-                                   final Date commitTime) {
+                                      final String commitId,
+                                      final String parentCommitId,
+                                      final String commitMessage,
+                                      final Author committer,
+                                      final Date commitTime) {
         if (StringUtils.isBlank(commitMessage) || committer == null ||
             revisions == null || revisions.isEmpty() || (StringUtils.isNotBlank(
             commitId) && commitTime == null)) {
@@ -217,21 +240,21 @@ public final class VersionAPI {
         commitImpl.setRevisions(revisions);
         return commitImpl;
     }
-    
+
     /**
      * Throw away all the '/' from beginning and end of the resourceId.
      * @param resourceId Id to trim
      * @return Trimmed version of the resourceId
      */
     public static String trimToPropertResourceId(String resourceId) {
-        if(StringUtils.isBlank(resourceId)) {
+        if (StringUtils.isBlank(resourceId)) {
             return "";
         }
         StringBuilder result = new StringBuilder(resourceId.trim());
-        while(result.charAt(0) == '/') {
+        while (result.charAt(0) == '/') {
             result.deleteCharAt(0);
         }
-        while(result.charAt(result.length() - 1) == '/') {
+        while (result.charAt(result.length() - 1) == '/') {
             result.deleteCharAt(result.length() - 1);
         }
         return result.toString();
