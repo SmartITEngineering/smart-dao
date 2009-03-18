@@ -51,7 +51,12 @@
         </dependency>
         <dependency>
             <groupId>com.smartitengineering.smart-util</groupId>
-            <artifactId>smart-spring-util</artifactId>
+            <artifactId>smart-bean-util</artifactId>
+            <version>${smart-util.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.smartitengineering.smart-util</groupId>
+            <artifactId>simple-util</artifactId>
             <version>${smart-util.version}</version>
         </dependency>
     </dependencies>

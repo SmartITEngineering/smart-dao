@@ -24,7 +24,7 @@
 
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "spring-beans.dtd"  >
 <beans>
-    <bean id="propertyConfigurer" class="com.smartitengineering.util.spring.PropertiesLocatorConfigurer">
+    <bean id="propertyConfigurer" class="com.smartitengineering.util.bean.PropertiesLocatorConfigurer">
         <property name="smartLocations">
             <list>
                 <value>com/smartitengineering/smart-dao/smart-version-jgit/db-config.properties</value>

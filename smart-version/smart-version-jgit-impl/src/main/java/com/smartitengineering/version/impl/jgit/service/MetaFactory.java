@@ -18,9 +18,9 @@
  */
 package com.smartitengineering.version.impl.jgit.service;
 
-import com.smartitengineering.util.spring.BeanFactoryRegistrar;
-import com.smartitengineering.util.spring.annotations.Aggregator;
-import com.smartitengineering.util.spring.annotations.InjectableField;
+import com.smartitengineering.util.bean.BeanFactoryRegistrar;
+import com.smartitengineering.util.bean.annotations.Aggregator;
+import com.smartitengineering.util.bean.annotations.InjectableField;
 import com.smartitengineering.version.api.factory.VersionAPI;
 import com.smartitengineering.version.impl.jgit.domain.Author;
 import com.smartitengineering.version.impl.jgit.domain.Commit;
