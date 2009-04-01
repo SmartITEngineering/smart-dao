@@ -128,7 +128,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-scm-plugin</artifactId>
-                <version>1.1</version>
+                <version>${scm.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -136,6 +136,7 @@
                 <version>2.5</version>
                 <inherited>true</inherited>
                 <configuration>
+                    <aggregate>true</aggregate>
                     <linksource>true</linksource>
                     <attach>true</attach>
                 </configuration>
@@ -176,6 +177,79 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changelog-plugin</artifactId>
+                <version>${changelog.version}</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.plexus</groupId>
+                        <artifactId>plexus-utils</artifactId>
+                        <version>${plexus-utils.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <outputXML>./target/change/changes.xml</outputXML>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-changelog</id>
+                        <phase>generate-sources</phase>
+                        <inherited>false</inherited>
+                        <goals>
+                            <goal>changelog</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>xml-maven-plugin</artifactId>
+                <version>1.0-beta-2</version>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <id>generate-changes</id>
+                        <phase>generate-resources</phase>
+                        <inherited>false</inherited>
+                        <goals>
+                            <goal>transform</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <transformationSets>
+                        <transformationSet>
+                            <dir>./target/change</dir>
+                            <stylesheet>src/main/xsl/changes.xsl</stylesheet>
+                        </transformationSet>
+                    </transformationSets>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>${antrun.version}</version>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <id>rename-changes</id>
+                        <phase>generate-resources</phase>
+                        <inherited>false</inherited>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <move file="target/generated-resources/xml/xslt/changes.xml" 
+                                        tofile="target/generated-resources/xml/xslt/changes-${version}.html" 
+                                        verbose="true"/>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <extensions>
             <extension>
@@ -190,6 +264,24 @@
             </extension>
         </extensions>
     </build>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changelog-plugin</artifactId>
+                <version>${changelog.version}</version>
+                <configuration>
+                    <type>tag</type>
+                    <tags>
+                        <tag implementation="java.lang.String">${last.release.tag}
+                        </tag>
+                        <tag implementation="java.lang.String">HEAD
+                        </tag>
+                    </tags>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
     <modules>
         <module>smart-hibernate-abstract-dao</module>
         <module>smart-abstract-dao</module>
@@ -203,5 +295,11 @@
         <commons-lang.version>2.3</commons-lang.version>
         <smart-util.version>0.2-SNAPSHOT</smart-util.version>
         <jgit.version>0.4-SNAPSHOT</jgit.version>
+        <scm.version>1.2</scm.version>
+        <changelog.version>2.2-SNAPSHOT</changelog.version>
+        <plexus-utils.version>1.5.6</plexus-utils.version>
+        <asm.version>3.1</asm.version>
+        <last.release.tag>0.3</last.release.tag>
+        <antrun.version>1.2</antrun.version>
     </properties>
 </project>
