@@ -32,17 +32,35 @@
     <xsl:strip-space elements="*" />
     <xsl:template match="changeset">
         <xsl:element name="html">
-            <xsl:element name="body">
-                <xsl:element name="h1">
-                    <xsl:attribute name="id">header</xsl:attribute>
-                    <xsl:text>Changes from </xsl:text>
-                    <xsl:value-of select="@startVersion" />
-                    <xsl:text> to </xsl:text>
-                    <xsl:value-of select="@endVersion" />
+            <xsl:element name="head">
+                <xsl:element name="link">
+                    <xsl:attribute name="rel">
+                        <xsl:text>stylesheet</xsl:text>
+                    </xsl:attribute>
+                    <xsl:attribute name="type">
+                        <xsl:text>text/css</xsl:text>
+                    </xsl:attribute>
+                    <xsl:attribute name="href">
+                        <xsl:text>./css/changes.css</xsl:text>
+                    </xsl:attribute>
                 </xsl:element>
-                <xsl:element name="br" />
+            </xsl:element>
+            <xsl:element name="body">
+                <xsl:element name="div">
+                    <xsl:attribute name="id">
+                        <xsl:text>header</xsl:text>
+                    </xsl:attribute>
+                    <xsl:element name="h1">
+                        <xsl:text>Changes from </xsl:text>
+                        <xsl:value-of select="@startVersion" />
+                        <xsl:text> to </xsl:text>
+                        <xsl:value-of select="@endVersion" />
+                    </xsl:element>
+                </xsl:element>
                 <xsl:element name="table">
-                    <xsl:attribute name="id">data</xsl:attribute>
+                    <xsl:attribute name="id">
+                        <xsl:text>data</xsl:text>
+                    </xsl:attribute>
                     <xsl:apply-templates select="changelog-entry" />
                 </xsl:element>
             </xsl:element>
@@ -52,13 +70,53 @@
         <xsl:element name="tr">
             <xsl:variable name="message" select="msg" />
             <xsl:element name="td">
-                <xsl:value-of select="substring-before($message, '&#x0a;')" />
+                <xsl:element name="div">
+                    <xsl:attribute name="id">
+                        <xsl:text>date</xsl:text>
+                    </xsl:attribute>
+                    <xsl:value-of select="date" />
+                </xsl:element>
             </xsl:element>
             <xsl:element name="td">
-                <xsl:value-of select="author" />
+                <xsl:element name="div">
+                    <xsl:attribute name="id">
+                        <xsl:text>changeComment</xsl:text>
+                    </xsl:attribute>
+                    <xsl:element name="div">
+                        <xsl:attribute name="id">
+                            <xsl:text>mainLink</xsl:text>
+                        </xsl:attribute>
+                        <xsl:element name="a">
+                            <xsl:attribute name="href">
+                                <xsl:text>http://github.com/imyousuf/smart-dao/commit/</xsl:text>
+                                <xsl:value-of select="file/revision" />
+                            </xsl:attribute>
+                            <xsl:value-of select="substring-before($message, '&#x0a;')" />
+                        </xsl:element>
+                    </xsl:element>
+                    <xsl:element name="div">
+                        <xsl:attribute name="id">
+                            <xsl:text>secondaryLink</xsl:text>
+                        </xsl:attribute>
+                        <xsl:text> (</xsl:text>
+                        <xsl:element name="a">
+                            <xsl:attribute name="href">
+                                <xsl:text>http://repo.or.cz/w/smart-dao.git?a=commit;h=</xsl:text>
+                                <xsl:value-of select="file/revision" />
+                            </xsl:attribute>
+                            <xsl:text>repo.or.cz</xsl:text>
+                        </xsl:element>
+                        <xsl:text>)</xsl:text>
+                    </xsl:element>
+                </xsl:element>
             </xsl:element>
             <xsl:element name="td">
-                <xsl:value-of select="date" />
+                <xsl:element name="div">
+                    <xsl:attribute name="id">
+                        <xsl:text>author</xsl:text>
+                    </xsl:attribute>
+                    <xsl:value-of select="author" />
+                </xsl:element>
             </xsl:element>
         </xsl:element>
     </xsl:template>
