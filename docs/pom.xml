@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ *   
+ * This is a common dao with basic CRUD operations and is not limited to any 
+ * persistent layer implementation
+ * 
+ * Copyright (C) 2008  Imran M Yousuf (imyousuf@smartitengineering.com)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+-->
+<project>
+    <parent>
+        <artifactId>smart-dao</artifactId>
+        <groupId>com.smartitengineering</groupId>
+        <version>0.4-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.smartitenginering.smart-dao</groupId>
+    <artifactId>docs</artifactId>
+    <name>Docs</name>
+    <version>0.4-SNAPSHOT</version>
+    <dependencies>
+        <dependency>
+            <groupId>com.smartitengineering</groupId>
+            <version>${project.version}</version>
+            <artifactId>smart-domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smartitengineering</groupId>
+            <version>${project.version}</version>
+            <artifactId>smart-abstract-dao</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smartitengineering</groupId>
+            <version>${project.version}</version>
+            <artifactId>smart-dao-queryparam</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smartitengineering</groupId>
+            <version>${project.version}</version>
+            <artifactId>smart-hibernate-abstract-dao</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>asm</groupId>
+                    <artifactId>asm-attrs</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>cglib</groupId>
+                    <artifactId>cglib</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.smartitengineering</groupId>
+            <version>${project.version}</version>
+            <artifactId>smart-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smartitengineering</groupId>
+            <version>${project.version}</version>
+            <artifactId>smart-dao-search</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smartitengineering</groupId>
+            <version>${project.version}</version>
+            <artifactId>smart-rs</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smartitengineering.smart-version</groupId>
+            <version>${project.version}</version>
+            <artifactId>smart-version-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smartitengineering.smart-version</groupId>
+            <version>${project.version}</version>
+            <artifactId>smart-dao-version</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smartitengineering.smart-version</groupId>
+            <version>${project.version}</version>
+            <artifactId>smart-version-jgit-impl</artifactId>
+        </dependency>
+    </dependencies>
+    <profiles>
+        <profile>
+            <id>build-assembly</id>
+            <activation>
+                <property>
+                    <name>build.complete</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>${assembly.version}</version>
+                        <inherited>true</inherited>
+                        <executions>
+                            <!-- Assembly execution for aggregating site -->
+                            <execution>
+                                <id>assemble-site</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>src/main/assembly/assemble-site.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

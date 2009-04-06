@@ -41,6 +41,7 @@
                 }
                 else
                 {
+                    frame.style.height = "50px";
                     which.style.display = "none";
                 }
             }
@@ -48,9 +49,9 @@
         
     </head>
     <body id="container">
-        <a href="./changes-${project.version}.html" onclick="hideshowHelp(document.getElementById('currentChanges'), document.getElementById('currentChangesFrame')); return false;">Current Changes</a>
+        <a id ="currentChangesLink" href="./changes-${project.version}.html" onclick="hideshowHelp(document.getElementById('currentChanges'), document.getElementById('currentChangesFrame')); return false;">Current Changes</a>
         <div id="currentChanges" style="display:none;">
-            <iframe id ="currentChangesFrame" src="./changes-${project.version}.html"></iframe>
+            <iframe id ="currentChangesFrame" src="./changes-${project.version}.html" style="height: 50px;"></iframe>
         </div>
     </body>
 </html>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ *   
+ * This is a common dao with basic CRUD operations and is not limited to any 
+ * persistent layer implementation
+ * 
+ * Copyright (C) 2008  Imran M Yousuf (imyousuf@smartitengineering.com)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+-->
+
+<assembly>
+    <id>total-site</id>
+    <formats>
+        <format>dir</format>
+    </formats>
+    <fileSets>
+        <!-- Copies the change related files -->
+        <fileSet>
+            <directory>../gh-pages/</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>/</outputDirectory>
+            <filtered>true</filtered>
+        </fileSet>
+        <fileSet>
+            <directory>../target/generated-resources/xml/xslt/</directory>
+            <includes>
+                <include>changes-${project.version}.html</include>
+            </includes>
+            <outputDirectory>/changes/</outputDirectory>
+        </fileSet>
+        <!-- Copies site plugin generated contents -->
+        <!-- Root project content -->
+        <fileSet>
+            <directory>../target/site/</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>/site/</outputDirectory>
+        </fileSet>
+        <!-- Smart Domain project content -->
+        <fileSet>
+            <directory>../smart-domain/target/site/</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>/site/smart-domain/</outputDirectory>
+        </fileSet>
+        <!-- Smart RS project content -->
+        <fileSet>
+            <directory>../smart-rs/target/site/</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>/site/smart-rs/</outputDirectory>
+        </fileSet>
+        <!-- Smart Cache project content -->
+        <fileSet>
+            <directory>../smart-cache/target/site/</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>/site/smart-cache/</outputDirectory>
+        </fileSet>
+        <!-- Smart DAO Search project content -->
+        <fileSet>
+            <directory>../smart-dao-search/target/site/</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>/site/smart-dao-search/</outputDirectory>
+        </fileSet>
+        <!-- Smart Query Parameter project content -->
+        <fileSet>
+            <directory>../smart-query-param/target/site/</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>/site/smart-query-param/</outputDirectory>
+        </fileSet>
+        <!-- Smart Abstract DAO project content -->
+        <fileSet>
+            <directory>../smart-abstract-dao/target/site/</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>/site/smart-abstract-dao/</outputDirectory>
+        </fileSet>
+        <!-- Smart Hibernate Abstract DAO project content -->
+        <fileSet>
+            <directory>../smart-hibernate-abstract-dao/target/site/</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>/site/smart-hibernate-abstract-dao/</outputDirectory>
+        </fileSet>
+        <!-- Smart Version project content -->
+        <fileSet>
+            <directory>../smart-version/target/site/</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>/site/smart-version/</outputDirectory>
+        </fileSet>
+        <!-- Smart Version API project content -->
+        <fileSet>
+            <directory>../smart-version/smart-version-api/target/site/</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>/site/smart-version/smart-version-api/</outputDirectory>
+        </fileSet>
+        <!-- Smart Version JGIT Impl project content -->
+        <fileSet>
+            <directory>../smart-version/smart-version-jgit-impl/target/site/</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>/site/smart-version/smart-version-jgit-impl/</outputDirectory>
+        </fileSet>
+        <!-- Smart Version DAO Integration project content -->
+        <fileSet>
+            <directory>../smart-version/smart-dao-version/target/site/</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>/site/smart-version/smart-dao-version/</outputDirectory>
+        </fileSet>
+    </fileSets>
+</assembly>
