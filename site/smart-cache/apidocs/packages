@@ -1,0 +1,3 @@
+com.smartitengineering.dao.common.cache
+com.smartitengineering.dao.common.cache.impl
+com.smartitengineering.dao.common.cache.impl.ehcache

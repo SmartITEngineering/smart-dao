@@ -1,0 +1,6 @@
+com.smartitengineering.version.impl.jgit
+com.smartitengineering.version.impl.jgit.domain
+com.smartitengineering.version.impl.jgit.service
+com.smartitengineering.version.impl.jgit.service.impl
+com.smartitengineering.version.impl.jgit.dao
+com.smartitengineering.version.impl.jgit.dao.impl

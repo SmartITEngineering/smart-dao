@@ -1,0 +1,31 @@
+-classpath
+'/home/imyousuf/projects/smart-dao/smart-cache/target/classes:/home/imyousuf/projects/smart-dao/smart-domain/target/smart-domain-0.4-SNAPSHOT.jar:/home/imyousuf/.m2/repository/net/sf/ehcache/ehcache/1.5.0/ehcache-1.5.0.jar:/home/imyousuf/.m2/repository/net/sf/jsr107cache/jsr107cache/1.0/jsr107cache-1.0.jar:/home/imyousuf/.m2/repository/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar:/home/imyousuf/.m2/repository/commons-collections/commons-collections/3.2/commons-collections-3.2.jar:/home/imyousuf/.m2/repository/backport-util-concurrent/backport-util-concurrent/3.1/backport-util-concurrent-3.1.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/home/imyousuf/projects/smart-dao/smart-cache/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2007-2009 <a href="http://www.smartitengineering.com">Smart IT Engineering</a>. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'/home/imyousuf/projects/smart-dao/smart-cache/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'smart-cache 0.4-SNAPSHOT API'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-domain/apidocs' '/home/imyousuf/projects/smart-dao/smart-domain/target/site/apidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-dao-queryparam/apidocs' '/home/imyousuf/projects/smart-dao/smart-dao-queryparam/target/site/apidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-abstract-dao/apidocs' '/home/imyousuf/projects/smart-dao/smart-abstract-dao/target/site/apidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-hibernate-abstract-dao/apidocs' '/home/imyousuf/projects/smart-dao/smart-hibernate-abstract-dao/target/site/apidocs'
+-linksource
+-use
+-version
+-windowtitle
+'smart-cache 0.4-SNAPSHOT API'

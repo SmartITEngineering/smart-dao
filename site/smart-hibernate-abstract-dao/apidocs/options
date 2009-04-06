@@ -1,0 +1,29 @@
+-classpath
+'/home/imyousuf/projects/smart-dao/smart-hibernate-abstract-dao/target/classes:/home/imyousuf/projects/smart-dao/smart-domain/target/smart-domain-0.4-SNAPSHOT.jar:/home/imyousuf/.m2/repository/net/sf/ehcache/ehcache/1.2.3/ehcache-1.2.3.jar:/home/imyousuf/projects/smart-dao/smart-dao-queryparam/target/smart-dao-queryparam-0.4-SNAPSHOT.jar:/home/imyousuf/.m2/repository/cglib/cglib/2.1_3/cglib-2.1_3.jar:/home/imyousuf/.m2/repository/commons-collections/commons-collections/2.1.1/commons-collections-2.1.1.jar:/home/imyousuf/.m2/repository/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar:/home/imyousuf/.m2/repository/org/hibernate/hibernate/3.2.5.ga/hibernate-3.2.5.ga.jar:/home/imyousuf/projects/smart-dao/smart-abstract-dao/target/smart-abstract-dao-0.4-SNAPSHOT.jar:/home/imyousuf/.m2/repository/org/springframework/spring/2.5.4/spring-2.5.4.jar:/home/imyousuf/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar:/home/imyousuf/.m2/repository/asm/asm-attrs/1.5.3/asm-attrs-1.5.3.jar:/home/imyousuf/.m2/repository/antlr/antlr/2.7.6/antlr-2.7.6.jar:/home/imyousuf/.m2/repository/asm/asm/1.5.3/asm-1.5.3.jar:/home/imyousuf/.m2/repository/javax/transaction/jta/1.0.1B/jta-1.0.1B.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/home/imyousuf/projects/smart-dao/smart-hibernate-abstract-dao/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2007-2009 <a href="http://www.smartitengineering.com">Smart IT Engineering</a>. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'/home/imyousuf/projects/smart-dao/smart-hibernate-abstract-dao/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'smart-hibernate-abstract-dao 0.4-SNAPSHOT API'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-domain/apidocs' '/home/imyousuf/projects/smart-dao/smart-domain/target/site/apidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-dao-queryparam/apidocs' '/home/imyousuf/projects/smart-dao/smart-dao-queryparam/target/site/apidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-abstract-dao/apidocs' '/home/imyousuf/projects/smart-dao/smart-abstract-dao/target/site/apidocs'
+-linksource
+-use
+-version
+-windowtitle
+'smart-hibernate-abstract-dao 0.4-SNAPSHOT API'

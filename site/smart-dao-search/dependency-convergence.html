@@ -1,0 +1,592 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+
+
+
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Maven SCM Git Executable - Reactor Dependency Convergence</title>
+    <style type="text/css" media="all">
+      @import url("./css/maven-base.css");
+      @import url("./css/maven-theme.css");
+      @import url("./css/site.css");
+    </style>
+    <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+      </head>
+  <body class="composite">
+    <div id="banner">
+                    <span id="bannerLeft">
+    
+            smart-dao-search
+    
+            </span>
+                    <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="breadcrumbs">
+          
+  
+
+  
+    
+            
+  
+    
+            <div class="xleft">
+        Last Published: 2009-04-06
+                  &nbsp;| Version: 0.4-SNAPSHOT
+                      </div>
+            <div class="xright">      
+  
+
+  
+    
+            
+  
+    
+  </div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="leftColumn">
+      <div id="navcolumn">
+           
+  
+
+  
+    
+            
+  
+    
+                   <h5>Parent Project</h5>
+            <ul>
+              
+    <li class="none">
+                    <a href="../index.html">smart-dao</a>
+          </li>
+          </ul>
+              <h5>Overview</h5>
+            <ul>
+              
+    <li class="none">
+                    <a href="index.html">Introduction</a>
+          </li>
+          </ul>
+              <h5>Project Documentation</h5>
+            <ul>
+              
+                
+              
+      
+            
+      
+            
+      
+            
+            
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+              
+            <li class="expanded">
+                    <a href="project-info.html">Project Information</a>
+                  <ul>
+                  
+    <li class="none">
+                    <a href="index.html">About</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="integration.html">Continuous Integration</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="dependencies.html">Dependencies</a>
+          </li>
+                  
+    <li class="none">
+              <strong>Dependency Convergence</strong>
+        </li>
+                  
+    <li class="none">
+                    <a href="issue-tracking.html">Issue Tracking</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="mail-lists.html">Mailing Lists</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="plugin-management.html">Plugin Management</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="license.html">Project License</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="plugins.html">Project Plugins</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="project-summary.html">Project Summary</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="team-list.html">Project Team</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="source-repository.html">Source Repository</a>
+          </li>
+              </ul>
+        </li>
+              
+                
+              
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+              
+        <li class="collapsed">
+                    <a href="project-reports.html">Project Reports</a>
+                </li>
+          </ul>
+                                           <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
+            <img alt="Built by Maven" src="./images/logos/maven-feather.png"></img>
+          </a>
+                       
+  
+
+  
+    
+            
+  
+    
+        </div>
+    </div>
+    <div id="bodyColumn">
+      <div id="contentBox">
+        <div class="section"><h2>Reactor Dependency Convergence</h2>
+<table class="bodyTable"><caption><b>Legend:</b></caption>
+<tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td>All projects share one version of the dependency.</td>
+</tr>
+<tr class="b"><td><img alt="error" src="images/icon_error_sml.gif" /></td>
+<td>At least one project has a differing version of the dependency.</td>
+</tr>
+</table>
+<br />
+<table class="bodyTable"><caption><b>Statistics:</b></caption>
+<tr class="a"><th>Number of sub-projects:</th>
+<td>13</td>
+</tr>
+<tr class="b"><th>Number of dependencies (NOD):</th>
+<td>25</td>
+</tr>
+<tr class="a"><th>Number of unique artifacts (NOA):</th>
+<td>25</td>
+</tr>
+<tr class="b"><th>Number of SNAPSHOT artifacts (NOS):</th>
+<td>3</td>
+</tr>
+<tr class="a"><th>Convergence (NOD/NOA):</th>
+<td><img alt="success" src="images/icon_success_sml.gif" />&#160;<b>100%</b></td>
+</tr>
+<tr class="b"><th>Ready for Release (100% Convergence and no SNAPSHOTS):</th>
+<td><img alt="error" src="images/icon_error_sml.gif" />&#160;<b>Error</b><br />
+You have SNAPSHOT dependencies.</td>
+</tr>
+</table>
+</div>
+<div class="section"><h3>Dependencies used in sub-projects</h3>
+<div class="section"><h4>c3p0:c3p0</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">0.9.1.2</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-version/smart-version-jgit-impl">com.smartitengineering.smart-version:smart-version-jgit-impl</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-hibernate-abstract-dao">com.smartitengineering:smart-hibernate-abstract-dao</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>cglib:cglib-nodep</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">2.1_3</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-version/smart-version-jgit-impl">com.smartitengineering.smart-version:smart-version-jgit-impl</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>com.smartitengineering.smart-util:simple-util</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">0.2-SNAPSHOT</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-version/smart-version-api">com.smartitengineering.smart-version:smart-version-api</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>com.smartitengineering.smart-util:smart-bean-util</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">0.2-SNAPSHOT</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-version/smart-version-api">com.smartitengineering.smart-version:smart-version-api</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-version/smart-version-jgit-impl">com.smartitengineering.smart-version:smart-version-jgit-impl</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-hibernate-abstract-dao">com.smartitengineering:smart-hibernate-abstract-dao</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>com.smartitengineering.smart-version:smart-dao-version</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">0.4-SNAPSHOT</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/docs">com.smartitenginering.smart-dao:docs</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>com.smartitengineering.smart-version:smart-version-api</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">0.4-SNAPSHOT</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-version/smart-version-jgit-impl">com.smartitengineering.smart-version:smart-version-jgit-impl</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/docs">com.smartitenginering.smart-dao:docs</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>com.smartitengineering.smart-version:smart-version-jgit-impl</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">0.4-SNAPSHOT</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/docs">com.smartitenginering.smart-dao:docs</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>com.smartitengineering:smart-abstract-dao</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">0.4-SNAPSHOT</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-version/smart-version-jgit-impl">com.smartitengineering.smart-version:smart-version-jgit-impl</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-dao-search">com.smartitengineering:smart-dao-search</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-hibernate-abstract-dao">com.smartitengineering:smart-hibernate-abstract-dao</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/docs">com.smartitenginering.smart-dao:docs</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>com.smartitengineering:smart-cache</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">0.4-SNAPSHOT</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/docs">com.smartitenginering.smart-dao:docs</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>com.smartitengineering:smart-dao-queryparam</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">0.4-SNAPSHOT</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-version/smart-version-api">com.smartitengineering.smart-version:smart-version-api</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-version/smart-version-jgit-impl">com.smartitengineering.smart-version:smart-version-jgit-impl</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-abstract-dao">com.smartitengineering:smart-abstract-dao</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-dao-search">com.smartitengineering:smart-dao-search</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-hibernate-abstract-dao">com.smartitengineering:smart-hibernate-abstract-dao</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/docs">com.smartitenginering.smart-dao:docs</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>com.smartitengineering:smart-dao-search</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">0.4-SNAPSHOT</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/docs">com.smartitenginering.smart-dao:docs</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>com.smartitengineering:smart-domain</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">0.4-SNAPSHOT</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-version/smart-version-jgit-impl">com.smartitengineering.smart-version:smart-version-jgit-impl</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-abstract-dao">com.smartitengineering:smart-abstract-dao</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-cache">com.smartitengineering:smart-cache</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-dao-search">com.smartitengineering:smart-dao-search</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-hibernate-abstract-dao">com.smartitengineering:smart-hibernate-abstract-dao</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/docs">com.smartitenginering.smart-dao:docs</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>com.smartitengineering:smart-hibernate-abstract-dao</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">0.4-SNAPSHOT</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-version/smart-version-jgit-impl">com.smartitengineering.smart-version:smart-version-jgit-impl</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/docs">com.smartitenginering.smart-dao:docs</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>com.smartitengineering:smart-rs</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">0.4-SNAPSHOT</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/docs">com.smartitenginering.smart-dao:docs</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>commons-lang:commons-lang</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">2.3</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-version/smart-version-api">com.smartitengineering.smart-version:smart-version-api</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-dao-search">com.smartitengineering:smart-dao-search</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>javax.ws.rs:jsr311-api</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">1.0</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-rs">com.smartitengineering:smart-rs</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>junit:junit</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">3.8.1</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-version/smart-dao-version">com.smartitengineering.smart-version:smart-dao-version</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-version/smart-version-api">com.smartitengineering.smart-version:smart-version-api</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-version/smart-version-jgit-impl">com.smartitengineering.smart-version:smart-version-jgit-impl</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-abstract-dao">com.smartitengineering:smart-abstract-dao</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-cache">com.smartitengineering:smart-cache</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-dao-queryparam">com.smartitengineering:smart-dao-queryparam</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-dao-search">com.smartitengineering:smart-dao-search</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao">com.smartitengineering:smart-dao</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-domain">com.smartitengineering:smart-domain</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-hibernate-abstract-dao">com.smartitengineering:smart-hibernate-abstract-dao</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-rs">com.smartitengineering:smart-rs</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-version">com.smartitengineering:smart-version</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/docs">com.smartitenginering.smart-dao:docs</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>net.sf.ehcache:ehcache</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">1.5.0</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-cache">com.smartitengineering:smart-cache</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>org.apache.derby:derby</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">10.4.2.0</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-version/smart-version-jgit-impl">com.smartitengineering.smart-version:smart-version-jgit-impl</a></li>
+<li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-hibernate-abstract-dao">com.smartitengineering:smart-hibernate-abstract-dao</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>org.compass-project:compass</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">2.1.0</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-dao-search">com.smartitengineering:smart-dao-search</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>org.hibernate:hibernate</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">3.2.5.ga</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-hibernate-abstract-dao">com.smartitengineering:smart-hibernate-abstract-dao</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>org.jmock:jmock</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">2.1.0</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-cache">com.smartitengineering:smart-cache</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>org.jmock:jmock-junit3</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">2.1.0</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-cache">com.smartitengineering:smart-cache</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>org.spearce:jgit</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">0.4-SNAPSHOT</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-version/smart-version-jgit-impl">com.smartitengineering.smart-version:smart-version-jgit-impl</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="section"><h4>org.springframework:spring</h4>
+<table class="bodyTable"><tr class="a"><td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><table class="bodyTable"><tr class="b"><td width="25%">2.5.4</td>
+<td><ol type="a"><li><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-hibernate-abstract-dao">com.smartitengineering:smart-hibernate-abstract-dao</a></li>
+</ol>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+</div>
+
+      </div>
+    </div>
+    <div class="clear">
+      <hr/>
+    </div>
+    <div id="footer">
+      <div class="xright">&#169;  
+          2007-2009
+    
+          Smart IT Engineering
+          
+  
+
+  
+    
+            
+  
+    
+   - <a href="http://maven.apache.org/privacy-policy.html">Privacy Policy</a></div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+  </body>
+</html>

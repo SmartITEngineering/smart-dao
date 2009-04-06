@@ -1,0 +1,1 @@
+/opt/jdk1.6.0_01/jre/../bin/javadoc @options @packages

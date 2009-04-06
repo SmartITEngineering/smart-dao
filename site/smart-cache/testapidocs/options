@@ -1,0 +1,33 @@
+-classpath
+'/home/imyousuf/projects/smart-dao/smart-cache/target/classes:/home/imyousuf/projects/smart-dao/smart-cache/target/test-classes:/home/imyousuf/.m2/repository/org/hamcrest/hamcrest-api/1.0/hamcrest-api-1.0.jar:/home/imyousuf/projects/smart-dao/smart-domain/target/smart-domain-0.4-SNAPSHOT.jar:/home/imyousuf/.m2/repository/net/sf/ehcache/ehcache/1.5.0/ehcache-1.5.0.jar:/home/imyousuf/.m2/repository/org/jmock/jmock/2.1.0/jmock-2.1.0.jar:/home/imyousuf/.m2/repository/org/jmock/jmock-junit3/2.1.0/jmock-junit3-2.1.0.jar:/home/imyousuf/.m2/repository/net/sf/jsr107cache/jsr107cache/1.0/jsr107cache-1.0.jar:/home/imyousuf/.m2/repository/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar:/home/imyousuf/.m2/repository/org/hamcrest/hamcrest-library/1.0/hamcrest-library-1.0.jar:/home/imyousuf/.m2/repository/commons-collections/commons-collections/3.2/commons-collections-3.2.jar:/home/imyousuf/.m2/repository/backport-util-concurrent/backport-util-concurrent/3.1/backport-util-concurrent-3.1.jar:/home/imyousuf/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/home/imyousuf/projects/smart-dao/smart-cache/src/test/java'
+-author
+-bottom
+'Copyright &#169; 2007-2009 <a href="http://www.smartitengineering.com">Smart IT Engineering</a>. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'/home/imyousuf/projects/smart-dao/smart-cache/target/site/testapidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'smart-cache 0.4-SNAPSHOT Test API'
+-link
+'../apidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-domain/apidocs' '/home/imyousuf/projects/smart-dao/smart-domain/target/site/testapidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-dao-queryparam/apidocs' '/home/imyousuf/projects/smart-dao/smart-dao-queryparam/target/site/testapidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-abstract-dao/apidocs' '/home/imyousuf/projects/smart-dao/smart-abstract-dao/target/site/testapidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-hibernate-abstract-dao/apidocs' '/home/imyousuf/projects/smart-dao/smart-hibernate-abstract-dao/target/site/testapidocs'
+-linksource
+-use
+-version
+-windowtitle
+'smart-cache 0.4-SNAPSHOT Test API'

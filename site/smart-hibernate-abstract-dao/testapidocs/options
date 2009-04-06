@@ -1,0 +1,31 @@
+-classpath
+'/home/imyousuf/projects/smart-dao/smart-hibernate-abstract-dao/target/classes:/home/imyousuf/projects/smart-dao/smart-hibernate-abstract-dao/target/test-classes:/home/imyousuf/.m2/repository/org/apache/derby/derby/10.4.2.0/derby-10.4.2.0.jar:/home/imyousuf/projects/smart-dao/smart-domain/target/smart-domain-0.4-SNAPSHOT.jar:/home/imyousuf/.m2/repository/net/sf/ehcache/ehcache/1.2.3/ehcache-1.2.3.jar:/home/imyousuf/projects/smart-dao/smart-dao-queryparam/target/smart-dao-queryparam-0.4-SNAPSHOT.jar:/home/imyousuf/.m2/repository/com/smartitengineering/smart-util/smart-bean-util/0.2-SNAPSHOT/smart-bean-util-0.2-SNAPSHOT.jar:/home/imyousuf/.m2/repository/commons-lang/commons-lang/2.3/commons-lang-2.3.jar:/home/imyousuf/.m2/repository/org/springframework/spring-beans/2.5.6/spring-beans-2.5.6.jar:/home/imyousuf/.m2/repository/cglib/cglib/2.1_3/cglib-2.1_3.jar:/home/imyousuf/.m2/repository/commons-collections/commons-collections/2.1.1/commons-collections-2.1.1.jar:/home/imyousuf/.m2/repository/org/springframework/spring-core/2.5.6/spring-core-2.5.6.jar:/home/imyousuf/.m2/repository/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar:/home/imyousuf/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar:/home/imyousuf/.m2/repository/org/hibernate/hibernate/3.2.5.ga/hibernate-3.2.5.ga.jar:/home/imyousuf/projects/smart-dao/smart-abstract-dao/target/smart-abstract-dao-0.4-SNAPSHOT.jar:/home/imyousuf/.m2/repository/org/springframework/spring/2.5.4/spring-2.5.4.jar:/home/imyousuf/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar:/home/imyousuf/.m2/repository/antlr/antlr/2.7.6/antlr-2.7.6.jar:/home/imyousuf/.m2/repository/asm/asm-attrs/1.5.3/asm-attrs-1.5.3.jar:/home/imyousuf/.m2/repository/asm/asm/1.5.3/asm-1.5.3.jar:/home/imyousuf/.m2/repository/c3p0/c3p0/0.9.1.2/c3p0-0.9.1.2.jar:/home/imyousuf/.m2/repository/javax/transaction/jta/1.0.1B/jta-1.0.1B.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/home/imyousuf/projects/smart-dao/smart-hibernate-abstract-dao/src/test/java'
+-author
+-bottom
+'Copyright &#169; 2007-2009 <a href="http://www.smartitengineering.com">Smart IT Engineering</a>. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'/home/imyousuf/projects/smart-dao/smart-hibernate-abstract-dao/target/site/testapidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'smart-hibernate-abstract-dao 0.4-SNAPSHOT Test API'
+-link
+'../apidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-domain/apidocs' '/home/imyousuf/projects/smart-dao/smart-domain/target/site/testapidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-dao-queryparam/apidocs' '/home/imyousuf/projects/smart-dao/smart-dao-queryparam/target/site/testapidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-abstract-dao/apidocs' '/home/imyousuf/projects/smart-dao/smart-abstract-dao/target/site/testapidocs'
+-linksource
+-use
+-version
+-windowtitle
+'smart-hibernate-abstract-dao 0.4-SNAPSHOT Test API'

@@ -1,0 +1,23 @@
+-classpath
+'/home/imyousuf/projects/smart-dao/smart-domain/target/classes'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/home/imyousuf/projects/smart-dao/smart-domain/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2007-2009 <a href="http://www.smartitengineering.com">Smart IT Engineering</a>. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'/home/imyousuf/projects/smart-dao/smart-domain/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'smart-domain 0.4-SNAPSHOT API'
+-linksource
+-use
+-version
+-windowtitle
+'smart-domain 0.4-SNAPSHOT API'
