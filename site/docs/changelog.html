@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+
+
+
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Maven SCM Git Executable - Change Log Report</title>
+    <style type="text/css" media="all">
+      @import url("./css/maven-base.css");
+      @import url("./css/maven-theme.css");
+      @import url("./css/site.css");
+    </style>
+    <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+      </head>
+  <body class="composite">
+    <div id="banner">
+                    <span id="bannerLeft">
+    
+            docs
+    
+            </span>
+                    <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="breadcrumbs">
+          
+  
+
+  
+    
+            
+  
+    
+            <div class="xleft">
+        Last Published: 2009-04-07
+                  &nbsp;| Version: 0.4-SNAPSHOT
+                      </div>
+            <div class="xright">      
+  
+
+  
+    
+            
+  
+    
+  </div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="leftColumn">
+      <div id="navcolumn">
+           
+  
+
+  
+    
+            
+  
+    
+                   <h5>Parent Project</h5>
+            <ul>
+              
+    <li class="none">
+                    <a href="../index.html">Smart DAO</a>
+          </li>
+          </ul>
+              <h5>Overview</h5>
+            <ul>
+              
+    <li class="none">
+                    <a href="index.html">Introduction</a>
+          </li>
+          </ul>
+              <h5>Project Documentation</h5>
+            <ul>
+              
+                
+              
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+              
+        <li class="collapsed">
+                    <a href="project-info.html">Project Information</a>
+                </li>
+              
+                
+              
+            
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+              
+            <li class="expanded">
+                    <a href="project-reports.html">Project Reports</a>
+                  <ul>
+                  
+    <li class="none">
+              <strong>Change Log</strong>
+        </li>
+                  
+    <li class="none">
+                    <a href="cobertura/index.html">Cobertura Test Coverage</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="dev-activity.html">Developer Activity</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="file-activity.html">File Activity</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="apidocs/index.html">JavaDocs</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="testapidocs/index.html">Test JavaDocs</a>
+          </li>
+              </ul>
+        </li>
+          </ul>
+                                           <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
+            <img alt="Built by Maven" src="./images/logos/maven-feather.png"></img>
+          </a>
+                       
+  
+
+  
+    
+            
+  
+    
+        </div>
+    </div>
+    <div id="bodyColumn">
+      <div id="contentBox">
+        <div class="section"><h2>Change Log Report</h2>
+<p>Total number of changed sets: 1</p>
+<div class="section"><h3>Changes since project creation</h3>
+<p>Total commits: 2<br />
+Total number of files changed: 5</p>
+<table class="bodyTable"><tr class="a"><th>Timestamp</th>
+<th>Author</th>
+<th>Details</th>
+</tr>
+<tr class="b"><td>2009-04-07 11:34:14</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>docs/<b>pom.xml</b> v c309a93f4956fc22b6f58cb5ed31dc51a331100e<br />
+docs/src/main/assembly/<b>assemble-site.xml</b> v c309a93f4956fc22b6f58cb5ed31dc51a331100e<br />
+docs/src/site/<b>site.xml</b> v c309a93f4956fc22b6f58cb5ed31dc51a331100e<br />
+<br />
+Use maven properties to specify project's name and current version<br />
+<br />
+Fix inclusion of query param APIs site.<br />
+<br />
+Fix inclusion of docs module's site since it will be in the main projects<br />
+site.<br />
+<br />
+Set proper name of the modules that will be used for filtering<br />
+<br />
+Fix filtering for static gh-pages and thus separate the filtering and<br />
+copying.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-04-06 14:04:21</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>docs/<b>pom.xml</b> v 6a46b618da88cc447d81b0c522dff5fc878611b1<br />
+docs/src/main/assembly/<b>assemble-site.xml</b> v 6a46b618da88cc447d81b0c522dff5fc878611b1<br />
+docs/src/main/java/com/smartitenginering/dao/docs/<b>App.java</b> v 6a46b618da88cc447d81b0c522dff5fc878611b1<br />
+docs/src/test/java/com/smartitenginering/dao/docs/<b>AppTest.java</b> v 6a46b618da88cc447d81b0c522dff5fc878611b1<br />
+<br />
+Add build configuration for generating and aggregating site<br />
+<br />
+In order to enable building and assembling site use the following along<br />
+with your maven command - '-Dbuild.complete=true', e.g.,<br />
+<br />
+mvn clean install -Dbuild.complete=true<br />
+<br />
+The generated site is deployable to github.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+</table>
+</div>
+</div>
+
+      </div>
+    </div>
+    <div class="clear">
+      <hr/>
+    </div>
+    <div id="footer">
+      <div class="xright">&#169;  
+          2007-2009
+    
+          Smart IT Engineering
+          
+  
+
+  
+    
+            
+  
+    
+   - <a href="http://maven.apache.org/privacy-policy.html">Privacy Policy</a></div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+  </body>
+</html>
