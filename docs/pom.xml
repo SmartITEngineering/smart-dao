@@ -27,7 +27,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.smartitenginering.smart-dao</groupId>
     <artifactId>docs</artifactId>
-    <name>Docs</name>
+    <name>Smart DAO Docs</name>
     <version>0.4-SNAPSHOT</version>
     <dependencies>
         <dependency>

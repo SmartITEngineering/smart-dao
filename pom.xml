@@ -25,7 +25,7 @@
     <artifactId>smart-dao</artifactId>
     <packaging>pom</packaging>
     <version>0.4-SNAPSHOT</version>
-    <name>smart-dao</name>
+    <name>Smart DAO</name>
     <inceptionYear>2007</inceptionYear>
     <description>
         This project basically aims to create an abstraction layer above common
@@ -314,6 +314,28 @@
             </activation>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>${assembly.version}</version>
+                        <inherited>false</inherited>
+                        <executions>
+                            <!-- Assembly execution for aggregating gh-pages -->
+                            <execution>
+                                <id>assemble-static-gh-pages</id>
+                                <phase>compile</phase>
+                                <inherited>false</inherited>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>src/main/assembly/assemble-gh-pages.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-site-plugin</artifactId>

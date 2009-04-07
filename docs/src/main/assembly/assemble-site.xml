@@ -27,19 +27,11 @@
     <fileSets>
         <!-- Copies the change related files -->
         <fileSet>
-            <directory>../gh-pages/</directory>
+            <directory>../target/smart-dao-${project.version}-gh-pages.dir/smart-dao-${project.version}/</directory>
             <includes>
                 <include>**/*</include>
             </includes>
             <outputDirectory>/</outputDirectory>
-            <filtered>true</filtered>
-        </fileSet>
-        <fileSet>
-            <directory>../target/generated-resources/xml/xslt/</directory>
-            <includes>
-                <include>changes-${project.version}.html</include>
-            </includes>
-            <outputDirectory>/changes/</outputDirectory>
         </fileSet>
         <!-- Copies site plugin generated contents -->
         <!-- Root project content -->
@@ -84,11 +76,11 @@
         </fileSet>
         <!-- Smart Query Parameter project content -->
         <fileSet>
-            <directory>../smart-query-param/target/site/</directory>
+            <directory>../smart-dao-queryparam/target/site/</directory>
             <includes>
                 <include>**/*</include>
             </includes>
-            <outputDirectory>/site/smart-query-param/</outputDirectory>
+            <outputDirectory>/site/smart-dao-queryparam/</outputDirectory>
         </fileSet>
         <!-- Smart Abstract DAO project content -->
         <fileSet>
@@ -137,6 +129,14 @@
                 <include>**/*</include>
             </includes>
             <outputDirectory>/site/smart-version/smart-dao-version/</outputDirectory>
+        </fileSet>
+        <!-- Doc modules content -->
+        <fileSet>
+            <directory>target/site/</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>/site/docs/</outputDirectory>
         </fileSet>
     </fileSets>
 </assembly>
