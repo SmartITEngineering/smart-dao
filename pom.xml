@@ -192,64 +192,6 @@
                         <version>${scm.version}</version>
                     </dependency>
                 </dependencies>
-                <configuration>
-                    <outputXML>./target/change/changes.xml</outputXML>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-changelog</id>
-                        <phase>generate-sources</phase>
-                        <inherited>false</inherited>
-                        <goals>
-                            <goal>changelog</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>xml-maven-plugin</artifactId>
-                <version>${xml-plugin.version}</version>
-                <inherited>false</inherited>
-                <executions>
-                    <execution>
-                        <id>generate-changes</id>
-                        <phase>generate-resources</phase>
-                        <inherited>false</inherited>
-                        <goals>
-                            <goal>transform</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <transformationSets>
-                        <transformationSet>
-                            <dir>./target/change</dir>
-                            <stylesheet>src/main/xsl/changes.xsl</stylesheet>
-                        </transformationSet>
-                    </transformationSets>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>${antrun.version}</version>
-                <inherited>false</inherited>
-                <executions>
-                    <execution>
-                        <id>rename-changes</id>
-                        <phase>generate-resources</phase>
-                        <inherited>false</inherited>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <tasks>
-                                <move file="target/generated-resources/xml/xslt/changes.xml" tofile="target/generated-resources/xml/xslt/changes-${version}.html" verbose="true"/>
-                            </tasks>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
         <extensions>
@@ -314,6 +256,82 @@
             </activation>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-changelog-plugin</artifactId>
+                        <version>${changelog.version}</version>
+                        <inherited>false</inherited>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.codehaus.plexus</groupId>
+                                <artifactId>plexus-utils</artifactId>
+                                <version>${plexus-utils.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.maven.scm</groupId>
+                                <artifactId>maven-scm-provider-gitexe</artifactId>
+                                <version>${scm.version}</version>
+                            </dependency>
+                        </dependencies>
+                        <configuration>
+                            <outputXML>./target/change/changes.xml</outputXML>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-changelog</id>
+                                <phase>generate-sources</phase>
+                                <inherited>false</inherited>
+                                <goals>
+                                    <goal>changelog</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>xml-maven-plugin</artifactId>
+                        <version>${xml-plugin.version}</version>
+                        <inherited>false</inherited>
+                        <executions>
+                            <execution>
+                                <id>generate-changes</id>
+                                <phase>generate-resources</phase>
+                                <inherited>false</inherited>
+                                <goals>
+                                    <goal>transform</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <transformationSets>
+                                <transformationSet>
+                                    <dir>./target/change</dir>
+                                    <stylesheet>src/main/xsl/changes.xsl</stylesheet>
+                                </transformationSet>
+                            </transformationSets>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>${antrun.version}</version>
+                        <inherited>false</inherited>
+                        <executions>
+                            <execution>
+                                <id>rename-changes</id>
+                                <phase>generate-resources</phase>
+                                <inherited>false</inherited>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <move file="target/generated-resources/xml/xslt/changes.xml" tofile="target/generated-resources/xml/xslt/changes-${version}.html" verbose="true"/>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
@@ -399,6 +417,7 @@
         <ehcache.version>1.5.0</ehcache.version>
         <compass.version>2.1.0</compass.version>
         <spring.version>2.5.4</spring.version>
+        <spring.hibernate.version>2.0.8</spring.hibernate.version>
         <hibernate.version>3.2.5.ga</hibernate.version>
         <c3p0.version>0.9.1.2</c3p0.version>
         <derby.version>10.4.2.0</derby.version>
