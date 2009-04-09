@@ -17,31 +17,18 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
- *
 -->
-<project>
-    <parent>
-        <artifactId>smart-version</artifactId>
-        <groupId>com.smartitengineering</groupId>
-        <version>0.4-SNAPSHOT</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.smartitengineering.smart-version</groupId>
-    <artifactId>smart-dao-version</artifactId>
-    <packaging>jar</packaging>
-    <name>smart-dao-version</name>
-    <version>0.4-SNAPSHOT</version>
-    <description>
-        An integration module with the version API and smart dao API plus an
-        independent service API is provided from this module.
-    </description>
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-</project>
+
+<assembly>
+    <id>readme</id>
+    <formats>
+        <format>dir</format>
+    </formats>
+    <files>
+        <file>
+            <source>README</source>
+            <outputDirectory>/</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+    </files>
+</assembly>

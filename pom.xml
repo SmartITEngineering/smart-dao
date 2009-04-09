@@ -372,9 +372,41 @@
                     </plugin>
                 </plugins>
             </build>
-            <modules>
-                <module>docs</module>
-            </modules>
+        </profile>
+        <profile>
+            <id>assemble-readme</id>
+            <activation>
+                <property>
+                    <name>build.complete.dist</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>${assembly.version}</version>
+                        <inherited>true</inherited>
+                        <executions>
+                            <!-- Filter README -->
+                            <execution>
+                                <id>assemble-readme</id>
+                                <phase>compile</phase>
+                                <inherited>true</inherited>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>src/main/assembly/assemble-readme.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
     <modules>
@@ -386,6 +418,7 @@
         <module>smart-version</module>
         <module>smart-dao-queryparam</module>
         <module>smart-rs</module>
+        <module>docs</module>
     </modules>
     <properties>
         <commons-lang.version>2.3</commons-lang.version>

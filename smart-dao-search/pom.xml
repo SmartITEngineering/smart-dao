@@ -33,6 +33,10 @@
     <version>0.4-SNAPSHOT</version>
     <name>smart-dao-search</name>
     <packaging>jar</packaging>
+    <description>
+        This API provides a generic API for interfacing with full-text search
+        engines. As a default implementation Compass Framework is used.
+    </description>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

@@ -32,6 +32,11 @@
     <name>smart-version</name>
     <packaging>pom</packaging>
     <version>0.4-SNAPSHOT</version>
+    <description>
+        An API for object versioning. It will provide an low and high level API
+        for versining objects. It will also provide revision search as well. As
+        default implementation a JGit based implementation is provided.
+    </description>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

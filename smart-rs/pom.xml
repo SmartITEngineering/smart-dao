@@ -31,6 +31,12 @@
     <artifactId>smart-rs</artifactId>
     <name>smart-rs</name>
     <version>0.4-SNAPSHOT</version>
+    <description>
+        An export/import utility for exporting and importing domain objects in
+        different formats. Initially the target is to support XML and JSON since
+        they are most widely used formats for data transfer. This module will
+        also implement provider for JAX-RS.
+    </description>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

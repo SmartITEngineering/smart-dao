@@ -32,6 +32,13 @@
     <name>smart-dao-queryparam</name>
     <version>0.4-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <description>
+        This module provides a generic API for querying different services. The
+        idea is to use this API for all sorts of queries in different APIs. It
+        will initially be used for DB read queries, Full-text Searches, Search
+        in versioning and JAX-RS GET requests; all these will be implemented
+        under Smart DAO project.
+    </description>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

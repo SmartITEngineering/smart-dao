@@ -37,6 +37,65 @@
             <source>../LICENSE</source>
             <outputDirectory>/</outputDirectory>
         </file>
+        <file>
+            <source>../target/smart-dao-${project.version}-readme.dir/smart-dao-${project.version}/README</source>
+            <outputDirectory>/readme/</outputDirectory>
+        </file>
+        <file>
+            <source>../smart-abstract-dao/target/smart-abstract-dao-${project.version}-readme.dir/smart-abstract-dao-${project.version}/README</source>
+            <outputDirectory>/readme/</outputDirectory>
+            <destName>smart-abstract-dao-README</destName>
+        </file>
+        <file>
+            <source>../smart-domain/target/smart-domain-${project.version}-readme.dir/smart-domain-${project.version}/README</source>
+            <outputDirectory>/readme/</outputDirectory>
+            <destName>smart-domain-README</destName>
+        </file>
+        <file>
+            <source>../smart-version/smart-version-jgit-impl/target/smart-version-jgit-impl-${project.version}-readme.dir/smart-version-jgit-impl-${project.version}/README</source>
+            <outputDirectory>/readme/</outputDirectory>
+            <destName>smart-version-jgit-impl-README</destName>
+        </file>
+        <file>
+            <source>../smart-version/target/smart-version-${project.version}-readme.dir/smart-version-${project.version}/README</source>
+            <outputDirectory>/readme/</outputDirectory>
+            <destName>smart-version-README</destName>
+        </file>
+        <file>
+            <source>../smart-version/smart-version-api/target/smart-version-api-${project.version}-readme.dir/smart-version-api-${project.version}/README</source>
+            <outputDirectory>/readme/</outputDirectory>
+            <destName>smart-version-api-README</destName>
+        </file>
+        <file>
+            <source>../smart-version/smart-dao-version/target/smart-dao-version-${project.version}-readme.dir/smart-dao-version-${project.version}/README</source>
+            <outputDirectory>/readme/</outputDirectory>
+            <destName>smart-dao-version-README</destName>
+        </file>
+        <file>
+            <source>../smart-dao-search/target/smart-dao-search-${project.version}-readme.dir/smart-dao-search-${project.version}/README</source>
+            <outputDirectory>/readme/</outputDirectory>
+            <destName>smart-dao-search-README</destName>
+        </file>
+        <file>
+            <source>../smart-cache/target/smart-cache-${project.version}-readme.dir/smart-cache-${project.version}/README</source>
+            <outputDirectory>/readme/</outputDirectory>
+            <destName>smart-cache-README</destName>
+        </file>
+        <file>
+            <source>../smart-hibernate-abstract-dao/target/smart-hibernate-abstract-dao-${project.version}-readme.dir/smart-hibernate-abstract-dao-${project.version}/README</source>
+            <outputDirectory>/readme/</outputDirectory>
+            <destName>smart-hibernate-abstract-dao-README</destName>
+        </file>
+        <file>
+            <source>../smart-dao-queryparam/target/smart-dao-queryparam-${project.version}-readme.dir/smart-dao-queryparam-${project.version}/README</source>
+            <outputDirectory>/readme/</outputDirectory>
+            <destName>smart-dao-queryparam-README</destName>
+        </file>
+        <file>
+            <source>../smart-rs/target/smart-rs-${project.version}-readme.dir/smart-rs-${project.version}/README</source>
+            <outputDirectory>/readme/</outputDirectory>
+            <destName>smart-rs-README</destName>
+        </file>
     </files>
     <dependencySets>
         <dependencySet>
@@ -52,26 +111,13 @@
         <dependencySet>
             <outputDirectory>/lib/</outputDirectory>
             <includes>
-                <include>antlr:*</include>
-                <include>asm:*</include>
-                <include>backport-util-concurrent:*</include>
-                <include>cglib:*</include>
-                <include>commons-logging:*</include>
-                <include>commons-collections:*</include>
-                <include>commons-lang:*</include>
-                <include>com.jcraft:*</include>
-                <include>com.smartitengineering.smart-util:*</include>
-                <include>dom4j:*</include>
-                <include>javax.transaction:*</include>
-                <include>javax.ws.rs:*</include>
-                <include>org.apache.lucene:*</include>
-                <include>org.compass-project:*</include>
-                <include>org.hibernate:*</include>
-                <include>org.spearce:*</include>
-                <include>org.springframework:*</include>
-                <include>net.sf.ehcache:*</include>
-                <include>net.sf.jsr107cache:*</include>
+                <include>*:*</include>
             </includes>
+            <excludes>
+                <exclude>com.smartitengineering:*</exclude>
+                <exclude>com.smartitengineering.smart-version:*</exclude>
+            </excludes>
+            <useTransitiveFiltering>true</useTransitiveFiltering>
         </dependencySet>
     </dependencySets>
 </assembly>

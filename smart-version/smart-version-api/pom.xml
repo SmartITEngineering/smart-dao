@@ -32,6 +32,9 @@
     <name>smart-version-api</name>
     <packaging>jar</packaging>
     <version>0.4-SNAPSHOT</version>
+    <description>
+        This module provides an low-level API for versioning objects.
+    </description>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

@@ -32,6 +32,10 @@
     <packaging>jar</packaging>
     <version>${parent.version}</version>
     <name>smart-hibernate-abstract-dao</name>
+    <description>
+        The Hibernate implementation of the smart-abstract-dao. It contains the
+        hibernate specifc class and extension points for API users.
+    </description>
     <repositories>
         <repository>
             <id>maven2-repository.dev.java.net</id>

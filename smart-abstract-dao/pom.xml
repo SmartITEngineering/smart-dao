@@ -32,6 +32,10 @@
     <packaging>jar</packaging>
     <version>${parent.version}</version>
     <name>smart-abstract-dao</name>
+    <description>
+        This module provides an API which handles the common read write ops that
+        a Data Access Object (DAO) contains.
+    </description>
     <build>
         <plugins>
             <plugin>

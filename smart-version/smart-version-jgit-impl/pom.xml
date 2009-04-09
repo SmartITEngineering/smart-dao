@@ -32,6 +32,11 @@
     <name>smart-version-jgit-impl</name>
     <version>0.4-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <description>
+        This module implements a JGit based implementation of the version API
+        and also provides SPIs a Meta Service Factory for storing revision info
+        in database for easier and faster retrieval of revisions.
+    </description>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

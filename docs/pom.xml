@@ -97,7 +97,7 @@
     </dependencies>
     <profiles>
         <profile>
-            <id>build-assembly</id>
+            <id>assemble-simple-dist</id>
             <activation>
                 <property>
                     <name>build.complete</name>
@@ -145,7 +145,7 @@
             </build>
         </profile>
         <profile>
-            <id>build-assembly-with-dep</id>
+            <id>assemble-with-dep</id>
             <activation>
                 <property>
                     <name>build.complete.dist</name>

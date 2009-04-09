@@ -33,6 +33,12 @@
     <packaging>jar</packaging>
     <version>${parent.version}</version>
     <name>smart-cache</name>
+    <description>
+        This module provides an API and default implementation for Cache Service.
+        It also integrates with Smart Abstract DAO so that read/write through
+        cache implementation becomes a lot easier. In future we will have an
+        implementation based on the Cache JSR.
+    </description>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

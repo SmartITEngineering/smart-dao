@@ -1,0 +1,14 @@
+${project.description}
+
+Please consult the appropriate projects README for more details. Also note that
+the lib includes all the dependencies of the project in one folder to find out
+the exact dependencies please consult appropriate modules dependency report or
+use it as a maven dependency.
+
+To use with maven use the following -
+<dependency>
+    <groupId>${project.groupId}</groupId>
+    <artifactId>${project.artifactId}</artifactId>
+    <version>${project.version}</version>
+    <type>${project.packaging}</type>
+</dependency>
