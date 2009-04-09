@@ -25,9 +25,9 @@
         <version>0.4-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.smartitenginering.smart-dao</groupId>
+    <groupId>com.smartitengineering.smart-dao</groupId>
     <artifactId>docs</artifactId>
-    <name>Smart DAO Docs</name>
+    <name>docs</name>
     <version>0.4-SNAPSHOT</version>
     <dependencies>
         <dependency>
@@ -122,6 +122,58 @@
                                 <configuration>
                                     <descriptors>
                                         <descriptor>src/main/assembly/assemble-site.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                            <!-- Assembly execution for building distribution -->
+                            <execution>
+                                <id>assemble-dist</id>
+                                <inherited>false</inherited>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>src/main/assembly/assemble-bin.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>build-assembly-with-dep</id>
+            <activation>
+                <property>
+                    <name>build.complete.dist</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>${assembly.version}</version>
+                        <inherited>true</inherited>
+                        <executions>
+                            <!-- 
+                            Assembly execution for building distribution with
+                            dependency
+                            -->
+                            <execution>
+                                <id>assemble-dist-with-dep</id>
+                                <inherited>false</inherited>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>src/main/assembly/assemble-bin-with-dependency.xml</descriptor>
                                     </descriptors>
                                 </configuration>
                             </execution>
