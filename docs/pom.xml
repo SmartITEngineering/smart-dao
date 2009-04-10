@@ -156,6 +156,7 @@
                                     <goal>single</goal>
                                 </goals>
                                 <configuration>
+                                    <finalName>smart-dao</finalName>
                                     <descriptors>
                                         <descriptor>src/main/assembly/assemble-bin.xml</descriptor>
                                     </descriptors>
@@ -174,6 +175,7 @@
                                     <goal>single</goal>
                                 </goals>
                                 <configuration>
+                                    <finalName>smart-dao</finalName>
                                     <descriptors>
                                         <descriptor>src/main/assembly/assemble-bin-with-dependency.xml</descriptor>
                                     </descriptors>
