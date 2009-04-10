@@ -29,6 +29,7 @@
     <artifactId>docs</artifactId>
     <name>docs</name>
     <version>0.4-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <dependencies>
         <dependency>
             <groupId>com.smartitengineering</groupId>
@@ -110,7 +111,7 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
                         <version>${assembly.version}</version>
-                        <inherited>true</inherited>
+                        <inherited>false</inherited>
                         <executions>
                             <!-- Assembly execution for aggregating site -->
                             <execution>
@@ -122,20 +123,6 @@
                                 <configuration>
                                     <descriptors>
                                         <descriptor>src/main/assembly/assemble-site.xml</descriptor>
-                                    </descriptors>
-                                </configuration>
-                            </execution>
-                            <!-- Assembly execution for building distribution -->
-                            <execution>
-                                <id>assemble-dist</id>
-                                <inherited>false</inherited>
-                                <phase>integration-test</phase>
-                                <goals>
-                                    <goal>single</goal>
-                                </goals>
-                                <configuration>
-                                    <descriptors>
-                                        <descriptor>src/main/assembly/assemble-bin.xml</descriptor>
                                     </descriptors>
                                 </configuration>
                             </execution>
@@ -160,6 +147,21 @@
                         <version>${assembly.version}</version>
                         <inherited>true</inherited>
                         <executions>
+                            <!-- Assembly execution for building distribution -->
+                            <execution>
+                                <id>assemble-dist</id>
+                                <inherited>false</inherited>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>src/main/assembly/assemble-bin.xml</descriptor>
+                                    </descriptors>
+                                    <attach>false</attach>
+                                </configuration>
+                            </execution>
                             <!-- 
                             Assembly execution for building distribution with
                             dependency
@@ -175,6 +177,7 @@
                                     <descriptors>
                                         <descriptor>src/main/assembly/assemble-bin-with-dependency.xml</descriptor>
                                     </descriptors>
+                                    <attach>false</attach>
                                 </configuration>
                             </execution>
                         </executions>
