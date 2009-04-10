@@ -42,7 +42,7 @@
   
     
             <div class="xleft">
-        Last Published: 2009-04-07
+        Last Published: 2009-04-10
                   &nbsp;| Version: 0.4-SNAPSHOT
                       </div>
             <div class="xright">      
@@ -289,21 +289,16 @@
       }
 </script>
 <div class="section"><h3>Dependency Tree</h3>
-<ul><li>com.smartitengineering:smart-dao-search:jar:0.4-SNAPSHOT <img id="_118562332" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_280491192', '_118562332' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_280491192" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-dao-search</th>
+<ul><li>com.smartitengineering:smart-dao-search:jar:0.4-SNAPSHOT <img id="_385233977" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_116255561', '_385233977' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_116255561" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-dao-search</th>
 </tr>
-<tr class="a"><td><p><b>Description: </b>This project basically aims to create an abstraction layer above common
-        ORM used this days and provide a simplified DAO layer which is not only
-        independent of the ORM tool being used but also integrated with other
-        services, for example App Layer Caching, Free Text Search Engine etc.
-        Initial target is to implement it for Hibernate and when JPA provides
-        Hibernate's Criteria like API implement for JPA as well. Integrate
-        App Layer Cache and Compass Framework.</p>
+<tr class="a"><td><p><b>Description: </b>This API provides a generic API for interfacing with full-text search
+        engines. As a default implementation Compass Framework is used.</p>
 <p><b>URL: </b><a href="http://code.google.com/p/smart-dao/smart-dao-search" class="externalLink">http://code.google.com/p/smart-dao/smart-dao-search</a></p>
 <p><b>Project License: </b><a href="http://www.gnu.org/licenses/lgpl.html" class="externalLink">LGPL v3</a></p>
 </td>
 </tr>
 </table>
-</div><ul><li>junit:junit:jar:3.8.1 (test) <img id="_132672617" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1721050065', '_132672617' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1721050065" style="display:none"><table class="bodyTable"><tr class="b"><th>JUnit</th>
+</div><ul><li>junit:junit:jar:3.8.1 (test) <img id="_1758800137" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1979470611', '_1758800137' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1979470611" style="display:none"><table class="bodyTable"><tr class="b"><th>JUnit</th>
 </tr>
 <tr class="a"><td><p><b>Description: </b>JUnit is a regression testing framework written by Erich Gamma and Kent Beck. It is used by the developer who implements unit tests in Java.</p>
 <p><b>URL: </b><a href="http://junit.org" class="externalLink">http://junit.org</a></p>
@@ -312,74 +307,59 @@
 </tr>
 </table>
 </div></li>
-<li>com.smartitengineering:smart-domain:jar:0.4-SNAPSHOT (compile) <img id="_741361745" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1298090610', '_741361745' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1298090610" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-domain</th>
+<li>com.smartitengineering:smart-domain:jar:0.4-SNAPSHOT (compile) <img id="_790519491" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_201706168', '_790519491' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_201706168" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-domain</th>
 </tr>
-<tr class="a"><td><p><b>Description: </b>This project basically aims to create an abstraction layer above common
-        ORM used this days and provide a simplified DAO layer which is not only
-        independent of the ORM tool being used but also integrated with other
-        services, for example App Layer Caching, Free Text Search Engine etc.
-        Initial target is to implement it for Hibernate and when JPA provides
-        Hibernate's Criteria like API implement for JPA as well. Integrate
-        App Layer Cache and Compass Framework.</p>
+<tr class="a"><td><p><b>Description: </b>Provides a utility extension point for domain objects. It also provides
+        an annotation API which can be used to mark domains for export and its
+        policy; this API is intended to be used by SPIs and smart-rs will be one
+        for JAX-RS and generic export.</p>
 <p><b>URL: </b><a href="http://code.google.com/p/smart-dao/smart-domain" class="externalLink">http://code.google.com/p/smart-dao/smart-domain</a></p>
 <p><b>Project License: </b><a href="http://www.gnu.org/licenses/lgpl.html" class="externalLink">LGPL v3</a></p>
 </td>
 </tr>
 </table>
 </div></li>
-<li>com.smartitengineering:smart-dao-queryparam:jar:0.4-SNAPSHOT (compile) <img id="_1720443709" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1490622842', '_1720443709' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1490622842" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-dao-queryparam</th>
+<li>com.smartitengineering:smart-dao-queryparam:jar:0.4-SNAPSHOT (compile) <img id="_253862046" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_462842162', '_253862046' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_462842162" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-dao-queryparam</th>
 </tr>
-<tr class="a"><td><p><b>Description: </b>This project basically aims to create an abstraction layer above common
-        ORM used this days and provide a simplified DAO layer which is not only
-        independent of the ORM tool being used but also integrated with other
-        services, for example App Layer Caching, Free Text Search Engine etc.
-        Initial target is to implement it for Hibernate and when JPA provides
-        Hibernate's Criteria like API implement for JPA as well. Integrate
-        App Layer Cache and Compass Framework.</p>
+<tr class="a"><td><p><b>Description: </b>This module provides a generic API for querying different services. The
+        idea is to use this API for all sorts of queries in different APIs. It
+        will initially be used for DB read queries, Full-text Searches, Search
+        in versioning and JAX-RS GET requests; all these will be implemented
+        under Smart DAO project.</p>
 <p><b>URL: </b><a href="http://code.google.com/p/smart-dao/smart-dao-queryparam" class="externalLink">http://code.google.com/p/smart-dao/smart-dao-queryparam</a></p>
 <p><b>Project License: </b><a href="http://www.gnu.org/licenses/lgpl.html" class="externalLink">LGPL v3</a></p>
 </td>
 </tr>
 </table>
 </div></li>
-<li>com.smartitengineering:smart-abstract-dao:jar:0.4-SNAPSHOT (compile) <img id="_543345449" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_254055503', '_543345449' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_254055503" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-abstract-dao</th>
+<li>com.smartitengineering:smart-abstract-dao:jar:0.4-SNAPSHOT (compile) <img id="_1567498919" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1294937000', '_1567498919' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1294937000" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-abstract-dao</th>
 </tr>
-<tr class="a"><td><p><b>Description: </b>This project basically aims to create an abstraction layer above common
-        ORM used this days and provide a simplified DAO layer which is not only
-        independent of the ORM tool being used but also integrated with other
-        services, for example App Layer Caching, Free Text Search Engine etc.
-        Initial target is to implement it for Hibernate and when JPA provides
-        Hibernate's Criteria like API implement for JPA as well. Integrate
-        App Layer Cache and Compass Framework.</p>
+<tr class="a"><td><p><b>Description: </b>This module provides an API which handles the common read write ops that
+        a Data Access Object (DAO) contains.</p>
 <p><b>URL: </b><a href="http://code.google.com/p/smart-dao/smart-abstract-dao" class="externalLink">http://code.google.com/p/smart-dao/smart-abstract-dao</a></p>
 <p><b>Project License: </b><a href="http://www.gnu.org/licenses/lgpl.html" class="externalLink">LGPL v3</a></p>
 </td>
 </tr>
 </table>
-</div><ul><li>com.smartitengineering:smart-domain:jar:0.4-SNAPSHOT (compile) <img id="_34060425" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_446335226', '_34060425' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_446335226" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-domain</th>
+</div><ul><li>com.smartitengineering:smart-domain:jar:0.4-SNAPSHOT (compile) <img id="_1069721751" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_629334666', '_1069721751' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_629334666" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-domain</th>
 </tr>
-<tr class="a"><td><p><b>Description: </b>This project basically aims to create an abstraction layer above common
-        ORM used this days and provide a simplified DAO layer which is not only
-        independent of the ORM tool being used but also integrated with other
-        services, for example App Layer Caching, Free Text Search Engine etc.
-        Initial target is to implement it for Hibernate and when JPA provides
-        Hibernate's Criteria like API implement for JPA as well. Integrate
-        App Layer Cache and Compass Framework.</p>
+<tr class="a"><td><p><b>Description: </b>Provides a utility extension point for domain objects. It also provides
+        an annotation API which can be used to mark domains for export and its
+        policy; this API is intended to be used by SPIs and smart-rs will be one
+        for JAX-RS and generic export.</p>
 <p><b>URL: </b><a href="http://code.google.com/p/smart-dao/smart-domain" class="externalLink">http://code.google.com/p/smart-dao/smart-domain</a></p>
 <p><b>Project License: </b><a href="http://www.gnu.org/licenses/lgpl.html" class="externalLink">LGPL v3</a></p>
 </td>
 </tr>
 </table>
 </div></li>
-<li>com.smartitengineering:smart-dao-queryparam:jar:0.4-SNAPSHOT (compile) <img id="_333642889" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_664239590', '_333642889' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_664239590" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-dao-queryparam</th>
+<li>com.smartitengineering:smart-dao-queryparam:jar:0.4-SNAPSHOT (compile) <img id="_1820904665" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1889853948', '_1820904665' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1889853948" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-dao-queryparam</th>
 </tr>
-<tr class="a"><td><p><b>Description: </b>This project basically aims to create an abstraction layer above common
-        ORM used this days and provide a simplified DAO layer which is not only
-        independent of the ORM tool being used but also integrated with other
-        services, for example App Layer Caching, Free Text Search Engine etc.
-        Initial target is to implement it for Hibernate and when JPA provides
-        Hibernate's Criteria like API implement for JPA as well. Integrate
-        App Layer Cache and Compass Framework.</p>
+<tr class="a"><td><p><b>Description: </b>This module provides a generic API for querying different services. The
+        idea is to use this API for all sorts of queries in different APIs. It
+        will initially be used for DB read queries, Full-text Searches, Search
+        in versioning and JAX-RS GET requests; all these will be implemented
+        under Smart DAO project.</p>
 <p><b>URL: </b><a href="http://code.google.com/p/smart-dao/smart-dao-queryparam" class="externalLink">http://code.google.com/p/smart-dao/smart-dao-queryparam</a></p>
 <p><b>Project License: </b><a href="http://www.gnu.org/licenses/lgpl.html" class="externalLink">LGPL v3</a></p>
 </td>
@@ -388,7 +368,7 @@
 </div></li>
 </ul>
 </li>
-<li>org.compass-project:compass:jar:2.1.0 (compile) <img id="_145558609" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1361390528', '_145558609' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1361390528" style="display:none"><table class="bodyTable"><tr class="b"><th>Compass</th>
+<li>org.compass-project:compass:jar:2.1.0 (compile) <img id="_218089981" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1020962699', '_218089981' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1020962699" style="display:none"><table class="bodyTable"><tr class="b"><th>Compass</th>
 </tr>
 <tr class="a"><td><p><b>Description: </b>Compass Search Engine Framework</p>
 <p><b>URL: </b><a href="http://www.compass-project.org" class="externalLink">http://www.compass-project.org</a></p>
@@ -396,7 +376,7 @@
 </td>
 </tr>
 </table>
-</div><ul><li>commons-logging:commons-logging:jar:1.1.1 (compile) <img id="_1314155184" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_850248044', '_1314155184' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_850248044" style="display:none"><table class="bodyTable"><tr class="b"><th>Commons Logging</th>
+</div><ul><li>commons-logging:commons-logging:jar:1.1.1 (compile) <img id="_316930141" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_777466014', '_316930141' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_777466014" style="display:none"><table class="bodyTable"><tr class="b"><th>Commons Logging</th>
 </tr>
 <tr class="a"><td><p><b>Description: </b>Commons Logging is a thin adapter allowing configurable bridging to other,
     well known logging systems.</p>
@@ -406,7 +386,7 @@
 </tr>
 </table>
 </div></li>
-<li>org.apache.lucene:lucene-core:jar:2.4.0 (compile) <img id="_490669" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1142142507', '_490669' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1142142507" style="display:none"><table class="bodyTable"><tr class="b"><th>Lucene Core</th>
+<li>org.apache.lucene:lucene-core:jar:2.4.0 (compile) <img id="_220588049" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_457342461', '_220588049' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_457342461" style="display:none"><table class="bodyTable"><tr class="b"><th>Lucene Core</th>
 </tr>
 <tr class="a"><td><p><b>Description: </b>Apache Lucene Java Core</p>
 <p><b>URL: </b><a href="http://lucene.apache.org/java/lucene-core" class="externalLink">http://lucene.apache.org/java/lucene-core</a></p>
@@ -417,7 +397,7 @@
 </div></li>
 </ul>
 </li>
-<li>commons-lang:commons-lang:jar:2.3 (compile) <img id="_1286585884" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_860244881', '_1286585884' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_860244881" style="display:none"><table class="bodyTable"><tr class="b"><th>Lang</th>
+<li>commons-lang:commons-lang:jar:2.3 (compile) <img id="_1397574253" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_2123220469', '_1397574253' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_2123220469" style="display:none"><table class="bodyTable"><tr class="b"><th>Lang</th>
 </tr>
 <tr class="a"><td><p><b>Description: </b>Commons.Lang, a package of Java utility classes for the
         classes that are in java.lang's hierarchy, or are considered to be so
@@ -449,7 +429,7 @@
 <th align="center">Debug</th>
 </tr>
 <tr class="a"><td align="left">smart-abstract-dao-0.4-SNAPSHOT.jar</td>
-<td align="right">5.30 kB</td>
+<td align="right">5.39 kB</td>
 <td align="right">16</td>
 <td align="right">5</td>
 <td align="right">1</td>
@@ -457,7 +437,7 @@
 <td align="center">release</td>
 </tr>
 <tr class="b"><td align="left">smart-dao-queryparam-0.4-SNAPSHOT.jar</td>
-<td align="right">43.69 kB</td>
+<td align="right">43.87 kB</td>
 <td align="right">60</td>
 <td align="right">47</td>
 <td align="right">2</td>
@@ -465,7 +445,7 @@
 <td align="center">debug</td>
 </tr>
 <tr class="a"><td align="left">smart-domain-0.4-SNAPSHOT.jar</td>
-<td align="right">7.14 kB</td>
+<td align="right">7.28 kB</td>
 <td align="right">19</td>
 <td align="right">8</td>
 <td align="right">2</td>

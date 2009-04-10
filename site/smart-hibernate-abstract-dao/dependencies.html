@@ -42,7 +42,7 @@
   
     
             <div class="xleft">
-        Last Published: 2009-04-07
+        Last Published: 2009-04-10
                   &nbsp;| Version: 0.4-SNAPSHOT
                       </div>
             <div class="xright">      
@@ -227,7 +227,37 @@
 <td>jar</td>
 </tr>
 <tr class="b"><td>org.springframework</td>
-<td><a href="http://www.springframework.org" class="externalLink">spring</a></td>
+<td><a href="http://www.springframework.org" class="externalLink">spring-beans</a></td>
+<td>2.5.4</td>
+<td>jar</td>
+</tr>
+<tr class="a"><td>org.springframework</td>
+<td><a href="http://www.springframework.org" class="externalLink">spring-context</a></td>
+<td>2.5.4</td>
+<td>jar</td>
+</tr>
+<tr class="b"><td>org.springframework</td>
+<td><a href="http://www.springframework.org" class="externalLink">spring-core</a></td>
+<td>2.5.4</td>
+<td>jar</td>
+</tr>
+<tr class="a"><td>org.springframework</td>
+<td><a href="http://www.springframework.org" class="externalLink">spring-dao</a></td>
+<td>2.0.8</td>
+<td>jar</td>
+</tr>
+<tr class="b"><td>org.springframework</td>
+<td><a href="http://www.springframework.org" class="externalLink">spring-hibernate3</a></td>
+<td>2.0.8</td>
+<td>jar</td>
+</tr>
+<tr class="a"><td>org.springframework</td>
+<td><a href="http://www.springframework.org" class="externalLink">spring-jdbc</a></td>
+<td>2.5.4</td>
+<td>jar</td>
+</tr>
+<tr class="b"><td>org.springframework</td>
+<td><a href="http://www.springframework.org" class="externalLink">spring-orm</a></td>
 <td>2.5.4</td>
 <td>jar</td>
 </tr>
@@ -277,14 +307,24 @@
 <td>2.7.6</td>
 <td>jar</td>
 </tr>
-<tr class="b"><td>asm</td>
+<tr class="b"><td>aopalliance</td>
+<td><a href="http://aopalliance.sourceforge.net" class="externalLink">aopalliance</a></td>
+<td>1.0</td>
+<td>jar</td>
+</tr>
+<tr class="a"><td>asm</td>
 <td><a href="http://asm.objectweb.org/" class="externalLink">asm</a></td>
 <td>1.5.3</td>
 <td>jar</td>
 </tr>
-<tr class="a"><td>asm</td>
+<tr class="b"><td>asm</td>
 <td><a href="http://asm.objectweb.org/" class="externalLink">asm-attrs</a></td>
 <td>1.5.3</td>
+<td>jar</td>
+</tr>
+<tr class="a"><td>avalon-framework</td>
+<td>avalon-framework</td>
+<td>4.1.3</td>
 <td>jar</td>
 </tr>
 <tr class="b"><td>cglib</td>
@@ -298,8 +338,8 @@
 <td>jar</td>
 </tr>
 <tr class="b"><td>commons-logging</td>
-<td><a href="http://commons.apache.org/logging" class="externalLink">commons-logging</a></td>
-<td>1.1.1</td>
+<td>commons-logging</td>
+<td>1.1</td>
 <td>jar</td>
 </tr>
 <tr class="a"><td>dom4j</td>
@@ -307,14 +347,34 @@
 <td>1.6.1</td>
 <td>jar</td>
 </tr>
-<tr class="b"><td>javax.transaction</td>
+<tr class="b"><td>javax.servlet</td>
+<td>servlet-api</td>
+<td>2.3</td>
+<td>jar</td>
+</tr>
+<tr class="a"><td>javax.transaction</td>
 <td><a href="http://java.sun.com/products/jta" class="externalLink">jta</a></td>
 <td>1.0.1B</td>
 <td>jar</td>
 </tr>
-<tr class="a"><td>net.sf.ehcache</td>
+<tr class="b"><td>log4j</td>
+<td>log4j</td>
+<td>1.2.12</td>
+<td>jar</td>
+</tr>
+<tr class="a"><td>logkit</td>
+<td>logkit</td>
+<td>1.0.1</td>
+<td>jar</td>
+</tr>
+<tr class="b"><td>net.sf.ehcache</td>
 <td><a href="http://ehcache.sf.net" class="externalLink">ehcache</a></td>
 <td>1.2.3</td>
+<td>jar</td>
+</tr>
+<tr class="a"><td>org.springframework</td>
+<td><a href="http://www.springframework.org" class="externalLink">spring-tx</a></td>
+<td>2.5.4</td>
 <td>jar</td>
 </tr>
 </table>
@@ -329,16 +389,6 @@
 <tr class="a"><td>commons-lang</td>
 <td><a href="http://jakarta.apache.org/commons/lang/" class="externalLink">commons-lang</a></td>
 <td>2.3</td>
-<td>jar</td>
-</tr>
-<tr class="b"><td>org.springframework</td>
-<td><a href="http://www.springframework.org" class="externalLink">spring-beans</a></td>
-<td>2.5.6</td>
-<td>jar</td>
-</tr>
-<tr class="a"><td>org.springframework</td>
-<td><a href="http://www.springframework.org" class="externalLink">spring-core</a></td>
-<td>2.5.6</td>
 <td>jar</td>
 </tr>
 </table>
@@ -363,58 +413,43 @@
       }
 </script>
 <div class="section"><h3>Dependency Tree</h3>
-<ul><li>com.smartitengineering:smart-hibernate-abstract-dao:jar:0.4-SNAPSHOT <img id="_997171782" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1504260286', '_997171782' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1504260286" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-hibernate-abstract-dao</th>
+<ul><li>com.smartitengineering:smart-hibernate-abstract-dao:jar:0.4-SNAPSHOT <img id="_1452287006" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_468661223', '_1452287006' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_468661223" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-hibernate-abstract-dao</th>
 </tr>
-<tr class="a"><td><p><b>Description: </b>This project basically aims to create an abstraction layer above common
-        ORM used this days and provide a simplified DAO layer which is not only
-        independent of the ORM tool being used but also integrated with other
-        services, for example App Layer Caching, Free Text Search Engine etc.
-        Initial target is to implement it for Hibernate and when JPA provides
-        Hibernate's Criteria like API implement for JPA as well. Integrate
-        App Layer Cache and Compass Framework.</p>
+<tr class="a"><td><p><b>Description: </b>The Hibernate implementation of the smart-abstract-dao. It contains the
+        hibernate specifc class and extension points for API users.</p>
 <p><b>URL: </b><a href="http://code.google.com/p/smart-dao/smart-hibernate-abstract-dao" class="externalLink">http://code.google.com/p/smart-dao/smart-hibernate-abstract-dao</a></p>
 <p><b>Project License: </b><a href="http://www.gnu.org/licenses/lgpl.html" class="externalLink">LGPL v3</a></p>
 </td>
 </tr>
 </table>
-</div><ul><li>com.smartitengineering:smart-abstract-dao:jar:0.4-SNAPSHOT (compile) <img id="_1875675219" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1709195127', '_1875675219' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1709195127" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-abstract-dao</th>
+</div><ul><li>com.smartitengineering:smart-abstract-dao:jar:0.4-SNAPSHOT (compile) <img id="_2067191238" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_502432158', '_2067191238' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_502432158" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-abstract-dao</th>
 </tr>
-<tr class="a"><td><p><b>Description: </b>This project basically aims to create an abstraction layer above common
-        ORM used this days and provide a simplified DAO layer which is not only
-        independent of the ORM tool being used but also integrated with other
-        services, for example App Layer Caching, Free Text Search Engine etc.
-        Initial target is to implement it for Hibernate and when JPA provides
-        Hibernate's Criteria like API implement for JPA as well. Integrate
-        App Layer Cache and Compass Framework.</p>
+<tr class="a"><td><p><b>Description: </b>This module provides an API which handles the common read write ops that
+        a Data Access Object (DAO) contains.</p>
 <p><b>URL: </b><a href="http://code.google.com/p/smart-dao/smart-abstract-dao" class="externalLink">http://code.google.com/p/smart-dao/smart-abstract-dao</a></p>
 <p><b>Project License: </b><a href="http://www.gnu.org/licenses/lgpl.html" class="externalLink">LGPL v3</a></p>
 </td>
 </tr>
 </table>
-</div><ul><li>com.smartitengineering:smart-domain:jar:0.4-SNAPSHOT (compile) <img id="_750753918" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_953030652', '_750753918' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_953030652" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-domain</th>
+</div><ul><li>com.smartitengineering:smart-domain:jar:0.4-SNAPSHOT (compile) <img id="_1229758388" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_655039473', '_1229758388' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_655039473" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-domain</th>
 </tr>
-<tr class="a"><td><p><b>Description: </b>This project basically aims to create an abstraction layer above common
-        ORM used this days and provide a simplified DAO layer which is not only
-        independent of the ORM tool being used but also integrated with other
-        services, for example App Layer Caching, Free Text Search Engine etc.
-        Initial target is to implement it for Hibernate and when JPA provides
-        Hibernate's Criteria like API implement for JPA as well. Integrate
-        App Layer Cache and Compass Framework.</p>
+<tr class="a"><td><p><b>Description: </b>Provides a utility extension point for domain objects. It also provides
+        an annotation API which can be used to mark domains for export and its
+        policy; this API is intended to be used by SPIs and smart-rs will be one
+        for JAX-RS and generic export.</p>
 <p><b>URL: </b><a href="http://code.google.com/p/smart-dao/smart-domain" class="externalLink">http://code.google.com/p/smart-dao/smart-domain</a></p>
 <p><b>Project License: </b><a href="http://www.gnu.org/licenses/lgpl.html" class="externalLink">LGPL v3</a></p>
 </td>
 </tr>
 </table>
 </div></li>
-<li>com.smartitengineering:smart-dao-queryparam:jar:0.4-SNAPSHOT (compile) <img id="_1376035573" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_323403417', '_1376035573' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_323403417" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-dao-queryparam</th>
+<li>com.smartitengineering:smart-dao-queryparam:jar:0.4-SNAPSHOT (compile) <img id="_277894890" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_815557646', '_277894890' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_815557646" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-dao-queryparam</th>
 </tr>
-<tr class="a"><td><p><b>Description: </b>This project basically aims to create an abstraction layer above common
-        ORM used this days and provide a simplified DAO layer which is not only
-        independent of the ORM tool being used but also integrated with other
-        services, for example App Layer Caching, Free Text Search Engine etc.
-        Initial target is to implement it for Hibernate and when JPA provides
-        Hibernate's Criteria like API implement for JPA as well. Integrate
-        App Layer Cache and Compass Framework.</p>
+<tr class="a"><td><p><b>Description: </b>This module provides a generic API for querying different services. The
+        idea is to use this API for all sorts of queries in different APIs. It
+        will initially be used for DB read queries, Full-text Searches, Search
+        in versioning and JAX-RS GET requests; all these will be implemented
+        under Smart DAO project.</p>
 <p><b>URL: </b><a href="http://code.google.com/p/smart-dao/smart-dao-queryparam" class="externalLink">http://code.google.com/p/smart-dao/smart-dao-queryparam</a></p>
 <p><b>Project License: </b><a href="http://www.gnu.org/licenses/lgpl.html" class="externalLink">LGPL v3</a></p>
 </td>
@@ -423,128 +458,92 @@
 </div></li>
 </ul>
 </li>
-<li>com.smartitengineering:smart-dao-queryparam:jar:0.4-SNAPSHOT (compile) <img id="_930065092" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1031654530', '_930065092' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1031654530" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-dao-queryparam</th>
+<li>com.smartitengineering:smart-dao-queryparam:jar:0.4-SNAPSHOT (compile) <img id="_1355734486" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1530893068', '_1355734486' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1530893068" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-dao-queryparam</th>
 </tr>
-<tr class="a"><td><p><b>Description: </b>This project basically aims to create an abstraction layer above common
-        ORM used this days and provide a simplified DAO layer which is not only
-        independent of the ORM tool being used but also integrated with other
-        services, for example App Layer Caching, Free Text Search Engine etc.
-        Initial target is to implement it for Hibernate and when JPA provides
-        Hibernate's Criteria like API implement for JPA as well. Integrate
-        App Layer Cache and Compass Framework.</p>
+<tr class="a"><td><p><b>Description: </b>This module provides a generic API for querying different services. The
+        idea is to use this API for all sorts of queries in different APIs. It
+        will initially be used for DB read queries, Full-text Searches, Search
+        in versioning and JAX-RS GET requests; all these will be implemented
+        under Smart DAO project.</p>
 <p><b>URL: </b><a href="http://code.google.com/p/smart-dao/smart-dao-queryparam" class="externalLink">http://code.google.com/p/smart-dao/smart-dao-queryparam</a></p>
 <p><b>Project License: </b><a href="http://www.gnu.org/licenses/lgpl.html" class="externalLink">LGPL v3</a></p>
 </td>
 </tr>
 </table>
 </div></li>
-<li>com.smartitengineering:smart-domain:jar:0.4-SNAPSHOT (compile) <img id="_1160746811" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_2047943957', '_1160746811' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_2047943957" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-domain</th>
+<li>com.smartitengineering:smart-domain:jar:0.4-SNAPSHOT (compile) <img id="_1566379437" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_218226398', '_1566379437' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_218226398" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-domain</th>
 </tr>
-<tr class="a"><td><p><b>Description: </b>This project basically aims to create an abstraction layer above common
-        ORM used this days and provide a simplified DAO layer which is not only
-        independent of the ORM tool being used but also integrated with other
-        services, for example App Layer Caching, Free Text Search Engine etc.
-        Initial target is to implement it for Hibernate and when JPA provides
-        Hibernate's Criteria like API implement for JPA as well. Integrate
-        App Layer Cache and Compass Framework.</p>
+<tr class="a"><td><p><b>Description: </b>Provides a utility extension point for domain objects. It also provides
+        an annotation API which can be used to mark domains for export and its
+        policy; this API is intended to be used by SPIs and smart-rs will be one
+        for JAX-RS and generic export.</p>
 <p><b>URL: </b><a href="http://code.google.com/p/smart-dao/smart-domain" class="externalLink">http://code.google.com/p/smart-dao/smart-domain</a></p>
 <p><b>Project License: </b><a href="http://www.gnu.org/licenses/lgpl.html" class="externalLink">LGPL v3</a></p>
 </td>
 </tr>
 </table>
 </div></li>
-<li>com.smartitengineering.smart-util:smart-bean-util:jar:0.2-SNAPSHOT (test) <img id="_942674323" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1164672292', '_942674323' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1164672292" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-bean-util</th>
+<li>org.springframework:spring-hibernate3:jar:2.0.8 (compile) <img id="_2141283179" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1438702413', '_2141283179' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1438702413" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Hibernate3</th>
 </tr>
-<tr class="a"><td><p><b>Description: </b>This project basically aims to create Utility libraries for wide range
-        of use.</p>
-<p><b>URL: </b><a href="http://code.google.com/p/smart-util/smart-bean-util" class="externalLink">http://code.google.com/p/smart-util/smart-bean-util</a></p>
-<p><b>Project License: </b><a href="http://www.gnu.org/licenses/lgpl.html" class="externalLink">LGPL v3</a></p>
-</td>
-</tr>
-</table>
-</div><ul><li>org.springframework:spring-beans:jar:2.5.6 (test) <img id="_412934971" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1684729901', '_412934971' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1684729901" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Beans</th>
-</tr>
-<tr class="a"><td><p><b>Description: </b>Spring Framework: Beans</p>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: Hibernate3</p>
 <p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
 <p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
 </td>
 </tr>
 </table>
-</div><ul><li>commons-logging:commons-logging:jar:1.1.1 (test) <img id="_469784867" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1338806750', '_469784867' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1338806750" style="display:none"><table class="bodyTable"><tr class="b"><th>Commons Logging</th>
+</div><ul><li>aopalliance:aopalliance:jar:1.0 (compile) <img id="_508127075" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1052701098', '_508127075' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1052701098" style="display:none"><table class="bodyTable"><tr class="b"><th>AOP alliance</th>
 </tr>
-<tr class="a"><td><p><b>Description: </b>Commons Logging is a thin adapter allowing configurable bridging to other,
-    well known logging systems.</p>
-<p><b>URL: </b><a href="http://commons.apache.org/logging" class="externalLink">http://commons.apache.org/logging</a></p>
-<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+<tr class="a"><td><p><b>Description: </b>AOP Alliance</p>
+<p><b>URL: </b><a href="http://aopalliance.sourceforge.net" class="externalLink">http://aopalliance.sourceforge.net</a></p>
+<p><b>Project License: </b>Public Domain</p>
 </td>
 </tr>
 </table>
 </div></li>
-<li>org.springframework:spring-core:jar:2.5.6 (test) <img id="_1039395979" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1806296978', '_1039395979' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1806296978" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Core</th>
-</tr>
-<tr class="a"><td><p><b>Description: </b>Spring Framework: Core</p>
-<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
-<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
-</td>
-</tr>
-</table>
-</div><ul><li>commons-logging:commons-logging:jar:1.1.1 (test) <img id="_1939995452" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1080271973', '_1939995452' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1080271973" style="display:none"><table class="bodyTable"><tr class="b"><th>Commons Logging</th>
+<li>commons-logging:commons-logging:jar:1.1 (compile) <img id="_2025704314" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1225178088', '_2025704314' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1225178088" style="display:none"><table class="bodyTable"><tr class="b"><th>Logging</th>
 </tr>
 <tr class="a"><td><p><b>Description: </b>Commons Logging is a thin adapter allowing configurable bridging to other,
     well known logging systems.</p>
-<p><b>URL: </b><a href="http://commons.apache.org/logging" class="externalLink">http://commons.apache.org/logging</a></p>
-<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
-</td>
-</tr>
-</table>
-</div></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>commons-lang:commons-lang:jar:2.3 (test) <img id="_1260624808" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_2082017783', '_1260624808' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_2082017783" style="display:none"><table class="bodyTable"><tr class="b"><th>Lang</th>
-</tr>
-<tr class="a"><td><p><b>Description: </b>Commons.Lang, a package of Java utility classes for the
-        classes that are in java.lang's hierarchy, or are considered to be so
-        standard as to justify existence in java.lang.</p>
-<p><b>URL: </b><a href="http://jakarta.apache.org/commons/lang/" class="externalLink">http://jakarta.apache.org/commons/lang/</a></p>
+<p><b>URL: </b>http://jakarta.apache.org/commons/${pom.artifactId.substring(8)}/</p>
 <p><b>Project License: </b><a href="/LICENSE.txt">The Apache Software License, Version 2.0</a></p>
 </td>
 </tr>
 </table>
+</div><ul><li>log4j:log4j:jar:1.2.12 (compile) <img id="_611989569" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_888965461', '_611989569' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_888965461" style="display:none"><table class="bodyTable"><tr class="b"><th>Unnamed - log4j:log4j:jar:1.2.12</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>There is currently no description associated with this project.</p>
+<p><b>Project License: </b>No project license is defined for this project.</p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>logkit:logkit:jar:1.0.1 (compile) <img id="_318362880" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_889590035', '_318362880' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_889590035" style="display:none"><table class="bodyTable"><tr class="b"><th>Unnamed - logkit:logkit:jar:1.0.1</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>There is currently no description associated with this project.</p>
+<p><b>Project License: </b>No project license is defined for this project.</p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>avalon-framework:avalon-framework:jar:4.1.3 (compile) <img id="_316079162" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_18012804', '_316079162' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_18012804" style="display:none"><table class="bodyTable"><tr class="b"><th>Unnamed - avalon-framework:avalon-framework:jar:4.1.3</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>There is currently no description associated with this project.</p>
+<p><b>Project License: </b>No project license is defined for this project.</p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>javax.servlet:servlet-api:jar:2.3 (compile) <img id="_382338040" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_826940678', '_382338040' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_826940678" style="display:none"><table class="bodyTable"><tr class="b"><th>Unnamed - javax.servlet:servlet-api:jar:2.3</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>There is currently no description associated with this project.</p>
+<p><b>Project License: </b>No project license is defined for this project.</p>
+</td>
+</tr>
+</table>
 </div></li>
 </ul>
 </li>
-<li>junit:junit:jar:3.8.1 (test) <img id="_264288937" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1295688993', '_264288937' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1295688993" style="display:none"><table class="bodyTable"><tr class="b"><th>JUnit</th>
-</tr>
-<tr class="a"><td><p><b>Description: </b>JUnit is a regression testing framework written by Erich Gamma and Kent Beck. It is used by the developer who implements unit tests in Java.</p>
-<p><b>URL: </b><a href="http://junit.org" class="externalLink">http://junit.org</a></p>
-<p><b>Project License: </b><a href="http://www.opensource.org/licenses/cpl1.0.txt" class="externalLink">Common Public License Version 1.0</a></p>
-</td>
-</tr>
-</table>
-</div></li>
-<li>org.springframework:spring:jar:2.5.4 (compile) <img id="_1074662477" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_971187549', '_1074662477' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_971187549" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework</th>
-</tr>
-<tr class="a"><td><p><b>Description: </b>Spring Framework</p>
-<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
-<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
-</td>
-</tr>
-</table>
-</div><ul><li>commons-logging:commons-logging:jar:1.1.1 (compile) <img id="_1354896836" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1038140644', '_1354896836' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1038140644" style="display:none"><table class="bodyTable"><tr class="b"><th>Commons Logging</th>
-</tr>
-<tr class="a"><td><p><b>Description: </b>Commons Logging is a thin adapter allowing configurable bridging to other,
-    well known logging systems.</p>
-<p><b>URL: </b><a href="http://commons.apache.org/logging" class="externalLink">http://commons.apache.org/logging</a></p>
-<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
-</td>
-</tr>
-</table>
-</div></li>
-</ul>
-</li>
-<li>org.hibernate:hibernate:jar:3.2.5.ga (compile) <img id="_622522322" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_33079772', '_622522322' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_33079772" style="display:none"><table class="bodyTable"><tr class="b"><th>Hibernate</th>
+<li>org.hibernate:hibernate:jar:3.2.5.ga (compile) <img id="_884867410" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1034729106', '_884867410' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1034729106" style="display:none"><table class="bodyTable"><tr class="b"><th>Hibernate</th>
 </tr>
 <tr class="a"><td><p><b>Description: </b>Relational Persistence for Java</p>
 <p><b>URL: </b><a href="http://www.hibernate.org" class="externalLink">http://www.hibernate.org</a></p>
@@ -552,7 +551,139 @@
 </td>
 </tr>
 </table>
-</div><ul><li>net.sf.ehcache:ehcache:jar:1.2.3 (compile) <img id="_934241458" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_697238763', '_934241458' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_697238763" style="display:none"><table class="bodyTable"><tr class="b"><th>ehcache</th>
+</div></li>
+<li>org.springframework:spring-dao:jar:2.0.8 (compile) <img id="_2110315860" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_36314353', '_2110315860' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_36314353" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: DAO</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: DAO</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+</ul>
+</li>
+<li>org.springframework:spring-dao:jar:2.0.8 (compile) <img id="_95129306" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1186572262', '_95129306' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1186572262" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: DAO</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: DAO</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div><ul><li>aopalliance:aopalliance:jar:1.0 (compile) <img id="_536883365" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_235714820', '_536883365' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_235714820" style="display:none"><table class="bodyTable"><tr class="b"><th>AOP alliance</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>AOP Alliance</p>
+<p><b>URL: </b><a href="http://aopalliance.sourceforge.net" class="externalLink">http://aopalliance.sourceforge.net</a></p>
+<p><b>Project License: </b>Public Domain</p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>commons-logging:commons-logging:jar:1.1 (compile) <img id="_1633988382" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_203204958', '_1633988382' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_203204958" style="display:none"><table class="bodyTable"><tr class="b"><th>Logging</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Commons Logging is a thin adapter allowing configurable bridging to other,
+    well known logging systems.</p>
+<p><b>URL: </b>http://jakarta.apache.org/commons/${pom.artifactId.substring(8)}/</p>
+<p><b>Project License: </b><a href="/LICENSE.txt">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+</ul>
+</li>
+<li>org.springframework:spring-core:jar:2.5.4 (compile) <img id="_1610445325" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1112633730', '_1610445325' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1112633730" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Core</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: Core</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>org.springframework:spring-jdbc:jar:2.5.4 (compile) <img id="_1860529869" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_826116636', '_1860529869' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_826116636" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: JDBC</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: JDBC</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div><ul><li>org.springframework:spring-beans:jar:2.5.4 (compile) <img id="_22339775" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_174962957', '_22339775' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_174962957" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Beans</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: Beans</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>org.springframework:spring-context:jar:2.5.4 (compile) <img id="_1800850322" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1697842048', '_1800850322' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1697842048" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Context</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: Context</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>org.springframework:spring-core:jar:2.5.4 (compile) <img id="_1481059485" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_682064997', '_1481059485' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_682064997" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Core</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: Core</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>org.springframework:spring-tx:jar:2.5.4 (compile) <img id="_1781714781" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1193977256', '_1781714781' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1193977256" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Transaction</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: Transaction</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div><ul><li>org.springframework:spring-beans:jar:2.5.4 (compile) <img id="_1100166725" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_864614122', '_1100166725' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_864614122" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Beans</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: Beans</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>org.springframework:spring-context:jar:2.5.4 (compile) <img id="_250531252" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_73967264', '_250531252' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_73967264" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Context</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: Context</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>org.springframework:spring-core:jar:2.5.4 (compile) <img id="_829715527" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_689657984', '_829715527' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_689657984" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Core</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: Core</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>org.hibernate:hibernate:jar:3.2.5.ga (compile) <img id="_1246698583" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_801325055', '_1246698583' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_801325055" style="display:none"><table class="bodyTable"><tr class="b"><th>Hibernate</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Relational Persistence for Java</p>
+<p><b>URL: </b><a href="http://www.hibernate.org" class="externalLink">http://www.hibernate.org</a></p>
+<p><b>Project License: </b><a href="http://www.gnu.org/licenses/lgpl.txt" class="externalLink">GNU LESSER GENERAL PUBLIC LICENSE</a></p>
+</td>
+</tr>
+</table>
+</div><ul><li>net.sf.ehcache:ehcache:jar:1.2.3 (compile) <img id="_1858942568" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1715284329', '_1858942568' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1715284329" style="display:none"><table class="bodyTable"><tr class="b"><th>ehcache</th>
 </tr>
 <tr class="a"><td><p><b>Description: </b>ehcache is a pure Java, in-process cache with the following features:
 
@@ -578,7 +709,7 @@
 </tr>
 </table>
 </div></li>
-<li>javax.transaction:jta:jar:1.0.1B (compile) <img id="_1939795597" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1317237703', '_1939795597' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1317237703" style="display:none"><table class="bodyTable"><tr class="b"><th>Java Transaction API</th>
+<li>javax.transaction:jta:jar:1.0.1B (compile) <img id="_489026980" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_696370712', '_489026980' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_696370712" style="display:none"><table class="bodyTable"><tr class="b"><th>Java Transaction API</th>
 </tr>
 <tr class="a"><td><p><b>Description: </b>The javax.transaction package. It is appropriate for inclusion in a classpath, and may be added to a Java 2 installation.</p>
 <p><b>URL: </b><a href="http://java.sun.com/products/jta" class="externalLink">http://java.sun.com/products/jta</a></p>
@@ -587,7 +718,7 @@
 </tr>
 </table>
 </div></li>
-<li>asm:asm-attrs:jar:1.5.3 (compile) <img id="_738774131" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_73259693', '_738774131' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_73259693" style="display:none"><table class="bodyTable"><tr class="b"><th>asm-attrs</th>
+<li>asm:asm-attrs:jar:1.5.3 (compile) <img id="_1292674146" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_208549183', '_1292674146' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_208549183" style="display:none"><table class="bodyTable"><tr class="b"><th>asm-attrs</th>
 </tr>
 <tr class="a"><td><p><b>Description: </b>There is currently no description associated with this project.</p>
 <p><b>URL: </b><a href="http://asm.objectweb.org/" class="externalLink">http://asm.objectweb.org/</a></p>
@@ -596,7 +727,7 @@
 </tr>
 </table>
 </div></li>
-<li>dom4j:dom4j:jar:1.6.1 (compile) <img id="_1159498082" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1749219190', '_1159498082' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1749219190" style="display:none"><table class="bodyTable"><tr class="b"><th>dom4j</th>
+<li>dom4j:dom4j:jar:1.6.1 (compile) <img id="_915280346" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_2131348838', '_915280346' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_2131348838" style="display:none"><table class="bodyTable"><tr class="b"><th>dom4j</th>
 </tr>
 <tr class="a"><td><p><b>Description: </b>dom4j: the flexible XML framework for Java</p>
 <p><b>URL: </b><a href="http://dom4j.org" class="externalLink">http://dom4j.org</a></p>
@@ -605,7 +736,7 @@
 </tr>
 </table>
 </div></li>
-<li>antlr:antlr:jar:2.7.6 (compile) <img id="_174946080" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_50447518', '_174946080' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_50447518" style="display:none"><table class="bodyTable"><tr class="b"><th>AntLR</th>
+<li>antlr:antlr:jar:2.7.6 (compile) <img id="_1384456395" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1339766375', '_1384456395' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1339766375" style="display:none"><table class="bodyTable"><tr class="b"><th>AntLR</th>
 </tr>
 <tr class="a"><td><p><b>Description: </b>There is currently no description associated with this project.</p>
 <p><b>URL: </b><a href="http://www.antlr.org/" class="externalLink">http://www.antlr.org/</a></p>
@@ -614,7 +745,7 @@
 </tr>
 </table>
 </div></li>
-<li>cglib:cglib:jar:2.1_3 (compile) <img id="_1746495425" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_385282025', '_1746495425' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_385282025" style="display:none"><table class="bodyTable"><tr class="b"><th>cglib</th>
+<li>cglib:cglib:jar:2.1_3 (compile) <img id="_2087553703" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1936647', '_2087553703' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1936647" style="display:none"><table class="bodyTable"><tr class="b"><th>cglib</th>
 </tr>
 <tr class="a"><td><p><b>Description: </b>There is currently no description associated with this project.</p>
 <p><b>URL: </b><a href="http://cglib.sourceforge.net/" class="externalLink">http://cglib.sourceforge.net/</a></p>
@@ -622,7 +753,7 @@
 </td>
 </tr>
 </table>
-</div><ul><li>asm:asm:jar:1.5.3 (compile) <img id="_1373630786" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_512093457', '_1373630786' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_512093457" style="display:none"><table class="bodyTable"><tr class="b"><th>asm</th>
+</div><ul><li>asm:asm:jar:1.5.3 (compile) <img id="_2137096709" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_926603515', '_2137096709' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_926603515" style="display:none"><table class="bodyTable"><tr class="b"><th>asm</th>
 </tr>
 <tr class="a"><td><p><b>Description: </b>There is currently no description associated with this project.</p>
 <p><b>URL: </b><a href="http://asm.objectweb.org/" class="externalLink">http://asm.objectweb.org/</a></p>
@@ -633,7 +764,7 @@
 </div></li>
 </ul>
 </li>
-<li>asm:asm:jar:1.5.3 (compile) <img id="_1385484577" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_92478193', '_1385484577' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_92478193" style="display:none"><table class="bodyTable"><tr class="b"><th>asm</th>
+<li>asm:asm:jar:1.5.3 (compile) <img id="_610600729" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1294375605', '_610600729' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1294375605" style="display:none"><table class="bodyTable"><tr class="b"><th>asm</th>
 </tr>
 <tr class="a"><td><p><b>Description: </b>There is currently no description associated with this project.</p>
 <p><b>URL: </b><a href="http://asm.objectweb.org/" class="externalLink">http://asm.objectweb.org/</a></p>
@@ -642,7 +773,7 @@
 </tr>
 </table>
 </div></li>
-<li>commons-collections:commons-collections:jar:2.1.1 (compile) <img id="_1685995634" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1555871079', '_1685995634' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1555871079" style="display:none"><table class="bodyTable"><tr class="b"><th>Unnamed - commons-collections:commons-collections:jar:2.1.1</th>
+<li>commons-collections:commons-collections:jar:2.1.1 (compile) <img id="_835304321" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_897876530', '_835304321' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_897876530" style="display:none"><table class="bodyTable"><tr class="b"><th>Unnamed - commons-collections:commons-collections:jar:2.1.1</th>
 </tr>
 <tr class="a"><td><p><b>Description: </b>There is currently no description associated with this project.</p>
 <p><b>Project License: </b>No project license is defined for this project.</p>
@@ -652,7 +783,149 @@
 </div></li>
 </ul>
 </li>
-<li>c3p0:c3p0:jar:0.9.1.2 (test) <img id="_786651086" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_205251675', '_786651086' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_205251675" style="display:none"><table class="bodyTable"><tr class="b"><th>c3p0:JDBC DataSources/Resource Pools</th>
+<li>org.springframework:spring-beans:jar:2.5.4 (compile) <img id="_147962946" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_304149074', '_147962946' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_304149074" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Beans</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: Beans</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div><ul><li>org.springframework:spring-core:jar:2.5.4 (compile) <img id="_1509678514" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_785044210', '_1509678514' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_785044210" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Core</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: Core</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+</ul>
+</li>
+<li>org.springframework:spring-orm:jar:2.5.4 (compile) <img id="_216220560" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_641314726', '_216220560' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_641314726" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: ORM</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: ORM</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div><ul><li>aopalliance:aopalliance:jar:1.0 (compile) <img id="_1357989935" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1840348067', '_1357989935' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1840348067" style="display:none"><table class="bodyTable"><tr class="b"><th>AOP alliance</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>AOP Alliance</p>
+<p><b>URL: </b><a href="http://aopalliance.sourceforge.net" class="externalLink">http://aopalliance.sourceforge.net</a></p>
+<p><b>Project License: </b>Public Domain</p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>org.springframework:spring-beans:jar:2.5.4 (compile) <img id="_456468614" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1727860509', '_456468614' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1727860509" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Beans</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: Beans</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>org.springframework:spring-context:jar:2.5.4 (compile) <img id="_2078454813" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1761940119', '_2078454813' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1761940119" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Context</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: Context</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>org.springframework:spring-core:jar:2.5.4 (compile) <img id="_999358272" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_2050439808', '_999358272' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_2050439808" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Core</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: Core</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>org.springframework:spring-tx:jar:2.5.4 (compile) <img id="_447457220" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1531012777', '_447457220' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1531012777" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Transaction</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: Transaction</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+</ul>
+</li>
+<li>org.springframework:spring-context:jar:2.5.4 (compile) <img id="_678744791" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1192101964', '_678744791' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1192101964" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Context</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: Context</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div><ul><li>aopalliance:aopalliance:jar:1.0 (compile) <img id="_466872315" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1723386891', '_466872315' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1723386891" style="display:none"><table class="bodyTable"><tr class="b"><th>AOP alliance</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>AOP Alliance</p>
+<p><b>URL: </b><a href="http://aopalliance.sourceforge.net" class="externalLink">http://aopalliance.sourceforge.net</a></p>
+<p><b>Project License: </b>Public Domain</p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>org.springframework:spring-beans:jar:2.5.4 (compile) <img id="_2068618257" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_706778702', '_2068618257' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_706778702" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Beans</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: Beans</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>org.springframework:spring-core:jar:2.5.4 (compile) <img id="_2031579428" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_2111490678', '_2031579428' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_2111490678" style="display:none"><table class="bodyTable"><tr class="b"><th>Spring Framework: Core</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Spring Framework: Core</p>
+<p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
+<p><b>Project License: </b><a href="http://www.apache.org/licenses/LICENSE-2.0.txt" class="externalLink">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+</ul>
+</li>
+<li>com.smartitengineering.smart-util:smart-bean-util:jar:0.2-SNAPSHOT (test) <img id="_1558760177" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_940011979', '_1558760177' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_940011979" style="display:none"><table class="bodyTable"><tr class="b"><th>smart-bean-util</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>This project basically aims to create Utility libraries for wide range
+        of use.</p>
+<p><b>URL: </b><a href="http://code.google.com/p/smart-util/smart-bean-util" class="externalLink">http://code.google.com/p/smart-util/smart-bean-util</a></p>
+<p><b>Project License: </b><a href="http://www.gnu.org/licenses/lgpl.html" class="externalLink">LGPL v3</a></p>
+</td>
+</tr>
+</table>
+</div><ul><li>commons-lang:commons-lang:jar:2.3 (test) <img id="_708697542" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1821261119', '_708697542' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1821261119" style="display:none"><table class="bodyTable"><tr class="b"><th>Lang</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>Commons.Lang, a package of Java utility classes for the
+        classes that are in java.lang's hierarchy, or are considered to be so
+        standard as to justify existence in java.lang.</p>
+<p><b>URL: </b><a href="http://jakarta.apache.org/commons/lang/" class="externalLink">http://jakarta.apache.org/commons/lang/</a></p>
+<p><b>Project License: </b><a href="/LICENSE.txt">The Apache Software License, Version 2.0</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+</ul>
+</li>
+<li>junit:junit:jar:3.8.1 (test) <img id="_367487923" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1901368666', '_367487923' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1901368666" style="display:none"><table class="bodyTable"><tr class="b"><th>JUnit</th>
+</tr>
+<tr class="a"><td><p><b>Description: </b>JUnit is a regression testing framework written by Erich Gamma and Kent Beck. It is used by the developer who implements unit tests in Java.</p>
+<p><b>URL: </b><a href="http://junit.org" class="externalLink">http://junit.org</a></p>
+<p><b>Project License: </b><a href="http://www.opensource.org/licenses/cpl1.0.txt" class="externalLink">Common Public License Version 1.0</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>c3p0:c3p0:jar:0.9.1.2 (test) <img id="_1334401789" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_648380076', '_1334401789' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_648380076" style="display:none"><table class="bodyTable"><tr class="b"><th>c3p0:JDBC DataSources/Resource Pools</th>
 </tr>
 <tr class="a"><td><p><b>Description: </b>c3p0 is an easy-to-use library for augmenting traditional (DriverManager-based) JDBC drivers with JNDI-bindable DataSources,
     including DataSources that implement Connection and Statement Pooling, as described by the jdbc3 spec and jdbc2 std extension.</p>
@@ -662,7 +935,7 @@
 </tr>
 </table>
 </div></li>
-<li>org.apache.derby:derby:jar:10.4.2.0 (test) <img id="_771857875" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_504034317', '_771857875' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_504034317" style="display:none"><table class="bodyTable"><tr class="b"><th>Derby Engine</th>
+<li>org.apache.derby:derby:jar:10.4.2.0 (test) <img id="_1169389702" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1248722383', '_1169389702' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1248722383" style="display:none"><table class="bodyTable"><tr class="b"><th>Derby Engine</th>
 </tr>
 <tr class="a"><td><p><b>Description: </b>There is currently no description associated with this project.</p>
 <p><b>URL: </b><a href="http://db.apache.org/derby/" class="externalLink">http://db.apache.org/derby/</a></p>
@@ -677,10 +950,11 @@
 </div>
 </div>
 <div class="section"><h2>Licenses</h2>
+<p><b>Public Domain: </b>AOP alliance</p>
 <p><b>GNU LESSER GENERAL PUBLIC LICENSE: </b>Hibernate, c3p0:JDBC DataSources/Resource Pools</p>
-<p><b>Unknown: </b>AntLR, Derby Engine, Java Transaction API, Unnamed - commons-collections:commons-collections:jar:2.1.1, asm, asm-attrs, cglib, dom4j</p>
+<p><b>Unknown: </b>AntLR, Derby Engine, Java Transaction API, Unnamed - avalon-framework:avalon-framework:jar:4.1.3, Unnamed - commons-collections:commons-collections:jar:2.1.1, Unnamed - javax.servlet:servlet-api:jar:2.3, Unnamed - log4j:log4j:jar:1.2.12, Unnamed - logkit:logkit:jar:1.0.1, asm, asm-attrs, cglib, dom4j</p>
 <p><b>Common Public License Version 1.0: </b>JUnit</p>
-<p><b>The Apache Software License, Version 2.0: </b>Commons Logging, Lang, Spring Framework, Spring Framework: Beans, Spring Framework: Core, ehcache</p>
+<p><b>The Apache Software License, Version 2.0: </b>Lang, Logging, Spring Framework: Beans, Spring Framework: Context, Spring Framework: Core, Spring Framework: DAO, Spring Framework: Hibernate3, Spring Framework: JDBC, Spring Framework: ORM, Spring Framework: Transaction, ehcache</p>
 <p><b>LGPL v3: </b>smart-abstract-dao, smart-bean-util, smart-dao-queryparam, smart-domain, smart-hibernate-abstract-dao</p>
 </div>
 <div class="section"><h2>Dependency File Details</h2>
@@ -702,7 +976,16 @@
 <td align="center">debug</td>
 <td align="center">-</td>
 </tr>
-<tr class="b"><td align="left">asm-1.5.3.jar</td>
+<tr class="b"><td align="left">aopalliance-1.0.jar</td>
+<td align="right">4.36 kB</td>
+<td align="right">15</td>
+<td align="right">9</td>
+<td align="right">2</td>
+<td align="center">1.3</td>
+<td align="center">debug</td>
+<td align="center">-</td>
+</tr>
+<tr class="a"><td align="left">asm-1.5.3.jar</td>
 <td align="right">25.74 kB</td>
 <td align="right">19</td>
 <td align="right">14</td>
@@ -711,13 +994,22 @@
 <td align="center">release</td>
 <td align="center">-</td>
 </tr>
-<tr class="a"><td align="left">asm-attrs-1.5.3.jar</td>
+<tr class="b"><td align="left">asm-attrs-1.5.3.jar</td>
 <td align="right">16.36 kB</td>
 <td align="right">22</td>
 <td align="right">16</td>
 <td align="right">1</td>
 <td align="center">1.2</td>
 <td align="center">release</td>
+<td align="center">-</td>
+</tr>
+<tr class="a"><td align="left">avalon-framework-4.1.3.jar</td>
+<td align="right">62.47 kB</td>
+<td align="right">85</td>
+<td align="right">63</td>
+<td align="right">10</td>
+<td align="center">1.2</td>
+<td align="center">debug</td>
 <td align="center">-</td>
 </tr>
 <tr class="b"><td align="left">c3p0-0.9.1.2.jar</td>
@@ -739,7 +1031,7 @@
 <td align="center">-</td>
 </tr>
 <tr class="b"><td align="left">smart-abstract-dao-0.4-SNAPSHOT.jar</td>
-<td align="right">5.30 kB</td>
+<td align="right">5.39 kB</td>
 <td align="right">16</td>
 <td align="right">5</td>
 <td align="right">1</td>
@@ -748,7 +1040,7 @@
 <td align="center">-</td>
 </tr>
 <tr class="a"><td align="left">smart-dao-queryparam-0.4-SNAPSHOT.jar</td>
-<td align="right">43.69 kB</td>
+<td align="right">43.87 kB</td>
 <td align="right">60</td>
 <td align="right">47</td>
 <td align="right">2</td>
@@ -757,7 +1049,7 @@
 <td align="center">-</td>
 </tr>
 <tr class="b"><td align="left">smart-domain-0.4-SNAPSHOT.jar</td>
-<td align="right">7.14 kB</td>
+<td align="right">7.28 kB</td>
 <td align="right">19</td>
 <td align="right">8</td>
 <td align="right">2</td>
@@ -792,10 +1084,10 @@
 <td align="center">debug</td>
 <td align="center">-</td>
 </tr>
-<tr class="b"><td align="left">commons-logging-1.1.1.jar</td>
-<td align="right">59.26 kB</td>
-<td align="right">42</td>
-<td align="right">28</td>
+<tr class="b"><td align="left">commons-logging-1.1.jar</td>
+<td align="right">51.67 kB</td>
+<td align="right">34</td>
+<td align="right">25</td>
 <td align="right">2</td>
 <td align="center">1.1</td>
 <td align="center">debug</td>
@@ -810,7 +1102,16 @@
 <td align="center">debug</td>
 <td align="center">-</td>
 </tr>
-<tr class="b"><td align="left">jta-1.0.1B.jar</td>
+<tr class="b"><td align="left">servlet-api-2.3.jar</td>
+<td align="right">76.15 kB</td>
+<td align="right">83</td>
+<td align="right">63</td>
+<td align="right">4</td>
+<td align="center">1.1</td>
+<td align="center">debug</td>
+<td align="center">-</td>
+</tr>
+<tr class="a"><td align="left">jta-1.0.1B.jar</td>
 <td align="right">8.61 kB</td>
 <td align="right">20</td>
 <td align="right">17</td>
@@ -819,7 +1120,7 @@
 <td align="center">debug</td>
 <td align="center">-</td>
 </tr>
-<tr class="a"><td align="left">junit-3.8.1.jar</td>
+<tr class="b"><td align="left">junit-3.8.1.jar</td>
 <td align="right">118.23 kB</td>
 <td align="right">119</td>
 <td align="right">100</td>
@@ -828,7 +1129,25 @@
 <td align="center">debug</td>
 <td align="center">-</td>
 </tr>
-<tr class="b"><td align="left">ehcache-1.2.3.jar</td>
+<tr class="a"><td align="left">log4j-1.2.12.jar</td>
+<td align="right">349.69 kB</td>
+<td align="right">283</td>
+<td align="right">253</td>
+<td align="right">19</td>
+<td align="center">1.1</td>
+<td align="center">debug</td>
+<td align="center">-</td>
+</tr>
+<tr class="b"><td align="left">logkit-1.0.1.jar</td>
+<td align="right">70.46 kB</td>
+<td align="right">85</td>
+<td align="right">67</td>
+<td align="right">10</td>
+<td align="center">1.2</td>
+<td align="center">debug</td>
+<td align="center">-</td>
+</tr>
+<tr class="a"><td align="left">ehcache-1.2.3.jar</td>
 <td align="right">203.17 kB</td>
 <td align="right">137</td>
 <td align="right">117</td>
@@ -837,7 +1156,7 @@
 <td align="center">debug</td>
 <td align="center">-</td>
 </tr>
-<tr class="a"><td align="left">derby-10.4.2.0.jar</td>
+<tr class="b"><td align="left">derby-10.4.2.0.jar</td>
 <td align="right">2.33 MB</td>
 <td align="right">1,464</td>
 <td align="right">1,404</td>
@@ -846,7 +1165,7 @@
 <td align="center">release</td>
 <td align="center">sealed</td>
 </tr>
-<tr class="b"><td align="left">hibernate-3.2.5.ga.jar</td>
+<tr class="a"><td align="left">hibernate-3.2.5.ga.jar</td>
 <td align="right">2.15 MB</td>
 <td align="right">1,428</td>
 <td align="right">1,344</td>
@@ -855,29 +1174,74 @@
 <td align="center">debug</td>
 <td align="center">-</td>
 </tr>
-<tr class="a"><td align="left">spring-2.5.4.jar</td>
-<td align="right">2.78 MB</td>
-<td align="right">2,333</td>
-<td align="right">2,116</td>
-<td align="right">181</td>
-<td align="center">1.5</td>
-<td align="center">debug</td>
-<td align="center">-</td>
-</tr>
-<tr class="b"><td align="left">spring-beans-2.5.6.jar</td>
-<td align="right">476.84 kB</td>
-<td align="right">327</td>
-<td align="right">297</td>
+<tr class="b"><td align="left">spring-beans-2.5.4.jar</td>
+<td align="right">472.96 kB</td>
+<td align="right">326</td>
+<td align="right">296</td>
 <td align="right">15</td>
 <td align="center">1.5</td>
 <td align="center">debug</td>
 <td align="center">-</td>
 </tr>
-<tr class="a"><td align="left">spring-core-2.5.6.jar</td>
-<td align="right">278.80 kB</td>
-<td align="right">214</td>
-<td align="right">212</td>
+<tr class="a"><td align="left">spring-context-2.5.4.jar</td>
+<td align="right">458.41 kB</td>
+<td align="right">401</td>
+<td align="right">339</td>
+<td align="right">47</td>
+<td align="center">1.5</td>
+<td align="center">debug</td>
+<td align="center">-</td>
+</tr>
+<tr class="b"><td align="left">spring-core-2.5.4.jar</td>
+<td align="right">279.10 kB</td>
+<td align="right">234</td>
+<td align="right">210</td>
 <td align="right">19</td>
+<td align="center">1.5</td>
+<td align="center">debug</td>
+<td align="center">-</td>
+</tr>
+<tr class="a"><td align="left">spring-dao-2.0.8.jar</td>
+<td align="right">127.15 kB</td>
+<td align="right">121</td>
+<td align="right">107</td>
+<td align="right">9</td>
+<td align="center">1.5</td>
+<td align="center">debug</td>
+<td align="center">-</td>
+</tr>
+<tr class="b"><td align="left">spring-hibernate3-2.0.8.jar</td>
+<td align="right">105.00 kB</td>
+<td align="right">87</td>
+<td align="right">79</td>
+<td align="right">3</td>
+<td align="center">1.5</td>
+<td align="center">debug</td>
+<td align="center">-</td>
+</tr>
+<tr class="a"><td align="left">spring-jdbc-2.5.4.jar</td>
+<td align="right">309.51 kB</td>
+<td align="right">245</td>
+<td align="right">225</td>
+<td align="right">14</td>
+<td align="center">1.5</td>
+<td align="center">debug</td>
+<td align="center">-</td>
+</tr>
+<tr class="b"><td align="left">spring-orm-2.5.4.jar</td>
+<td align="right">363.88 kB</td>
+<td align="right">310</td>
+<td align="right">291</td>
+<td align="right">14</td>
+<td align="center">1.5</td>
+<td align="center">debug</td>
+<td align="center">-</td>
+</tr>
+<tr class="a"><td align="left">spring-tx-2.5.4.jar</td>
+<td align="right">222.40 kB</td>
+<td align="right">212</td>
+<td align="right">181</td>
+<td align="right">20</td>
 <td align="center">1.5</td>
 <td align="center">debug</td>
 <td align="center">-</td>
@@ -891,31 +1255,31 @@
 <th align="center">Debug</th>
 <th align="center">Sealed</th>
 </tr>
-<tr class="a"><td align="right">21</td>
-<td align="right">10.47 MB</td>
-<td align="right">7,692</td>
-<td align="right">7,072</td>
-<td align="right">509</td>
+<tr class="a"><td align="right">31</td>
+<td align="right">9.78 MB</td>
+<td align="right">7,297</td>
+<td align="right">6,627</td>
+<td align="right">480</td>
 <td align="center">1.6</td>
-<td align="right">16</td>
+<td align="right">26</td>
 <td align="center">1</td>
 </tr>
-<tr class="b"><td align="right">compile: 14</td>
-<td align="right">compile: 6.45 MB</td>
-<td align="right">compile: 4,970</td>
-<td align="right">compile: 4,541</td>
-<td align="right">compile: 320</td>
+<tr class="b"><td align="right">compile: 26</td>
+<td align="right">compile: 6.50 MB</td>
+<td align="right">compile: 5,116</td>
+<td align="right">compile: 4,605</td>
+<td align="right">compile: 325</td>
 <td align="center">-</td>
-<td align="right">compile: 10</td>
+<td align="right">compile: 22</td>
 <td align="center">-</td>
 </tr>
-<tr class="a"><td align="right">test: 7</td>
-<td align="right">test: 4.02 MB</td>
-<td align="right">test: 2,722</td>
-<td align="right">test: 2,531</td>
-<td align="right">test: 189</td>
+<tr class="a"><td align="right">test: 5</td>
+<td align="right">test: 3.28 MB</td>
+<td align="right">test: 2,181</td>
+<td align="right">test: 2,022</td>
+<td align="right">test: 155</td>
 <td align="center">-</td>
-<td align="right">test: 6</td>
+<td align="right">test: 4</td>
 <td align="center">test: 1</td>
 </tr>
 </tbody>
@@ -937,22 +1301,17 @@
 <td align="center">Yes</td>
 <td align="center">Yes</td>
 </tr>
-<tr class="a"><td align="left">apache.snapshots</td>
-<td align="left"><a href="http://people.apache.org/repo/m2-snapshot-repository" class="externalLink">http://people.apache.org/repo/m2-snapshot-repository</a></td>
-<td align="center">-</td>
-<td align="center">Yes</td>
-</tr>
-<tr class="b"><td align="left">codehaus-repository</td>
+<tr class="a"><td align="left">codehaus-repository</td>
 <td align="left"><a href="http://repository.codehaus.org" class="externalLink">http://repository.codehaus.org</a></td>
 <td align="center">Yes</td>
 <td align="center">Yes</td>
 </tr>
-<tr class="a"><td align="left">maven2-repository.dev.java.net</td>
+<tr class="b"><td align="left">maven2-repository.dev.java.net</td>
 <td align="left"><a href="http://download.java.net/maven/2/" class="externalLink">http://download.java.net/maven/2/</a></td>
 <td align="center">Yes</td>
 <td align="center">Yes</td>
 </tr>
-<tr class="b"><td align="left">central</td>
+<tr class="a"><td align="left">central</td>
 <td align="left"><a href="http://repo1.maven.org/maven2" class="externalLink">http://repo1.maven.org/maven2</a></td>
 <td align="center">Yes</td>
 <td align="center">-</td>
@@ -960,24 +1319,28 @@
 </tbody>
 </table>
 <p>Repository locations for each of the Dependencies.</p>
-<table class="bodyTable"><tbody><tr class="a"><th align="left">Artifact</th>
+<table class="bodyTable"><tbody><tr class="b"><th align="left">Artifact</th>
 <th align="center">compass-project.org</th>
 <th align="center">apache-snapshot-repository</th>
-<th align="center">apache.snapshots</th>
 <th align="center">codehaus-repository</th>
 <th align="center">maven2-repository.dev.java.net</th>
 <th align="center">central</th>
 </tr>
-<tr class="b"><td align="left">antlr:antlr:jar:2.7.6</td>
-<td align="center">-</td>
+<tr class="a"><td align="left">antlr:antlr:jar:2.7.6</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center"><a href="http://repo1.maven.org/maven2/antlr/antlr/2.7.6/antlr-2.7.6.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
 </tr>
-<tr class="a"><td align="left">asm:asm:jar:1.5.3</td>
+<tr class="b"><td align="left">aopalliance:aopalliance:jar:1.0</td>
 <td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a href="http://repo1.maven.org/maven2/aopalliance/aopalliance/1.0/aopalliance-1.0.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+</tr>
+<tr class="a"><td align="left">asm:asm:jar:1.5.3</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
@@ -989,91 +1352,93 @@
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
-<td align="center">-</td>
 <td align="center"><a href="http://repo1.maven.org/maven2/asm/asm-attrs/1.5.3/asm-attrs-1.5.3.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
 </tr>
-<tr class="a"><td align="left">c3p0:c3p0:jar:0.9.1.2</td>
+<tr class="a"><td align="left">avalon-framework:avalon-framework:jar:4.1.3</td>
 <td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a href="http://repo1.maven.org/maven2/avalon-framework/avalon-framework/4.1.3/avalon-framework-4.1.3.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+</tr>
+<tr class="b"><td align="left">c3p0:c3p0:jar:0.9.1.2</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center"><a href="http://repo1.maven.org/maven2/c3p0/c3p0/0.9.1.2/c3p0-0.9.1.2.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
 </tr>
-<tr class="b"><td align="left">cglib:cglib:jar:2.1_3</td>
-<td align="center">-</td>
+<tr class="a"><td align="left">cglib:cglib:jar:2.1_3</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center"><a href="http://repo1.maven.org/maven2/cglib/cglib/2.1_3/cglib-2.1_3.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
 </tr>
-<tr class="a"><td align="left">com.smartitengineering:smart-abstract-dao:jar:0.4-SNAPSHOT</td>
-<td align="center">-</td>
-<td align="center">-</td>
-<td align="center">-</td>
-<td align="center">-</td>
-<td align="center">-</td>
-<td align="center">-</td>
-</tr>
-<tr class="b"><td align="left">com.smartitengineering:smart-dao-queryparam:jar:0.4-SNAPSHOT</td>
-<td align="center">-</td>
+<tr class="b"><td align="left">com.smartitengineering:smart-abstract-dao:jar:0.4-SNAPSHOT</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 </tr>
-<tr class="a"><td align="left">com.smartitengineering:smart-domain:jar:0.4-SNAPSHOT</td>
-<td align="center">-</td>
-<td align="center">-</td>
-<td align="center">-</td>
-<td align="center">-</td>
-<td align="center">-</td>
-<td align="center">-</td>
-</tr>
-<tr class="b"><td align="left">com.smartitengineering.smart-util:smart-bean-util:jar:0.2-SNAPSHOT</td>
-<td align="center">-</td>
+<tr class="a"><td align="left">com.smartitengineering:smart-dao-queryparam:jar:0.4-SNAPSHOT</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 </tr>
-<tr class="a"><td align="left">commons-collections:commons-collections:jar:2.1.1</td>
+<tr class="b"><td align="left">com.smartitengineering:smart-domain:jar:0.4-SNAPSHOT</td>
 <td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+</tr>
+<tr class="a"><td align="left">com.smartitengineering.smart-util:smart-bean-util:jar:0.2-SNAPSHOT</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+</tr>
+<tr class="b"><td align="left">commons-collections:commons-collections:jar:2.1.1</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center"><a href="http://repo1.maven.org/maven2/commons-collections/commons-collections/2.1.1/commons-collections-2.1.1.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
 </tr>
-<tr class="b"><td align="left">commons-lang:commons-lang:jar:2.3</td>
-<td align="center">-</td>
+<tr class="a"><td align="left">commons-lang:commons-lang:jar:2.3</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center"><a href="http://repo1.maven.org/maven2/commons-lang/commons-lang/2.3/commons-lang-2.3.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
 </tr>
-<tr class="a"><td align="left">commons-logging:commons-logging:jar:1.1.1</td>
+<tr class="b"><td align="left">commons-logging:commons-logging:jar:1.1</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
-<td align="center">-</td>
-<td align="center"><a href="http://repo1.maven.org/maven2/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+<td align="center"><a href="http://repo1.maven.org/maven2/commons-logging/commons-logging/1.1/commons-logging-1.1.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
 </tr>
-<tr class="b"><td align="left">dom4j:dom4j:jar:1.6.1</td>
-<td align="center">-</td>
+<tr class="a"><td align="left">dom4j:dom4j:jar:1.6.1</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center"><a href="http://repo1.maven.org/maven2/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
 </tr>
-<tr class="a"><td align="left">javax.transaction:jta:jar:1.0.1B</td>
+<tr class="b"><td align="left">javax.servlet:servlet-api:jar:2.3</td>
 <td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a href="http://repo1.maven.org/maven2/javax/servlet/servlet-api/2.3/servlet-api-2.3.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+</tr>
+<tr class="a"><td align="left">javax.transaction:jta:jar:1.0.1B</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
@@ -1084,12 +1449,24 @@
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
-<td align="center">-</td>
 <td align="center"><a href="http://download.java.net/maven/2//junit/junit/3.8.1/junit-3.8.1.jar" class="externalLink"><img alt="Found at http://download.java.net/maven/2/" src="images/icon_success_sml.gif" /></a></td>
 <td align="center"><a href="http://repo1.maven.org/maven2/junit/junit/3.8.1/junit-3.8.1.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
 </tr>
-<tr class="a"><td align="left">net.sf.ehcache:ehcache:jar:1.2.3</td>
+<tr class="a"><td align="left">log4j:log4j:jar:1.2.12</td>
 <td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a href="http://repo1.maven.org/maven2/log4j/log4j/1.2.12/log4j-1.2.12.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+</tr>
+<tr class="b"><td align="left">logkit:logkit:jar:1.0.1</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a href="http://repo1.maven.org/maven2/logkit/logkit/1.0.1/logkit-1.0.1.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+</tr>
+<tr class="a"><td align="left">net.sf.ehcache:ehcache:jar:1.2.3</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
@@ -1101,7 +1478,6 @@
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
-<td align="center">-</td>
 <td align="center"><a href="http://repo1.maven.org/maven2/org/apache/derby/derby/10.4.2.0/derby-10.4.2.0.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
 </tr>
 <tr class="a"><td align="left">org.hibernate:hibernate:jar:3.2.5.ga</td>
@@ -1109,48 +1485,77 @@
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
-<td align="center">-</td>
 <td align="center"><a href="http://repo1.maven.org/maven2/org/hibernate/hibernate/3.2.5.ga/hibernate-3.2.5.ga.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
 </tr>
-<tr class="b"><td align="left">org.springframework:spring:jar:2.5.4</td>
+<tr class="b"><td align="left">org.springframework:spring-beans:jar:2.5.4</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
-<td align="center">-</td>
-<td align="center"><a href="http://repo1.maven.org/maven2/org/springframework/spring/2.5.4/spring-2.5.4.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+<td align="center"><a href="http://repo1.maven.org/maven2/org/springframework/spring-beans/2.5.4/spring-beans-2.5.4.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
 </tr>
-<tr class="a"><td align="left">org.springframework:spring-beans:jar:2.5.6</td>
+<tr class="a"><td align="left">org.springframework:spring-context:jar:2.5.4</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
-<td align="center">-</td>
-<td align="center"><a href="http://repo1.maven.org/maven2/org/springframework/spring-beans/2.5.6/spring-beans-2.5.6.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+<td align="center"><a href="http://repo1.maven.org/maven2/org/springframework/spring-context/2.5.4/spring-context-2.5.4.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
 </tr>
-<tr class="b"><td align="left">org.springframework:spring-core:jar:2.5.6</td>
+<tr class="b"><td align="left">org.springframework:spring-core:jar:2.5.4</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
 <td align="center">-</td>
-<td align="center">-</td>
-<td align="center"><a href="http://repo1.maven.org/maven2/org/springframework/spring-core/2.5.6/spring-core-2.5.6.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+<td align="center"><a href="http://repo1.maven.org/maven2/org/springframework/spring-core/2.5.4/spring-core-2.5.4.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
 </tr>
-<tr class="a"><th align="left">Total</th>
+<tr class="a"><td align="left">org.springframework:spring-dao:jar:2.0.8</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a href="http://repo1.maven.org/maven2/org/springframework/spring-dao/2.0.8/spring-dao-2.0.8.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+</tr>
+<tr class="b"><td align="left">org.springframework:spring-hibernate3:jar:2.0.8</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a href="http://repo1.maven.org/maven2/org/springframework/spring-hibernate3/2.0.8/spring-hibernate3-2.0.8.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+</tr>
+<tr class="a"><td align="left">org.springframework:spring-jdbc:jar:2.5.4</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a href="http://repo1.maven.org/maven2/org/springframework/spring-jdbc/2.5.4/spring-jdbc-2.5.4.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+</tr>
+<tr class="b"><td align="left">org.springframework:spring-orm:jar:2.5.4</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a href="http://repo1.maven.org/maven2/org/springframework/spring-orm/2.5.4/spring-orm-2.5.4.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+</tr>
+<tr class="a"><td align="left">org.springframework:spring-tx:jar:2.5.4</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a href="http://repo1.maven.org/maven2/org/springframework/spring-tx/2.5.4/spring-tx-2.5.4.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+</tr>
+<tr class="b"><th align="left">Total</th>
 <th align="center">compass-project.org</th>
 <th align="center">apache-snapshot-repository</th>
-<th align="center">apache.snapshots</th>
 <th align="center">codehaus-repository</th>
 <th align="center">maven2-repository.dev.java.net</th>
 <th align="center">central</th>
 </tr>
-<tr class="b"><td align="left">21 (compile: 14, test: 7)</td>
-<td align="center">0</td>
+<tr class="a"><td align="left">31 (compile: 26, test: 5)</td>
 <td align="center">0</td>
 <td align="center">0</td>
 <td align="center">0</td>
 <td align="center">2</td>
-<td align="center">16</td>
+<td align="center">26</td>
 </tr>
 </tbody>
 </table>

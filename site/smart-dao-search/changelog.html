@@ -42,7 +42,7 @@
   
     
             <div class="xleft">
-        Last Published: 2009-04-07
+        Last Published: 2009-04-10
                   &nbsp;| Version: 0.4-SNAPSHOT
                       </div>
             <div class="xright">      
@@ -177,13 +177,42 @@
         <div class="section"><h2>Change Log Report</h2>
 <p>Total number of changed sets: 1</p>
 <div class="section"><h3>Changes since project creation</h3>
-<p>Total commits: 8<br />
-Total number of files changed: 9</p>
+<p>Total commits: 9<br />
+Total number of files changed: 11</p>
 <table class="bodyTable"><tr class="a"><th>Timestamp</th>
 <th>Author</th>
 <th>Details</th>
 </tr>
-<tr class="b"><td>2009-04-06 14:05:37</td>
+<tr class="b"><td>2009-04-09 22:48:31</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-dao-search/<b>README</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
+smart-dao-search/<b>pom.xml</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
+smart-dao-search/src/main/assembly/<b>assemble-readme.xml</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
+<br />
+Make distribution more complete<br />
+<br />
+Previously the modules did not have any READMEs', this change introduces<br />
+README for every module and also includes them in the distros.<br />
+<br />
+The READMEs are based on the fields in POM and are filtered at module level<br />
+to ensure that proper information is populated.<br />
+<br />
+The with dependency assembly descriptor is minimized by excluding the<br />
+inclusion manually and rather configuring regex based exclusion filter and<br />
+thus ensuring all dependency is included.<br />
+<br />
+Docs is now registered as a module directly rather than from within a<br />
+profile since all costly operations are performed in profiles which need to<br />
+be enabled manually.<br />
+<br />
+The dists &amp; dependency are not structured module wise becuase of inter<br />
+module dependency and which would cause duplication of JARs thus the<br />
+users are advised to either use maven or consult the module dependency page<br />
+in the docs.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-04-06 14:05:37</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-dao-search/<b>pom.xml</b> v b99c7bb471f0ceb79183da55e2cc9096b6d05d60<br />
 <br />
@@ -194,7 +223,7 @@ convergence. Thus all child POM uses that one instead.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-06 14:04:21</td>
+<tr class="b"><td>2009-04-06 14:04:21</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-dao-search/src/site/<b>site.xml</b> v 6a46b618da88cc447d81b0c522dff5fc878611b1<br />
 <br />
@@ -209,7 +238,7 @@ The generated site is deployable to github.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-29 09:24:50</td>
+<tr class="a"><td>2009-01-29 09:24:50</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-dao-search/<b>pom.xml</b> v f77ac06eb9ecb1d610194d8e4fabab4f3ece9ccd<br />
 <br />
@@ -224,7 +253,7 @@ Also fix the POM's which were in error due to past changes.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-01-28 13:21:53</td>
+<tr class="b"><td>2009-01-28 13:21:53</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-dao-search/<b>pom.xml</b> v 767b78c39cc4506db0ef769cf0c54980cf9a04be<br />
 <br />
@@ -234,7 +263,7 @@ Also make POMs coherent by mentioning their packaging.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-23 15:23:50</td>
+<tr class="a"><td>2009-01-23 15:23:50</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-dao-search/src/main/java/com/smartitengineering/dao/common/search/compass/impl/<b>CompassQueryBuilder.java</b> v a3d17f873ca43fdc7a0f67cd87f27d4fed1ab0a3<br />
 <br />
@@ -248,7 +277,7 @@ top level interface in API so that implementors can easily convert them.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-01-23 11:42:40</td>
+<tr class="b"><td>2009-01-23 11:42:40</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-dao-search/<b>pom.xml</b> v 5922bb186fb47831ed12d6afcedefb733bb72279<br />
 <br />
@@ -261,7 +290,7 @@ interested to use the query parameter we made it a independent module.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-23 11:20:48</td>
+<tr class="a"><td>2009-01-23 11:20:48</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-dao-search/<b>pom.xml</b> v 3a4bfa724371e1eae466092feb9986c7928dc87e<br />
 <br />
@@ -275,7 +304,7 @@ smart-dao modules, so that it can be for independent projects as well.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-01-21 21:15:44</td>
+<tr class="b"><td>2009-01-21 21:15:44</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-dao-search/<b>pom.xml</b> v 7b62d2cda1a83c91e9f35acebf3e23c5e4dd4485<br />
 smart-dao-search/src/main/java/com/smartitengineering/common/dao/search/<b>CommonFreeTextPersistentDao.java</b> v 7b62d2cda1a83c91e9f35acebf3e23c5e4dd4485<br />

@@ -42,7 +42,7 @@
   
     
             <div class="xleft">
-        Last Published: 2009-04-07
+        Last Published: 2009-04-10
                   &nbsp;| Version: 0.4-SNAPSHOT
                       </div>
             <div class="xright">      
@@ -177,13 +177,42 @@
         <div class="section"><h2>Change Log Report</h2>
 <p>Total number of changed sets: 1</p>
 <div class="section"><h3>Changes since project creation</h3>
-<p>Total commits: 5<br />
-Total number of files changed: 21</p>
+<p>Total commits: 6<br />
+Total number of files changed: 23</p>
 <table class="bodyTable"><tr class="a"><th>Timestamp</th>
 <th>Author</th>
 <th>Details</th>
 </tr>
-<tr class="b"><td>2009-04-06 14:05:37</td>
+<tr class="b"><td>2009-04-09 22:48:31</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-cache/<b>README</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
+smart-cache/<b>pom.xml</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
+smart-cache/src/main/assembly/<b>assemble-readme.xml</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
+<br />
+Make distribution more complete<br />
+<br />
+Previously the modules did not have any READMEs', this change introduces<br />
+README for every module and also includes them in the distros.<br />
+<br />
+The READMEs are based on the fields in POM and are filtered at module level<br />
+to ensure that proper information is populated.<br />
+<br />
+The with dependency assembly descriptor is minimized by excluding the<br />
+inclusion manually and rather configuring regex based exclusion filter and<br />
+thus ensuring all dependency is included.<br />
+<br />
+Docs is now registered as a module directly rather than from within a<br />
+profile since all costly operations are performed in profiles which need to<br />
+be enabled manually.<br />
+<br />
+The dists &amp; dependency are not structured module wise becuase of inter<br />
+module dependency and which would cause duplication of JARs thus the<br />
+users are advised to either use maven or consult the module dependency page<br />
+in the docs.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-04-06 14:05:37</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-cache/<b>pom.xml</b> v b99c7bb471f0ceb79183da55e2cc9096b6d05d60<br />
 <br />
@@ -194,7 +223,7 @@ convergence. Thus all child POM uses that one instead.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-06 14:04:21</td>
+<tr class="b"><td>2009-04-06 14:04:21</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-cache/src/site/<b>site.xml</b> v 6a46b618da88cc447d81b0c522dff5fc878611b1<br />
 <br />
@@ -209,7 +238,7 @@ The generated site is deployable to github.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-29 09:24:50</td>
+<tr class="a"><td>2009-01-29 09:24:50</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-cache/<b>pom.xml</b> v f77ac06eb9ecb1d610194d8e4fabab4f3ece9ccd<br />
 <br />
@@ -224,7 +253,7 @@ Also fix the POM's which were in error due to past changes.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-01-28 13:21:53</td>
+<tr class="b"><td>2009-01-28 13:21:53</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-cache/<b>pom.xml</b> v 767b78c39cc4506db0ef769cf0c54980cf9a04be<br />
 <br />
@@ -234,7 +263,7 @@ Also make POMs coherent by mentioning their packaging.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-07 13:56:23</td>
+<tr class="a"><td>2009-01-07 13:56:23</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-cache/<b>pom.xml</b> v 0c041530a9aaadd03924bf58e47c92b5a121a62c<br />
 smart-cache/src/main/java/com/smartitengineering/dao/common/cache/<b>BasicKey.java</b> v 0c041530a9aaadd03924bf58e47c92b5a121a62c<br />

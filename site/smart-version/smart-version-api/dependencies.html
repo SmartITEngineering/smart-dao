@@ -42,7 +42,7 @@
   
     
             <div class="xleft">
-        Last Published: 2009-04-07
+        Last Published: 2009-04-10
                   &nbsp;| Version: 0.4-SNAPSHOT
                       </div>
             <div class="xright">      
@@ -294,21 +294,15 @@
       }
 </script>
 <div class="section"><h3>Dependency Tree</h3>
-<ul><li>com.smartitengineering.smart-version:smart-version-api:jar:0.4-SNAPSHOT <img id="_32245579" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_832806081', '_32245579' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_832806081" style="display:none"><table class="bodyTable"><tr class="a"><th>smart-version-api</th>
+<ul><li>com.smartitengineering.smart-version:smart-version-api:jar:0.4-SNAPSHOT <img id="_317328296" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_710331224', '_317328296' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_710331224" style="display:none"><table class="bodyTable"><tr class="a"><th>smart-version-api</th>
 </tr>
-<tr class="b"><td><p><b>Description: </b>This project basically aims to create an abstraction layer above common
-        ORM used this days and provide a simplified DAO layer which is not only
-        independent of the ORM tool being used but also integrated with other
-        services, for example App Layer Caching, Free Text Search Engine etc.
-        Initial target is to implement it for Hibernate and when JPA provides
-        Hibernate's Criteria like API implement for JPA as well. Integrate
-        App Layer Cache and Compass Framework.</p>
+<tr class="b"><td><p><b>Description: </b>This module provides an low-level API for versioning objects.</p>
 <p><b>URL: </b><a href="http://code.google.com/p/smart-dao/smart-version/smart-version-api" class="externalLink">http://code.google.com/p/smart-dao/smart-version/smart-version-api</a></p>
 <p><b>Project License: </b><a href="http://www.gnu.org/licenses/lgpl.html" class="externalLink">LGPL v3</a></p>
 </td>
 </tr>
 </table>
-</div><ul><li>junit:junit:jar:3.8.1 (test) <img id="_650789780" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1663451962', '_650789780' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1663451962" style="display:none"><table class="bodyTable"><tr class="a"><th>JUnit</th>
+</div><ul><li>junit:junit:jar:3.8.1 (test) <img id="_283115884" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_251047018', '_283115884' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_251047018" style="display:none"><table class="bodyTable"><tr class="a"><th>JUnit</th>
 </tr>
 <tr class="b"><td><p><b>Description: </b>JUnit is a regression testing framework written by Erich Gamma and Kent Beck. It is used by the developer who implements unit tests in Java.</p>
 <p><b>URL: </b><a href="http://junit.org" class="externalLink">http://junit.org</a></p>
@@ -317,7 +311,7 @@
 </tr>
 </table>
 </div></li>
-<li>commons-lang:commons-lang:jar:2.3 (compile) <img id="_1292818831" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1593067341', '_1292818831' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1593067341" style="display:none"><table class="bodyTable"><tr class="a"><th>Lang</th>
+<li>commons-lang:commons-lang:jar:2.3 (compile) <img id="_302440928" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_785040783', '_302440928' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_785040783" style="display:none"><table class="bodyTable"><tr class="a"><th>Lang</th>
 </tr>
 <tr class="b"><td><p><b>Description: </b>Commons.Lang, a package of Java utility classes for the
         classes that are in java.lang's hierarchy, or are considered to be so
@@ -328,22 +322,20 @@
 </tr>
 </table>
 </div></li>
-<li>com.smartitengineering:smart-dao-queryparam:jar:0.4-SNAPSHOT (compile) <img id="_454301168" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1363981419', '_454301168' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1363981419" style="display:none"><table class="bodyTable"><tr class="a"><th>smart-dao-queryparam</th>
+<li>com.smartitengineering:smart-dao-queryparam:jar:0.4-SNAPSHOT (compile) <img id="_705305804" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1576912199', '_705305804' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1576912199" style="display:none"><table class="bodyTable"><tr class="a"><th>smart-dao-queryparam</th>
 </tr>
-<tr class="b"><td><p><b>Description: </b>This project basically aims to create an abstraction layer above common
-        ORM used this days and provide a simplified DAO layer which is not only
-        independent of the ORM tool being used but also integrated with other
-        services, for example App Layer Caching, Free Text Search Engine etc.
-        Initial target is to implement it for Hibernate and when JPA provides
-        Hibernate's Criteria like API implement for JPA as well. Integrate
-        App Layer Cache and Compass Framework.</p>
+<tr class="b"><td><p><b>Description: </b>This module provides a generic API for querying different services. The
+        idea is to use this API for all sorts of queries in different APIs. It
+        will initially be used for DB read queries, Full-text Searches, Search
+        in versioning and JAX-RS GET requests; all these will be implemented
+        under Smart DAO project.</p>
 <p><b>URL: </b><a href="http://code.google.com/p/smart-dao/smart-dao-queryparam" class="externalLink">http://code.google.com/p/smart-dao/smart-dao-queryparam</a></p>
 <p><b>Project License: </b><a href="http://www.gnu.org/licenses/lgpl.html" class="externalLink">LGPL v3</a></p>
 </td>
 </tr>
 </table>
 </div></li>
-<li>com.smartitengineering.smart-util:smart-bean-util:jar:0.2-SNAPSHOT (compile) <img id="_1620666213" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1898448940', '_1620666213' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1898448940" style="display:none"><table class="bodyTable"><tr class="a"><th>smart-bean-util</th>
+<li>com.smartitengineering.smart-util:smart-bean-util:jar:0.2-SNAPSHOT (compile) <img id="_868946828" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1555110709', '_868946828' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1555110709" style="display:none"><table class="bodyTable"><tr class="a"><th>smart-bean-util</th>
 </tr>
 <tr class="b"><td><p><b>Description: </b>This project basically aims to create Utility libraries for wide range
         of use.</p>
@@ -352,7 +344,7 @@
 </td>
 </tr>
 </table>
-</div><ul><li>org.springframework:spring-beans:jar:2.5.6 (compile) <img id="_2020047934" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_990466848', '_2020047934' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_990466848" style="display:none"><table class="bodyTable"><tr class="a"><th>Spring Framework: Beans</th>
+</div><ul><li>org.springframework:spring-beans:jar:2.5.6 (compile) <img id="_1800763836" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1994089984', '_1800763836' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1994089984" style="display:none"><table class="bodyTable"><tr class="a"><th>Spring Framework: Beans</th>
 </tr>
 <tr class="b"><td><p><b>Description: </b>Spring Framework: Beans</p>
 <p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
@@ -360,7 +352,7 @@
 </td>
 </tr>
 </table>
-</div><ul><li>commons-logging:commons-logging:jar:1.1.1 (compile) <img id="_212511630" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_2040176392', '_212511630' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_2040176392" style="display:none"><table class="bodyTable"><tr class="a"><th>Commons Logging</th>
+</div><ul><li>commons-logging:commons-logging:jar:1.1.1 (compile) <img id="_749312123" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1312375755', '_749312123' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1312375755" style="display:none"><table class="bodyTable"><tr class="a"><th>Commons Logging</th>
 </tr>
 <tr class="b"><td><p><b>Description: </b>Commons Logging is a thin adapter allowing configurable bridging to other,
     well known logging systems.</p>
@@ -370,7 +362,7 @@
 </tr>
 </table>
 </div></li>
-<li>org.springframework:spring-core:jar:2.5.6 (compile) <img id="_54096391" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_855446864', '_54096391' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_855446864" style="display:none"><table class="bodyTable"><tr class="a"><th>Spring Framework: Core</th>
+<li>org.springframework:spring-core:jar:2.5.6 (compile) <img id="_1793984613" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_742336284', '_1793984613' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_742336284" style="display:none"><table class="bodyTable"><tr class="a"><th>Spring Framework: Core</th>
 </tr>
 <tr class="b"><td><p><b>Description: </b>Spring Framework: Core</p>
 <p><b>URL: </b><a href="http://www.springframework.org" class="externalLink">http://www.springframework.org</a></p>
@@ -378,7 +370,7 @@
 </td>
 </tr>
 </table>
-</div><ul><li>commons-logging:commons-logging:jar:1.1.1 (compile) <img id="_1085277541" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1251449598', '_1085277541' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1251449598" style="display:none"><table class="bodyTable"><tr class="a"><th>Commons Logging</th>
+</div><ul><li>commons-logging:commons-logging:jar:1.1.1 (compile) <img id="_2030372835" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_882254179', '_2030372835' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_882254179" style="display:none"><table class="bodyTable"><tr class="a"><th>Commons Logging</th>
 </tr>
 <tr class="b"><td><p><b>Description: </b>Commons Logging is a thin adapter allowing configurable bridging to other,
     well known logging systems.</p>
@@ -392,7 +384,7 @@
 </li>
 </ul>
 </li>
-<li>commons-lang:commons-lang:jar:2.3 (compile) <img id="_1380320978" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_143484048', '_1380320978' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_143484048" style="display:none"><table class="bodyTable"><tr class="a"><th>Lang</th>
+<li>commons-lang:commons-lang:jar:2.3 (compile) <img id="_1678932765" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1781377339', '_1678932765' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1781377339" style="display:none"><table class="bodyTable"><tr class="a"><th>Lang</th>
 </tr>
 <tr class="b"><td><p><b>Description: </b>Commons.Lang, a package of Java utility classes for the
         classes that are in java.lang's hierarchy, or are considered to be so
@@ -405,7 +397,7 @@
 </div></li>
 </ul>
 </li>
-<li>com.smartitengineering.smart-util:simple-util:jar:0.2-SNAPSHOT (compile) <img id="_1462288233" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1992649736', '_1462288233' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1992649736" style="display:none"><table class="bodyTable"><tr class="a"><th>simple-util</th>
+<li>com.smartitengineering.smart-util:simple-util:jar:0.2-SNAPSHOT (compile) <img id="_808366840" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_2035251124', '_808366840' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_2035251124" style="display:none"><table class="bodyTable"><tr class="a"><th>simple-util</th>
 </tr>
 <tr class="b"><td><p><b>Description: </b>This project basically aims to create Utility libraries for wide range
         of use.</p>
@@ -414,7 +406,7 @@
 </td>
 </tr>
 </table>
-</div><ul><li>commons-lang:commons-lang:jar:2.3 (compile) <img id="_302297282" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_2106306783', '_302297282' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_2106306783" style="display:none"><table class="bodyTable"><tr class="a"><th>Lang</th>
+</div><ul><li>commons-lang:commons-lang:jar:2.3 (compile) <img id="_680541791" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_27258654', '_680541791' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_27258654" style="display:none"><table class="bodyTable"><tr class="a"><th>Lang</th>
 </tr>
 <tr class="b"><td><p><b>Description: </b>Commons.Lang, a package of Java utility classes for the
         classes that are in java.lang's hierarchy, or are considered to be so
@@ -425,7 +417,7 @@
 </tr>
 </table>
 </div></li>
-<li>asm:asm:jar:3.1 (compile) <img id="_174183040" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1814380117', '_174183040' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1814380117" style="display:none"><table class="bodyTable"><tr class="a"><th>ASM Core</th>
+<li>asm:asm:jar:3.1 (compile) <img id="_595545248" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_2123758041', '_595545248' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_2123758041" style="display:none"><table class="bodyTable"><tr class="a"><th>ASM Core</th>
 </tr>
 <tr class="b"><td><p><b>Description: </b>A very small and fast Java bytecode manipulation framework</p>
 <p><b>URL: </b><a href="http://asm.objectweb.org/asm" class="externalLink">http://asm.objectweb.org/asm</a></p>
@@ -465,7 +457,7 @@
 <td align="center">release</td>
 </tr>
 <tr class="a"><td align="left">smart-dao-queryparam-0.4-SNAPSHOT.jar</td>
-<td align="right">43.69 kB</td>
+<td align="right">43.87 kB</td>
 <td align="right">60</td>
 <td align="right">47</td>
 <td align="right">2</td>
