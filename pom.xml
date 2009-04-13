@@ -50,11 +50,15 @@
             <name>User List</name>
             <archive>http://groups.google.com/group/smart-dao-users</archive>
             <post>smart-dao-users@googlegroups.com</post>
+            <subscribe>smart-dao-users-subscribe@googlegroups.com</subscribe>
+            <unsubscribe>smart-dao-users+unsubscribe@googlegroups.com</unsubscribe>
         </mailingList>
         <mailingList>
             <name>Developer List</name>
             <archive>http://groups.google.com/group/smart-dao-dev</archive>
             <post>smart-dao-dev@googlegroups.com</post>
+            <subscribe>smart-dao-dev-subscribe@googlegroups.com</subscribe>
+            <unsubscribe>smart-dao-dev+unsubscribe@googlegroups.com</unsubscribe>
         </mailingList>
     </mailingLists>
     <licenses>
