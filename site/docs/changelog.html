@@ -42,7 +42,7 @@
   
     
             <div class="xleft">
-        Last Published: 2009-04-10
+        Last Published: 2009-04-13
                   &nbsp;| Version: 0.4-SNAPSHOT
                       </div>
             <div class="xright">      
@@ -159,13 +159,34 @@
         <div class="section"><h2>Change Log Report</h2>
 <p>Total number of changed sets: 1</p>
 <div class="section"><h3>Changes since project creation</h3>
-<p>Total commits: 6<br />
+<p>Total commits: 7<br />
 Total number of files changed: 9</p>
 <table class="bodyTable"><tr class="a"><th>Timestamp</th>
 <th>Author</th>
 <th>Details</th>
 </tr>
-<tr class="b"><td>2009-04-10 16:50:29</td>
+<tr class="b"><td>2009-04-13 09:02:03</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>docs/<b>pom.xml</b> v dbd687abe484d8cd023f4f4938085d293cf233c4<br />
+<br />
+Fix build profile to respond to a simple maven install command<br />
+<br />
+Inheritance in maven works if and only if the child POM also declares the<br />
+plugin with/out any execution(s) or configuration(s). Thus mentioning<br />
+assembly plugin in every POM resolved the problem. From now on the<br />
+following command will build the complete project with distributions as<br />
+well.<br />
+<br />
+mvn clean install -Dbuild.complete=true -Dbuild.complete.dist=true<br />
+<br />
+Also README filtering is done in site profile just to ensure that if later<br />
+READMEs' are included in the site then its available.<br />
+<br />
+Updated the README with latest build notices.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-04-10 16:50:29</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>docs/<b>pom.xml</b> v d21b330afe711364f5c1328570c50e129ac846f9<br />
 <br />
@@ -175,7 +196,7 @@ Previously it started with doc where as it should start as smart-dao.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-10 16:33:16</td>
+<tr class="b"><td>2009-04-10 16:33:16</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>docs/<b>pom.xml</b> v c941452b932a77883aad48634331352231cb5b32<br />
 <br />
@@ -191,7 +212,7 @@ artifacts are non useful.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-04-09 22:48:31</td>
+<tr class="a"><td>2009-04-09 22:48:31</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>docs/<b>README</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
 docs/<b>pom.xml</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
@@ -222,7 +243,7 @@ in the docs.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-09 12:32:49</td>
+<tr class="b"><td>2009-04-09 12:32:49</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>docs/<b>pom.xml</b> v 042b6e10905b82a16dc0e438fc0dc1ceaba6e985<br />
 docs/src/main/assembly/<b>assemble-bin-with-dependency.xml</b> v 042b6e10905b82a16dc0e438fc0dc1ceaba6e985<br />
@@ -234,7 +255,7 @@ Distribution will be refactored to be made better in next commit.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-04-07 11:34:14</td>
+<tr class="a"><td>2009-04-07 11:34:14</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>docs/<b>pom.xml</b> v c309a93f4956fc22b6f58cb5ed31dc51a331100e<br />
 docs/src/main/assembly/<b>assemble-site.xml</b> v c309a93f4956fc22b6f58cb5ed31dc51a331100e<br />
@@ -254,7 +275,7 @@ copying.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-06 14:04:21</td>
+<tr class="b"><td>2009-04-06 14:04:21</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>docs/<b>pom.xml</b> v 6a46b618da88cc447d81b0c522dff5fc878611b1<br />
 docs/src/main/assembly/<b>assemble-site.xml</b> v 6a46b618da88cc447d81b0c522dff5fc878611b1<br />

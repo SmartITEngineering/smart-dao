@@ -42,7 +42,7 @@
   
     
             <div class="xleft">
-        Last Published: 2009-04-10
+        Last Published: 2009-04-13
                   &nbsp;| Version: 0.4-SNAPSHOT
                       </div>
             <div class="xright">      
@@ -177,13 +177,34 @@
         <div class="section"><h2>Change Log Report</h2>
 <p>Total number of changed sets: 1</p>
 <div class="section"><h3>Changes since project creation</h3>
-<p>Total commits: 9<br />
+<p>Total commits: 10<br />
 Total number of files changed: 13</p>
 <table class="bodyTable"><tr class="a"><th>Timestamp</th>
 <th>Author</th>
 <th>Details</th>
 </tr>
-<tr class="b"><td>2009-04-09 22:48:31</td>
+<tr class="b"><td>2009-04-13 09:02:03</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-domain/<b>pom.xml</b> v dbd687abe484d8cd023f4f4938085d293cf233c4<br />
+<br />
+Fix build profile to respond to a simple maven install command<br />
+<br />
+Inheritance in maven works if and only if the child POM also declares the<br />
+plugin with/out any execution(s) or configuration(s). Thus mentioning<br />
+assembly plugin in every POM resolved the problem. From now on the<br />
+following command will build the complete project with distributions as<br />
+well.<br />
+<br />
+mvn clean install -Dbuild.complete=true -Dbuild.complete.dist=true<br />
+<br />
+Also README filtering is done in site profile just to ensure that if later<br />
+READMEs' are included in the site then its available.<br />
+<br />
+Updated the README with latest build notices.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-04-09 22:48:31</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/<b>README</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
 smart-domain/<b>pom.xml</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
@@ -212,7 +233,7 @@ in the docs.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-06 14:05:37</td>
+<tr class="b"><td>2009-04-06 14:05:37</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/<b>pom.xml</b> v b99c7bb471f0ceb79183da55e2cc9096b6d05d60<br />
 <br />
@@ -223,7 +244,7 @@ convergence. Thus all child POM uses that one instead.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-04-06 14:04:21</td>
+<tr class="a"><td>2009-04-06 14:04:21</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/src/site/<b>site.xml</b> v 6a46b618da88cc447d81b0c522dff5fc878611b1<br />
 <br />
@@ -238,7 +259,7 @@ The generated site is deployable to github.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-03-30 09:05:11</td>
+<tr class="b"><td>2009-03-30 09:05:11</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/src/main/java/com/smartitengineering/domain/annotations/<b>Eager.java</b> v f1df0f69884540707b04c4055005350f6d3963e2<br />
 smart-domain/src/main/java/com/smartitengineering/domain/annotations/<b>Export.java</b> v f1df0f69884540707b04c4055005350f6d3963e2<br />
@@ -275,7 +296,7 @@ non-id property.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-28 13:21:53</td>
+<tr class="a"><td>2009-01-28 13:21:53</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/<b>pom.xml</b> v 767b78c39cc4506db0ef769cf0c54980cf9a04be<br />
 <br />
@@ -285,7 +306,7 @@ Also make POMs coherent by mentioning their packaging.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-01-07 13:58:24</td>
+<tr class="b"><td>2009-01-07 13:58:24</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/<b>pom.xml</b> v a5dafceba13c8dfa7217c939347bb1b4f3125ddc<br />
 <br />
@@ -293,7 +314,7 @@ Source code and javadoc for domain module is added as artifacts<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-02 10:42:24</td>
+<tr class="a"><td>2009-01-02 10:42:24</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/<b>pom.xml</b> v ad187c9e096bb0bc1c8d3b76d2467cdd01c903e3<br />
 <br />
@@ -301,7 +322,7 @@ Remove wrong information from domain's POM<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-01-01 19:28:09</td>
+<tr class="b"><td>2009-01-01 19:28:09</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/src/main/java/com/smartitengineering/domain/<b>AbstractPersistentDTO.java</b> v 1f286ff39ba2b8e81757e8db3083645ce00ea6e1<br />
 smart-domain/src/main/java/com/smartitengineering/domain/<b>PersistentDTO.java</b> v 1f286ff39ba2b8e81757e8db3083645ce00ea6e1<br />
@@ -314,7 +335,7 @@ to a new abstract class.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-01 19:22:17</td>
+<tr class="a"><td>2009-01-01 19:22:17</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/<b>pom.xml</b> v 0ad2dba291cbf25c8a8d50000d061d8b5346076c<br />
 smart-domain/src/main/java/com/smartitengineering/domain/<b>Domain.java</b> v 0ad2dba291cbf25c8a8d50000d061d8b5346076c<br />

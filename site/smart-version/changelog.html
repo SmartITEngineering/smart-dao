@@ -42,7 +42,7 @@
   
     
             <div class="xleft">
-        Last Published: 2009-04-10
+        Last Published: 2009-04-13
                   &nbsp;| Version: 0.4-SNAPSHOT
                       </div>
             <div class="xright">      
@@ -174,13 +174,37 @@
         <div class="section"><h2>Change Log Report</h2>
 <p>Total number of changed sets: 1</p>
 <div class="section"><h3>Changes since project creation</h3>
-<p>Total commits: 28<br />
+<p>Total commits: 29<br />
 Total number of files changed: 76</p>
 <table class="bodyTable"><tr class="a"><th>Timestamp</th>
 <th>Author</th>
 <th>Details</th>
 </tr>
-<tr class="b"><td>2009-04-09 22:48:31</td>
+<tr class="b"><td>2009-04-13 09:02:03</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-version/<b>pom.xml</b> v dbd687abe484d8cd023f4f4938085d293cf233c4<br />
+smart-version/smart-dao-version/<b>pom.xml</b> v dbd687abe484d8cd023f4f4938085d293cf233c4<br />
+smart-version/smart-version-api/<b>pom.xml</b> v dbd687abe484d8cd023f4f4938085d293cf233c4<br />
+smart-version/smart-version-jgit-impl/<b>pom.xml</b> v dbd687abe484d8cd023f4f4938085d293cf233c4<br />
+<br />
+Fix build profile to respond to a simple maven install command<br />
+<br />
+Inheritance in maven works if and only if the child POM also declares the<br />
+plugin with/out any execution(s) or configuration(s). Thus mentioning<br />
+assembly plugin in every POM resolved the problem. From now on the<br />
+following command will build the complete project with distributions as<br />
+well.<br />
+<br />
+mvn clean install -Dbuild.complete=true -Dbuild.complete.dist=true<br />
+<br />
+Also README filtering is done in site profile just to ensure that if later<br />
+READMEs' are included in the site then its available.<br />
+<br />
+Updated the README with latest build notices.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-04-09 22:48:31</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/<b>README</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
 smart-version/<b>pom.xml</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
@@ -218,7 +242,7 @@ in the docs.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-06 14:05:37</td>
+<tr class="b"><td>2009-04-06 14:05:37</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/<b>pom.xml</b> v b99c7bb471f0ceb79183da55e2cc9096b6d05d60<br />
 smart-version/smart-dao-version/<b>pom.xml</b> v b99c7bb471f0ceb79183da55e2cc9096b6d05d60<br />
@@ -232,7 +256,7 @@ convergence. Thus all child POM uses that one instead.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-04-06 14:04:21</td>
+<tr class="a"><td>2009-04-06 14:04:21</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-dao-version/src/site/<b>site.xml</b> v 6a46b618da88cc447d81b0c522dff5fc878611b1<br />
 smart-version/smart-version-api/src/site/<b>site.xml</b> v 6a46b618da88cc447d81b0c522dff5fc878611b1<br />
@@ -250,7 +274,7 @@ The generated site is deployable to github.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-03-31 09:37:22</td>
+<tr class="b"><td>2009-03-31 09:37:22</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-jgit-impl/<b>pom.xml</b> v f56769df3e84896feda42a4842224a71dff3bca7<br />
 <br />
@@ -258,7 +282,7 @@ Fix dependencies for Spring Hibernate combination in JGit Impl<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-03-18 11:26:11</td>
+<tr class="a"><td>2009-03-18 11:26:11</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-api/src/main/java/com/smartitengineering/version/api/<b>Content.java</b> v e4b6f541dd05325a4b78f2ed607f2e219250782b<br />
 smart-version/smart-version-api/src/main/java/com/smartitengineering/version/api/<b>Resource.java</b> v e4b6f541dd05325a4b78f2ed607f2e219250782b<br />
@@ -281,7 +305,7 @@ uses it, Version API will NOT close it.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-03-18 11:04:00</td>
+<tr class="b"><td>2009-03-18 11:04:00</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-api/<b>pom.xml</b> v 921e095cbb3614c148370816fb2fb4338bccc408<br />
 smart-version/smart-version-api/src/main/java/com/smartitengineering/version/api/factory/<b>VersionAPI.java</b> v 921e095cbb3614c148370816fb2fb4338bccc408<br />
@@ -296,7 +320,7 @@ Upgrade to latest smart-util release<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-02-04 09:40:35</td>
+<tr class="a"><td>2009-02-04 09:40:35</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-api/src/main/java/com/smartitengineering/version/api/<b>Resource.java</b> v 2b6fbdfcd211ac6ccba6e859bd3b07aca0d66228<br />
 smart-version/smart-version-api/src/main/java/com/smartitengineering/version/api/dao/<b>VersionControlDao.java</b> v 2b6fbdfcd211ac6ccba6e859bd3b07aca0d66228<br />
@@ -351,7 +375,7 @@ distinct, but now the config will allow it.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-02-03 09:36:38</td>
+<tr class="b"><td>2009-02-03 09:36:38</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-jgit-impl/src/test/java/com/smartitengineering/version/impl/jgit/<b>JGitVersionControlDaoTest.java</b> v 17a66417a6d225235f5ff4fcc7fbe297a88ef0a2<br />
 <br />
@@ -362,7 +386,7 @@ refactor in API.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-02-03 09:35:44</td>
+<tr class="a"><td>2009-02-03 09:35:44</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-jgit-impl/src/main/java/com/smartitengineering/version/impl/jgit/<b>SearchProperties.java</b> v fc378f84abd59c168ad75b889e2ec5fa31606da0<br />
 <br />
@@ -373,7 +397,7 @@ when searching for commits and also for deleted resources from revision.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-02-03 09:34:50</td>
+<tr class="b"><td>2009-02-03 09:34:50</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-api/src/main/java/com/smartitengineering/version/api/impl/<b>AuthorImpl.java</b> v 6a196912d6798a4730b036d7e89f616aa68ace55<br />
 smart-version/smart-version-api/src/main/java/com/smartitengineering/version/api/impl/<b>CommitImpl.java</b> v 6a196912d6798a4730b036d7e89f616aa68ace55<br />
@@ -388,7 +412,7 @@ ain't any alternative.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-31 20:10:02</td>
+<tr class="a"><td>2009-01-31 20:10:02</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-api/src/main/java/com/smartitengineering/version/api/dao/<b>VersionControlDao.java</b> v b52a4db8551db2dc62cc071d1bbeb089681c8dc6<br />
 smart-version/smart-version-jgit-impl/src/main/java/com/smartitengineering/version/impl/jgit/<b>JGitImpl.java</b> v b52a4db8551db2dc62cc071d1bbeb089681c8dc6<br />
@@ -419,7 +443,7 @@ are using the params properly.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-01-31 12:21:47</td>
+<tr class="b"><td>2009-01-31 12:21:47</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-jgit-impl/src/main/java/com/smartitengineering/version/impl/jgit/<b>JGitImpl.java</b> v 24095edc609bfb6e8b7c4dcafb1fe61330ba9350<br />
 smart-version/smart-version-jgit-impl/src/main/java/com/smartitengineering/version/impl/jgit/<b>JGitVersionControlDao.java</b> v 24095edc609bfb6e8b7c4dcafb1fe61330ba9350<br />
@@ -433,7 +457,7 @@ Made all read operations coherent in responding for illegal arguments.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-30 09:31:11</td>
+<tr class="a"><td>2009-01-30 09:31:11</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-jgit-impl/src/main/java/com/smartitengineering/version/impl/jgit/domain/<b>Revision.java</b> v 6249308084893760de5ef313780acec823934e5f<br />
 smart-version/smart-version-jgit-impl/src/main/java/com/smartitengineering/version/impl/jgit/service/<b>MetaFactory.java</b> v 6249308084893760de5ef313780acec823934e5f<br />
@@ -448,7 +472,7 @@ flags for deleted resource in revision.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-01-30 09:27:58</td>
+<tr class="b"><td>2009-01-30 09:27:58</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-api/src/main/java/com/smartitengineering/version/api/dao/<b>VersionControlDao.java</b> v 99606619d492ee3fe79c45740f4e0d07b99969ee<br />
 smart-version/smart-version-jgit-impl/src/main/java/com/smartitengineering/version/impl/jgit/<b>JGitImpl.java</b> v 99606619d492ee3fe79c45740f4e0d07b99969ee<br />
@@ -463,7 +487,7 @@ API and thus this operation is introduced.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-29 09:30:41</td>
+<tr class="a"><td>2009-01-29 09:30:41</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-jgit-impl/src/test/resources/com/smartitengineering/smart-dao/smart-version-jgit/<b>db-config.properties.template</b> v 932579b363f79c189a40199fc2d843ccab47859d<br />
 smart-version/smart-version-jgit-impl/src/test/resources/com/smartitengineering/smart-dao/smart-version-jgit/<b>test-app-context.xml</b> v 932579b363f79c189a40199fc2d843ccab47859d<br />
@@ -472,7 +496,7 @@ Fix serach name space<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-01-29 09:24:50</td>
+<tr class="b"><td>2009-01-29 09:24:50</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-jgit-impl/src/main/resources/com/smartitengineering/smart-dao/smart-version-jgit/<b>Commit.hbm.xml</b> v f77ac06eb9ecb1d610194d8e4fabab4f3ece9ccd<br />
 smart-version/smart-version-jgit-impl/src/main/resources/com/smartitengineering/smart-dao/smart-version-jgit/<b>Revision.hbm.xml</b> v f77ac06eb9ecb1d610194d8e4fabab4f3ece9ccd<br />
@@ -491,7 +515,7 @@ Also fix the POM's which were in error due to past changes.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-28 21:39:38</td>
+<tr class="a"><td>2009-01-28 21:39:38</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-jgit-impl/<b>hibernate-mapping-3.0.dtd</b> v 68d5ae4ef15fbc80f08988ceba737f2b431b097a<br />
 smart-version/smart-version-jgit-impl/<b>pom.xml</b> v 68d5ae4ef15fbc80f08988ceba737f2b431b097a<br />
@@ -509,7 +533,7 @@ Get Spring DI to work for test environment<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-01-28 13:21:53</td>
+<tr class="b"><td>2009-01-28 13:21:53</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-api/<b>pom.xml</b> v 767b78c39cc4506db0ef769cf0c54980cf9a04be<br />
 smart-version/smart-version-jgit-impl/<b>pom.xml</b> v 767b78c39cc4506db0ef769cf0c54980cf9a04be<br />
@@ -520,7 +544,7 @@ Also make POMs coherent by mentioning their packaging.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-27 16:22:47</td>
+<tr class="a"><td>2009-01-27 16:22:47</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-jgit-impl/<b>pom.xml</b> v 8f24ccb19155aee547af1ffc16446b702deac9c3<br />
 smart-version/smart-version-jgit-impl/src/main/java/com/smartitengineering/version/impl/jgit/dao/<b>CommitDao.java</b> v 8f24ccb19155aee547af1ffc16446b702deac9c3<br />
@@ -537,7 +561,7 @@ Add domain, dao and dao impl for RCS meta service API<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-01-27 15:18:24</td>
+<tr class="b"><td>2009-01-27 15:18:24</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-jgit-impl/src/main/java/com/smartitengineering/version/impl/jgit/<b>JGitImpl.java</b> v a738d556a61f961a63ee53180ec7924bedd8adc7<br />
 smart-version/smart-version-jgit-impl/src/main/java/com/smartitengineering/version/impl/jgit/<b>JGitVersionControlDao.java</b> v a738d556a61f961a63ee53180ec7924bedd8adc7<br />
@@ -557,7 +581,7 @@ changes in the test case as well.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-26 21:24:38</td>
+<tr class="a"><td>2009-01-26 21:24:38</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-api/src/main/java/com/smartitengineering/version/api/factory/<b>VersionAPI.java</b> v b5b7e55ea770c066b2d37be9619d79a940af71ba<br />
 smart-version/smart-version-jgit-impl/src/main/java/com/smartitengineering/version/impl/jgit/<b>JGitImpl.java</b> v b5b7e55ea770c066b2d37be9619d79a940af71ba<br />
@@ -574,7 +598,7 @@ In order to get the test to work we needed several changes and they are,<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-01-26 17:01:24</td>
+<tr class="b"><td>2009-01-26 17:01:24</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-api/src/main/java/com/smartitengineering/version/api/dao/<b>VersionControlDao.java</b> v 298d29cf410baaa20278f111bd8aacd870bcd085<br />
 smart-version/smart-version-jgit-impl/<b>pom.xml</b> v 298d29cf410baaa20278f111bd8aacd870bcd085<br />
@@ -595,7 +619,7 @@ service and actualy jgit impl and secondly, the obvious jgit impl.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-26 11:58:00</td>
+<tr class="a"><td>2009-01-26 11:58:00</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-api/src/main/java/com/smartitengineering/version/api/impl/<b>AuthorImpl.java</b> v 6ec914285ebe7bed76cae03e7013500412d6e72f<br />
 smart-version/smart-version-api/src/main/java/com/smartitengineering/version/api/impl/<b>CommitImpl.java</b> v 6ec914285ebe7bed76cae03e7013500412d6e72f<br />
@@ -615,7 +639,7 @@ write operations, it is needed that the SPI is specified.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-01-26 11:55:29</td>
+<tr class="b"><td>2009-01-26 11:55:29</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-api/src/main/java/com/smartitengineering/version/api/dao/<b>WriterCallback.java</b> v e8fd903e87df237900e4f81b71a3bd7fadc5295b<br />
 <br />
@@ -626,7 +650,7 @@ without having to catch it manually.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-24 13:22:55</td>
+<tr class="a"><td>2009-01-24 13:22:55</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-api/src/main/java/com/smartitengineering/version/api/dao/<b>VersionControlDao.java</b> v b085b66e0e93aa3f9f162149f0176d293fd0f06f<br />
 smart-version/smart-version-api/src/main/java/com/smartitengineering/version/api/dao/<b>WriteStatus.java</b> v b085b66e0e93aa3f9f162149f0176d293fd0f06f<br />
@@ -640,7 +664,7 @@ be notified of the write operation.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-01-23 18:38:37</td>
+<tr class="b"><td>2009-01-23 18:38:37</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-api/<b>pom.xml</b> v 6f01689097bb2913547fca739f546664e69ce740<br />
 smart-version/smart-version-api/src/main/java/com/smartitengineering/version/api/dao/<b>VersionControlDao.java</b> v 6f01689097bb2913547fca739f546664e69ce740<br />
@@ -650,7 +674,7 @@ Add dao API for version system<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-23 11:20:48</td>
+<tr class="a"><td>2009-01-23 11:20:48</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/smart-version-api/<b>pom.xml</b> v 3a4bfa724371e1eae466092feb9986c7928dc87e<br />
 smart-version/smart-version-api/src/main/java/com/smartitengineering/version/api/<b>App.java</b> v 3a4bfa724371e1eae466092feb9986c7928dc87e<br />
@@ -676,7 +700,7 @@ smart-dao modules, so that it can be for independent projects as well.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-01-22 09:37:47</td>
+<tr class="b"><td>2009-01-22 09:37:47</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-version/<b>pom.xml</b> v 4939a5728cc5545e9221872ec2b89758bfb7bf1a<br />
 smart-version/smart-dao-version/<b>pom.xml</b> v 4939a5728cc5545e9221872ec2b89758bfb7bf1a<br />
