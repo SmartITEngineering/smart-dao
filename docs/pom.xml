@@ -30,6 +30,15 @@
     <name>docs</name>
     <version>0.4-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${assembly.version}</version>
+            </plugin>
+        </plugins>
+    </build>
     <dependencies>
         <dependency>
             <groupId>com.smartitengineering</groupId>
@@ -156,7 +165,7 @@
                                     <goal>single</goal>
                                 </goals>
                                 <configuration>
-                                    <finalName>smart-dao</finalName>
+                                    <finalName>smart-dao-${project.version}</finalName>
                                     <descriptors>
                                         <descriptor>src/main/assembly/assemble-bin.xml</descriptor>
                                     </descriptors>
@@ -175,7 +184,7 @@
                                     <goal>single</goal>
                                 </goals>
                                 <configuration>
-                                    <finalName>smart-dao</finalName>
+                                    <finalName>smart-dao-${project.version}</finalName>
                                     <descriptors>
                                         <descriptor>src/main/assembly/assemble-bin-with-dependency.xml</descriptor>
                                     </descriptors>
