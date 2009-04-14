@@ -18,8 +18,6 @@
  */
 package com.smartitengineering.dao.common.cache;
 
-import com.smartitengineering.dao.common.cache.ChangeEvent;
-import com.smartitengineering.dao.common.cache.ChangeListener;
 import com.smartitengineering.dao.common.cache.impl.CacheAPIFactory;
 import com.smartitengineering.domain.AbstractPersistentDTO;
 import com.smartitengineering.domain.PersistentDTO;
