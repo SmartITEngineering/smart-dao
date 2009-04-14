@@ -20,7 +20,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 -->
 
-<project name="Maven SCM Git Executable">
+<project name="Smart DAO">
   <body>
     <menu ref="parent" />
 
