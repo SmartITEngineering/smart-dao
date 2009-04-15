@@ -53,6 +53,16 @@
             <version>${jaxrs.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.smartitengineering</groupId>
+            <artifactId>smart-domain</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>${dom4j.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-server</artifactId>
             <version>${jersey.version}</version>
