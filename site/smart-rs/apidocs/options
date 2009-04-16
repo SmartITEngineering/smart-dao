@@ -1,5 +1,5 @@
 -classpath
-'/home/imyousuf/projects/smart-dao/smart-rs/target/classes:/home/imyousuf/.m2/repository/javax/ws/rs/jsr311-api/1.0/jsr311-api-1.0.jar'
+'/home/imyousuf/projects/smart-dao/smart-rs/target/classes:/home/imyousuf/.m2/repository/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar:/home/imyousuf/projects/smart-dao/smart-domain/target/smart-domain-0.4-SNAPSHOT.jar:/home/imyousuf/.m2/repository/javax/ws/rs/jsr311-api/1.0/jsr311-api-1.0.jar:/home/imyousuf/.m2/repository/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar'
 -encoding
 'UTF-8'
 -protected

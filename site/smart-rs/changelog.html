@@ -12,7 +12,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>Maven SCM Git Executable - Change Log Report</title>
+    <title>Smart DAO - Change Log Report</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
@@ -42,7 +42,7 @@
   
     
             <div class="xleft">
-        Last Published: 2009-04-13
+        Last Published: 2009-04-15
                   &nbsp;| Version: 0.4-SNAPSHOT
                       </div>
             <div class="xright">      
@@ -128,6 +128,10 @@
       
             
       
+            
+      
+            
+      
               
             <li class="expanded">
                     <a href="project-reports.html">Project Reports</a>
@@ -150,7 +154,15 @@
           </li>
                   
     <li class="none">
+                    <a href="findbugs.html">FindBugs Report</a>
+          </li>
+                  
+    <li class="none">
                     <a href="apidocs/index.html">JavaDocs</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="surefire-report.html">Maven Surefire Report</a>
           </li>
                   
     <li class="none">
@@ -177,13 +189,58 @@
         <div class="section"><h2>Change Log Report</h2>
 <p>Total number of changed sets: 1</p>
 <div class="section"><h3>Changes since project creation</h3>
-<p>Total commits: 4<br />
-Total number of files changed: 6</p>
+<p>Total commits: 7<br />
+Total number of files changed: 10</p>
 <table class="bodyTable"><tr class="a"><th>Timestamp</th>
 <th>Author</th>
 <th>Details</th>
 </tr>
-<tr class="b"><td>2009-04-13 09:02:03</td>
+<tr class="b"><td>2009-04-15 16:21:52</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-rs/<b>pom.xml</b> v 626354cd84e87e30802f2e30298eb0e90a2a69b0<br />
+<br />
+Add domain and dom4j as dependency to the RS module<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-04-14 22:15:53</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-rs/src/site/<b>site.xml</b> v bcec4a58357f672615809338ad5d4dd0f67ec114<br />
+<br />
+Fix the project name in maven site xmls'<br />
+<br />
+Previously it was wrong due to a copy paste and this change fixes it.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="b"><td>2009-04-14 13:20:15</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-rs/<b>pom.xml</b> v 14f4db7460e9970f2644136b5518ca85d7c23bc5<br />
+smart-rs/src/main/java/com/smartitengineering/rs/<b>App.java</b> v 14f4db7460e9970f2644136b5518ca85d7c23bc5<br />
+smart-rs/src/main/java/com/smartitengineering/rs/<b>SmartProvider.java</b> v 14f4db7460e9970f2644136b5518ca85d7c23bc5<br />
+smart-rs/src/main/java/com/smartitengineering/rs/api/<b>Exporter.java</b> v 14f4db7460e9970f2644136b5518ca85d7c23bc5<br />
+smart-rs/src/main/java/com/smartitengineering/rs/api/<b>Importer.java</b> v 14f4db7460e9970f2644136b5518ca85d7c23bc5<br />
+smart-rs/src/test/java/com/smartitengineering/rs/<b>AppTest.java</b> v 14f4db7460e9970f2644136b5518ca85d7c23bc5<br />
+smart-rs/src/test/java/com/smartitengineering/rs/<b>SmartProviderTest.java</b> v 14f4db7460e9970f2644136b5518ca85d7c23bc5<br />
+<br />
+Add the preliminary API for RESTful import-export of objects<br />
+<br />
+It contains the implementation of a JAX-RS provider, both producer and<br />
+consumer. It also adds the basic tests of the provider.<br />
+<br />
+For the JAX-RS provider it adds a import export (EXIM) API that will bridge<br />
+between the provider and implementations of the different media type<br />
+handlers.<br />
+<br />
+The EXIM API lacks pre/post processors which will be added only after the<br />
+basic media type supports are implemented.<br />
+<br />
+Jersey is added to the test classpath so that JAX-RS delegation works as it<br />
+should. Also import is fixed for a cache test case.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-04-13 09:02:03</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-rs/<b>pom.xml</b> v dbd687abe484d8cd023f4f4938085d293cf233c4<br />
 <br />
@@ -204,7 +261,7 @@ Updated the README with latest build notices.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-09 22:48:31</td>
+<tr class="b"><td>2009-04-09 22:48:31</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-rs/<b>README</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
 smart-rs/<b>pom.xml</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
@@ -233,7 +290,7 @@ in the docs.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-04-06 14:04:21</td>
+<tr class="a"><td>2009-04-06 14:04:21</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-rs/src/site/<b>site.xml</b> v 6a46b618da88cc447d81b0c522dff5fc878611b1<br />
 <br />
@@ -248,7 +305,7 @@ The generated site is deployable to github.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-01 11:14:39</td>
+<tr class="b"><td>2009-04-01 11:14:39</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-rs/<b>pom.xml</b> v fda2224c6ce99c51a70bfb4ea1daf46c1a1ab3f0<br />
 smart-rs/src/main/java/com/smartitengineering/rs/<b>App.java</b> v fda2224c6ce99c51a70bfb4ea1daf46c1a1ab3f0<br />

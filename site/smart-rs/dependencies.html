@@ -12,7 +12,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>Maven SCM Git Executable - Project Dependencies</title>
+    <title>Smart DAO - Project Dependencies</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
@@ -42,7 +42,7 @@
   
     
             <div class="xleft">
-        Last Published: 2009-04-13
+        Last Published: 2009-04-15
                   &nbsp;| Version: 0.4-SNAPSHOT
                       </div>
             <div class="xright">      
@@ -178,6 +178,10 @@
       
             
       
+            
+      
+            
+      
               
         <li class="collapsed">
                     <a href="project-reports.html">Project Reports</a>
@@ -206,8 +210,18 @@
 <th>Version</th>
 <th>Type</th>
 </tr>
+<tr class="b"><td>com.smartitengineering</td>
+<td><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-domain">smart-domain</a></td>
+<td>0.4-SNAPSHOT</td>
+<td>jar</td>
+</tr>
+<tr class="a"><td>dom4j</td>
+<td><a class="externalLink" href="http://dom4j.org">dom4j</a></td>
+<td>1.6.1</td>
+<td>jar</td>
+</tr>
 <tr class="b"><td>javax.ws.rs</td>
-<td><a href="https://jsr311.dev.java.net" class="externalLink">jsr311-api</a></td>
+<td><a class="externalLink" href="https://jsr311.dev.java.net">jsr311-api</a></td>
 <td>1.0</td>
 <td>jar</td>
 </tr>
@@ -220,16 +234,74 @@
 <th>Version</th>
 <th>Type</th>
 </tr>
-<tr class="b"><td>junit</td>
-<td><a href="http://junit.org" class="externalLink">junit</a></td>
+<tr class="b"><td>com.sun.jersey</td>
+<td><a class="externalLink" href="https://jersey.dev.java.net/jersey-server">jersey-server</a></td>
+<td>1.0.3-SNAPSHOT</td>
+<td>jar</td>
+</tr>
+<tr class="a"><td>junit</td>
+<td><a class="externalLink" href="http://junit.org">junit</a></td>
 <td>3.8.1</td>
+<td>jar</td>
+</tr>
+<tr class="b"><td>org.jmock</td>
+<td>jmock</td>
+<td>2.1.0</td>
+<td>jar</td>
+</tr>
+<tr class="a"><td>org.jmock</td>
+<td>jmock-junit3</td>
+<td>2.1.0</td>
 <td>jar</td>
 </tr>
 </table>
 </div>
 </div>
 <div class="section"><h2>Project Transitive Dependencies</h2>
-<p>No transitive dependencies are required for this project.</p>
+<p>The following is a list of transitive dependencies for this project. Transitive dependencies are the dependencies of the project dependencies.</p>
+<div class="section"><h3>compile</h3>
+<p>The following is a list of compile dependencies for this project. These dependencies are required to compile and run the application:</p>
+<table class="bodyTable"><tr class="b"><th>GroupId</th>
+<th>ArtifactId</th>
+<th>Version</th>
+<th>Type</th>
+</tr>
+<tr class="a"><td>xml-apis</td>
+<td><a class="externalLink" href="http://xml.apache.org/commons/#external">xml-apis</a></td>
+<td>1.0.b2</td>
+<td>jar</td>
+</tr>
+</table>
+</div>
+<div class="section"><h3>test</h3>
+<p>The following is a list of test dependencies for this project. These dependencies are only required to compile and run unit tests for the application:</p>
+<table class="bodyTable"><tr class="b"><th>GroupId</th>
+<th>ArtifactId</th>
+<th>Version</th>
+<th>Type</th>
+</tr>
+<tr class="a"><td>asm</td>
+<td><a class="externalLink" href="http://asm.objectweb.org/asm">asm</a></td>
+<td>3.1</td>
+<td>jar</td>
+</tr>
+<tr class="b"><td>com.sun.jersey</td>
+<td><a class="externalLink" href="https://jersey.dev.java.net/jersey-core">jersey-core</a></td>
+<td>1.0.3-SNAPSHOT</td>
+<td>jar</td>
+</tr>
+<tr class="a"><td>org.hamcrest</td>
+<td><a class="externalLink" href="http://code.google.com/p/hamcrest">hamcrest-api</a></td>
+<td>1.0</td>
+<td>jar</td>
+</tr>
+<tr class="b"><td>org.hamcrest</td>
+<td><a class="externalLink" href="http://code.google.com/p/hamcrest">hamcrest-library</a></td>
+<td>1.0</td>
+<td>jar</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="section"><h2>Project Dependency Graph</h2>
 <script language="javascript" type="text/javascript">
@@ -250,31 +322,137 @@
       }
 </script>
 <div class="section"><h3>Dependency Tree</h3>
-<ul><li>com.smartitengineering:smart-rs:jar:0.4-SNAPSHOT <img id="_486760723" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1725731519', '_486760723' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1725731519" style="display:none"><table class="bodyTable"><tr class="a"><th>smart-rs</th>
+<ul><li>com.smartitengineering:smart-rs:jar:0.4-SNAPSHOT <img id="_637716375" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1693248966', '_637716375' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1693248966" style="display:none"><table class="bodyTable"><tr class="a"><th>smart-rs</th>
 </tr>
 <tr class="b"><td><p><b>Description: </b>An export/import utility for exporting and importing domain objects in
         different formats. Initially the target is to support XML and JSON since
         they are most widely used formats for data transfer. This module will
         also implement provider for JAX-RS.</p>
-<p><b>URL: </b><a href="http://code.google.com/p/smart-dao/smart-rs" class="externalLink">http://code.google.com/p/smart-dao/smart-rs</a></p>
-<p><b>Project License: </b><a href="http://www.gnu.org/licenses/lgpl.html" class="externalLink">LGPL v3</a></p>
+<p><b>URL: </b><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-rs">http://code.google.com/p/smart-dao/smart-rs</a></p>
+<p><b>Project License: </b><a class="externalLink" href="http://www.gnu.org/licenses/lgpl.html">LGPL v3</a></p>
 </td>
 </tr>
 </table>
-</div><ul><li>junit:junit:jar:3.8.1 (test) <img id="_798742135" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_117471124', '_798742135' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_117471124" style="display:none"><table class="bodyTable"><tr class="a"><th>JUnit</th>
+</div><ul><li>javax.ws.rs:jsr311-api:jar:1.0 (compile) <img id="_654489196" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_630959259', '_654489196' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_630959259" style="display:none"><table class="bodyTable"><tr class="a"><th>jsr311-api</th>
 </tr>
-<tr class="b"><td><p><b>Description: </b>JUnit is a regression testing framework written by Erich Gamma and Kent Beck. It is used by the developer who implements unit tests in Java.</p>
-<p><b>URL: </b><a href="http://junit.org" class="externalLink">http://junit.org</a></p>
-<p><b>Project License: </b><a href="http://www.opensource.org/licenses/cpl1.0.txt" class="externalLink">Common Public License Version 1.0</a></p>
+<tr class="b"><td><p><b>Description: </b>There is currently no description associated with this project.</p>
+<p><b>URL: </b><a class="externalLink" href="https://jsr311.dev.java.net">https://jsr311.dev.java.net</a></p>
+<p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/cddl1.php">CDDL License</a></p>
 </td>
 </tr>
 </table>
 </div></li>
-<li>javax.ws.rs:jsr311-api:jar:1.0 (compile) <img id="_106420137" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1085347915', '_106420137' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1085347915" style="display:none"><table class="bodyTable"><tr class="a"><th>jsr311-api</th>
+<li>com.smartitengineering:smart-domain:jar:0.4-SNAPSHOT (compile) <img id="_1614052411" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1463919786', '_1614052411' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1463919786" style="display:none"><table class="bodyTable"><tr class="a"><th>smart-domain</th>
+</tr>
+<tr class="b"><td><p><b>Description: </b>Provides a utility extension point for domain objects. It also provides
+        an annotation API which can be used to mark domains for export and its
+        policy; this API is intended to be used by SPIs and smart-rs will be one
+        for JAX-RS and generic export.</p>
+<p><b>URL: </b><a class="externalLink" href="http://code.google.com/p/smart-dao/smart-domain">http://code.google.com/p/smart-dao/smart-domain</a></p>
+<p><b>Project License: </b><a class="externalLink" href="http://www.gnu.org/licenses/lgpl.html">LGPL v3</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>dom4j:dom4j:jar:1.6.1 (compile) <img id="_495886960" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_679397445', '_495886960' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_679397445" style="display:none"><table class="bodyTable"><tr class="a"><th>dom4j</th>
+</tr>
+<tr class="b"><td><p><b>Description: </b>dom4j: the flexible XML framework for Java</p>
+<p><b>URL: </b><a class="externalLink" href="http://dom4j.org">http://dom4j.org</a></p>
+<p><b>Project License: </b>No project license is defined for this project.</p>
+</td>
+</tr>
+</table>
+</div><ul><li>xml-apis:xml-apis:jar:1.0.b2 (compile) <img id="_208020690" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_56751778', '_208020690' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_56751778" style="display:none"><table class="bodyTable"><tr class="a"><th>Unnamed - xml-apis:xml-apis:jar:1.0.b2</th>
 </tr>
 <tr class="b"><td><p><b>Description: </b>There is currently no description associated with this project.</p>
-<p><b>URL: </b><a href="https://jsr311.dev.java.net" class="externalLink">https://jsr311.dev.java.net</a></p>
-<p><b>Project License: </b><a href="http://www.opensource.org/licenses/cddl1.php" class="externalLink">CDDL License</a></p>
+<p><b>URL: </b><a class="externalLink" href="http://xml.apache.org/commons/#external">http://xml.apache.org/commons/#external</a></p>
+<p><b>Project License: </b>No project license is defined for this project.</p>
+</td>
+</tr>
+</table>
+</div></li>
+</ul>
+</li>
+<li>com.sun.jersey:jersey-server:jar:1.0.3-SNAPSHOT (test) <img id="_1214987963" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_221249289', '_1214987963' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_221249289" style="display:none"><table class="bodyTable"><tr class="a"><th>jersey-server</th>
+</tr>
+<tr class="b"><td><p><b>Description: </b>Jersey is the open source (under dual CDDL+GPL license) JAX-RS (JSR 311)
+        production quality Reference Implementation for building
+        RESTful Web services.</p>
+<p><b>URL: </b><a class="externalLink" href="https://jersey.dev.java.net/jersey-server">https://jersey.dev.java.net/jersey-server</a></p>
+<p><b>Project License: </b><a class="externalLink" href="https://jersey.dev.java.net/CDDL+GPL.html">CDDL+GPL License</a></p>
+</td>
+</tr>
+</table>
+</div><ul><li>com.sun.jersey:jersey-core:jar:1.0.3-SNAPSHOT (test) <img id="_1594077334" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1884673518', '_1594077334' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1884673518" style="display:none"><table class="bodyTable"><tr class="a"><th>jersey-core</th>
+</tr>
+<tr class="b"><td><p><b>Description: </b>Jersey is the open source (under dual CDDL+GPL license) JAX-RS (JSR 311)
+        production quality Reference Implementation for building
+        RESTful Web services.</p>
+<p><b>URL: </b><a class="externalLink" href="https://jersey.dev.java.net/jersey-core">https://jersey.dev.java.net/jersey-core</a></p>
+<p><b>Project License: </b><a class="externalLink" href="https://jersey.dev.java.net/CDDL+GPL.html">CDDL+GPL License</a></p>
+</td>
+</tr>
+</table>
+</div><ul><li>javax.ws.rs:jsr311-api:jar:1.0 (test) <img id="_485961602" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1082333458', '_485961602' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1082333458" style="display:none"><table class="bodyTable"><tr class="a"><th>jsr311-api</th>
+</tr>
+<tr class="b"><td><p><b>Description: </b>There is currently no description associated with this project.</p>
+<p><b>URL: </b><a class="externalLink" href="https://jsr311.dev.java.net">https://jsr311.dev.java.net</a></p>
+<p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/cddl1.php">CDDL License</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+</ul>
+</li>
+<li>asm:asm:jar:3.1 (test) <img id="_1320318657" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1026494858', '_1320318657' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1026494858" style="display:none"><table class="bodyTable"><tr class="a"><th>ASM Core</th>
+</tr>
+<tr class="b"><td><p><b>Description: </b>A very small and fast Java bytecode manipulation framework</p>
+<p><b>URL: </b><a class="externalLink" href="http://asm.objectweb.org/asm">http://asm.objectweb.org/asm</a></p>
+<p><b>Project License: </b>No project license is defined for this project.</p>
+</td>
+</tr>
+</table>
+</div></li>
+</ul>
+</li>
+<li>junit:junit:jar:3.8.1 (test) <img id="_1231243848" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1350390751', '_1231243848' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1350390751" style="display:none"><table class="bodyTable"><tr class="a"><th>JUnit</th>
+</tr>
+<tr class="b"><td><p><b>Description: </b>JUnit is a regression testing framework written by Erich Gamma and Kent Beck. It is used by the developer who implements unit tests in Java.</p>
+<p><b>URL: </b><a class="externalLink" href="http://junit.org">http://junit.org</a></p>
+<p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/cpl1.0.txt">Common Public License Version 1.0</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>org.jmock:jmock:jar:2.1.0 (test) <img id="_604875672" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_828335222', '_604875672' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_828335222" style="display:none"><table class="bodyTable"><tr class="a"><th>jMock 2 Core</th>
+</tr>
+<tr class="b"><td><p><b>Description: </b>There is currently no description associated with this project.</p>
+<p><b>Project License: </b><a class="externalLink" href="http://jmock.org/license.html">BSD style</a></p>
+</td>
+</tr>
+</table>
+</div><ul><li>org.hamcrest:hamcrest-api:jar:1.0 (test) <img id="_1195207550" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_796665718', '_1195207550' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_796665718" style="display:none"><table class="bodyTable"><tr class="a"><th>Hamcrest API</th>
+</tr>
+<tr class="b"><td><p><b>Description: </b>Hamcrest API</p>
+<p><b>URL: </b><a class="externalLink" href="http://code.google.com/p/hamcrest">http://code.google.com/p/hamcrest</a></p>
+<p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/bsd-license.php">BSD Licence</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+<li>org.hamcrest:hamcrest-library:jar:1.0 (test) <img id="_995846556" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_709875350', '_995846556' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_709875350" style="display:none"><table class="bodyTable"><tr class="a"><th>Hamcrest Library</th>
+</tr>
+<tr class="b"><td><p><b>Description: </b>Hamcrest Library</p>
+<p><b>URL: </b><a class="externalLink" href="http://code.google.com/p/hamcrest">http://code.google.com/p/hamcrest</a></p>
+<p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/bsd-license.php">BSD Licence</a></p>
+</td>
+</tr>
+</table>
+</div><ul><li>org.hamcrest:hamcrest-api:jar:1.0 (test) <img id="_1101288156" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_855895130', '_1101288156' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_855895130" style="display:none"><table class="bodyTable"><tr class="a"><th>Hamcrest API</th>
+</tr>
+<tr class="b"><td><p><b>Description: </b>Hamcrest API</p>
+<p><b>URL: </b><a class="externalLink" href="http://code.google.com/p/hamcrest">http://code.google.com/p/hamcrest</a></p>
+<p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/bsd-license.php">BSD Licence</a></p>
 </td>
 </tr>
 </table>
@@ -282,11 +460,36 @@
 </ul>
 </li>
 </ul>
+</li>
+<li>org.jmock:jmock-junit3:jar:2.1.0 (test) <img id="_777620508" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1406555442', '_777620508' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1406555442" style="display:none"><table class="bodyTable"><tr class="a"><th>jMock JUnit 3 Extension</th>
+</tr>
+<tr class="b"><td><p><b>Description: </b>There is currently no description associated with this project.</p>
+<p><b>Project License: </b><a class="externalLink" href="http://jmock.org/license.html">BSD style</a></p>
+</td>
+</tr>
+</table>
+</div><ul><li>org.jmock:jmock:jar:2.1.0 (test) <img id="_1482767746" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_419688334', '_1482767746' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_419688334" style="display:none"><table class="bodyTable"><tr class="a"><th>jMock 2 Core</th>
+</tr>
+<tr class="b"><td><p><b>Description: </b>There is currently no description associated with this project.</p>
+<p><b>Project License: </b><a class="externalLink" href="http://jmock.org/license.html">BSD style</a></p>
+</td>
+</tr>
+</table>
+</div></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 </div>
 </div>
 <div class="section"><h2>Licenses</h2>
+<p><b>BSD Licence: </b>Hamcrest API, Hamcrest Library</p>
+<p><b>BSD style: </b>jMock 2 Core, jMock JUnit 3 Extension</p>
+<p><b>Unknown: </b>ASM Core, Unnamed - xml-apis:xml-apis:jar:1.0.b2, dom4j</p>
+<p><b>CDDL+GPL License: </b>jersey-core, jersey-server</p>
 <p><b>Common Public License Version 1.0: </b>JUnit</p>
-<p><b>LGPL v3: </b>smart-rs</p>
+<p><b>LGPL v3: </b>smart-domain, smart-rs</p>
 <p><b>CDDL License: </b>jsr311-api</p>
 </div>
 <div class="section"><h2>Dependency File Details</h2>
@@ -298,7 +501,47 @@
 <th align="center">JDK Rev</th>
 <th align="center">Debug</th>
 </tr>
-<tr class="b"><td align="left">jsr311-api-1.0.jar</td>
+<tr class="b"><td align="left">asm-3.1.jar</td>
+<td align="right">42.02 kB</td>
+<td align="right">24</td>
+<td align="right">23</td>
+<td align="right">2</td>
+<td align="center">1.2</td>
+<td align="center">release</td>
+</tr>
+<tr class="a"><td align="left">smart-domain-0.4-SNAPSHOT.jar</td>
+<td align="right">8.72 kB</td>
+<td align="right">23</td>
+<td align="right">11</td>
+<td align="right">3</td>
+<td align="center">1.5</td>
+<td align="center">debug</td>
+</tr>
+<tr class="b"><td align="left">jersey-core-1.0.3-SNAPSHOT.jar</td>
+<td align="right">266.62 kB</td>
+<td align="right">244</td>
+<td align="right">203</td>
+<td align="right">18</td>
+<td align="center">1.5</td>
+<td align="center">debug</td>
+</tr>
+<tr class="a"><td align="left">jersey-server-1.0.3-SNAPSHOT.jar</td>
+<td align="right">483.57 kB</td>
+<td align="right">457</td>
+<td align="right">381</td>
+<td align="right">48</td>
+<td align="center">1.5</td>
+<td align="center">debug</td>
+</tr>
+<tr class="b"><td align="left">dom4j-1.6.1.jar</td>
+<td align="right">306.54 kB</td>
+<td align="right">208</td>
+<td align="right">190</td>
+<td align="right">14</td>
+<td align="center">1.3</td>
+<td align="center">debug</td>
+</tr>
+<tr class="a"><td align="left">jsr311-api-1.0.jar</td>
 <td align="right">43.23 kB</td>
 <td align="right">63</td>
 <td align="right">51</td>
@@ -306,13 +549,53 @@
 <td align="center">1.5</td>
 <td align="center">debug</td>
 </tr>
-<tr class="a"><td align="left">junit-3.8.1.jar</td>
+<tr class="b"><td align="left">junit-3.8.1.jar</td>
 <td align="right">118.23 kB</td>
 <td align="right">119</td>
 <td align="right">100</td>
 <td align="right">6</td>
 <td align="center">1.1</td>
 <td align="center">debug</td>
+</tr>
+<tr class="a"><td align="left">hamcrest-api-1.0.jar</td>
+<td align="right">5.55 kB</td>
+<td align="right">15</td>
+<td align="right">5</td>
+<td align="right">1</td>
+<td align="center">1.5</td>
+<td align="center">debug</td>
+</tr>
+<tr class="b"><td align="left">hamcrest-library-1.0.jar</td>
+<td align="right">62.27 kB</td>
+<td align="right">85</td>
+<td align="right">36</td>
+<td align="right">9</td>
+<td align="center">1.5</td>
+<td align="center">debug</td>
+</tr>
+<tr class="a"><td align="left">jmock-2.1.0.jar</td>
+<td align="right">196.86 kB</td>
+<td align="right">140</td>
+<td align="right">67</td>
+<td align="right">8</td>
+<td align="center">1.5</td>
+<td align="center">debug</td>
+</tr>
+<tr class="b"><td align="left">jmock-junit3-2.1.0.jar</td>
+<td align="right">16.66 kB</td>
+<td align="right">20</td>
+<td align="right">5</td>
+<td align="right">1</td>
+<td align="center">1.5</td>
+<td align="center">debug</td>
+</tr>
+<tr class="a"><td align="left">xml-apis-1.0.b2.jar</td>
+<td align="right">106.76 kB</td>
+<td align="right">217</td>
+<td align="right">184</td>
+<td align="right">17</td>
+<td align="center">1.2</td>
+<td align="center">release</td>
 </tr>
 <tr class="b"><th align="left">Total</th>
 <th align="right">Size</th>
@@ -322,29 +605,29 @@
 <th align="center">JDK Rev</th>
 <th align="center">Debug</th>
 </tr>
-<tr class="a"><td align="right">2</td>
-<td align="right">161.46 kB</td>
-<td align="right">182</td>
-<td align="right">151</td>
-<td align="right">9</td>
+<tr class="a"><td align="right">12</td>
+<td align="right">1.62 MB</td>
+<td align="right">1,615</td>
+<td align="right">1,256</td>
+<td align="right">130</td>
 <td align="center">1.5</td>
-<td align="right">2</td>
+<td align="right">10</td>
 </tr>
-<tr class="b"><td align="right">compile: 1</td>
-<td align="right">compile: 43.23 kB</td>
-<td align="right">compile: 63</td>
-<td align="right">compile: 51</td>
+<tr class="b"><td align="right">compile: 4</td>
+<td align="right">compile: 465.24 kB</td>
+<td align="right">compile: 511</td>
+<td align="right">compile: 436</td>
+<td align="right">compile: 37</td>
+<td align="center">-</td>
 <td align="right">compile: 3</td>
-<td align="center">-</td>
-<td align="right">compile: 1</td>
 </tr>
-<tr class="a"><td align="right">test: 1</td>
-<td align="right">test: 118.23 kB</td>
-<td align="right">test: 119</td>
-<td align="right">test: 100</td>
-<td align="right">test: 6</td>
+<tr class="a"><td align="right">test: 8</td>
+<td align="right">test: 1.16 MB</td>
+<td align="right">test: 1,104</td>
+<td align="right">test: 820</td>
+<td align="right">test: 93</td>
 <td align="center">-</td>
-<td align="right">test: 1</td>
+<td align="right">test: 7</td>
 </tr>
 </tbody>
 </table>
@@ -356,57 +639,177 @@
 <th align="center">Snapshot</th>
 </tr>
 <tr class="a"><td align="left">compass-project.org</td>
-<td align="left"><a href="http://repo.compass-project.org" class="externalLink">http://repo.compass-project.org</a></td>
+<td align="left"><a class="externalLink" href="http://repo.compass-project.org">http://repo.compass-project.org</a></td>
 <td align="center">Yes</td>
 <td align="center">Yes</td>
 </tr>
 <tr class="b"><td align="left">java.net.m2</td>
-<td align="left"><a href="http://download.java.net/maven/2" class="externalLink">http://download.java.net/maven/2</a></td>
+<td align="left"><a class="externalLink" href="http://download.java.net/maven/2">http://download.java.net/maven/2</a></td>
 <td align="center">Yes</td>
 <td align="center">Yes</td>
 </tr>
-<tr class="a"><td align="left">maven2-repository.dev.java.net</td>
-<td align="left"><a href="http://download.java.net/maven/2/" class="externalLink">http://download.java.net/maven/2/</a></td>
+<tr class="a"><td align="left">m1.dev.java.net</td>
+<td align="left"><a class="externalLink" href="http://download.java.net/maven/1">http://download.java.net/maven/1</a></td>
 <td align="center">Yes</td>
 <td align="center">Yes</td>
 </tr>
-<tr class="b"><td align="left">central</td>
-<td align="left"><a href="http://repo1.maven.org/maven2" class="externalLink">http://repo1.maven.org/maven2</a></td>
+<tr class="b"><td align="left">glassfish-repository</td>
+<td align="left"><a class="externalLink" href="http://download.java.net/maven/glassfish">http://download.java.net/maven/glassfish</a></td>
+<td align="center">Yes</td>
+<td align="center">Yes</td>
+</tr>
+<tr class="a"><td align="left">m2.dev.java.net</td>
+<td align="left"><a class="externalLink" href="http://download.java.net/maven/2">http://download.java.net/maven/2</a></td>
+<td align="center">Yes</td>
+<td align="center">Yes</td>
+</tr>
+<tr class="b"><td align="left">maven2-repository.dev.java.net</td>
+<td align="left"><a class="externalLink" href="http://download.java.net/maven/2/">http://download.java.net/maven/2/</a></td>
+<td align="center">Yes</td>
+<td align="center">Yes</td>
+</tr>
+<tr class="a"><td align="left">central</td>
+<td align="left"><a class="externalLink" href="http://repo1.maven.org/maven2">http://repo1.maven.org/maven2</a></td>
 <td align="center">Yes</td>
 <td align="center">-</td>
 </tr>
 </tbody>
 </table>
 <p>Repository locations for each of the Dependencies.</p>
-<table class="bodyTable"><tbody><tr class="a"><th align="left">Artifact</th>
+<table class="bodyTable"><tbody><tr class="b"><th align="left">Artifact</th>
 <th align="center">compass-project.org</th>
 <th align="center">java.net.m2</th>
+<th align="center">m1.dev.java.net</th>
+<th align="center">glassfish-repository</th>
+<th align="center">m2.dev.java.net</th>
 <th align="center">maven2-repository.dev.java.net</th>
 <th align="center">central</th>
+</tr>
+<tr class="a"><td align="left">asm:asm:jar:3.1</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a class="externalLink" href="http://repo1.maven.org/maven2/asm/asm/3.1/asm-3.1.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+</tr>
+<tr class="b"><td align="left">com.smartitengineering:smart-domain:jar:0.4-SNAPSHOT</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+</tr>
+<tr class="a"><td align="left">com.sun.jersey:jersey-core:jar:1.0.3-SNAPSHOT</td>
+<td align="center">-</td>
+<td align="center"><a class="externalLink" href="http://download.java.net/maven/2/com/sun/jersey/jersey-core/1.0.3-SNAPSHOT/jersey-core-1.0.3-SNAPSHOT.jar"><img alt="Found at http://download.java.net/maven/2" src="images/icon_success_sml.gif" /></a></td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a class="externalLink" href="http://download.java.net/maven/2/com/sun/jersey/jersey-core/1.0.3-SNAPSHOT/jersey-core-1.0.3-SNAPSHOT.jar"><img alt="Found at http://download.java.net/maven/2" src="images/icon_success_sml.gif" /></a></td>
+<td align="center"><a class="externalLink" href="http://download.java.net/maven/2//com/sun/jersey/jersey-core/1.0.3-SNAPSHOT/jersey-core-1.0.3-SNAPSHOT.jar"><img alt="Found at http://download.java.net/maven/2/" src="images/icon_success_sml.gif" /></a></td>
+<td align="center">-</td>
+</tr>
+<tr class="b"><td align="left">com.sun.jersey:jersey-server:jar:1.0.3-SNAPSHOT</td>
+<td align="center">-</td>
+<td align="center"><a class="externalLink" href="http://download.java.net/maven/2/com/sun/jersey/jersey-server/1.0.3-SNAPSHOT/jersey-server-1.0.3-SNAPSHOT.jar"><img alt="Found at http://download.java.net/maven/2" src="images/icon_success_sml.gif" /></a></td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a class="externalLink" href="http://download.java.net/maven/2/com/sun/jersey/jersey-server/1.0.3-SNAPSHOT/jersey-server-1.0.3-SNAPSHOT.jar"><img alt="Found at http://download.java.net/maven/2" src="images/icon_success_sml.gif" /></a></td>
+<td align="center"><a class="externalLink" href="http://download.java.net/maven/2//com/sun/jersey/jersey-server/1.0.3-SNAPSHOT/jersey-server-1.0.3-SNAPSHOT.jar"><img alt="Found at http://download.java.net/maven/2/" src="images/icon_success_sml.gif" /></a></td>
+<td align="center">-</td>
+</tr>
+<tr class="a"><td align="left">dom4j:dom4j:jar:1.6.1</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a class="externalLink" href="http://repo1.maven.org/maven2/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
 </tr>
 <tr class="b"><td align="left">javax.ws.rs:jsr311-api:jar:1.0</td>
 <td align="center">-</td>
-<td align="center"><a href="http://download.java.net/maven/2/javax/ws/rs/jsr311-api/1.0/jsr311-api-1.0.jar" class="externalLink"><img alt="Found at http://download.java.net/maven/2" src="images/icon_success_sml.gif" /></a></td>
-<td align="center"><a href="http://download.java.net/maven/2//javax/ws/rs/jsr311-api/1.0/jsr311-api-1.0.jar" class="externalLink"><img alt="Found at http://download.java.net/maven/2/" src="images/icon_success_sml.gif" /></a></td>
-<td align="center"><a href="http://repo1.maven.org/maven2/javax/ws/rs/jsr311-api/1.0/jsr311-api-1.0.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+<td align="center"><a class="externalLink" href="http://download.java.net/maven/2/javax/ws/rs/jsr311-api/1.0/jsr311-api-1.0.jar"><img alt="Found at http://download.java.net/maven/2" src="images/icon_success_sml.gif" /></a></td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a class="externalLink" href="http://download.java.net/maven/2/javax/ws/rs/jsr311-api/1.0/jsr311-api-1.0.jar"><img alt="Found at http://download.java.net/maven/2" src="images/icon_success_sml.gif" /></a></td>
+<td align="center"><a class="externalLink" href="http://download.java.net/maven/2//javax/ws/rs/jsr311-api/1.0/jsr311-api-1.0.jar"><img alt="Found at http://download.java.net/maven/2/" src="images/icon_success_sml.gif" /></a></td>
+<td align="center"><a class="externalLink" href="http://repo1.maven.org/maven2/javax/ws/rs/jsr311-api/1.0/jsr311-api-1.0.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
 </tr>
 <tr class="a"><td align="left">junit:junit:jar:3.8.1</td>
 <td align="center">-</td>
-<td align="center"><a href="http://download.java.net/maven/2/junit/junit/3.8.1/junit-3.8.1.jar" class="externalLink"><img alt="Found at http://download.java.net/maven/2" src="images/icon_success_sml.gif" /></a></td>
-<td align="center"><a href="http://download.java.net/maven/2//junit/junit/3.8.1/junit-3.8.1.jar" class="externalLink"><img alt="Found at http://download.java.net/maven/2/" src="images/icon_success_sml.gif" /></a></td>
-<td align="center"><a href="http://repo1.maven.org/maven2/junit/junit/3.8.1/junit-3.8.1.jar" class="externalLink"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+<td align="center"><a class="externalLink" href="http://download.java.net/maven/2/junit/junit/3.8.1/junit-3.8.1.jar"><img alt="Found at http://download.java.net/maven/2" src="images/icon_success_sml.gif" /></a></td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a class="externalLink" href="http://download.java.net/maven/2/junit/junit/3.8.1/junit-3.8.1.jar"><img alt="Found at http://download.java.net/maven/2" src="images/icon_success_sml.gif" /></a></td>
+<td align="center"><a class="externalLink" href="http://download.java.net/maven/2//junit/junit/3.8.1/junit-3.8.1.jar"><img alt="Found at http://download.java.net/maven/2/" src="images/icon_success_sml.gif" /></a></td>
+<td align="center"><a class="externalLink" href="http://repo1.maven.org/maven2/junit/junit/3.8.1/junit-3.8.1.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
 </tr>
-<tr class="b"><th align="left">Total</th>
+<tr class="b"><td align="left">org.hamcrest:hamcrest-api:jar:1.0</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a class="externalLink" href="http://repo1.maven.org/maven2/org/hamcrest/hamcrest-api/1.0/hamcrest-api-1.0.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+</tr>
+<tr class="a"><td align="left">org.hamcrest:hamcrest-library:jar:1.0</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a class="externalLink" href="http://repo1.maven.org/maven2/org/hamcrest/hamcrest-library/1.0/hamcrest-library-1.0.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+</tr>
+<tr class="b"><td align="left">org.jmock:jmock:jar:2.1.0</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a class="externalLink" href="http://repo1.maven.org/maven2/org/jmock/jmock/2.1.0/jmock-2.1.0.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+</tr>
+<tr class="a"><td align="left">org.jmock:jmock-junit3:jar:2.1.0</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a class="externalLink" href="http://repo1.maven.org/maven2/org/jmock/jmock-junit3/2.1.0/jmock-junit3-2.1.0.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+</tr>
+<tr class="b"><td align="left">xml-apis:xml-apis:jar:1.0.b2</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center"><a class="externalLink" href="http://repo1.maven.org/maven2/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+</tr>
+<tr class="a"><th align="left">Total</th>
 <th align="center">compass-project.org</th>
 <th align="center">java.net.m2</th>
+<th align="center">m1.dev.java.net</th>
+<th align="center">glassfish-repository</th>
+<th align="center">m2.dev.java.net</th>
 <th align="center">maven2-repository.dev.java.net</th>
 <th align="center">central</th>
 </tr>
-<tr class="a"><td align="left">2 (compile: 1, test: 1)</td>
+<tr class="b"><td align="left">12 (compile: 4, test: 8)</td>
 <td align="center">0</td>
-<td align="center">2</td>
-<td align="center">2</td>
-<td align="center">2</td>
+<td align="center">4</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">9</td>
 </tr>
 </tbody>
 </table>

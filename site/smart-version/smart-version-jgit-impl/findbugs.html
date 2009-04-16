@@ -1,0 +1,491 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+
+
+
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Smart DAO - FindBugs Bug Detector Report</title>
+    <style type="text/css" media="all">
+      @import url("./css/maven-base.css");
+      @import url("./css/maven-theme.css");
+      @import url("./css/site.css");
+    </style>
+    <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+      </head>
+  <body class="composite">
+    <div id="banner">
+                    <span id="bannerLeft">
+    
+            smart-version-jgit-impl
+    
+            </span>
+                    <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="breadcrumbs">
+          
+  
+
+  
+    
+            
+  
+    
+            <div class="xleft">
+        Last Published: 2009-04-15
+                  &nbsp;| Version: 0.4-SNAPSHOT
+                      </div>
+            <div class="xright">      
+  
+
+  
+    
+            
+  
+    
+  </div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="leftColumn">
+      <div id="navcolumn">
+           
+  
+
+  
+    
+            
+  
+    
+                   <h5>Parent Project</h5>
+            <ul>
+              
+    <li class="none">
+                    <a href="../index.html">smart-version</a>
+          </li>
+          </ul>
+              <h5>Overview</h5>
+            <ul>
+              
+    <li class="none">
+                    <a href="index.html">Introduction</a>
+          </li>
+          </ul>
+                        <h5>Project Documentation</h5>
+            <ul>
+              
+                
+              
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+              
+        <li class="collapsed">
+                    <a href="project-info.html">Project Information</a>
+                </li>
+              
+                
+              
+      
+            
+      
+            
+      
+            
+      
+            
+            
+            
+      
+            
+      
+            
+      
+              
+            <li class="expanded">
+                    <a href="project-reports.html">Project Reports</a>
+                  <ul>
+                  
+    <li class="none">
+                    <a href="changelog.html">Change Log</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="cobertura/index.html">Cobertura Test Coverage</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="dev-activity.html">Developer Activity</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="file-activity.html">File Activity</a>
+          </li>
+                  
+    <li class="none">
+              <strong>FindBugs Report</strong>
+        </li>
+                  
+    <li class="none">
+                    <a href="apidocs/index.html">JavaDocs</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="surefire-report.html">Maven Surefire Report</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="testapidocs/index.html">Test JavaDocs</a>
+          </li>
+              </ul>
+        </li>
+          </ul>
+                                           <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
+            <img alt="Built by Maven" src="./images/logos/maven-feather.png"></img>
+          </a>
+                       
+  
+
+  
+    
+            
+  
+    
+        </div>
+    </div>
+    <div id="bodyColumn">
+      <div id="contentBox">
+        <div class="section"><h2>FindBugs Bug Detector Report</h2>
+<p>The following document contains the results of <a class="externalLink" href="http://findbugs.sourceforge.net">FindBugs Report</a></p>
+<p>FindBugs Version is <i>1.3.7</i></p>
+<p>Threshold is <i>Low</i></p>
+<p>Effort is <i>Default</i></p>
+</div>
+<div class="section"><h2>Summary</h2>
+<table class="bodyTable"><tr class="a"><th>Classes</th>
+<th>Bugs</th>
+<th>Errors</th>
+<th>Missing Classes</th>
+</tr>
+<tr class="b"><td>167</td>
+<td>22</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</table>
+</div>
+<div class="section"><h2>Files</h2>
+<table class="bodyTable"><tr class="a"><th>Class</th>
+<th>Bugs</th>
+</tr>
+<tr class="b"><td><a href="#com.smartitengineering.version.impl.jgit.JGitVersionControlDao">com.smartitengineering.version.impl.jgit.JGitVersionControlDao</a></td>
+<td>3</td>
+</tr>
+<tr class="a"><td><a href="#com.smartitengineering.version.impl.jgit.JGitVersionControlDao$Status">com.smartitengineering.version.impl.jgit.JGitVersionControlDao$Status</a></td>
+<td>1</td>
+</tr>
+<tr class="b"><td><a href="#com.smartitengineering.version.impl.jgit.dao.impl.CommitDaoImpl">com.smartitengineering.version.impl.jgit.dao.impl.CommitDaoImpl</a></td>
+<td>1</td>
+</tr>
+<tr class="a"><td><a href="#com.smartitengineering.version.impl.jgit.dao.impl.RevisionDaoImpl">com.smartitengineering.version.impl.jgit.dao.impl.RevisionDaoImpl</a></td>
+<td>1</td>
+</tr>
+<tr class="b"><td><a href="#com.smartitengineering.version.impl.jgit.domain.Author">com.smartitengineering.version.impl.jgit.domain.Author</a></td>
+<td>2</td>
+</tr>
+<tr class="a"><td><a href="#com.smartitengineering.version.impl.jgit.domain.Commit">com.smartitengineering.version.impl.jgit.domain.Commit</a></td>
+<td>4</td>
+</tr>
+<tr class="b"><td><a href="#com.smartitengineering.version.impl.jgit.domain.Resource">com.smartitengineering.version.impl.jgit.domain.Resource</a></td>
+<td>2</td>
+</tr>
+<tr class="a"><td><a href="#com.smartitengineering.version.impl.jgit.domain.Revision">com.smartitengineering.version.impl.jgit.domain.Revision</a></td>
+<td>2</td>
+</tr>
+<tr class="b"><td><a href="#com.smartitengineering.version.impl.jgit.service.MetaFactory">com.smartitengineering.version.impl.jgit.service.MetaFactory</a></td>
+<td>1</td>
+</tr>
+<tr class="a"><td><a href="#com.smartitengineering.version.impl.jgit.service.impl.MetaRCSServiceImpl">com.smartitengineering.version.impl.jgit.service.impl.MetaRCSServiceImpl</a></td>
+<td>5</td>
+</tr>
+</table>
+</div>
+<a name="com.smartitengineering.version.impl.jgit.JGitVersionControlDao"></a><div class="section"><h3>com.smartitengineering.version.impl.jgit.JGitVersionControlDao</h3>
+<table class="bodyTable"><tr class="b"><th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+<th>Priority</th>
+</tr>
+<tr class="a"><td>JGitVersionControlDao.jGitExtension not initialized in constructor</td>
+<td>STYLE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR">UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR</a></td>
+<td>Not available</td>
+<td>Low</td>
+</tr>
+<tr class="b"><td>JGitVersionControlDao.jGitService not initialized in constructor</td>
+<td>STYLE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR">UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR</a></td>
+<td>Not available</td>
+<td>Low</td>
+</tr>
+<tr class="a"><td>JGitVersionControlDao.jGitWriteImpl not initialized in constructor</td>
+<td>STYLE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR">UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR</a></td>
+<td>Not available</td>
+<td>Low</td>
+</tr>
+</table>
+</div>
+<a name="com.smartitengineering.version.impl.jgit.JGitVersionControlDaoStatus"></a><div class="section"><h3>com.smartitengineering.version.impl.jgit.JGitVersionControlDao$Status</h3>
+<table class="bodyTable"><tr class="b"><th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+<th>Priority</th>
+</tr>
+<tr class="a"><td>Should com.smartitengineering.version.impl.jgit.JGitVersionControlDao$Status be a _static_ inner class?</td>
+<td>PERFORMANCE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SIC_INNER_SHOULD_BE_STATIC">SIC_INNER_SHOULD_BE_STATIC</a></td>
+<td>94</td>
+<td>Medium</td>
+</tr>
+</table>
+</div>
+<a name="com.smartitengineering.version.impl.jgit.dao.impl.CommitDaoImpl"></a><div class="section"><h3>com.smartitengineering.version.impl.jgit.dao.impl.CommitDaoImpl</h3>
+<table class="bodyTable"><tr class="b"><th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+<th>Priority</th>
+</tr>
+<tr class="a"><td>com.smartitengineering.version.impl.jgit.dao.impl.CommitDaoImpl is Serializable; consider declaring a serialVersionUID</td>
+<td>BAD_PRACTICE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SE_NO_SERIALVERSIONID">SE_NO_SERIALVERSIONID</a></td>
+<td>33-35</td>
+<td>Low</td>
+</tr>
+</table>
+</div>
+<a name="com.smartitengineering.version.impl.jgit.dao.impl.RevisionDaoImpl"></a><div class="section"><h3>com.smartitengineering.version.impl.jgit.dao.impl.RevisionDaoImpl</h3>
+<table class="bodyTable"><tr class="b"><th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+<th>Priority</th>
+</tr>
+<tr class="a"><td>com.smartitengineering.version.impl.jgit.dao.impl.RevisionDaoImpl is Serializable; consider declaring a serialVersionUID</td>
+<td>BAD_PRACTICE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SE_NO_SERIALVERSIONID">SE_NO_SERIALVERSIONID</a></td>
+<td>33-35</td>
+<td>Low</td>
+</tr>
+</table>
+</div>
+<a name="com.smartitengineering.version.impl.jgit.domain.Author"></a><div class="section"><h3>com.smartitengineering.version.impl.jgit.domain.Author</h3>
+<table class="bodyTable"><tr class="b"><th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+<th>Priority</th>
+</tr>
+<tr class="a"><td>Class com.smartitengineering.version.impl.jgit.domain.Author implements same interface as superclass</td>
+<td>STYLE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#RI_REDUNDANT_INTERFACES">RI_REDUNDANT_INTERFACES</a></td>
+<td>29-78</td>
+<td>Low</td>
+</tr>
+<tr class="b"><td>com.smartitengineering.version.impl.jgit.domain.Author is Serializable; consider declaring a serialVersionUID</td>
+<td>BAD_PRACTICE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SE_NO_SERIALVERSIONID">SE_NO_SERIALVERSIONID</a></td>
+<td>29-78</td>
+<td>Low</td>
+</tr>
+</table>
+</div>
+<a name="com.smartitengineering.version.impl.jgit.domain.Commit"></a><div class="section"><h3>com.smartitengineering.version.impl.jgit.domain.Commit</h3>
+<table class="bodyTable"><tr class="a"><th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+<th>Priority</th>
+</tr>
+<tr class="b"><td>com.smartitengineering.version.impl.jgit.domain.Commit.getDateTime() may expose internal representation by returning Commit.dateTime</td>
+<td>MALICIOUS_CODE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
+<td>110</td>
+<td>Medium</td>
+</tr>
+<tr class="a"><td>com.smartitengineering.version.impl.jgit.domain.Commit.setDateTime(Date) may expose internal representation by storing an externally mutable object into Commit.dateTime</td>
+<td>MALICIOUS_CODE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#EI_EXPOSE_REP2">EI_EXPOSE_REP2</a></td>
+<td>119</td>
+<td>Medium</td>
+</tr>
+<tr class="b"><td>Class com.smartitengineering.version.impl.jgit.domain.Commit implements same interface as superclass</td>
+<td>STYLE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#RI_REDUNDANT_INTERFACES">RI_REDUNDANT_INTERFACES</a></td>
+<td>33-183</td>
+<td>Low</td>
+</tr>
+<tr class="a"><td>com.smartitengineering.version.impl.jgit.domain.Commit is Serializable; consider declaring a serialVersionUID</td>
+<td>BAD_PRACTICE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SE_NO_SERIALVERSIONID">SE_NO_SERIALVERSIONID</a></td>
+<td>33-183</td>
+<td>Low</td>
+</tr>
+</table>
+</div>
+<a name="com.smartitengineering.version.impl.jgit.domain.Resource"></a><div class="section"><h3>com.smartitengineering.version.impl.jgit.domain.Resource</h3>
+<table class="bodyTable"><tr class="b"><th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+<th>Priority</th>
+</tr>
+<tr class="a"><td>Class com.smartitengineering.version.impl.jgit.domain.Resource implements same interface as superclass</td>
+<td>STYLE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#RI_REDUNDANT_INTERFACES">RI_REDUNDANT_INTERFACES</a></td>
+<td>29-98</td>
+<td>Low</td>
+</tr>
+<tr class="b"><td>com.smartitengineering.version.impl.jgit.domain.Resource is Serializable; consider declaring a serialVersionUID</td>
+<td>BAD_PRACTICE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SE_NO_SERIALVERSIONID">SE_NO_SERIALVERSIONID</a></td>
+<td>29-98</td>
+<td>Low</td>
+</tr>
+</table>
+</div>
+<a name="com.smartitengineering.version.impl.jgit.domain.Revision"></a><div class="section"><h3>com.smartitengineering.version.impl.jgit.domain.Revision</h3>
+<table class="bodyTable"><tr class="a"><th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+<th>Priority</th>
+</tr>
+<tr class="b"><td>Class com.smartitengineering.version.impl.jgit.domain.Revision implements same interface as superclass</td>
+<td>STYLE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#RI_REDUNDANT_INTERFACES">RI_REDUNDANT_INTERFACES</a></td>
+<td>29-122</td>
+<td>Low</td>
+</tr>
+<tr class="a"><td>com.smartitengineering.version.impl.jgit.domain.Revision is Serializable; consider declaring a serialVersionUID</td>
+<td>BAD_PRACTICE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SE_NO_SERIALVERSIONID">SE_NO_SERIALVERSIONID</a></td>
+<td>29-122</td>
+<td>Low</td>
+</tr>
+</table>
+</div>
+<a name="com.smartitengineering.version.impl.jgit.service.MetaFactory"></a><div class="section"><h3>com.smartitengineering.version.impl.jgit.service.MetaFactory</h3>
+<table class="bodyTable"><tr class="b"><th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+<th>Priority</th>
+</tr>
+<tr class="a"><td>Incorrect lazy initialization of static field com.smartitengineering.version.impl.jgit.service.MetaFactory.factory in com.smartitengineering.version.impl.jgit.service.MetaFactory.getInstance()</td>
+<td>MT_CORRECTNESS</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#LI_LAZY_INIT_STATIC">LI_LAZY_INIT_STATIC</a></td>
+<td>62-63</td>
+<td>Low</td>
+</tr>
+</table>
+</div>
+<a name="com.smartitengineering.version.impl.jgit.service.impl.MetaRCSServiceImpl"></a><div class="section"><h3>com.smartitengineering.version.impl.jgit.service.impl.MetaRCSServiceImpl</h3>
+<table class="bodyTable"><tr class="b"><th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+<th>Priority</th>
+</tr>
+<tr class="a"><td>Dead store to currentHeads in com.smartitengineering.version.impl.jgit.service.impl.MetaRCSServiceImpl.persistCommit(Commit)</td>
+<td>STYLE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DLS_DEAD_LOCAL_STORE">DLS_DEAD_LOCAL_STORE</a></td>
+<td>177</td>
+<td>Medium</td>
+</tr>
+<tr class="b"><td>Method com.smartitengineering.version.impl.jgit.service.impl.MetaRCSServiceImpl.getVersionsForResource(String) uses Collection.toArray() with zero-length array argument</td>
+<td>PERFORMANCE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#ITA_INEFFICIENT_TO_ARRAY">ITA_INEFFICIENT_TO_ARRAY</a></td>
+<td>140</td>
+<td>Low</td>
+</tr>
+<tr class="a"><td>Method com.smartitengineering.version.impl.jgit.service.impl.MetaRCSServiceImpl.persistCommit(Commit) uses Collection.toArray() with zero-length array argument</td>
+<td>PERFORMANCE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#ITA_INEFFICIENT_TO_ARRAY">ITA_INEFFICIENT_TO_ARRAY</a></td>
+<td>183</td>
+<td>Low</td>
+</tr>
+<tr class="b"><td>Method com.smartitengineering.version.impl.jgit.service.impl.MetaRCSServiceImpl.searchForCommits(Collection) uses Collection.toArray() with zero-length array argument</td>
+<td>PERFORMANCE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#ITA_INEFFICIENT_TO_ARRAY">ITA_INEFFICIENT_TO_ARRAY</a></td>
+<td>202</td>
+<td>Low</td>
+</tr>
+<tr class="a"><td>Method com.smartitengineering.version.impl.jgit.service.impl.MetaRCSServiceImpl.searchForRevisions(Collection) uses Collection.toArray() with zero-length array argument</td>
+<td>PERFORMANCE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#ITA_INEFFICIENT_TO_ARRAY">ITA_INEFFICIENT_TO_ARRAY</a></td>
+<td>218</td>
+<td>Low</td>
+</tr>
+</table>
+</div>
+
+      </div>
+    </div>
+    <div class="clear">
+      <hr/>
+    </div>
+    <div id="footer">
+      <div class="xright">&#169;  
+          2007-2009
+    
+          Smart IT Engineering
+          
+  
+
+  
+    
+            
+  
+    
+   - <a href="http://maven.apache.org/privacy-policy.html">Privacy Policy</a></div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+  </body>
+</html>
