@@ -32,11 +32,15 @@ if test -d "$ghpages_dir"
 then
     (
         cd "$ghpages_dir"
-        git status &&
-        git add . &&
-        git commit -m "Committing doc changes as of $(date +'%Y-%m-%d %H:%M')" -s &&
-        git push "$remote_ref_spec" "$local_branch"
-        git gc
+        file_count=$(git ls-files -m -o --exclude-standard | wc -l)
+        if test "$file_count" -gt "0"
+        then
+            echo "Files changed - $file_count"
+            git add . &&
+            git commit -m "Committing doc changes as of $(date +'%Y-%m-%d %H:%M')" -s &&
+            git push "$remote_ref_spec" "$local_branch"
+            git gc
+        fi
     )
 else
     echo "$ghpages_dir not a directory"
