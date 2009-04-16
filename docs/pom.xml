@@ -196,5 +196,50 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>push-gh-pages</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>${antrun.version}</version>
+                        <inherited>false</inherited>
+                        <executions>
+                            <execution>
+                                <id>copy-n-push-gh-pages</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <taskdef name="if" classname="net.sf.antcontrib.logic.IfTask" classpathref="maven.plugin.classpath"/>
+                                        <property name="ghpages_branch" value="${gh-pages.branch}" />
+                                        <property name="ghpages_path" value="${gh-pages.path}" />
+                                        <property name="ghpages_src_path" value="${project.build.directory}/${project.artifactId}-${project.version}-total-site.dir/${project.artifactId}-${project.version}/" />
+                                        <ant antfile="${basedir}/src/main/ant/gh-pages-build.xml">
+                                            <target name="copy_n_push"/>
+                                        </ant>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>ant-contrib</groupId>
+                                <artifactId>ant-contrib</artifactId>
+                                <version>${ant-contrib.version}</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 </project>
