@@ -170,14 +170,20 @@ public class SmartProvider
         if (exporter == null || exporter.getMediaType() == null) {
             return;
         }
-        getExporters().put(exporter.getMediaType(), exporter);
+        String mediaTypeStr = exporter.getMediaType();
+        String[] types = mediaTypeStr.split("/");
+        MediaType mediaType = new MediaType(types[0], types[1]);
+        getExporters().put(mediaType, exporter);
     }
 
     public void setImporter(Importer importer) {
         if (importer == null || importer.getMediaType() == null) {
             return;
         }
-        getImporters().put(importer.getMediaType(), importer);
+        String mediaTypeStr = importer.getMediaType();
+        String[] types = mediaTypeStr.split("/");
+        MediaType mediaType = new MediaType(types[0], types[1]);
+        getImporters().put(mediaType, importer);
     }
 
     public Map<MediaType, Exporter> getExporters() {

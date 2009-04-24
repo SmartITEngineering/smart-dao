@@ -20,7 +20,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 -->
 
-<project name="Smart Dao - Exim">
+<project name="Maven SCM Git Provider">
   <body>
     <menu ref="parent" />
 

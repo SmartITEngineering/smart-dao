@@ -20,15 +20,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 -->
 
-<project name="Smart Dao - Exim">
+<project name="Smart DAO - ExIm - API">
   <body>
     <menu ref="parent" />
 
     <menu name="Overview">
       <item name="Introduction" href="index.html"/>
     </menu>
-
-    <menu ref="modules" />
 
     <menu ref="reports" inherit="bottom" />
   </body>

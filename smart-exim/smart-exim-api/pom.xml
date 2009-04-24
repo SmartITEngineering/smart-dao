@@ -17,26 +17,19 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
- *
 -->
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
-        <artifactId>smart-dao</artifactId>
+        <artifactId>smart-exim</artifactId>
         <groupId>com.smartitengineering</groupId>
         <version>0.4-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.smartitengineering</groupId>
-    <artifactId>smart-rs</artifactId>
-    <name>smart-rs</name>
+    <groupId>com.smartitengineering.smart-exim</groupId>
+    <artifactId>smart-exim-api</artifactId>
+    <name>smart-exim-api</name>
     <version>0.4-SNAPSHOT</version>
-    <description>
-        An export/import utility for exporting and importing domain objects in
-        different formats. Initially the target is to support XML and JSON since
-        they are most widely used formats for data transfer. This module will
-        also implement provider for JAX-RS.
-    </description>
     <build>
         <plugins>
             <plugin>
@@ -48,39 +41,20 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>jsr311-api</artifactId>
-            <version>${jaxrs.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.smartitengineering.smart-exim</groupId>
-            <artifactId>smart-exim-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-server</artifactId>
-            <version>${jersey.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.jmock</groupId>
-            <artifactId>jmock</artifactId>
-            <version>${jmock.version}</version>
-            <scope>test</scope>
+            <groupId>com.smartitengineering</groupId>
+            <artifactId>smart-domain</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jmock</groupId>
-            <artifactId>jmock-junit3</artifactId>
-            <version>${jmock.version}</version>
-            <scope>test</scope>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>${dom4j.version}</version>
         </dependency>
     </dependencies>
 </project>
-

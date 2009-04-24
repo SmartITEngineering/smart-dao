@@ -24,7 +24,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.core.MediaType;
 
 /**
  * This API provides SPIs to use it to import objects from stream of media type
@@ -73,5 +72,5 @@ public interface Importer {
      * Provides the {@link MediaType} that is supported by this importer.
      * @return The supported media type
      */
-    MediaType getMediaType();
+    String getMediaType();
 }

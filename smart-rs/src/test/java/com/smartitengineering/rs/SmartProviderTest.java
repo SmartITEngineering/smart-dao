@@ -80,7 +80,7 @@ public class SmartProviderTest
                 exactly(1).of(mockExporter).getMediaType();
                 will(returnValue(null));
                 exactly(2).of(mockExporter).getMediaType();
-                will(returnValue(MediaType.APPLICATION_XML_TYPE));
+                will(returnValue(MediaType.APPLICATION_XML_TYPE.toString()));
             }
         });
         smartProvider.setExporter(mockExporter);
@@ -95,7 +95,7 @@ public class SmartProviderTest
                 exactly(1).of(mockImporter).getMediaType();
                 will(returnValue(null));
                 exactly(2).of(mockImporter).getMediaType();
-                will(returnValue(MediaType.APPLICATION_XML_TYPE));
+                will(returnValue(MediaType.APPLICATION_XML_TYPE.toString()));
             }
         });
         smartProvider.setImporter(mockImporter);
@@ -112,7 +112,7 @@ public class SmartProviderTest
 
             {
                 exactly(2).of(mockExporter).getMediaType();
-                will(returnValue(MediaType.APPLICATION_JSON_TYPE));
+                will(returnValue(MediaType.APPLICATION_JSON_TYPE.toString()));
             }
         });
         smartProvider.setExporter(mockExporter);
@@ -215,7 +215,7 @@ public class SmartProviderTest
             {
                 exactly(2).of(
                     mockImporter).getMediaType();
-                will(returnValue(MediaType.APPLICATION_JSON_TYPE));
+                will(returnValue(MediaType.APPLICATION_JSON_TYPE.toString()));
             }
         });
         smartProvider.setImporter(mockImporter);
@@ -296,9 +296,9 @@ public class SmartProviderTest
             {
                 exactly(2).of(
                     mockExporter).getMediaType();
-                will(returnValue(MediaType.APPLICATION_XML_TYPE));
+                will(returnValue(MediaType.APPLICATION_XML_TYPE.toString()));
                 exactly(2).of(mockImporter).getMediaType();
-                will(returnValue(MediaType.APPLICATION_XML_TYPE));
+                will(returnValue(MediaType.APPLICATION_XML_TYPE.toString()));
             }
         });
         smartProvider.setExporter(mockExporter);

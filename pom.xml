@@ -421,13 +421,14 @@
         <module>smart-dao-queryparam</module>
         <module>smart-rs</module>
         <module>docs</module>
+        <module>smart-exim</module>
     </modules>
     <properties>
         <commons-lang.version>2.3</commons-lang.version>
         <smart-util.version>0.2-SNAPSHOT</smart-util.version>
         <jgit.version>0.4-SNAPSHOT</jgit.version>
         <scm.version>1.3-SNAPSHOT</scm.version>
-        <jersey.version>1.0.3-SNAPSHOT</jersey.version>
+        <jersey.version>1.0.3</jersey.version>
         <changelog.version>2.2-SNAPSHOT</changelog.version>
         <plexus-utils.version>1.5.6</plexus-utils.version>
         <asm.version>3.1</asm.version>
