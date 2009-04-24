@@ -18,8 +18,8 @@
  */
 package com.smartitengineering.rs;
 
-import com.smartitengineering.rs.api.Exporter;
-import com.smartitengineering.rs.api.Importer;
+import com.smartitengineering.exim.Exporter;
+import com.smartitengineering.exim.Importer;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
