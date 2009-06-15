@@ -52,6 +52,11 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.smartitengineering.smart-util</groupId>
+            <artifactId>simple-util</artifactId>
+            <version>${smart-util.version}</version>
+        </dependency>
+        <dependency>
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
             <version>${dom4j.version}</version>
