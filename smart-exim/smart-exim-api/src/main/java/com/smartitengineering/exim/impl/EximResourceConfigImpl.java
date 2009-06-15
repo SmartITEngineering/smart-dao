@@ -40,6 +40,7 @@ public class EximResourceConfigImpl
     private String pathToResource;
     private String idPrefix;
     private String idPropertyName;
+    private String name;
     private Map<String, AssociationConfig> associationConfigs;
 
     public void setAccessByPropertyEnabled(boolean accessByPropertyEnabled) {
@@ -84,6 +85,10 @@ public class EximResourceConfigImpl
         this.pathToResource = pathToResource;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public boolean isAccessByPropertyEnabled() {
         return accessByPropertyEnabled;
     }
@@ -122,5 +127,9 @@ public class EximResourceConfigImpl
 
     public String getPathToResource() {
         return pathToResource;
+    }
+
+    public String getName() {
+        return name;
     }
 }

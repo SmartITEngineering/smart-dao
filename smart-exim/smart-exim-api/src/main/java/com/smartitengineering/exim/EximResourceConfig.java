@@ -61,6 +61,13 @@ public interface EximResourceConfig {
      * @return Prefix to the ID.
      */
     String getIdPrefix();
+    
+    /**
+     * Return name to be used for exporting, e.g., root node element. It can be
+     * overriden in an association by {@link AssociationConfig}'s name.
+     * @return Name to be used for export; not null.
+     */
+    String getName();
 
     /**
      * Return the path to the resource.
