@@ -99,5 +99,24 @@ public interface AssociationConfig {
         public Class getRootClass() {
             return rootClass;
         }
+
+        public static AssociationType getAssociationType(Class clazz) {
+            if(clazz.isArray()) {
+                return TYPE_ARRAY;
+            }
+            if(TYPE_MAP.getRootClass().isAssignableFrom(clazz)) {
+                return TYPE_MAP;
+            }
+            if(TYPE_LIST.getRootClass().isAssignableFrom(clazz)) {
+                return TYPE_LIST;
+            }
+            if(TYPE_SET.getRootClass().isAssignableFrom(clazz)) {
+                return TYPE_SET;
+            }
+            if(TYPE_COLLECTION.getRootClass().isAssignableFrom(clazz)) {
+                return TYPE_COLLECTION;
+            }
+            return TYPE_OBJECT;
+        }
     }
 }
