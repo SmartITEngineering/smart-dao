@@ -31,6 +31,12 @@
     <name>smart-exim</name>
     <packaging>pom</packaging>
     <version>0.4-SNAPSHOT</version>
+    <description>
+        This holds modules for exporting domain resources into various formats.
+        For example, XML, JSON, ATOM etc. Its speciality is that it inter-links
+        resources as URI rather than exporting an nested resource. It will also
+        handle import for similar structure.
+    </description>
     <build>
         <plugins>
             <plugin>
