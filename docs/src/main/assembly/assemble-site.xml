@@ -130,6 +130,21 @@
             </includes>
             <outputDirectory>/site/smart-version/smart-dao-version/</outputDirectory>
         </fileSet>
+        <!-- Smart exim modules content -->
+        <fileSet>
+            <directory>../smart-exim/target/site/</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>/site/smart-exim/</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../smart-exim/smart-exim-api/target/site/</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>/site/smart-exim/smart-exim-api/</outputDirectory>
+        </fileSet>
         <!-- Doc modules content -->
         <fileSet>
             <directory>target/site/</directory>
