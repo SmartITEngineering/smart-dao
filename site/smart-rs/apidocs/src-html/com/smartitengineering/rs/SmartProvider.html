@@ -21,8 +21,8 @@
 <FONT color="green">018</FONT>     */<a name="line.18"></a>
 <FONT color="green">019</FONT>    package com.smartitengineering.rs;<a name="line.19"></a>
 <FONT color="green">020</FONT>    <a name="line.20"></a>
-<FONT color="green">021</FONT>    import com.smartitengineering.rs.api.Exporter;<a name="line.21"></a>
-<FONT color="green">022</FONT>    import com.smartitengineering.rs.api.Importer;<a name="line.22"></a>
+<FONT color="green">021</FONT>    import com.smartitengineering.exim.Exporter;<a name="line.21"></a>
+<FONT color="green">022</FONT>    import com.smartitengineering.exim.Importer;<a name="line.22"></a>
 <FONT color="green">023</FONT>    import java.io.IOException;<a name="line.23"></a>
 <FONT color="green">024</FONT>    import java.io.InputStream;<a name="line.24"></a>
 <FONT color="green">025</FONT>    import java.io.OutputStream;<a name="line.25"></a>
@@ -173,24 +173,30 @@
 <FONT color="green">170</FONT>            if (exporter == null || exporter.getMediaType() == null) {<a name="line.170"></a>
 <FONT color="green">171</FONT>                return;<a name="line.171"></a>
 <FONT color="green">172</FONT>            }<a name="line.172"></a>
-<FONT color="green">173</FONT>            getExporters().put(exporter.getMediaType(), exporter);<a name="line.173"></a>
-<FONT color="green">174</FONT>        }<a name="line.174"></a>
-<FONT color="green">175</FONT>    <a name="line.175"></a>
-<FONT color="green">176</FONT>        public void setImporter(Importer importer) {<a name="line.176"></a>
-<FONT color="green">177</FONT>            if (importer == null || importer.getMediaType() == null) {<a name="line.177"></a>
-<FONT color="green">178</FONT>                return;<a name="line.178"></a>
-<FONT color="green">179</FONT>            }<a name="line.179"></a>
-<FONT color="green">180</FONT>            getImporters().put(importer.getMediaType(), importer);<a name="line.180"></a>
-<FONT color="green">181</FONT>        }<a name="line.181"></a>
-<FONT color="green">182</FONT>    <a name="line.182"></a>
-<FONT color="green">183</FONT>        public Map&lt;MediaType, Exporter&gt; getExporters() {<a name="line.183"></a>
-<FONT color="green">184</FONT>            return exporters;<a name="line.184"></a>
-<FONT color="green">185</FONT>        }<a name="line.185"></a>
-<FONT color="green">186</FONT>    <a name="line.186"></a>
-<FONT color="green">187</FONT>        public Map&lt;MediaType, Importer&gt; getImporters() {<a name="line.187"></a>
-<FONT color="green">188</FONT>            return importers;<a name="line.188"></a>
-<FONT color="green">189</FONT>        }<a name="line.189"></a>
-<FONT color="green">190</FONT>    }<a name="line.190"></a>
+<FONT color="green">173</FONT>            String mediaTypeStr = exporter.getMediaType();<a name="line.173"></a>
+<FONT color="green">174</FONT>            String[] types = mediaTypeStr.split("/");<a name="line.174"></a>
+<FONT color="green">175</FONT>            MediaType mediaType = new MediaType(types[0], types[1]);<a name="line.175"></a>
+<FONT color="green">176</FONT>            getExporters().put(mediaType, exporter);<a name="line.176"></a>
+<FONT color="green">177</FONT>        }<a name="line.177"></a>
+<FONT color="green">178</FONT>    <a name="line.178"></a>
+<FONT color="green">179</FONT>        public void setImporter(Importer importer) {<a name="line.179"></a>
+<FONT color="green">180</FONT>            if (importer == null || importer.getMediaType() == null) {<a name="line.180"></a>
+<FONT color="green">181</FONT>                return;<a name="line.181"></a>
+<FONT color="green">182</FONT>            }<a name="line.182"></a>
+<FONT color="green">183</FONT>            String mediaTypeStr = importer.getMediaType();<a name="line.183"></a>
+<FONT color="green">184</FONT>            String[] types = mediaTypeStr.split("/");<a name="line.184"></a>
+<FONT color="green">185</FONT>            MediaType mediaType = new MediaType(types[0], types[1]);<a name="line.185"></a>
+<FONT color="green">186</FONT>            getImporters().put(mediaType, importer);<a name="line.186"></a>
+<FONT color="green">187</FONT>        }<a name="line.187"></a>
+<FONT color="green">188</FONT>    <a name="line.188"></a>
+<FONT color="green">189</FONT>        public Map&lt;MediaType, Exporter&gt; getExporters() {<a name="line.189"></a>
+<FONT color="green">190</FONT>            return exporters;<a name="line.190"></a>
+<FONT color="green">191</FONT>        }<a name="line.191"></a>
+<FONT color="green">192</FONT>    <a name="line.192"></a>
+<FONT color="green">193</FONT>        public Map&lt;MediaType, Importer&gt; getImporters() {<a name="line.193"></a>
+<FONT color="green">194</FONT>            return importers;<a name="line.194"></a>
+<FONT color="green">195</FONT>        }<a name="line.195"></a>
+<FONT color="green">196</FONT>    }<a name="line.196"></a>
 
 
 

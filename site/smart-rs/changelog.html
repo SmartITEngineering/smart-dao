@@ -42,7 +42,7 @@
   
     
             <div class="xleft">
-        Last Published: 2009-04-16
+        Last Published: 2009-06-16
                   &nbsp;| Version: 0.4-SNAPSHOT
                       </div>
             <div class="xright">      
@@ -189,13 +189,73 @@
         <div class="section"><h2>Change Log Report</h2>
 <p>Total number of changed sets: 1</p>
 <div class="section"><h3>Changes since project creation</h3>
-<p>Total commits: 7<br />
-Total number of files changed: 10</p>
+<p>Total commits: 10<br />
+Total number of files changed: 16</p>
 <table class="bodyTable"><tr class="a"><th>Timestamp</th>
 <th>Author</th>
 <th>Details</th>
 </tr>
-<tr class="b"><td>2009-04-15 16:21:52</td>
+<tr class="b"><td>2009-04-24 11:48:34</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-rs/<b>pom.xml</b> v ebc1e2d05b2152a680ea037bd0918e0e904eb2b3<br />
+smart-rs/src/main/java/com/smartitengineering/exim/<b>AssociationConfig.java</b> v ebc1e2d05b2152a680ea037bd0918e0e904eb2b3<br />
+smart-rs/src/main/java/com/smartitengineering/exim/<b>EximResourceConfig.java</b> v ebc1e2d05b2152a680ea037bd0918e0e904eb2b3<br />
+smart-rs/src/main/java/com/smartitengineering/exim/<b>Exporter.java</b> v ebc1e2d05b2152a680ea037bd0918e0e904eb2b3<br />
+smart-rs/src/main/java/com/smartitengineering/exim/<b>Importer.java</b> v ebc1e2d05b2152a680ea037bd0918e0e904eb2b3<br />
+smart-rs/src/main/java/com/smartitengineering/exim/impl/<b>AssociationConfigImpl.java</b> v ebc1e2d05b2152a680ea037bd0918e0e904eb2b3<br />
+smart-rs/src/main/java/com/smartitengineering/exim/impl/<b>EximResourceConfigImpl.java</b> v ebc1e2d05b2152a680ea037bd0918e0e904eb2b3<br />
+smart-rs/src/main/java/com/smartitengineering/rs/<b>SmartProvider.java</b> v ebc1e2d05b2152a680ea037bd0918e0e904eb2b3<br />
+smart-rs/src/test/java/com/smartitengineering/rs/<b>SmartProviderTest.java</b> v ebc1e2d05b2152a680ea037bd0918e0e904eb2b3<br />
+<br />
+Refactor smart-rs API into 2 modules<br />
+<br />
+Smart-RS will now be concerned with JAX-RS related functionalities only.<br />
+<br />
+The newly introduced Smart-ExIm will be concerned with export and import of<br />
+resources with respect to their URIs. It is independent of JAX-RS or any<br />
+other RESTful framework for that matter. Smart ExIm will be broken down<br />
+into API, which will contain the common code base and ExIm provider modules<br />
+concerned with specific media type export and import.<br />
+<br />
+Also updated Jersey version to the stable one.<br />
+<br />
+Also fixed the site page title of a HTML page.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-04-24 08:53:16</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-rs/src/main/java/com/smartitengineering/exim/<b>AssociationConfig.java</b> v fee82489011e430aedff18f15103b6823e5d9162<br />
+smart-rs/src/main/java/com/smartitengineering/exim/<b>EximResourceConfig.java</b> v fee82489011e430aedff18f15103b6823e5d9162<br />
+smart-rs/src/main/java/com/smartitengineering/exim/impl/<b>AssociationConfigImpl.java</b> v fee82489011e430aedff18f15103b6823e5d9162<br />
+smart-rs/src/main/java/com/smartitengineering/exim/impl/<b>EximResourceConfigImpl.java</b> v fee82489011e430aedff18f15103b6823e5d9162<br />
+<br />
+Add API for representing configuration of resources<br />
+<br />
+This API represents the configuration of resource domains and their<br />
+associations. It also provides POJO based default API implementation.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="b"><td>2009-04-24 08:52:10</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-rs/src/main/java/com/smartitengineering/exim/<b>Exporter.java</b> v 786d645f134c217b38e70f389c579b88d771861e<br />
+smart-rs/src/main/java/com/smartitengineering/exim/<b>Importer.java</b> v 786d645f134c217b38e70f389c579b88d771861e<br />
+smart-rs/src/main/java/com/smartitengineering/rs/<b>SmartProvider.java</b> v 786d645f134c217b38e70f389c579b88d771861e<br />
+smart-rs/src/main/java/com/smartitengineering/rs/api/<b>Exporter.java</b> v 786d645f134c217b38e70f389c579b88d771861e<br />
+smart-rs/src/main/java/com/smartitengineering/rs/api/<b>Importer.java</b> v 786d645f134c217b38e70f389c579b88d771861e<br />
+smart-rs/src/test/java/com/smartitengineering/rs/<b>SmartProviderTest.java</b> v 786d645f134c217b38e70f389c579b88d771861e<br />
+<br />
+Refactor packages for Exporter and Importer<br />
+<br />
+As object export and import using URIs' is not hard-binded with JAX-RS or<br />
+any particular RESTful architecture for that matter, we plan to make it a<br />
+separate module and as a starting point we are refactoring package names<br />
+and relocating the APIs appropriately.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-04-15 16:21:52</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-rs/<b>pom.xml</b> v 626354cd84e87e30802f2e30298eb0e90a2a69b0<br />
 <br />
@@ -203,7 +263,7 @@ Add domain and dom4j as dependency to the RS module<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-14 22:15:53</td>
+<tr class="b"><td>2009-04-14 22:15:53</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-rs/src/site/<b>site.xml</b> v bcec4a58357f672615809338ad5d4dd0f67ec114<br />
 <br />
@@ -213,7 +273,7 @@ Previously it was wrong due to a copy paste and this change fixes it.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-04-14 13:20:15</td>
+<tr class="a"><td>2009-04-14 13:20:15</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-rs/<b>pom.xml</b> v 14f4db7460e9970f2644136b5518ca85d7c23bc5<br />
 smart-rs/src/main/java/com/smartitengineering/rs/<b>App.java</b> v 14f4db7460e9970f2644136b5518ca85d7c23bc5<br />
@@ -240,7 +300,7 @@ should. Also import is fixed for a cache test case.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-13 09:02:03</td>
+<tr class="b"><td>2009-04-13 09:02:03</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-rs/<b>pom.xml</b> v dbd687abe484d8cd023f4f4938085d293cf233c4<br />
 <br />
@@ -261,7 +321,7 @@ Updated the README with latest build notices.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-04-09 22:48:31</td>
+<tr class="a"><td>2009-04-09 22:48:31</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-rs/<b>README</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
 smart-rs/<b>pom.xml</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
@@ -290,7 +350,7 @@ in the docs.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-06 14:04:21</td>
+<tr class="b"><td>2009-04-06 14:04:21</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-rs/src/site/<b>site.xml</b> v 6a46b618da88cc447d81b0c522dff5fc878611b1<br />
 <br />
@@ -305,7 +365,7 @@ The generated site is deployable to github.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-04-01 11:14:39</td>
+<tr class="a"><td>2009-04-01 11:14:39</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-rs/<b>pom.xml</b> v fda2224c6ce99c51a70bfb4ea1daf46c1a1ab3f0<br />
 smart-rs/src/main/java/com/smartitengineering/rs/<b>App.java</b> v fda2224c6ce99c51a70bfb4ea1daf46c1a1ab3f0<br />

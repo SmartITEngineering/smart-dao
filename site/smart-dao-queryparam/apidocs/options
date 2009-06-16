@@ -1,23 +1,23 @@
 -classpath
-'/home/imyousuf/projects/smart-dao/smart-dao-queryparam/target/classes'
+'/media/unix-2/projects/smart-dao/smart-dao-queryparam/target/classes'
 -encoding
 'UTF-8'
 -protected
 -sourcepath
-'/home/imyousuf/projects/smart-dao/smart-dao-queryparam/src/main/java'
+'/media/unix-2/projects/smart-dao/smart-dao-queryparam/src/main/java'
 -author
 -bottom
 'Copyright &#169; 2007-2009 <a href="http://www.smartitengineering.com">Smart IT Engineering</a>. All Rights Reserved.'
 -charset
 'UTF-8'
 -d
-'/home/imyousuf/projects/smart-dao/smart-dao-queryparam/target/site/apidocs'
+'/media/unix-2/projects/smart-dao/smart-dao-queryparam/target/site/apidocs'
 -docencoding
 'UTF-8'
 -doctitle
 'smart-dao-queryparam 0.4-SNAPSHOT API'
 -linkoffline
-'http://code.google.com/p/smart-dao/smart-domain/apidocs' '/home/imyousuf/projects/smart-dao/smart-domain/target/site/apidocs'
+'http://code.google.com/p/smart-dao/smart-domain/apidocs' '/media/unix-2/projects/smart-dao/smart-domain/target/site/apidocs'
 -linksource
 -use
 -version

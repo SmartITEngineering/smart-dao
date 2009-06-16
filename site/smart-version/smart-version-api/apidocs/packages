@@ -1,5 +1,5 @@
-com.smartitengineering.version.api
 com.smartitengineering.version.api.spi
-com.smartitengineering.version.api.factory
 com.smartitengineering.version.api.impl
 com.smartitengineering.version.api.dao
+com.smartitengineering.version.api
+com.smartitengineering.version.api.factory
