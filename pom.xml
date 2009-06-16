@@ -111,6 +111,30 @@
             <name>Compass</name>
             <url>http://repo.compass-project.org</url>
         </repository>
+        <repository>
+            <id>free-ftp-snapshot-rep</id>
+            <name>Smart IT Snapshot repo</name>
+            <url>http://dev.smartitengineering.com/maven-repo/snapshot/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>apache-sonatype-snapshot</id>
+            <name>Apache Snapshot repo hosted by Sonatype</name>
+            <url>http://repository.sonatype.org/content/repositories/apache-snapshots/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
     </repositories>
     <dependencies>
         <dependency>
