@@ -18,6 +18,11 @@
  */
 package com.smartitengineering.exim;
 
+import com.smartitengineering.util.simple.IOFactory;
+import com.smartitengineering.util.simple.reflection.ClassInstanceVisitorImpl;
+import com.smartitengineering.util.simple.reflection.ClassScanner;
+import com.smartitengineering.util.simple.reflection.Config;
+import com.smartitengineering.util.simple.reflection.VisitCallback;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
@@ -40,6 +45,50 @@ public final class ConfigRegistrar {
     private static final Set<ConfigScannerRegistryItem<PackageConfigScanner>> packageConfigScanners =
         Collections.synchronizedSortedSet(
         new TreeSet<ConfigScannerRegistryItem<PackageConfigScanner>>());
+
+    static Set<ConfigScannerRegistryItem<ClassConfigScanner>> getClassConfigScannerRegistryItems() {
+        return classConfigScanners;
+    }
+
+    static Set<ConfigScannerRegistryItem<PackageConfigScanner>> getPackageConfigScannerRegistryItems() {
+        return packageConfigScanners;
+    }
+
+    /**
+     * The following static block loads the default config scanner impl classes,
+     * so that if they have any static initializers then they can invoked
+     */
+    static {
+        String packageName =
+            ConfigRegistrar.class.getPackage().getName().concat(".impl");
+        ClassScanner scanner = IOFactory.getDefaultClassScanner();
+        scanner.scan(new String[]{packageName},
+            new ClassInstanceVisitorImpl(IOFactory.getClassNameForVisitor(
+            ClassConfigScanner.class), new VisitCallback<Config>() {
+
+            public void handle(Config config) {
+                try {
+                    IOFactory.getClassFromVisitorName(config.getClassName());
+                }
+                catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }));
+        scanner.scan(new String[]{packageName},
+            new ClassInstanceVisitorImpl(IOFactory.getClassNameForVisitor(
+            PackageConfigScanner.class), new VisitCallback<Config>() {
+
+            public void handle(Config config) {
+                try {
+                    IOFactory.getClassFromVisitorName(config.getClassName());
+                }
+                catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }));
+    }
 
     /**
      * Register the class scanner with its priority
