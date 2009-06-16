@@ -1,0 +1,465 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * This is a common dao with basic CRUD operations and is not limited to any <a name="line.2"></a>
+<FONT color="green">003</FONT>     * persistent layer implementation<a name="line.3"></a>
+<FONT color="green">004</FONT>     * <a name="line.4"></a>
+<FONT color="green">005</FONT>     * Copyright (C) 2008  Imran M Yousuf (imyousuf@smartitengineering.com)<a name="line.5"></a>
+<FONT color="green">006</FONT>     * <a name="line.6"></a>
+<FONT color="green">007</FONT>     * This library is free software; you can redistribute it and/or<a name="line.7"></a>
+<FONT color="green">008</FONT>     * modify it under the terms of the GNU Lesser General Public<a name="line.8"></a>
+<FONT color="green">009</FONT>     * License as published by the Free Software Foundation; either<a name="line.9"></a>
+<FONT color="green">010</FONT>     * version 3 of the License, or (at your option) any later version.<a name="line.10"></a>
+<FONT color="green">011</FONT>     * This library is distributed in the hope that it will be useful,<a name="line.11"></a>
+<FONT color="green">012</FONT>     * but WITHOUT ANY WARRANTY; without even the implied warranty of<a name="line.12"></a>
+<FONT color="green">013</FONT>     * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU<a name="line.13"></a>
+<FONT color="green">014</FONT>     * Lesser General Public License for more details.<a name="line.14"></a>
+<FONT color="green">015</FONT>     * You should have received a copy of the GNU Lesser General Public<a name="line.15"></a>
+<FONT color="green">016</FONT>     * License along with this library; if not, write to the Free Software<a name="line.16"></a>
+<FONT color="green">017</FONT>     * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA<a name="line.17"></a>
+<FONT color="green">018</FONT>     */<a name="line.18"></a>
+<FONT color="green">019</FONT>    package com.smartitengineering.exim.impl;<a name="line.19"></a>
+<FONT color="green">020</FONT>    <a name="line.20"></a>
+<FONT color="green">021</FONT>    import com.smartitengineering.domain.annotations.Eager;<a name="line.21"></a>
+<FONT color="green">022</FONT>    import com.smartitengineering.domain.annotations.Export;<a name="line.22"></a>
+<FONT color="green">023</FONT>    import com.smartitengineering.domain.annotations.Id;<a name="line.23"></a>
+<FONT color="green">024</FONT>    import com.smartitengineering.domain.annotations.Name;<a name="line.24"></a>
+<FONT color="green">025</FONT>    import com.smartitengineering.domain.annotations.ResourceDomain;<a name="line.25"></a>
+<FONT color="green">026</FONT>    import com.smartitengineering.domain.exim.DomainSelfExporter;<a name="line.26"></a>
+<FONT color="green">027</FONT>    import com.smartitengineering.domain.exim.DomainSelfImporter;<a name="line.27"></a>
+<FONT color="green">028</FONT>    import com.smartitengineering.domain.exim.IdentityCustomizer;<a name="line.28"></a>
+<FONT color="green">029</FONT>    import com.smartitengineering.domain.exim.StringValueProvider;<a name="line.29"></a>
+<FONT color="green">030</FONT>    import com.smartitengineering.exim.AssociationConfig;<a name="line.30"></a>
+<FONT color="green">031</FONT>    import com.smartitengineering.exim.ClassConfigScanner;<a name="line.31"></a>
+<FONT color="green">032</FONT>    import com.smartitengineering.exim.ConfigRegistrar;<a name="line.32"></a>
+<FONT color="green">033</FONT>    import com.smartitengineering.exim.EximResourceConfig;<a name="line.33"></a>
+<FONT color="green">034</FONT>    import com.smartitengineering.exim.PackageConfigScanner;<a name="line.34"></a>
+<FONT color="green">035</FONT>    import com.smartitengineering.util.simple.IOFactory;<a name="line.35"></a>
+<FONT color="green">036</FONT>    import com.smartitengineering.util.simple.reflection.AnnotationConfig;<a name="line.36"></a>
+<FONT color="green">037</FONT>    import com.smartitengineering.util.simple.reflection.ClassAnnotationVisitorImpl;<a name="line.37"></a>
+<FONT color="green">038</FONT>    import com.smartitengineering.util.simple.reflection.ClassScanner;<a name="line.38"></a>
+<FONT color="green">039</FONT>    import com.smartitengineering.util.simple.reflection.VisitCallback;<a name="line.39"></a>
+<FONT color="green">040</FONT>    import java.lang.annotation.Annotation;<a name="line.40"></a>
+<FONT color="green">041</FONT>    import java.lang.reflect.AnnotatedElement;<a name="line.41"></a>
+<FONT color="green">042</FONT>    import java.lang.reflect.Field;<a name="line.42"></a>
+<FONT color="green">043</FONT>    import java.lang.reflect.Method;<a name="line.43"></a>
+<FONT color="green">044</FONT>    import java.util.Collection;<a name="line.44"></a>
+<FONT color="green">045</FONT>    import java.util.HashMap;<a name="line.45"></a>
+<FONT color="green">046</FONT>    import java.util.HashSet;<a name="line.46"></a>
+<FONT color="green">047</FONT>    import java.util.Map;<a name="line.47"></a>
+<FONT color="green">048</FONT>    import java.util.Set;<a name="line.48"></a>
+<FONT color="green">049</FONT>    <a name="line.49"></a>
+<FONT color="green">050</FONT>    /**<a name="line.50"></a>
+<FONT color="green">051</FONT>     * This registrar is responsible for scanning and containing configuration of<a name="line.51"></a>
+<FONT color="green">052</FONT>     * all resources. Whenever a class is looked up whose package has not been<a name="line.52"></a>
+<FONT color="green">053</FONT>     * scanned yet, registrar will scanClassForConfig its package to generate cofiguration and<a name="line.53"></a>
+<FONT color="green">054</FONT>     * while generating it will keep scanning until it reaches the leaves, i.e. in<a name="line.54"></a>
+<FONT color="green">055</FONT>     * this case association to an object that isn't {@link ResourceDomain}<a name="line.55"></a>
+<FONT color="green">056</FONT>     * @author imyousuf<a name="line.56"></a>
+<FONT color="green">057</FONT>     * @since 0.4<a name="line.57"></a>
+<FONT color="green">058</FONT>     */<a name="line.58"></a>
+<FONT color="green">059</FONT>    public class DefaultAnnotationConfigScanner<a name="line.59"></a>
+<FONT color="green">060</FONT>        implements ClassConfigScanner,<a name="line.60"></a>
+<FONT color="green">061</FONT>                   PackageConfigScanner {<a name="line.61"></a>
+<FONT color="green">062</FONT>    <a name="line.62"></a>
+<FONT color="green">063</FONT>        private static final String GETTER_PREFIX = "get";<a name="line.63"></a>
+<FONT color="green">064</FONT>        private static DefaultAnnotationConfigScanner registrar;<a name="line.64"></a>
+<FONT color="green">065</FONT>    <a name="line.65"></a>
+<FONT color="green">066</FONT>        static {<a name="line.66"></a>
+<FONT color="green">067</FONT>            ConfigRegistrar.registerClassScanner(<a name="line.67"></a>
+<FONT color="green">068</FONT>                DefaultAnnotationConfigScanner.class, 25);<a name="line.68"></a>
+<FONT color="green">069</FONT>            ConfigRegistrar.registerPackageScanner(<a name="line.69"></a>
+<FONT color="green">070</FONT>                DefaultAnnotationConfigScanner.class, 25);<a name="line.70"></a>
+<FONT color="green">071</FONT>        }<a name="line.71"></a>
+<FONT color="green">072</FONT>    <a name="line.72"></a>
+<FONT color="green">073</FONT>        public static DefaultAnnotationConfigScanner getInstance() {<a name="line.73"></a>
+<FONT color="green">074</FONT>            if (registrar == null) {<a name="line.74"></a>
+<FONT color="green">075</FONT>                registrar = new DefaultAnnotationConfigScanner();<a name="line.75"></a>
+<FONT color="green">076</FONT>            }<a name="line.76"></a>
+<FONT color="green">077</FONT>            return registrar;<a name="line.77"></a>
+<FONT color="green">078</FONT>        }<a name="line.78"></a>
+<FONT color="green">079</FONT>        protected final ClassScanner classScanner;<a name="line.79"></a>
+<FONT color="green">080</FONT>        protected final Map&lt;Class, EximResourceConfig&gt; configuraitons;<a name="line.80"></a>
+<FONT color="green">081</FONT>        protected final Collection&lt;Class&gt; scannedClasses;<a name="line.81"></a>
+<FONT color="green">082</FONT>        protected final Collection&lt;String&gt; scannedPackages;<a name="line.82"></a>
+<FONT color="green">083</FONT>        protected final ResourceVisitCallback resourceVisitCallback;<a name="line.83"></a>
+<FONT color="green">084</FONT>        protected final VisitCallback&lt;AnnotationConfig&gt; callbackHandler;<a name="line.84"></a>
+<FONT color="green">085</FONT>    <a name="line.85"></a>
+<FONT color="green">086</FONT>        protected DefaultAnnotationConfigScanner() {<a name="line.86"></a>
+<FONT color="green">087</FONT>            classScanner = IOFactory.getDefaultClassScanner();<a name="line.87"></a>
+<FONT color="green">088</FONT>            configuraitons = new HashMap&lt;Class, EximResourceConfig&gt;();<a name="line.88"></a>
+<FONT color="green">089</FONT>            scannedClasses = new HashSet&lt;Class&gt;();<a name="line.89"></a>
+<FONT color="green">090</FONT>            scannedPackages = new HashSet&lt;String&gt;();<a name="line.90"></a>
+<FONT color="green">091</FONT>            resourceVisitCallback = new ResourceVisitCallback();<a name="line.91"></a>
+<FONT color="green">092</FONT>            callbackHandler = resourceVisitCallback;<a name="line.92"></a>
+<FONT color="green">093</FONT>        }<a name="line.93"></a>
+<FONT color="green">094</FONT>    <a name="line.94"></a>
+<FONT color="green">095</FONT>        public synchronized Map&lt;Class, EximResourceConfig&gt; getConfigurations() {<a name="line.95"></a>
+<FONT color="green">096</FONT>            return configuraitons;<a name="line.96"></a>
+<FONT color="green">097</FONT>        }<a name="line.97"></a>
+<FONT color="green">098</FONT>    <a name="line.98"></a>
+<FONT color="green">099</FONT>        public synchronized Collection&lt;Class&gt; getConfiguredResourceClasses() {<a name="line.99"></a>
+<FONT color="green">100</FONT>            return configuraitons.keySet();<a name="line.100"></a>
+<FONT color="green">101</FONT>        }<a name="line.101"></a>
+<FONT color="green">102</FONT>    <a name="line.102"></a>
+<FONT color="green">103</FONT>        /**<a name="line.103"></a>
+<FONT color="green">104</FONT>         * Retrieves the configuration for the resource class, if its not already<a name="line.104"></a>
+<FONT color="green">105</FONT>         * generated then it will search the package of the class and generate its<a name="line.105"></a>
+<FONT color="green">106</FONT>         * configuraiton.<a name="line.106"></a>
+<FONT color="green">107</FONT>         * @param resourceClass The class to scanClassForConfig retrieve configuration for<a name="line.107"></a>
+<FONT color="green">108</FONT>         * @return Configuration for the resource; NULL if no resource is available<a name="line.108"></a>
+<FONT color="green">109</FONT>         *          or generateable<a name="line.109"></a>
+<FONT color="green">110</FONT>         * @throws IllegalArgumentException If resource class is null!<a name="line.110"></a>
+<FONT color="green">111</FONT>         */<a name="line.111"></a>
+<FONT color="green">112</FONT>        public synchronized EximResourceConfig getResourceConfigForClass(<a name="line.112"></a>
+<FONT color="green">113</FONT>            final Class resourceClass) {<a name="line.113"></a>
+<FONT color="green">114</FONT>            if (resourceClass == null) {<a name="line.114"></a>
+<FONT color="green">115</FONT>                throw new IllegalArgumentException("Resource class can't be null!");<a name="line.115"></a>
+<FONT color="green">116</FONT>            }<a name="line.116"></a>
+<FONT color="green">117</FONT>            if (configuraitons.containsKey(resourceClass)) {<a name="line.117"></a>
+<FONT color="green">118</FONT>                return configuraitons.get(resourceClass);<a name="line.118"></a>
+<FONT color="green">119</FONT>            }<a name="line.119"></a>
+<FONT color="green">120</FONT>            else {<a name="line.120"></a>
+<FONT color="green">121</FONT>                String packageName = resourceClass.getPackage().getName();<a name="line.121"></a>
+<FONT color="green">122</FONT>                EximResourceConfig resourceConfig = null;<a name="line.122"></a>
+<FONT color="green">123</FONT>                if (!scannedPackages.contains(packageName)) {<a name="line.123"></a>
+<FONT color="green">124</FONT>                    resourceConfig = scanPackage(Package.getPackage(packageName),<a name="line.124"></a>
+<FONT color="green">125</FONT>                        resourceClass);<a name="line.125"></a>
+<FONT color="green">126</FONT>                }<a name="line.126"></a>
+<FONT color="green">127</FONT>                return resourceConfig;<a name="line.127"></a>
+<FONT color="green">128</FONT>            }<a name="line.128"></a>
+<FONT color="green">129</FONT>        }<a name="line.129"></a>
+<FONT color="green">130</FONT>    <a name="line.130"></a>
+<FONT color="green">131</FONT>        /**<a name="line.131"></a>
+<FONT color="green">132</FONT>         * Scans and prepares all configurations in the package and makes it<a name="line.132"></a>
+<FONT color="green">133</FONT>         * available for future use.<a name="line.133"></a>
+<FONT color="green">134</FONT>         * @param resourcePackage Package to scan and gather configuration<a name="line.134"></a>
+<FONT color="green">135</FONT>         * @throws IllegalArgumentException If package is null<a name="line.135"></a>
+<FONT color="green">136</FONT>         */<a name="line.136"></a>
+<FONT color="green">137</FONT>        public synchronized void scanPackageForResourceConfigs(<a name="line.137"></a>
+<FONT color="green">138</FONT>            final Package resourcePackage) {<a name="line.138"></a>
+<FONT color="green">139</FONT>            if (resourcePackage == null) {<a name="line.139"></a>
+<FONT color="green">140</FONT>                throw new IllegalArgumentException("Resource class can't be null!");<a name="line.140"></a>
+<FONT color="green">141</FONT>            }<a name="line.141"></a>
+<FONT color="green">142</FONT>            scanPackage(resourcePackage, null);<a name="line.142"></a>
+<FONT color="green">143</FONT>        }<a name="line.143"></a>
+<FONT color="green">144</FONT>    <a name="line.144"></a>
+<FONT color="green">145</FONT>        protected String getPropertyNameFromMethodName(final String methodName) {<a name="line.145"></a>
+<FONT color="green">146</FONT>            StringBuilder propertyNameBuilder =<a name="line.146"></a>
+<FONT color="green">147</FONT>                new StringBuilder(methodName);<a name="line.147"></a>
+<FONT color="green">148</FONT>            propertyNameBuilder.delete(0, GETTER_PREFIX.length());<a name="line.148"></a>
+<FONT color="green">149</FONT>            char firstChar = propertyNameBuilder.charAt(0);<a name="line.149"></a>
+<FONT color="green">150</FONT>            propertyNameBuilder.delete(0, 1);<a name="line.150"></a>
+<FONT color="green">151</FONT>            propertyNameBuilder.insert(0, Character.toUpperCase(firstChar));<a name="line.151"></a>
+<FONT color="green">152</FONT>            return propertyNameBuilder.toString();<a name="line.152"></a>
+<FONT color="green">153</FONT>        }<a name="line.153"></a>
+<FONT color="green">154</FONT>    <a name="line.154"></a>
+<FONT color="green">155</FONT>        /**<a name="line.155"></a>
+<FONT color="green">156</FONT>         * Scan among the class's annotations to find the required configuration for<a name="line.156"></a>
+<FONT color="green">157</FONT>         * exporting and importing resources.<a name="line.157"></a>
+<FONT color="green">158</FONT>         * @param probableResourceClass The probable resource domain class.<a name="line.158"></a>
+<FONT color="green">159</FONT>         * @return The configuration of the class, null if not annotated with <a name="line.159"></a>
+<FONT color="green">160</FONT>         *          {@link ResourceDomain}<a name="line.160"></a>
+<FONT color="green">161</FONT>         */<a name="line.161"></a>
+<FONT color="green">162</FONT>        protected EximResourceConfig scanClassForConfig(<a name="line.162"></a>
+<FONT color="green">163</FONT>            final Class probableResourceClass) {<a name="line.163"></a>
+<FONT color="green">164</FONT>            if (scannedClasses.contains(probableResourceClass)) {<a name="line.164"></a>
+<FONT color="green">165</FONT>                return null;<a name="line.165"></a>
+<FONT color="green">166</FONT>            }<a name="line.166"></a>
+<FONT color="green">167</FONT>            Annotation annotation = probableResourceClass.getAnnotation(<a name="line.167"></a>
+<FONT color="green">168</FONT>                ResourceDomain.class);<a name="line.168"></a>
+<FONT color="green">169</FONT>            if (annotation == null) {<a name="line.169"></a>
+<FONT color="green">170</FONT>                return null;<a name="line.170"></a>
+<FONT color="green">171</FONT>            }<a name="line.171"></a>
+<FONT color="green">172</FONT>            EximResourceConfigImpl resourceConfig = new EximResourceConfigImpl();<a name="line.172"></a>
+<FONT color="green">173</FONT>            resourceConfig.setDomainClass(probableResourceClass);<a name="line.173"></a>
+<FONT color="green">174</FONT>            Name nameAnnotation = (Name) probableResourceClass.getAnnotation(<a name="line.174"></a>
+<FONT color="green">175</FONT>                Name.class);<a name="line.175"></a>
+<FONT color="green">176</FONT>            if (nameAnnotation != null) {<a name="line.176"></a>
+<FONT color="green">177</FONT>                resourceConfig.setName(nameAnnotation.value());<a name="line.177"></a>
+<FONT color="green">178</FONT>            }<a name="line.178"></a>
+<FONT color="green">179</FONT>            else {<a name="line.179"></a>
+<FONT color="green">180</FONT>                resourceConfig.setName(probableResourceClass.getName());<a name="line.180"></a>
+<FONT color="green">181</FONT>            }<a name="line.181"></a>
+<FONT color="green">182</FONT>            ResourceDomain domainAnnotation = (ResourceDomain) annotation;<a name="line.182"></a>
+<FONT color="green">183</FONT>            resourceConfig.setAccessByPropertyEnabled(domainAnnotation.<a name="line.183"></a>
+<FONT color="green">184</FONT>                accessByProperty());<a name="line.184"></a>
+<FONT color="green">185</FONT>            resourceConfig.setAssociateExportPolicyAsUri(domainAnnotation.<a name="line.185"></a>
+<FONT color="green">186</FONT>                exportAsURIByDefault());<a name="line.186"></a>
+<FONT color="green">187</FONT>            resourceConfig.setPathToResource(domainAnnotation.path());<a name="line.187"></a>
+<FONT color="green">188</FONT>            resourceConfig.setExporterImplemented(DomainSelfExporter.class.<a name="line.188"></a>
+<FONT color="green">189</FONT>                isAssignableFrom(probableResourceClass));<a name="line.189"></a>
+<FONT color="green">190</FONT>            resourceConfig.setImporterImplemented(DomainSelfImporter.class.<a name="line.190"></a>
+<FONT color="green">191</FONT>                isAssignableFrom(probableResourceClass));<a name="line.191"></a>
+<FONT color="green">192</FONT>            resourceConfig.setIdentityCustomizerImplemented(<a name="line.192"></a>
+<FONT color="green">193</FONT>                IdentityCustomizer.class.isAssignableFrom(probableResourceClass));<a name="line.193"></a>
+<FONT color="green">194</FONT>            scanMembers(resourceConfig, probableResourceClass);<a name="line.194"></a>
+<FONT color="green">195</FONT>            scannedClasses.add(probableResourceClass);<a name="line.195"></a>
+<FONT color="green">196</FONT>            configuraitons.put(probableResourceClass, resourceConfig);<a name="line.196"></a>
+<FONT color="green">197</FONT>            return resourceConfig;<a name="line.197"></a>
+<FONT color="green">198</FONT>        }<a name="line.198"></a>
+<FONT color="green">199</FONT>    <a name="line.199"></a>
+<FONT color="green">200</FONT>        /**<a name="line.200"></a>
+<FONT color="green">201</FONT>         * Scan a package for extracting configurations of resource domains.<a name="line.201"></a>
+<FONT color="green">202</FONT>         * @param packageName Package to scanClassForConfig.<a name="line.202"></a>
+<FONT color="green">203</FONT>         * @param resourceClass Main class scanClassForConfig requested for<a name="line.203"></a>
+<FONT color="green">204</FONT>         * @return The configuration of the resource class, Null if the class is not<a name="line.204"></a>
+<FONT color="green">205</FONT>         *          a domain class or resourceClass is null<a name="line.205"></a>
+<FONT color="green">206</FONT>         * @throws java.lang.IllegalArgumentException If package is null<a name="line.206"></a>
+<FONT color="green">207</FONT>         */<a name="line.207"></a>
+<FONT color="green">208</FONT>        protected EximResourceConfig scanPackage(final Package packageToScan,<a name="line.208"></a>
+<FONT color="green">209</FONT>                                                 final Class resourceClass)<a name="line.209"></a>
+<FONT color="green">210</FONT>            throws IllegalArgumentException {<a name="line.210"></a>
+<FONT color="green">211</FONT>            if (packageToScan == null) {<a name="line.211"></a>
+<FONT color="green">212</FONT>                throw new IllegalArgumentException();<a name="line.212"></a>
+<FONT color="green">213</FONT>            }<a name="line.213"></a>
+<FONT color="green">214</FONT>            EximResourceConfig resourceConfig = null;<a name="line.214"></a>
+<FONT color="green">215</FONT>            classScanner.scan(new String[]{packageToScan.getName()},<a name="line.215"></a>
+<FONT color="green">216</FONT>                new ClassAnnotationVisitorImpl(callbackHandler,<a name="line.216"></a>
+<FONT color="green">217</FONT>                ResourceDomain.class.getSimpleName()));<a name="line.217"></a>
+<FONT color="green">218</FONT>            Set&lt;String&gt; classPaths = resourceVisitCallback.getProbableResources();<a name="line.218"></a>
+<FONT color="green">219</FONT>            if (!classPaths.isEmpty()) {<a name="line.219"></a>
+<FONT color="green">220</FONT>                for (String classPath : classPaths) {<a name="line.220"></a>
+<FONT color="green">221</FONT>                    try {<a name="line.221"></a>
+<FONT color="green">222</FONT>                        Class probableResourceClass =<a name="line.222"></a>
+<FONT color="green">223</FONT>                            Class.forName(classPath.replaceAll("/", "\\."));<a name="line.223"></a>
+<FONT color="green">224</FONT>                        EximResourceConfig config = scanClassForConfig(<a name="line.224"></a>
+<FONT color="green">225</FONT>                            probableResourceClass);<a name="line.225"></a>
+<FONT color="green">226</FONT>                        if (config != null &amp;&amp; resourceClass != null &amp;&amp;<a name="line.226"></a>
+<FONT color="green">227</FONT>                            probableResourceClass.equals(resourceClass)) {<a name="line.227"></a>
+<FONT color="green">228</FONT>                            resourceConfig = config;<a name="line.228"></a>
+<FONT color="green">229</FONT>                        }<a name="line.229"></a>
+<FONT color="green">230</FONT>                    }<a name="line.230"></a>
+<FONT color="green">231</FONT>                    catch (Exception ex) {<a name="line.231"></a>
+<FONT color="green">232</FONT>                    }<a name="line.232"></a>
+<FONT color="green">233</FONT>                }<a name="line.233"></a>
+<FONT color="green">234</FONT>            }<a name="line.234"></a>
+<FONT color="green">235</FONT>            scannedPackages.add(packageToScan.getName());<a name="line.235"></a>
+<FONT color="green">236</FONT>            return resourceConfig;<a name="line.236"></a>
+<FONT color="green">237</FONT>        }<a name="line.237"></a>
+<FONT color="green">238</FONT>    <a name="line.238"></a>
+<FONT color="green">239</FONT>        /**<a name="line.239"></a>
+<FONT color="green">240</FONT>         * It will scan all member attributes and behavior based on configuration on<a name="line.240"></a>
+<FONT color="green">241</FONT>         * the class. It will also scan all inherited attributes and behavior.<a name="line.241"></a>
+<FONT color="green">242</FONT>         * @param resourceConfig The config representing the domain class<a name="line.242"></a>
+<FONT color="green">243</FONT>         * @param resourceClass The domain class<a name="line.243"></a>
+<FONT color="green">244</FONT>         */<a name="line.244"></a>
+<FONT color="green">245</FONT>        protected void scanMembers(final EximResourceConfigImpl resourceConfig,<a name="line.245"></a>
+<FONT color="green">246</FONT>                                   final Class resourceClass) {<a name="line.246"></a>
+<FONT color="green">247</FONT>            if (resourceConfig.isAccessByPropertyEnabled()) {<a name="line.247"></a>
+<FONT color="green">248</FONT>                scanMethods(resourceConfig, resourceClass);<a name="line.248"></a>
+<FONT color="green">249</FONT>            }<a name="line.249"></a>
+<FONT color="green">250</FONT>            else {<a name="line.250"></a>
+<FONT color="green">251</FONT>                scanFields(resourceConfig, resourceClass);<a name="line.251"></a>
+<FONT color="green">252</FONT>            }<a name="line.252"></a>
+<FONT color="green">253</FONT>        }<a name="line.253"></a>
+<FONT color="green">254</FONT>    <a name="line.254"></a>
+<FONT color="green">255</FONT>        /**<a name="line.255"></a>
+<FONT color="green">256</FONT>         * Scans getter methods for discovering associations of the domain and thier<a name="line.256"></a>
+<FONT color="green">257</FONT>         * respective configurations. It will only scan public getter methods.<a name="line.257"></a>
+<FONT color="green">258</FONT>         * @param resourceConfig The config of the domain resource<a name="line.258"></a>
+<FONT color="green">259</FONT>         * @param resourceClass The domain class<a name="line.259"></a>
+<FONT color="green">260</FONT>         */<a name="line.260"></a>
+<FONT color="green">261</FONT>        protected void scanMethods(final EximResourceConfigImpl resourceConfig,<a name="line.261"></a>
+<FONT color="green">262</FONT>                                   final Class resourceClass) {<a name="line.262"></a>
+<FONT color="green">263</FONT>            Method[] methods = resourceClass.getMethods();<a name="line.263"></a>
+<FONT color="green">264</FONT>            if (methods == null || methods.length &lt;= 0) {<a name="line.264"></a>
+<FONT color="green">265</FONT>                return;<a name="line.265"></a>
+<FONT color="green">266</FONT>            }<a name="line.266"></a>
+<FONT color="green">267</FONT>            for (Method method : methods) {<a name="line.267"></a>
+<FONT color="green">268</FONT>                String methodName = method.getName();<a name="line.268"></a>
+<FONT color="green">269</FONT>                //Only scan getter methods as of bean spec, that getter methods with<a name="line.269"></a>
+<FONT color="green">270</FONT>                //no paratmeters and non-void return types<a name="line.270"></a>
+<FONT color="green">271</FONT>                if (methodName.startsWith(GETTER_PREFIX) &amp;&amp; methodName.length() &gt;<a name="line.271"></a>
+<FONT color="green">272</FONT>                    GETTER_PREFIX.length() &amp;&amp; method.getReturnType() != null &amp;&amp;<a name="line.272"></a>
+<FONT color="green">273</FONT>                    !method.getReturnType().equals(Void.class) &amp;&amp;<a name="line.273"></a>
+<FONT color="green">274</FONT>                    (method.getParameterTypes() == null ||<a name="line.274"></a>
+<FONT color="green">275</FONT>                    method.getParameterTypes().length &lt;= 0)) {<a name="line.275"></a>
+<FONT color="green">276</FONT>                    scanGetterMethod(resourceConfig, method);<a name="line.276"></a>
+<FONT color="green">277</FONT>                }<a name="line.277"></a>
+<FONT color="green">278</FONT>            }<a name="line.278"></a>
+<FONT color="green">279</FONT>        }<a name="line.279"></a>
+<FONT color="green">280</FONT>    <a name="line.280"></a>
+<FONT color="green">281</FONT>        /**<a name="line.281"></a>
+<FONT color="green">282</FONT>         * Scans a getter method for annotations which is used to cofigure the<a name="line.282"></a>
+<FONT color="green">283</FONT>         * nature of the export<a name="line.283"></a>
+<FONT color="green">284</FONT>         * @param resourceConfig The config to populate with configurations<a name="line.284"></a>
+<FONT color="green">285</FONT>         * @param method The getter method to scan<a name="line.285"></a>
+<FONT color="green">286</FONT>         * @throws java.lang.IllegalArgumentException If its not a getter method<a name="line.286"></a>
+<FONT color="green">287</FONT>         *                                            with non-void return type and<a name="line.287"></a>
+<FONT color="green">288</FONT>         *                                            with a non-zero length bean<a name="line.288"></a>
+<FONT color="green">289</FONT>         *                                            name length and with no<a name="line.289"></a>
+<FONT color="green">290</FONT>         *                                            parameter<a name="line.290"></a>
+<FONT color="green">291</FONT>         */<a name="line.291"></a>
+<FONT color="green">292</FONT>        protected void scanGetterMethod(final EximResourceConfigImpl resourceConfig,<a name="line.292"></a>
+<FONT color="green">293</FONT>                                        final Method method)<a name="line.293"></a>
+<FONT color="green">294</FONT>            throws IllegalArgumentException {<a name="line.294"></a>
+<FONT color="green">295</FONT>            String methodName = method.getName();<a name="line.295"></a>
+<FONT color="green">296</FONT>            if (!(methodName.startsWith(GETTER_PREFIX) &amp;&amp; methodName.length() &gt;<a name="line.296"></a>
+<FONT color="green">297</FONT>                GETTER_PREFIX.length() &amp;&amp; method.getReturnType() != null &amp;&amp;<a name="line.297"></a>
+<FONT color="green">298</FONT>                !method.getReturnType().equals(Void.class) &amp;&amp;<a name="line.298"></a>
+<FONT color="green">299</FONT>                (method.getParameterTypes() == null ||<a name="line.299"></a>
+<FONT color="green">300</FONT>                method.getParameterTypes().length &lt;= 0))) {<a name="line.300"></a>
+<FONT color="green">301</FONT>                throw new IllegalArgumentException();<a name="line.301"></a>
+<FONT color="green">302</FONT>            }<a name="line.302"></a>
+<FONT color="green">303</FONT>            String propertyName = getPropertyNameFromMethodName(methodName);<a name="line.303"></a>
+<FONT color="green">304</FONT>            Class returnType = method.getReturnType();<a name="line.304"></a>
+<FONT color="green">305</FONT>            scanAnnotatedElement(method, propertyName, returnType, resourceConfig);<a name="line.305"></a>
+<FONT color="green">306</FONT>        }<a name="line.306"></a>
+<FONT color="green">307</FONT>    <a name="line.307"></a>
+<FONT color="green">308</FONT>        /**<a name="line.308"></a>
+<FONT color="green">309</FONT>         * Scans fields for discovering associations of the domain and thier<a name="line.309"></a>
+<FONT color="green">310</FONT>         * respective configurations<a name="line.310"></a>
+<FONT color="green">311</FONT>         * @param resourceConfig The config of the domain resource<a name="line.311"></a>
+<FONT color="green">312</FONT>         * @param resourceClass The domain class<a name="line.312"></a>
+<FONT color="green">313</FONT>         */<a name="line.313"></a>
+<FONT color="green">314</FONT>        protected void scanFields(EximResourceConfigImpl resourceConfig,<a name="line.314"></a>
+<FONT color="green">315</FONT>                                  Class resourceClass) {<a name="line.315"></a>
+<FONT color="green">316</FONT>            Field[] fields = resourceClass.getDeclaredFields();<a name="line.316"></a>
+<FONT color="green">317</FONT>            for (Field field : fields) {<a name="line.317"></a>
+<FONT color="green">318</FONT>                scanField(resourceConfig, field);<a name="line.318"></a>
+<FONT color="green">319</FONT>            }<a name="line.319"></a>
+<FONT color="green">320</FONT>            Class parentClass = resourceClass.getSuperclass();<a name="line.320"></a>
+<FONT color="green">321</FONT>            if (!parentClass.equals(Object.class)) {<a name="line.321"></a>
+<FONT color="green">322</FONT>                scanFields(resourceConfig, parentClass);<a name="line.322"></a>
+<FONT color="green">323</FONT>            }<a name="line.323"></a>
+<FONT color="green">324</FONT>        }<a name="line.324"></a>
+<FONT color="green">325</FONT>    <a name="line.325"></a>
+<FONT color="green">326</FONT>        /**<a name="line.326"></a>
+<FONT color="green">327</FONT>         * A field is scanned for gathering configurations for export-import.<a name="line.327"></a>
+<FONT color="green">328</FONT>         * @param resourceConfig Configuraton for the field association<a name="line.328"></a>
+<FONT color="green">329</FONT>         * @param field The field to scan<a name="line.329"></a>
+<FONT color="green">330</FONT>         */<a name="line.330"></a>
+<FONT color="green">331</FONT>        protected void scanField(final EximResourceConfigImpl resourceConfig,<a name="line.331"></a>
+<FONT color="green">332</FONT>                                 final Field field) {<a name="line.332"></a>
+<FONT color="green">333</FONT>            String propertyName = field.getName();<a name="line.333"></a>
+<FONT color="green">334</FONT>            Class propertyType = field.getType();<a name="line.334"></a>
+<FONT color="green">335</FONT>            scanAnnotatedElement(field, propertyName, propertyType, resourceConfig);<a name="line.335"></a>
+<FONT color="green">336</FONT>        }<a name="line.336"></a>
+<FONT color="green">337</FONT>    <a name="line.337"></a>
+<FONT color="green">338</FONT>        /**<a name="line.338"></a>
+<FONT color="green">339</FONT>         * Scan an ennotated element to extract configuration information<a name="line.339"></a>
+<FONT color="green">340</FONT>         * @param element Element to scan<a name="line.340"></a>
+<FONT color="green">341</FONT>         * @param propertyName The name of the property scanning<a name="line.341"></a>
+<FONT color="green">342</FONT>         * @param propertyType The type of the property<a name="line.342"></a>
+<FONT color="green">343</FONT>         * @param resourceConfig The configuration for the domain class<a name="line.343"></a>
+<FONT color="green">344</FONT>         * @throws java.lang.IllegalArgumentException If any argument is null<a name="line.344"></a>
+<FONT color="green">345</FONT>         */<a name="line.345"></a>
+<FONT color="green">346</FONT>        protected void scanAnnotatedElement(final AnnotatedElement element,<a name="line.346"></a>
+<FONT color="green">347</FONT>                                            final String propertyName,<a name="line.347"></a>
+<FONT color="green">348</FONT>                                            final Class propertyType,<a name="line.348"></a>
+<FONT color="green">349</FONT>                                            final EximResourceConfigImpl resourceConfig)<a name="line.349"></a>
+<FONT color="green">350</FONT>            throws IllegalArgumentException {<a name="line.350"></a>
+<FONT color="green">351</FONT>            if (element == null || propertyName == null || propertyType == null ||<a name="line.351"></a>
+<FONT color="green">352</FONT>                resourceConfig == null) {<a name="line.352"></a>
+<FONT color="green">353</FONT>                throw new IllegalArgumentException();<a name="line.353"></a>
+<FONT color="green">354</FONT>            }<a name="line.354"></a>
+<FONT color="green">355</FONT>            Export annotation =<a name="line.355"></a>
+<FONT color="green">356</FONT>                element.getAnnotation(Export.class);<a name="line.356"></a>
+<FONT color="green">357</FONT>            AssociationConfigImpl configImpl =<a name="line.357"></a>
+<FONT color="green">358</FONT>                new AssociationConfigImpl();<a name="line.358"></a>
+<FONT color="green">359</FONT>            configImpl.setName(propertyName);<a name="line.359"></a>
+<FONT color="green">360</FONT>            configImpl.setAssociationType(AssociationConfig.AssociationType.<a name="line.360"></a>
+<FONT color="green">361</FONT>                getAssociationType(propertyType));<a name="line.361"></a>
+<FONT color="green">362</FONT>            Eager eager =<a name="line.362"></a>
+<FONT color="green">363</FONT>                element.getAnnotation(Eager.class);<a name="line.363"></a>
+<FONT color="green">364</FONT>            configImpl.setStringProviderImplemented(StringValueProvider.class.<a name="line.364"></a>
+<FONT color="green">365</FONT>                isAssignableFrom(propertyType));<a name="line.365"></a>
+<FONT color="green">366</FONT>            configImpl.setEagerSet(eager != null);<a name="line.366"></a>
+<FONT color="green">367</FONT>            if (annotation != null) {<a name="line.367"></a>
+<FONT color="green">368</FONT>                configImpl.setItToBeExportedAsUri(!annotation.asObject());<a name="line.368"></a>
+<FONT color="green">369</FONT>                configImpl.setTransient(annotation.isTransient());<a name="line.369"></a>
+<FONT color="green">370</FONT>            }<a name="line.370"></a>
+<FONT color="green">371</FONT>            else {<a name="line.371"></a>
+<FONT color="green">372</FONT>                configImpl.setItToBeExportedAsUri(false);<a name="line.372"></a>
+<FONT color="green">373</FONT>                configImpl.setTransient(false);<a name="line.373"></a>
+<FONT color="green">374</FONT>            }<a name="line.374"></a>
+<FONT color="green">375</FONT>            resourceConfig.getAssociationConfigs().put(propertyName, configImpl);<a name="line.375"></a>
+<FONT color="green">376</FONT>            Id id =<a name="line.376"></a>
+<FONT color="green">377</FONT>                element.getAnnotation(Id.class);<a name="line.377"></a>
+<FONT color="green">378</FONT>            if (id != null) {<a name="line.378"></a>
+<FONT color="green">379</FONT>                resourceConfig.setIdPropertyName(propertyName);<a name="line.379"></a>
+<FONT color="green">380</FONT>            }<a name="line.380"></a>
+<FONT color="green">381</FONT>        }<a name="line.381"></a>
+<FONT color="green">382</FONT>    <a name="line.382"></a>
+<FONT color="green">383</FONT>        /**<a name="line.383"></a>
+<FONT color="green">384</FONT>         * The visitor callback to be notified for dmain classes.<a name="line.384"></a>
+<FONT color="green">385</FONT>         */<a name="line.385"></a>
+<FONT color="green">386</FONT>        protected static class ResourceVisitCallback<a name="line.386"></a>
+<FONT color="green">387</FONT>            implements VisitCallback&lt;AnnotationConfig&gt; {<a name="line.387"></a>
+<FONT color="green">388</FONT>    <a name="line.388"></a>
+<FONT color="green">389</FONT>            private Set&lt;String&gt; probableResources = new HashSet&lt;String&gt;();<a name="line.389"></a>
+<FONT color="green">390</FONT>    <a name="line.390"></a>
+<FONT color="green">391</FONT>            public void handle(AnnotationConfig config) {<a name="line.391"></a>
+<FONT color="green">392</FONT>                probableResources.add(config.getClassName());<a name="line.392"></a>
+<FONT color="green">393</FONT>            }<a name="line.393"></a>
+<FONT color="green">394</FONT>    <a name="line.394"></a>
+<FONT color="green">395</FONT>            public Set&lt;String&gt; getProbableResources() {<a name="line.395"></a>
+<FONT color="green">396</FONT>                return probableResources;<a name="line.396"></a>
+<FONT color="green">397</FONT>            }<a name="line.397"></a>
+<FONT color="green">398</FONT>        }<a name="line.398"></a>
+<FONT color="green">399</FONT>    }<a name="line.399"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

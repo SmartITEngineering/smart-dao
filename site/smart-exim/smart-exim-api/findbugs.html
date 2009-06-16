@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+
+
+
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Smart DAO - ExIm - API - FindBugs Bug Detector Report</title>
+    <style type="text/css" media="all">
+      @import url("./css/maven-base.css");
+      @import url("./css/maven-theme.css");
+      @import url("./css/site.css");
+    </style>
+    <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+      </head>
+  <body class="composite">
+    <div id="banner">
+                    <span id="bannerLeft">
+    
+            smart-exim-api
+    
+            </span>
+                    <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="breadcrumbs">
+          
+  
+
+  
+    
+            
+  
+    
+            <div class="xleft">
+        Last Published: 2009-06-16
+                  &nbsp;| Version: 0.4-SNAPSHOT
+                      </div>
+            <div class="xright">      
+  
+
+  
+    
+            
+  
+    
+  </div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="leftColumn">
+      <div id="navcolumn">
+           
+  
+
+  
+    
+            
+  
+    
+                   <h5>Parent Project</h5>
+            <ul>
+              
+    <li class="none">
+                    <a href="../index.html">smart-exim</a>
+          </li>
+          </ul>
+              <h5>Overview</h5>
+            <ul>
+              
+    <li class="none">
+                    <a href="index.html">Introduction</a>
+          </li>
+          </ul>
+                        <h5>Project Documentation</h5>
+            <ul>
+              
+                
+              
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+              
+        <li class="collapsed">
+                    <a href="project-info.html">Project Information</a>
+                </li>
+              
+                
+              
+      
+            
+      
+            
+      
+            
+      
+            
+            
+            
+      
+            
+      
+            
+      
+              
+            <li class="expanded">
+                    <a href="project-reports.html">Project Reports</a>
+                  <ul>
+                  
+    <li class="none">
+                    <a href="changelog.html">Change Log</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="cobertura/index.html">Cobertura Test Coverage</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="dev-activity.html">Developer Activity</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="file-activity.html">File Activity</a>
+          </li>
+                  
+    <li class="none">
+              <strong>FindBugs Report</strong>
+        </li>
+                  
+    <li class="none">
+                    <a href="apidocs/index.html">JavaDocs</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="surefire-report.html">Maven Surefire Report</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="testapidocs/index.html">Test JavaDocs</a>
+          </li>
+              </ul>
+        </li>
+          </ul>
+                                           <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
+            <img alt="Built by Maven" src="./images/logos/maven-feather.png"></img>
+          </a>
+                       
+  
+
+  
+    
+            
+  
+    
+        </div>
+    </div>
+    <div id="bodyColumn">
+      <div id="contentBox">
+        <div class="section"><h2>FindBugs Bug Detector Report</h2>
+<p>The following document contains the results of <a href="http://findbugs.sourceforge.net" class="externalLink">FindBugs Report</a></p>
+<p>FindBugs Version is <i>1.3.7</i></p>
+<p>Threshold is <i>Low</i></p>
+<p>Effort is <i>Default</i></p>
+</div>
+<div class="section"><h2>Summary</h2>
+<table class="bodyTable"><tr class="a"><th>Classes</th>
+<th>Bugs</th>
+<th>Errors</th>
+<th>Missing Classes</th>
+</tr>
+<tr class="b"><td>79</td>
+<td>7</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</table>
+</div>
+<div class="section"><h2>Files</h2>
+<table class="bodyTable"><tr class="a"><th>Class</th>
+<th>Bugs</th>
+</tr>
+<tr class="b"><td><a href="#com.smartitengineering.exim.ConfigRegistrar$ConfigScannerRegistryItem">com.smartitengineering.exim.ConfigRegistrar$ConfigScannerRegistryItem</a></td>
+<td>3</td>
+</tr>
+<tr class="a"><td><a href="#com.smartitengineering.exim.impl.AssociationConfigImpl">com.smartitengineering.exim.impl.AssociationConfigImpl</a></td>
+<td>2</td>
+</tr>
+<tr class="b"><td><a href="#com.smartitengineering.exim.impl.DefaultAnnotationConfigScanner">com.smartitengineering.exim.impl.DefaultAnnotationConfigScanner</a></td>
+<td>2</td>
+</tr>
+</table>
+</div>
+<a name="com.smartitengineering.exim.ConfigRegistrarConfigScannerRegistryItem"></a><div class="section"><h3>com.smartitengineering.exim.ConfigRegistrar$ConfigScannerRegistryItem</h3>
+<table class="bodyTable"><tr class="a"><th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+<th>Priority</th>
+</tr>
+<tr class="b"><td>Method com.smartitengineering.exim.ConfigRegistrar$ConfigScannerRegistryItem.compareTo(ConfigRegistrar$ConfigScannerRegistryItem) invokes inefficient new Integer(int) constructor; use Integer.valueOf(int) instead</td>
+<td>PERFORMANCE</td>
+<td><a href="http://findbugs.sourceforge.net/bugDescriptions.html#DM_NUMBER_CTOR" class="externalLink">DM_NUMBER_CTOR</a></td>
+<td>175</td>
+<td>Medium</td>
+</tr>
+<tr class="a"><td>Exception is caught when Exception is not thrown in com.smartitengineering.exim.ConfigRegistrar$ConfigScannerRegistryItem.getInstance()</td>
+<td>STYLE</td>
+<td><a href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION" class="externalLink">REC_CATCH_EXCEPTION</a></td>
+<td>204</td>
+<td>Medium</td>
+</tr>
+<tr class="b"><td>Exception is caught when Exception is not thrown in com.smartitengineering.exim.ConfigRegistrar$ConfigScannerRegistryItem.getInstance()</td>
+<td>STYLE</td>
+<td><a href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION" class="externalLink">REC_CATCH_EXCEPTION</a></td>
+<td>210</td>
+<td>Low</td>
+</tr>
+</table>
+</div>
+<a name="com.smartitengineering.exim.impl.AssociationConfigImpl"></a><div class="section"><h3>com.smartitengineering.exim.impl.AssociationConfigImpl</h3>
+<table class="bodyTable"><tr class="a"><th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+<th>Priority</th>
+</tr>
+<tr class="b"><td>There is an apparent infinite recursive loop in com.smartitengineering.exim.impl.AssociationConfigImpl.isStringProviderImplemented()</td>
+<td>CORRECTNESS</td>
+<td><a href="http://findbugs.sourceforge.net/bugDescriptions.html#IL_INFINITE_RECURSIVE_LOOP" class="externalLink">IL_INFINITE_RECURSIVE_LOOP</a></td>
+<td>82</td>
+<td>High</td>
+</tr>
+<tr class="a"><td>Unread field: com.smartitengineering.exim.impl.AssociationConfigImpl.stringProviderImplemented</td>
+<td>PERFORMANCE</td>
+<td><a href="http://findbugs.sourceforge.net/bugDescriptions.html#URF_UNREAD_FIELD" class="externalLink">URF_UNREAD_FIELD</a></td>
+<td>54</td>
+<td>Medium</td>
+</tr>
+</table>
+</div>
+<a name="com.smartitengineering.exim.impl.DefaultAnnotationConfigScanner"></a><div class="section"><h3>com.smartitengineering.exim.impl.DefaultAnnotationConfigScanner</h3>
+<table class="bodyTable"><tr class="b"><th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+<th>Priority</th>
+</tr>
+<tr class="a"><td>Incorrect lazy initialization of static field com.smartitengineering.exim.impl.DefaultAnnotationConfigScanner.registrar in com.smartitengineering.exim.impl.DefaultAnnotationConfigScanner.getInstance()</td>
+<td>MT_CORRECTNESS</td>
+<td><a href="http://findbugs.sourceforge.net/bugDescriptions.html#LI_LAZY_INIT_STATIC" class="externalLink">LI_LAZY_INIT_STATIC</a></td>
+<td>74-75</td>
+<td>Low</td>
+</tr>
+<tr class="b"><td>Exception is caught when Exception is not thrown in com.smartitengineering.exim.impl.DefaultAnnotationConfigScanner.scanPackage(Package, Class)</td>
+<td>STYLE</td>
+<td><a href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION" class="externalLink">REC_CATCH_EXCEPTION</a></td>
+<td>231</td>
+<td>Low</td>
+</tr>
+</table>
+</div>
+
+      </div>
+    </div>
+    <div class="clear">
+      <hr/>
+    </div>
+    <div id="footer">
+      <div class="xright">&#169;  
+          2007-2009
+    
+          Smart IT Engineering
+          
+  
+
+  
+    
+            
+  
+    
+   - <a href="http://maven.apache.org/privacy-policy.html">Privacy Policy</a></div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+  </body>
+</html>
