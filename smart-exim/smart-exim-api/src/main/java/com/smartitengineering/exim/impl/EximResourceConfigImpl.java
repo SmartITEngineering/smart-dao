@@ -20,6 +20,7 @@ package com.smartitengineering.exim.impl;
 
 import com.smartitengineering.exim.AssociationConfig;
 import com.smartitengineering.exim.EximResourceConfig;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -98,6 +99,9 @@ public class EximResourceConfigImpl
     }
 
     public Map<String, AssociationConfig> getAssociationConfigs() {
+        if(associationConfigs == null) {
+            associationConfigs = new HashMap<String, AssociationConfig>();
+        }
         return associationConfigs;
     }
 

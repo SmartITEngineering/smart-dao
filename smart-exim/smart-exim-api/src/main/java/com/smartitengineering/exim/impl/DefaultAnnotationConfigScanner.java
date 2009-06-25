@@ -148,7 +148,7 @@ public class DefaultAnnotationConfigScanner
         propertyNameBuilder.delete(0, GETTER_PREFIX.length());
         char firstChar = propertyNameBuilder.charAt(0);
         propertyNameBuilder.delete(0, 1);
-        propertyNameBuilder.insert(0, Character.toUpperCase(firstChar));
+        propertyNameBuilder.insert(0, Character.toLowerCase(firstChar));
         return propertyNameBuilder.toString();
     }
 
@@ -161,8 +161,11 @@ public class DefaultAnnotationConfigScanner
      */
     protected EximResourceConfig scanClassForConfig(
         final Class probableResourceClass) {
-        if (scannedClasses.contains(probableResourceClass)) {
+        if(probableResourceClass == null) {
             return null;
+        }
+        if (scannedClasses.contains(probableResourceClass)) {
+            return getConfigurations().get(probableResourceClass);
         }
         Annotation annotation = probableResourceClass.getAnnotation(
             ResourceDomain.class);
@@ -214,13 +217,13 @@ public class DefaultAnnotationConfigScanner
         EximResourceConfig resourceConfig = null;
         classScanner.scan(new String[]{packageToScan.getName()},
             new ClassAnnotationVisitorImpl(callbackHandler,
-            ResourceDomain.class.getSimpleName()));
+            IOFactory.getAnnotationNameForVisitor(ResourceDomain.class)));
         Set<String> classPaths = resourceVisitCallback.getProbableResources();
         if (!classPaths.isEmpty()) {
             for (String classPath : classPaths) {
                 try {
                     Class probableResourceClass =
-                        Class.forName(classPath.replaceAll("/", "\\."));
+                        IOFactory.getClassFromVisitorName(classPath);
                     EximResourceConfig config = scanClassForConfig(
                         probableResourceClass);
                     if (config != null && resourceClass != null &&
