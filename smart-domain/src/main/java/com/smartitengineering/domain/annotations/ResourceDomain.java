@@ -63,4 +63,13 @@ public @interface ResourceDomain {
      * @since 0.4
      */
     boolean accessByProperty() default true;
+
+    /**
+     * Since resource domain can be an interface as well, we need a way to
+     * specify the priority of an interface in case a concrete class implements
+     * more than one interface.
+     * @return Priority of this resource domain
+     * @since 0.4
+     */
+    int priority() default 0;
 }
