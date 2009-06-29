@@ -79,6 +79,27 @@ public class AssociationConfigImpl implements AssociationConfig{
     }
 
     public boolean isStringProviderImplemented() {
-        return isStringProviderImplemented();
+        return stringProviderImplemented;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder toStringBuilder = new StringBuilder();
+        toStringBuilder.append(super.toString());
+        toStringBuilder.append("\n");
+        toStringBuilder.append("\nassociationType: ");
+        toStringBuilder.append(associationType);
+        toStringBuilder.append("\nitToBeExportedAsUri: ");
+        toStringBuilder.append(itToBeExportedAsUri);
+        toStringBuilder.append("\ntransientAssociation: ");
+        toStringBuilder.append(transientAssociation);
+        toStringBuilder.append("\neagerSet: ");
+        toStringBuilder.append(eagerSet);
+        toStringBuilder.append("\nstringProviderImplemented: ");
+        toStringBuilder.append(stringProviderImplemented);
+        toStringBuilder.append("\nname: ");
+        toStringBuilder.append(name);
+        return toStringBuilder.toString();
+    }
+
 }

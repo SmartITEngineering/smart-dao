@@ -136,4 +136,40 @@ public class EximResourceConfigImpl
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder toStringBuilder = new StringBuilder();
+        toStringBuilder.append(super.toString());
+        toStringBuilder.append("\n");
+        toStringBuilder.append("\nassociateExportPolicyAsUri: ");
+        toStringBuilder.append(associateExportPolicyAsUri);
+        toStringBuilder.append("\naccessByPropertyEnabled: ");
+        toStringBuilder.append(accessByPropertyEnabled);
+        toStringBuilder.append("\nidentityCustomizerImplemented: ");
+        toStringBuilder.append(identityCustomizerImplemented);
+        toStringBuilder.append("\nexporterImplemented: ");
+        toStringBuilder.append(exporterImplemented);
+        toStringBuilder.append("\nimporterImplemented: ");
+        toStringBuilder.append(importerImplemented);
+        toStringBuilder.append("\ndomainClass: ");
+        toStringBuilder.append(domainClass);
+        toStringBuilder.append("\npathToResource: ");
+        toStringBuilder.append(pathToResource);
+        toStringBuilder.append("\nidPrefix: ");
+        toStringBuilder.append(idPrefix);
+        toStringBuilder.append("\nidPropertyName: ");
+        toStringBuilder.append(idPropertyName);
+        toStringBuilder.append("\nname: ");
+        toStringBuilder.append(name);
+        toStringBuilder.append("\nassociationConfigs: ");
+        for(Map.Entry<String, AssociationConfig> configEntry : associationConfigs.entrySet()) {
+            toStringBuilder.append("\n\t");
+            toStringBuilder.append(configEntry.getKey());
+            toStringBuilder.append(": ");
+            toStringBuilder.append(configEntry.getValue().toString().replaceAll(
+                "\n", "\n\t\t"));
+        }
+        return toStringBuilder.toString();
+    }
 }
