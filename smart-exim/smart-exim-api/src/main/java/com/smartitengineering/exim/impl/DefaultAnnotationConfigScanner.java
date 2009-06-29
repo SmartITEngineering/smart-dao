@@ -194,6 +194,7 @@ public class DefaultAnnotationConfigScanner
             isAssignableFrom(probableResourceClass));
         resourceConfig.setIdentityCustomizerImplemented(
             IdentityCustomizer.class.isAssignableFrom(probableResourceClass));
+        resourceConfig.setPriority(domainAnnotation.priority());
         scanMembers(resourceConfig, probableResourceClass);
         scannedClasses.add(probableResourceClass);
         configuraitons.put(probableResourceClass, resourceConfig);

@@ -42,6 +42,7 @@ public class EximResourceConfigImpl
     private String idPrefix;
     private String idPropertyName;
     private String name;
+    private int priority;
     private Map<String, AssociationConfig> associationConfigs;
 
     public void setAccessByPropertyEnabled(boolean accessByPropertyEnabled) {
@@ -88,6 +89,10 @@ public class EximResourceConfigImpl
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
     public boolean isAccessByPropertyEnabled() {
@@ -137,6 +142,10 @@ public class EximResourceConfigImpl
         return name;
     }
 
+    public int getPriority() {
+        return priority;
+    }
+
     @Override
     public String toString() {
         StringBuilder toStringBuilder = new StringBuilder();
@@ -162,6 +171,8 @@ public class EximResourceConfigImpl
         toStringBuilder.append(idPropertyName);
         toStringBuilder.append("\nname: ");
         toStringBuilder.append(name);
+        toStringBuilder.append("\npriority: ");
+        toStringBuilder.append(priority);
         toStringBuilder.append("\nassociationConfigs: ");
         for(Map.Entry<String, AssociationConfig> configEntry : associationConfigs.entrySet()) {
             toStringBuilder.append("\n\t");

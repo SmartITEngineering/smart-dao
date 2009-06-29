@@ -111,4 +111,13 @@ public interface EximResourceConfig {
      * @return True if it implements {@link DomainSelfImporter} else false
      */
     boolean isImporterImplemented();
+
+    /**
+     * Represents the priority of the resource domain. It is applicable only
+     * for interfaces. If a non resource domain concrete object implements more
+     * than one resource domain annotated interfaces, then based on descending
+     * order the priority will popped from a priority queue.
+     * @return Priority of this resource domain, 0 by default.
+     */
+    int getPriority();
 }
