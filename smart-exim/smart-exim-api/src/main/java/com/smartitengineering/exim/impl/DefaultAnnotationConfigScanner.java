@@ -61,6 +61,8 @@ public class DefaultAnnotationConfigScanner
                PackageConfigScanner {
 
     private static final String GETTER_PREFIX = "get";
+    private static final String IS_PREFIX = "is";
+    private static final String HAS_PREFIX = "has";
     private static DefaultAnnotationConfigScanner registrar;
 
     static {
@@ -145,7 +147,21 @@ public class DefaultAnnotationConfigScanner
     protected String getPropertyNameFromMethodName(final String methodName) {
         StringBuilder propertyNameBuilder =
             new StringBuilder(methodName);
-        propertyNameBuilder.delete(0, GETTER_PREFIX.length());
+        int cutLength = -1;
+        if (methodName.startsWith(GETTER_PREFIX)) {
+            cutLength = GETTER_PREFIX.length();
+        }
+        else if (methodName.startsWith(IS_PREFIX)) {
+            cutLength = IS_PREFIX.length();
+        }
+        else if (methodName.startsWith(HAS_PREFIX)) {
+            cutLength = HAS_PREFIX.length();
+        }
+        else {
+            throw new IllegalArgumentException(
+                "Not a valid property read accoessor");
+        }
+        propertyNameBuilder.delete(0, cutLength);
         char firstChar = propertyNameBuilder.charAt(0);
         propertyNameBuilder.delete(0, 1);
         propertyNameBuilder.insert(0, Character.toLowerCase(firstChar));
@@ -161,7 +177,7 @@ public class DefaultAnnotationConfigScanner
      */
     protected EximResourceConfig scanClassForConfig(
         final Class probableResourceClass) {
-        if(probableResourceClass == null) {
+        if (probableResourceClass == null) {
             return null;
         }
         if (scannedClasses.contains(probableResourceClass)) {
@@ -272,9 +288,12 @@ public class DefaultAnnotationConfigScanner
             String methodName = method.getName();
             //Only scan getter methods as of bean spec, that getter methods with
             //no paratmeters and non-void return types
-            if (methodName.startsWith(GETTER_PREFIX) && methodName.length() >
-                GETTER_PREFIX.length() && method.getReturnType() != null &&
-                !method.getReturnType().equals(Void.class) &&
+            if (((methodName.startsWith(GETTER_PREFIX) && methodName.length() >
+                GETTER_PREFIX.length()) || (methodName.startsWith(IS_PREFIX) &&
+                methodName.length() > IS_PREFIX.length()) || (methodName.
+                startsWith(HAS_PREFIX) && methodName.length() > HAS_PREFIX.
+                length())) && method.getReturnType() != null && !method.
+                getReturnType().equals(Void.class) &&
                 (method.getParameterTypes() == null ||
                 method.getParameterTypes().length <= 0)) {
                 scanGetterMethod(resourceConfig, method);
@@ -298,14 +317,16 @@ public class DefaultAnnotationConfigScanner
         throws IllegalArgumentException {
         String methodName = method.getName();
         //Ignore the getClass bean
-        if(method.getName().equals("getClass")) {
-            return ;
+        if (method.getName().equals("getClass")) {
+            return;
         }
-        if (!(methodName.startsWith(GETTER_PREFIX) && methodName.length() >
-            GETTER_PREFIX.length() && method.getReturnType() != null &&
-            !method.getReturnType().equals(Void.class) &&
-            (method.getParameterTypes() == null ||
-            method.getParameterTypes().length <= 0))) {
+        if (!(((methodName.startsWith(GETTER_PREFIX) && methodName.length() >
+            GETTER_PREFIX.length()) || (methodName.startsWith(IS_PREFIX) &&
+            methodName.length() > IS_PREFIX.length()) || (methodName.startsWith(
+            HAS_PREFIX) && methodName.length() > HAS_PREFIX.length())) &&
+            method.getReturnType() != null && !method.getReturnType().equals(
+            Void.class) && (method.getParameterTypes() == null || method.
+            getParameterTypes().length <= 0))) {
             throw new IllegalArgumentException();
         }
         String propertyName = getPropertyNameFromMethodName(methodName);
