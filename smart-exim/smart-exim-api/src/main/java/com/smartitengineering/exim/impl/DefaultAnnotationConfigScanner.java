@@ -376,7 +376,8 @@ public class DefaultAnnotationConfigScanner
         }
         String propertyName = getPropertyNameFromMethodName(methodName);
         Class returnType = method.getReturnType();
-        scanAnnotatedElement(method, propertyName, returnType, resourceConfig);
+        scanAnnotatedElement(method, methodName, propertyName, returnType,
+            resourceConfig);
     }
 
     /**
@@ -406,18 +407,21 @@ public class DefaultAnnotationConfigScanner
                              final Field field) {
         String propertyName = field.getName();
         Class propertyType = field.getType();
-        scanAnnotatedElement(field, propertyName, propertyType, resourceConfig);
+        scanAnnotatedElement(field, propertyName, propertyName, propertyType,
+            resourceConfig);
     }
 
     /**
      * Scan an ennotated element to extract configuration information
      * @param element Element to scan
      * @param propertyName The name of the property scanning
+     * @param accessorName The name of the property accessor
      * @param propertyType The type of the property
      * @param resourceConfig The configuration for the domain class
      * @throws java.lang.IllegalArgumentException If any argument is null
      */
     protected void scanAnnotatedElement(final AnnotatedElement element,
+                                        final String accessorName,
                                         final String propertyName,
                                         final Class propertyType,
                                         final EximResourceConfigImpl resourceConfig)
@@ -430,6 +434,7 @@ public class DefaultAnnotationConfigScanner
             element.getAnnotation(Export.class);
         AssociationConfigImpl configImpl =
             new AssociationConfigImpl();
+        configImpl.setAccessorName(accessorName);
         configImpl.setName(propertyName);
         configImpl.setAssociationType(AssociationConfig.AssociationType.
             getAssociationType(propertyType));

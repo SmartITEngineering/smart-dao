@@ -33,6 +33,7 @@ public class AssociationConfigImpl implements AssociationConfig{
     private boolean eagerSet;
     private boolean stringProviderImplemented;
     private String name;
+    private String accessorName;
 
     public void setAssociationType(AssociationType associationType) {
         this.associationType = associationType;
@@ -48,6 +49,10 @@ public class AssociationConfigImpl implements AssociationConfig{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setAccessorName(String accessorName) {
+        this.accessorName = accessorName;
     }
 
     public void setStringProviderImplemented(boolean stringProviderImplemented) {
@@ -72,6 +77,10 @@ public class AssociationConfigImpl implements AssociationConfig{
 
     public String getName() {
         return name;
+    }
+
+    public String getAccessorName() {
+        return accessorName;
     }
 
     public boolean isEagerSet() {

@@ -33,6 +33,14 @@ import java.util.Set;
 public interface AssociationConfig {
 
     /**
+     * The accessor name for the property, if field is being used to access then
+     * it will be the name of the field else it will be the name of the method
+     * being used to read it.
+     * @return Accessor string, it will be non-blank
+     */
+    public String getAccessorName();
+
+    /**
      * Defines whether the associate is to be exported as URI or not.
      * @return True if its expected to export as URI else false
      */
