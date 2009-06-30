@@ -84,11 +84,29 @@ public interface AssociationConfig {
      */
     public enum AssociationType {
 
+        /**
+         * Represents anything thats not any form of collection
+         */
         TYPE_OBJECT(Object.class),
+        /**
+         * Represents List
+         */
         TYPE_LIST(List.class),
+        /**
+         * Represents Set
+         */
         TYPE_SET(Set.class),
+        /**
+         * Represents Collection
+         */
         TYPE_COLLECTION(Collection.class),
+        /**
+         * Represents Array
+         */
         TYPE_ARRAY(Object.class),
+        /**
+         * Represents Map
+         */
         TYPE_MAP(Map.class),;
         private Class rootClass;
 
@@ -96,24 +114,36 @@ public interface AssociationConfig {
             this.rootClass = rootClass;
         }
 
+        /**
+         * The root {@link Class} of the type its representing
+         * @return The class type
+         */
         public Class getRootClass() {
             return rootClass;
         }
 
-        public static AssociationType getAssociationType(Class clazz) {
-            if(clazz.isArray()) {
+        /**
+         * Given any {@link Class} it will determine the {@link AssociationType}
+         * for that class.
+         * @param clazz The class whose type to determine
+         * @return Type of the clazz
+         * @throws NullPointerException If clazz is null
+         */
+        public static AssociationType getAssociationType(Class clazz)
+            throws NullPointerException {
+            if (clazz.isArray()) {
                 return TYPE_ARRAY;
             }
-            if(TYPE_MAP.getRootClass().isAssignableFrom(clazz)) {
+            if (TYPE_MAP.getRootClass().isAssignableFrom(clazz)) {
                 return TYPE_MAP;
             }
-            if(TYPE_LIST.getRootClass().isAssignableFrom(clazz)) {
+            if (TYPE_LIST.getRootClass().isAssignableFrom(clazz)) {
                 return TYPE_LIST;
             }
-            if(TYPE_SET.getRootClass().isAssignableFrom(clazz)) {
+            if (TYPE_SET.getRootClass().isAssignableFrom(clazz)) {
                 return TYPE_SET;
             }
-            if(TYPE_COLLECTION.getRootClass().isAssignableFrom(clazz)) {
+            if (TYPE_COLLECTION.getRootClass().isAssignableFrom(clazz)) {
                 return TYPE_COLLECTION;
             }
             return TYPE_OBJECT;

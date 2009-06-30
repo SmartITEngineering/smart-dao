@@ -72,19 +72,46 @@ public class DefaultAnnotationConfigScanner
             DefaultAnnotationConfigScanner.class, 25);
     }
 
+    /**
+     * Get a singleton instance of the default annotation config scanner; it
+     * will initialize the singleton instance lazily, i.e. upon first request.
+     * @return The singleton package & class annotation config scanner
+     */
     public static DefaultAnnotationConfigScanner getInstance() {
         if (registrar == null) {
             registrar = new DefaultAnnotationConfigScanner();
         }
         return registrar;
     }
+    /**
+     * The class scanner scanning for specified annotations
+     */
     protected final ClassScanner classScanner;
+    /**
+     * The configuration map for holding all resource configurations against
+     * their domain class.
+     */
     protected final Map<Class, EximResourceConfig> configuraitons;
+    /**
+     * Collection of all classes scanned till thus
+     */
     protected final Collection<Class> scannedClasses;
+    /**
+     * Collection of all packages scanned till thus
+     */
     protected final Collection<String> scannedPackages;
+    /**
+     * This is the annotation visit callback handling resources only
+     */
     protected final ResourceVisitCallback resourceVisitCallback;
+    /**
+     * The callback handler to be invoked by the class scanner
+     */
     protected final VisitCallback<AnnotationConfig> callbackHandler;
 
+    /**
+     * Initializes the member variables only.
+     */
     protected DefaultAnnotationConfigScanner() {
         classScanner = IOFactory.getDefaultClassScanner();
         configuraitons = new HashMap<Class, EximResourceConfig>();
@@ -144,7 +171,17 @@ public class DefaultAnnotationConfigScanner
         scanPackage(resourcePackage, null);
     }
 
-    protected String getPropertyNameFromMethodName(final String methodName) {
+    /**
+     * Given a method name it returns the property name for it. Currently it
+     * supports methods starting with "get", "is" and "has".
+     * @param methodName The method name from which to derive the property name
+     * @return Property name represented by the read accessor
+     * @throws IllegalArgumentException If prefix is not supported
+     * @throws NullPointerException If method name is null
+     */
+    protected String getPropertyNameFromMethodName(final String methodName)
+        throws IllegalArgumentException,
+               NullPointerException {
         StringBuilder propertyNameBuilder =
             new StringBuilder(methodName);
         int cutLength = -1;
@@ -227,7 +264,7 @@ public class DefaultAnnotationConfigScanner
 
     /**
      * Scan a package for extracting configurations of resource domains.
-     * @param packageName Package to scanClassForConfig.
+     * @param packageToScan Package to scanClassForConfig.
      * @param resourceClass Main class scanClassForConfig requested for
      * @return The configuration of the resource class, Null if the class is not
      *          a domain class or resourceClass is null
@@ -426,10 +463,20 @@ public class DefaultAnnotationConfigScanner
 
         private Set<String> probableResources = new HashSet<String>();
 
+        /**
+         * When a requested annotation is been parsed the callback will be
+         * triggered and it will maintain a {@link Set} of scanned classes and
+         * mark them as probable resource
+         * @param config The annotation been parsed
+         */
         public void handle(AnnotationConfig config) {
             probableResources.add(config.getClassName());
         }
 
+        /**
+         * Return the probable resources scanned upto now
+         * @return Probable resources
+         */
         public Set<String> getProbableResources() {
             return probableResources;
         }
