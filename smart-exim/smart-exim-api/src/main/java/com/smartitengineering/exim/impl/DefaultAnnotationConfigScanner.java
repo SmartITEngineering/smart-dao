@@ -41,6 +41,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -332,7 +333,7 @@ public class DefaultAnnotationConfigScanner
         for (Method method : methods) {
             String methodName = method.getName();
             //Only scan getter methods as of bean spec, that getter methods with
-            //no paratmeters and non-void return types
+            //no paratmeters and non-void return types and non-static
             if (((methodName.startsWith(GETTER_PREFIX) && methodName.length() >
                 GETTER_PREFIX.length()) || (methodName.startsWith(IS_PREFIX) &&
                 methodName.length() > IS_PREFIX.length()) || (methodName.
@@ -340,7 +341,8 @@ public class DefaultAnnotationConfigScanner
                 length())) && method.getReturnType() != null && !method.
                 getReturnType().equals(Void.class) &&
                 (method.getParameterTypes() == null ||
-                method.getParameterTypes().length <= 0)) {
+                method.getParameterTypes().length <= 0) &&
+                (method.getModifiers() & Modifier.STATIC) <= 0) {
                 scanGetterMethod(resourceConfig, method);
             }
         }
@@ -372,7 +374,8 @@ public class DefaultAnnotationConfigScanner
             HAS_PREFIX) && methodName.length() > HAS_PREFIX.length())) &&
             method.getReturnType() != null && !method.getReturnType().equals(
             Void.class) && (method.getParameterTypes() == null || method.
-            getParameterTypes().length <= 0))) {
+            getParameterTypes().length <= 0) && (method.getModifiers() &
+            Modifier.STATIC) <= 0)) {
             throw new IllegalArgumentException();
         }
         String propertyName = getPropertyNameFromMethodName(methodName);
@@ -406,6 +409,9 @@ public class DefaultAnnotationConfigScanner
      */
     protected void scanField(final EximResourceConfigImpl resourceConfig,
                              final Field field) {
+        if ((field.getModifiers() & Modifier.STATIC) > 0) {
+            return;
+        }
         String propertyName = field.getName();
         Class propertyType = field.getType();
         scanAnnotatedElement(field, propertyName, propertyName, propertyType,
