@@ -213,8 +213,16 @@ public class DefaultAnnotationConfigScanner
         resourceConfig.setPriority(domainAnnotation.priority());
         scanMembers(resourceConfig, probableResourceClass);
         scannedClasses.add(probableResourceClass);
-        configuraitons.put(probableResourceClass, resourceConfig);
-        return resourceConfig;
+        //If domain id is not specified then its not a valid domain
+        if (!resourceConfig.isIdentityCustomizerImplemented() &&
+            (resourceConfig.getIdPropertyName() == null || resourceConfig.
+            getIdPropertyName().equals(""))) {
+            return null;
+        }
+        else {
+            configuraitons.put(probableResourceClass, resourceConfig);
+            return resourceConfig;
+        }
     }
 
     /**
@@ -406,6 +414,7 @@ public class DefaultAnnotationConfigScanner
             element.getAnnotation(Id.class);
         if (id != null) {
             resourceConfig.setIdPropertyName(propertyName);
+            resourceConfig.setIdPrefix(id.path());
         }
     }
 
