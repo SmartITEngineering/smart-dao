@@ -362,7 +362,8 @@ public class DefaultAnnotationConfigScanner
         throws IllegalArgumentException {
         String methodName = method.getName();
         //Ignore the getClass bean
-        if (method.getName().equals("getClass")) {
+        if (method.getName().equals("getClass") || method.getName().equals(
+            "hashCode")) {
             return;
         }
         if (!(((methodName.startsWith(GETTER_PREFIX) && methodName.length() >
