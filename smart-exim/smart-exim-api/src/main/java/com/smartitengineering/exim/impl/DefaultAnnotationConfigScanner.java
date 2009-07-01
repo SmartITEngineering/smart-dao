@@ -437,12 +437,16 @@ public class DefaultAnnotationConfigScanner
             resourceConfig == null) {
             throw new IllegalArgumentException();
         }
-        Export annotation =
-            element.getAnnotation(Export.class);
         AssociationConfigImpl configImpl =
             new AssociationConfigImpl();
         configImpl.setAccessorName(accessorName);
-        configImpl.setName(propertyName);
+        Name nameAnnotation = element.getAnnotation(Name.class);
+        if (nameAnnotation != null) {
+            configImpl.setName(nameAnnotation.value());
+        }
+        else {
+            configImpl.setName(propertyName);
+        }
         configImpl.setAssociationType(AssociationConfig.AssociationType.
             getAssociationType(propertyType));
         Eager eager =
@@ -450,6 +454,8 @@ public class DefaultAnnotationConfigScanner
         configImpl.setStringProviderImplemented(StringValueProvider.class.
             isAssignableFrom(propertyType));
         configImpl.setEagerSet(eager != null);
+        Export annotation =
+            element.getAnnotation(Export.class);
         if (annotation != null) {
             configImpl.setItToBeExportedAsUri(!annotation.asObject());
             configImpl.setTransient(annotation.isTransient());
