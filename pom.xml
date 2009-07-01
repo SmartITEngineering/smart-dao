@@ -148,6 +148,11 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>${release.version}</version>
             </plugin>
@@ -487,5 +492,6 @@
         <dom4j.version>1.6.1</dom4j.version>
         <ant-contrib.version>1.0b3</ant-contrib.version>
         <gh-pages.branch>gh-pages</gh-pages.branch>
+        <surefire.version>2.4.3</surefire.version>
     </properties>
 </project>
