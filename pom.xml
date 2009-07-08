@@ -226,6 +226,11 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar.plugin.version}</version>
+            </plugin>
         </plugins>
         <extensions>
             <extension>
@@ -493,5 +498,6 @@
         <ant-contrib.version>1.0b3</ant-contrib.version>
         <gh-pages.branch>gh-pages</gh-pages.branch>
         <surefire.version>2.4.3</surefire.version>
+        <sonar.plugin.version>1.0-beta-1</sonar.plugin.version>
     </properties>
 </project>
