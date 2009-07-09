@@ -39,19 +39,19 @@ import java.util.TreeSet;
  */
 public final class ConfigRegistrar {
 
-    private static final Set<ConfigScannerRegistryItem<ClassConfigScanner>> classConfigScanners =
+    private static final Set<ConfigScannerRegistryItem<ClassConfigScanner>> CLASS_CONFIG_SCANNER =
         Collections.synchronizedSortedSet(
         new TreeSet<ConfigScannerRegistryItem<ClassConfigScanner>>());
-    private static final Set<ConfigScannerRegistryItem<PackageConfigScanner>> packageConfigScanners =
+    private static final Set<ConfigScannerRegistryItem<PackageConfigScanner>> PACKAGE_CONFIG_SCANNER =
         Collections.synchronizedSortedSet(
         new TreeSet<ConfigScannerRegistryItem<PackageConfigScanner>>());
 
     static Set<ConfigScannerRegistryItem<ClassConfigScanner>> getClassConfigScannerRegistryItems() {
-        return classConfigScanners;
+        return CLASS_CONFIG_SCANNER;
     }
 
     static Set<ConfigScannerRegistryItem<PackageConfigScanner>> getPackageConfigScannerRegistryItems() {
-        return packageConfigScanners;
+        return PACKAGE_CONFIG_SCANNER;
     }
 
     /**
@@ -90,6 +90,10 @@ public final class ConfigRegistrar {
         }));
     }
 
+    private ConfigRegistrar() {
+        throw new AssertionError();
+    }
+
     /**
      * Register the class scanner with its priority
      * @param classScannerClass Class scanner
@@ -99,7 +103,7 @@ public final class ConfigRegistrar {
     public static void registerClassScanner(
         final Class<? extends ClassConfigScanner> classScannerClass,
         int priority) {
-        classConfigScanners.add(new ConfigScannerRegistryItem<ClassConfigScanner>(
+        CLASS_CONFIG_SCANNER.add(new ConfigScannerRegistryItem<ClassConfigScanner>(
             classScannerClass, priority));
     }
 
@@ -112,7 +116,7 @@ public final class ConfigRegistrar {
     public static void registerPackageScanner(
         final Class<? extends PackageConfigScanner> packageScannerClass,
         int priority) {
-        packageConfigScanners.add(new ConfigScannerRegistryItem<PackageConfigScanner>(
+        PACKAGE_CONFIG_SCANNER.add(new ConfigScannerRegistryItem<PackageConfigScanner>(
             packageScannerClass, priority));
     }
 
@@ -124,7 +128,7 @@ public final class ConfigRegistrar {
      */
     public static EximResourceConfig getConfigForClass(final Class resourceClass) {
         for (ConfigScannerRegistryItem<ClassConfigScanner> scanner :
-            classConfigScanners) {
+            CLASS_CONFIG_SCANNER) {
             EximResourceConfig config = scanner.getInstance().
                 getResourceConfigForClass(resourceClass);
             if (config != null) {
@@ -141,7 +145,7 @@ public final class ConfigRegistrar {
      */
     public static void scanPackage(final Package resourcePackage) {
         for (ConfigScannerRegistryItem<PackageConfigScanner> scanner :
-            packageConfigScanners) {
+            PACKAGE_CONFIG_SCANNER) {
             scanner.getInstance().scanPackageForResourceConfigs(resourcePackage);
         }
     }
@@ -156,7 +160,7 @@ public final class ConfigRegistrar {
         final Package resourcePackage) {
         Set<EximResourceConfig> configs = new HashSet<EximResourceConfig>();
         for (ConfigScannerRegistryItem<PackageConfigScanner> scanner :
-            packageConfigScanners) {
+            PACKAGE_CONFIG_SCANNER) {
             PackageConfigScanner configScanner = scanner.getInstance();
             configScanner.scanPackageForResourceConfigs(resourcePackage);
             Collection<Class> configClasses = configScanner.
