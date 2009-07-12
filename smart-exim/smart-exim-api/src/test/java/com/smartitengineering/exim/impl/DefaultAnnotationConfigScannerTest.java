@@ -21,6 +21,9 @@ package com.smartitengineering.exim.impl;
 import com.smartitengineering.exim.AssociationConfig;
 import com.smartitengineering.exim.EximResourceConfig;
 import com.smartitengineering.exim.impl.data.IResource;
+import com.smartitengineering.exim.impl.data.IResourceImpl;
+import com.smartitengineering.exim.impl.data.InheritedResource;
+import com.smartitengineering.exim.impl.data.MultiResourceImpl;
 import com.smartitengineering.exim.impl.data.SomeResource;
 import com.smartitengineering.exim.impl.data.TestClass;
 import com.smartitengineering.exim.impl.data.TestResourceDomain;
@@ -52,10 +55,13 @@ public class DefaultAnnotationConfigScannerTest
     public void testGetInstance() {
         System.out.println("getInstance");
         DefaultAnnotationConfigScanner expResult =
-            DefaultAnnotationConfigScanner.getInstance();
+                                       DefaultAnnotationConfigScanner.
+            getInstance();
         DefaultAnnotationConfigScanner result =
-            DefaultAnnotationConfigScanner.getInstance();
-        assertEquals(expResult, result);
+                                       DefaultAnnotationConfigScanner.
+            getInstance();
+        assertEquals(expResult,
+                     result);
     }
 
     /**
@@ -64,18 +70,21 @@ public class DefaultAnnotationConfigScannerTest
     public void testGetConfigurations() {
         System.out.println("getConfigurations");
         DefaultAnnotationConfigScanner instance =
-            new DefaultAnnotationConfigScanner();
+                                       new DefaultAnnotationConfigScanner();
         Map<Class, EximResourceConfig> result = instance.getConfigurations();
-        assertEquals(0, result.size());
+        assertEquals(0,
+                     result.size());
         instance.getResourceConfigForClass(TestClass.class);
-        assertEquals(3, result.size());
+        assertEquals(4,
+                     result.size());
         assertTrue(result.keySet().contains(TestResourceDomain.class));
         assertTrue(result.keySet().contains(TestResourceDomainField.class));
         assertTrue(result.keySet().contains(IResource.class));
         assertFalse(result.keySet().contains(TestClass.class));
         assertFalse(result.keySet().contains(SomeResource.class));
         instance.getResourceConfigForClass(TestResourceDomain.class);
-        assertEquals(3, result.size());
+        assertEquals(4,
+                     result.size());
         assertTrue(result.keySet().contains(TestResourceDomain.class));
         assertTrue(result.keySet().contains(IResource.class));
         assertTrue(result.keySet().contains(TestResourceDomainField.class));
@@ -89,14 +98,15 @@ public class DefaultAnnotationConfigScannerTest
     public void testGetConfiguredResourceClasses() {
         System.out.println("getConfiguredResourceClasses");
         DefaultAnnotationConfigScanner instance =
-            new DefaultAnnotationConfigScanner();
+                                       new DefaultAnnotationConfigScanner();
         Collection<Class> result = instance.getConfiguredResourceClasses();
         assertTrue(result.isEmpty());
         Package resourcePackage = Package.getPackage(getClass().getPackage().
             getName().concat(".data"));
         instance.scanPackageForResourceConfigs(resourcePackage);
         result = instance.getConfiguredResourceClasses();
-        assertEquals(3, result.size());
+        assertEquals(4,
+                     result.size());
         assertTrue(result.contains(TestResourceDomain.class));
         assertTrue(result.contains(TestResourceDomainField.class));
         assertTrue(result.contains(IResource.class));
@@ -110,7 +120,7 @@ public class DefaultAnnotationConfigScannerTest
     public void testGetResourceConfigForClass() {
         System.out.println("getResourceConfigForClass");
         DefaultAnnotationConfigScanner instance =
-            new DefaultAnnotationConfigScanner();
+                                       new DefaultAnnotationConfigScanner();
         Class resourceClass;
         EximResourceConfig result;
         Map<String, AssociationConfig> asssocConfigs;
@@ -136,13 +146,14 @@ public class DefaultAnnotationConfigScannerTest
         asssocConfigs = result.getAssociationConfigs();
         assertNotNull(asssocConfigs);
         assertFalse(asssocConfigs.isEmpty());
-        assertEquals(4, asssocConfigs.size());
+        assertEquals(4,
+                     asssocConfigs.size());
         //ID
         assertTrue(asssocConfigs.containsKey(TestResourceDomain.ID));
         associationConfig = asssocConfigs.get(TestResourceDomain.ID);
         assertEquals("getId", associationConfig.getAccessorName());
         assertEquals(AssociationConfig.AssociationType.TYPE_OBJECT,
-            associationConfig.getAssociationType());
+                     associationConfig.getAssociationType());
         assertEquals(TestResourceDomain.ID, associationConfig.getName());
         assertFalse(associationConfig.isEagerSet());
         assertFalse(associationConfig.isItToBeExportedAsUri());
@@ -153,7 +164,7 @@ public class DefaultAnnotationConfigScannerTest
         associationConfig = asssocConfigs.get(TestResourceDomain.SOME_PROP);
         assertEquals("getSomeProp", associationConfig.getAccessorName());
         assertEquals(AssociationConfig.AssociationType.TYPE_OBJECT,
-            associationConfig.getAssociationType());
+                     associationConfig.getAssociationType());
         assertEquals(TestResourceDomain.SOME_PROP_NAME, associationConfig.
             getName());
         assertFalse(associationConfig.isEagerSet());
@@ -165,7 +176,7 @@ public class DefaultAnnotationConfigScannerTest
         associationConfig = asssocConfigs.get(TestResourceDomain.SOME_BOOL_PROP);
         assertEquals("hasSomeBoolProp", associationConfig.getAccessorName());
         assertEquals(AssociationConfig.AssociationType.TYPE_OBJECT,
-            associationConfig.getAssociationType());
+                     associationConfig.getAssociationType());
         assertEquals(TestResourceDomain.SOME_BOOL_PROP, associationConfig.
             getName());
         assertTrue(associationConfig.isEagerSet());
@@ -179,7 +190,7 @@ public class DefaultAnnotationConfigScannerTest
             TestResourceDomain.SOME_TRANSIENT_PROP);
         assertEquals("getSomeTransientProp", associationConfig.getAccessorName());
         assertEquals(AssociationConfig.AssociationType.TYPE_OBJECT,
-            associationConfig.getAssociationType());
+                     associationConfig.getAssociationType());
         assertEquals(TestResourceDomain.SOME_TRANSIENT_PROP, associationConfig.
             getName());
         assertFalse(associationConfig.isEagerSet());
@@ -213,10 +224,10 @@ public class DefaultAnnotationConfigScannerTest
             TestResourceDomainField.SOME_STR_PROP));
         associationConfig = asssocConfigs.get(
             TestResourceDomainField.SOME_STR_PROP);
-        assertEquals(TestResourceDomainField.SOME_STR_PROP, associationConfig.
-            getAccessorName());
+        assertEquals(TestResourceDomainField.SOME_STR_PROP,
+                     associationConfig.getAccessorName());
         assertEquals(AssociationConfig.AssociationType.TYPE_OBJECT,
-            associationConfig.getAssociationType());
+                     associationConfig.getAssociationType());
         assertEquals(TestResourceDomainField.SOME_STR_PROP, associationConfig.
             getName());
         assertFalse(associationConfig.isEagerSet());
@@ -229,11 +240,11 @@ public class DefaultAnnotationConfigScannerTest
         associationConfig = asssocConfigs.get(
             TestResourceDomainField.SOME_TRANSIENT_STR_PROP);
         assertEquals(TestResourceDomainField.SOME_TRANSIENT_STR_PROP,
-            associationConfig.getAccessorName());
+                     associationConfig.getAccessorName());
         assertEquals(AssociationConfig.AssociationType.TYPE_OBJECT,
-            associationConfig.getAssociationType());
+                     associationConfig.getAssociationType());
         assertEquals(TestResourceDomainField.SOME_TRANSIENT_STR_PROP,
-            associationConfig.getName());
+                     associationConfig.getName());
         assertFalse(associationConfig.isEagerSet());
         assertFalse(associationConfig.isItToBeExportedAsUri());
         assertFalse(associationConfig.isStringProviderImplemented());
@@ -264,39 +275,39 @@ public class DefaultAnnotationConfigScannerTest
         assertTrue(asssocConfigs.containsKey(IResource.RESOURCE_ID));
         associationConfig = asssocConfigs.get(IResource.RESOURCE_ID);
         assertEquals(AssociationConfig.AssociationType.TYPE_OBJECT,
-            associationConfig.getAssociationType());
+                     associationConfig.getAssociationType());
         //list
         assertTrue(asssocConfigs.containsKey(IResource.LIST));
         associationConfig = asssocConfigs.get(IResource.LIST);
         assertEquals(AssociationConfig.AssociationType.TYPE_LIST,
-            associationConfig.getAssociationType());
+                     associationConfig.getAssociationType());
         //set
         assertTrue(asssocConfigs.containsKey(IResource.SET));
         associationConfig = asssocConfigs.get(IResource.SET);
         assertEquals(AssociationConfig.AssociationType.TYPE_SET,
-            associationConfig.getAssociationType());
+                     associationConfig.getAssociationType());
         assertEquals(IResource.SET_NAME, associationConfig.getName());
         //collection
         assertTrue(asssocConfigs.containsKey(IResource.COLLECTION));
         associationConfig = asssocConfigs.get(IResource.COLLECTION);
         assertEquals(AssociationConfig.AssociationType.TYPE_COLLECTION,
-            associationConfig.getAssociationType());
+                     associationConfig.getAssociationType());
         //map
         assertTrue(asssocConfigs.containsKey(IResource.MAP));
         associationConfig = asssocConfigs.get(IResource.MAP);
         assertEquals(AssociationConfig.AssociationType.TYPE_MAP,
-            associationConfig.getAssociationType());
+                     associationConfig.getAssociationType());
         assertTrue(associationConfig.isEagerSet());
         //array
         assertTrue(asssocConfigs.containsKey(IResource.ARRAY));
         associationConfig = asssocConfigs.get(IResource.ARRAY);
         assertEquals(AssociationConfig.AssociationType.TYPE_ARRAY,
-            associationConfig.getAssociationType());
+                     associationConfig.getAssociationType());
         //bool valid
         assertTrue(asssocConfigs.containsKey(IResource.VALID));
         associationConfig = asssocConfigs.get(IResource.VALID);
         assertEquals(AssociationConfig.AssociationType.TYPE_OBJECT,
-            associationConfig.getAssociationType());
+                     associationConfig.getAssociationType());
 
     }
 
@@ -308,16 +319,34 @@ public class DefaultAnnotationConfigScannerTest
         Package resourcePackage = Package.getPackage(getClass().getPackage().
             getName().concat(".data"));
         DefaultAnnotationConfigScanner instance =
-            new DefaultAnnotationConfigScanner();
+                                       new DefaultAnnotationConfigScanner();
         Map<Class, EximResourceConfig> result = instance.getConfigurations();
         assertEquals(0, result.size());
         instance.scanPackageForResourceConfigs(resourcePackage);
-        assertEquals(3, result.size());
+        assertEquals(4, result.size());
         assertTrue(result.keySet().contains(TestResourceDomain.class));
         assertTrue(result.keySet().contains(TestResourceDomainField.class));
         assertTrue(result.keySet().contains(IResource.class));
         assertFalse(result.keySet().contains(TestClass.class));
         assertFalse(result.keySet().contains(SomeResource.class));
+    }
+
+    public void testGetConfigForInheritence() {
+        DefaultAnnotationConfigScanner instance =
+                                       new DefaultAnnotationConfigScanner();
+        Package resourcePackage = Package.getPackage(getClass().getPackage().
+            getName().concat(".data"));
+        instance.scanPackageForResourceConfigs(resourcePackage);
+        EximResourceConfig config = instance.getResourceConfigForClass(
+            IResourceImpl.class);
+        assertNotNull(config);
+        assertEquals(IResource.class, config.getDomainClass());
+        config = instance.getResourceConfigForClass(InheritedResource.class);
+        assertNotNull(config);
+        assertEquals(IResource.class, config.getDomainClass());
+        config = instance.getResourceConfigForClass(MultiResourceImpl.class);
+        assertNotNull(config);
+        assertEquals(IResource.class, config.getDomainClass());
     }
 
     /**
@@ -327,7 +356,7 @@ public class DefaultAnnotationConfigScannerTest
         System.out.println("getPropertyNameFromMethodName");
         String methodName = "getPropertyNameFromMethodName";
         DefaultAnnotationConfigScanner instance =
-            new DefaultAnnotationConfigScanner();
+                                       new DefaultAnnotationConfigScanner();
         String expResult = "propertyNameFromMethodName";
         String result = instance.getPropertyNameFromMethodName(methodName);
         assertEquals(expResult, result);

@@ -43,10 +43,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * This registrar is responsible for scanning and containing configuration of
@@ -152,9 +154,63 @@ public class DefaultAnnotationConfigScanner
             EximResourceConfig resourceConfig = null;
             if (!scannedPackages.contains(packageName)) {
                 resourceConfig = scanPackage(Package.getPackage(packageName),
-                    resourceClass);
+                                             resourceClass);
             }
-            return resourceConfig;
+            if (resourceConfig != null) {
+                return resourceConfig;
+            }
+            else {
+                //Check direct ancestor
+                Class parentClass = resourceClass.getSuperclass();
+                final EximResourceConfig parentClassConfig;
+                if (parentClass == null || parentClass.equals(Object.class)) {
+                    parentClassConfig = null;
+                }
+                else {
+                    parentClassConfig = getResourceConfigForClass(parentClass);
+                }
+                if (parentClassConfig == null) {
+                    //Check for directly implemented interfaces
+                    Class[] interfaces = resourceClass.getInterfaces();
+                    Set<Class> interfaceSet = new TreeSet<Class>(new Comparator<Class>() {
+
+                        public int compare(Class clazz1,
+                                           Class clazz2) {
+                            EximResourceConfig config1 =
+                                               getConfigurations().get(clazz1);
+                            EximResourceConfig config2 =
+                                               getConfigurations().get(clazz2);
+                            Integer priority1 = config1.getPriority();
+                            Integer priority2 = config2.getPriority();
+                            if (priority1.equals(priority2)) {
+                                return clazz1.getName().compareTo(
+                                    clazz2.getName()) * -1;
+                            }
+                            else {
+                                return priority1.compareTo(priority2) * -1;
+                            }
+                        }
+                    });
+                    for (Class interfaceImpl : interfaces) {
+                        EximResourceConfig interfaceConfig = getResourceConfigForClass(
+                            interfaceImpl);
+                        if (interfaceConfig != null) {
+                            interfaceSet.add(
+                                interfaceConfig.getDomainClass());
+                        }
+                    }
+                    if (interfaceSet.isEmpty()) {
+                        return null;
+                    }
+                    else {
+                        return getConfigurations().get(interfaceSet.iterator().
+                            next());
+                    }
+                }
+                else {
+                    return parentClassConfig;
+                }
+            }
         }
     }
 
@@ -184,7 +240,7 @@ public class DefaultAnnotationConfigScanner
         throws IllegalArgumentException,
                NullPointerException {
         StringBuilder propertyNameBuilder =
-            new StringBuilder(methodName);
+                      new StringBuilder(methodName);
         int cutLength = -1;
         if (methodName.startsWith(GETTER_PREFIX)) {
             cutLength = GETTER_PREFIX.length();
@@ -279,14 +335,15 @@ public class DefaultAnnotationConfigScanner
         }
         EximResourceConfig resourceConfig = null;
         classScanner.scan(new String[]{packageToScan.getName()},
-            new ClassAnnotationVisitorImpl(callbackHandler,
-            IOFactory.getAnnotationNameForVisitor(ResourceDomain.class)));
+                          new ClassAnnotationVisitorImpl(callbackHandler,
+                                                         IOFactory.
+            getAnnotationNameForVisitor(ResourceDomain.class)));
         Set<String> classPaths = resourceVisitCallback.getProbableResources();
         if (!classPaths.isEmpty()) {
             for (String classPath : classPaths) {
                 try {
                     Class probableResourceClass =
-                        IOFactory.getClassFromVisitorName(classPath);
+                          IOFactory.getClassFromVisitorName(classPath);
                     EximResourceConfig config = scanClassForConfig(
                         probableResourceClass);
                     if (config != null && resourceClass != null &&
@@ -381,7 +438,7 @@ public class DefaultAnnotationConfigScanner
         String propertyName = getPropertyNameFromMethodName(methodName);
         Class returnType = method.getReturnType();
         scanAnnotatedElement(method, methodName, propertyName, returnType,
-            resourceConfig);
+                             resourceConfig);
     }
 
     /**
@@ -415,7 +472,7 @@ public class DefaultAnnotationConfigScanner
         String propertyName = field.getName();
         Class propertyType = field.getType();
         scanAnnotatedElement(field, propertyName, propertyName, propertyType,
-            resourceConfig);
+                             resourceConfig);
     }
 
     /**
@@ -438,7 +495,7 @@ public class DefaultAnnotationConfigScanner
             throw new IllegalArgumentException();
         }
         AssociationConfigImpl configImpl =
-            new AssociationConfigImpl();
+                              new AssociationConfigImpl();
         configImpl.setAccessorName(accessorName);
         Name nameAnnotation = element.getAnnotation(Name.class);
         if (nameAnnotation != null) {
@@ -449,13 +506,11 @@ public class DefaultAnnotationConfigScanner
         }
         configImpl.setAssociationType(AssociationConfig.AssociationType.
             getAssociationType(propertyType));
-        Eager eager =
-            element.getAnnotation(Eager.class);
+        Eager eager = element.getAnnotation(Eager.class);
         configImpl.setStringProviderImplemented(StringValueProvider.class.
             isAssignableFrom(propertyType));
         configImpl.setEagerSet(eager != null);
-        Export annotation =
-            element.getAnnotation(Export.class);
+        Export annotation = element.getAnnotation(Export.class);
         if (annotation != null) {
             configImpl.setItToBeExportedAsUri(!annotation.asObject());
             configImpl.setTransient(annotation.isTransient());
@@ -465,8 +520,7 @@ public class DefaultAnnotationConfigScanner
             configImpl.setTransient(false);
         }
         resourceConfig.getAssociationConfigs().put(propertyName, configImpl);
-        Id id =
-            element.getAnnotation(Id.class);
+        Id id = element.getAnnotation(Id.class);
         if (id != null) {
             resourceConfig.setIdPropertyName(propertyName);
             resourceConfig.setIdPrefix(id.path());
