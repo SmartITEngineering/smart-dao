@@ -96,6 +96,21 @@
             <outputDirectory>/readme/</outputDirectory>
             <destName>smart-rs-README</destName>
         </file>
+        <file>
+            <source>../smart-exim/target/smart-exim-${project.version}-readme.dir/smart-exim-${project.version}/README</source>
+            <outputDirectory>/readme/</outputDirectory>
+            <destName>smart-exim-README</destName>
+        </file>
+        <file>
+            <source>../smart-exim-api/target/smart-exim-api-${project.version}-readme.dir/smart-exim-api-${project.version}/README</source>
+            <outputDirectory>/readme/</outputDirectory>
+            <destName>smart-exim-api-README</destName>
+        </file>
+        <file>
+            <source>../smart-exim-xml-impl/target/smart-exim-xml-impl-${project.version}-readme.dir/smart-exim-xml-impl-${project.version}/README</source>
+            <outputDirectory>/readme/</outputDirectory>
+            <destName>smart-exim-xml-impl-README</destName>
+        </file>
     </files>
     <dependencySets>
         <dependencySet>

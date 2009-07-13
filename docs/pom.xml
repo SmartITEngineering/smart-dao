@@ -104,6 +104,16 @@
             <version>${project.version}</version>
             <artifactId>smart-version-jgit-impl</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.smartitengineering.smart-exim</groupId>
+            <version>${project.version}</version>
+            <artifactId>smart-exim-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.smartitengineering.smart-exim</groupId>
+            <version>${project.version}</version>
+            <artifactId>smart-exim-xml-impl</artifactId>
+        </dependency>
     </dependencies>
     <profiles>
         <profile>

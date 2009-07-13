@@ -145,6 +145,13 @@
             </includes>
             <outputDirectory>/site/smart-exim/smart-exim-api/</outputDirectory>
         </fileSet>
+        <fileSet>
+            <directory>../smart-exim/smart-exim-xml-impl/target/site/</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>/site/smart-exim/smart-exim-xml-impl/</outputDirectory>
+        </fileSet>
         <!-- Doc modules content -->
         <fileSet>
             <directory>target/site/</directory>

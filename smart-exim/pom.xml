@@ -48,5 +48,6 @@
     </build>
     <modules>
         <module>smart-exim-api</module>
+        <module>smart-exim-xml-impl</module>
     </modules>
 </project>
