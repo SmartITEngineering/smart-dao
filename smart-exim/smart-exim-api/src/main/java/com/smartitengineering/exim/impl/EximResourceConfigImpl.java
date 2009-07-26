@@ -45,6 +45,10 @@ public class EximResourceConfigImpl
     private int priority;
     private Map<String, AssociationConfig> associationConfigs;
 
+    public EximResourceConfigImpl() {
+        associationConfigs = new HashMap<String, AssociationConfig>();
+    }
+
     public void setAccessByPropertyEnabled(boolean accessByPropertyEnabled) {
         this.accessByPropertyEnabled = accessByPropertyEnabled;
     }
@@ -55,7 +59,10 @@ public class EximResourceConfigImpl
 
     public void setAssociationConfigs(
         Map<String, AssociationConfig> associationConfigs) {
-        this.associationConfigs = associationConfigs;
+        if(associationConfigs != null) {
+            this.associationConfigs.clear();
+            this.associationConfigs.putAll(associationConfigs);
+        }
     }
 
     public void setDomainClass(Class domainClass) {
@@ -104,9 +111,6 @@ public class EximResourceConfigImpl
     }
 
     public Map<String, AssociationConfig> getAssociationConfigs() {
-        if(associationConfigs == null) {
-            associationConfigs = new HashMap<String, AssociationConfig>();
-        }
         return associationConfigs;
     }
 

@@ -66,13 +66,14 @@ public class DefaultAnnotationConfigScanner
     private static final String GETTER_PREFIX = "get";
     private static final String IS_PREFIX = "is";
     private static final String HAS_PREFIX = "has";
-    private static DefaultAnnotationConfigScanner registrar;
+    private static final DefaultAnnotationConfigScanner REGISTRAR;
 
     static {
         ConfigRegistrar.registerClassScanner(
             DefaultAnnotationConfigScanner.class, 25);
         ConfigRegistrar.registerPackageScanner(
             DefaultAnnotationConfigScanner.class, 25);
+        REGISTRAR = new DefaultAnnotationConfigScanner();
     }
 
     /**
@@ -81,10 +82,7 @@ public class DefaultAnnotationConfigScanner
      * @return The singleton package & class annotation config scanner
      */
     public static DefaultAnnotationConfigScanner getInstance() {
-        if (registrar == null) {
-            registrar = new DefaultAnnotationConfigScanner();
-        }
-        return registrar;
+        return REGISTRAR;
     }
     /**
      * The class scanner scanning for specified annotations
@@ -351,7 +349,11 @@ public class DefaultAnnotationConfigScanner
                         resourceConfig = config;
                     }
                 }
-                catch (Exception ex) {
+                catch (ClassNotFoundException ex) {
+                }
+                catch (IndexOutOfBoundsException ex) {
+                }
+                catch (RuntimeException ex) {
                 }
             }
         }

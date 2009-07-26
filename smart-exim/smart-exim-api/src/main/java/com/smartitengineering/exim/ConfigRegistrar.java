@@ -23,6 +23,7 @@ import com.smartitengineering.util.simple.reflection.ClassInstanceVisitorImpl;
 import com.smartitengineering.util.simple.reflection.ClassScanner;
 import com.smartitengineering.util.simple.reflection.Config;
 import com.smartitengineering.util.simple.reflection.VisitCallback;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
@@ -225,8 +226,8 @@ public final class ConfigRegistrar {
             if (obj == null) {
                 return 1;
             }
-            Integer myPriority = new Integer(priority);
-            Integer otherPriority = new Integer(obj.priority);
+            Integer myPriority = Integer.valueOf(priority);
+            Integer otherPriority = Integer.valueOf(obj.priority);
             int myComp = myPriority.compareTo(otherPriority);
 
             if (myComp == 0) {
@@ -254,13 +255,23 @@ public final class ConfigRegistrar {
                     instance = (T) getInstanceMethod.invoke(null, new Object[0]);
                 }
             }
-            catch (Exception ex) {
+            catch(NoSuchMethodException exception) {
+            }
+            catch(InvocationTargetException exception) {
+            }
+            catch(IllegalAccessException exception) {
+            }
+            catch(IllegalArgumentException exception) {
             }
             if (instance == null) {
                 try {
                     instance = configClass.newInstance();
                 }
-                catch (Exception ex) {
+                catch (InstantiationException ex) {
+                }
+                catch (IllegalAccessException ex) {
+                }
+                catch (RuntimeException ex) {
                 }
             }
             return instance;
