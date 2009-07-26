@@ -226,11 +226,6 @@
                     </dependency>
                 </dependencies>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>${sonar.plugin.version}</version>
-            </plugin>
         </plugins>
         <extensions>
             <extension>
@@ -440,6 +435,24 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>sonar-config</id>
+            <activation>
+                <property>
+                    <name>sonar.enabled</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                        <version>${sonar.plugin.version}</version>
                     </plugin>
                 </plugins>
             </build>
