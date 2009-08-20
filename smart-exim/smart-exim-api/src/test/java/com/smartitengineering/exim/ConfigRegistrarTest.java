@@ -53,5 +53,7 @@ public class ConfigRegistrarTest
     {
         assertTrue( ConfigRegistrar.getClassConfigScannerRegistryItems().size() == 1 );
         assertTrue( ConfigRegistrar.getPackageConfigScannerRegistryItems().size() == 1 );
+				assertNotNull(ConfigRegistrar.getClassConfigScannerRegistryItems().iterator().next().getInstance());
+				assertNotNull(ConfigRegistrar.getPackageConfigScannerRegistryItems().iterator().next().getInstance());
     }
 }
