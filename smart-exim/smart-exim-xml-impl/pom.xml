@@ -70,5 +70,11 @@
             <artifactId>dom4j</artifactId>
             <version>${dom4j.version}</version>
         </dependency>
+				<dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>jsr311-api</artifactId>
+            <version>${jaxrs.version}</version>
+						<scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
