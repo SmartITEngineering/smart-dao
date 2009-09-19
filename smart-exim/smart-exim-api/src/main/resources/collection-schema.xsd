@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+xmlns:cur="http://www.smartitengineering.com/smart-dao/exim/collections"
+targetNamespace="http://www.smartitengineering.com/smart-dao/exim/collections"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.w3.org/2001/XMLSchema XMLSchema.xsd"
+>
+		<xs:element name="item">
+				<xs:complexType>
+						<xs:sequence>
+								<xs:any />
+						</xs:sequence>
+				</xs:complexType>
+		</xs:element>
+		<xs:element name="array">
+				<xs:complexType>
+						<xs:sequence>
+								<xs:element name="item" type="cur:item" minOccurs="0" />
+						</xs:sequence>
+				</xs:complexType>
+		</xs:element>
+		<xs:element name="set">
+				<xs:complexType>
+						<xs:sequence>
+								<xs:element name="item" type="cur:item" minOccurs="0" />
+						</xs:sequence>
+				</xs:complexType>
+		</xs:element>
+		<xs:element name="list">
+				<xs:complexType>
+						<xs:sequence>
+								<xs:element name="item" type="cur:item" minOccurs="0" />
+						</xs:sequence>
+				</xs:complexType>
+		</xs:element>
+		<xs:element name="collection">
+				<xs:complexType>
+						<xs:sequence>
+								<xs:element name="item" type="cur:item" minOccurs="0" />
+						</xs:sequence>
+				</xs:complexType>
+		</xs:element>
+		<xs:element name="map">
+				<xs:complexType>
+						<xs:sequence>
+								<xs:element name="entry" minOccurs="0">
+										<xs:complexType>
+												<xs:sequence>
+														<xs:element name="key" type="cur:item" minOccurs="0" />
+														<xs:element name="value" type="cur:item" minOccurs="0" />
+												</xs:sequence>
+										</xs:complexType>
+								</xs:element>
+						</xs:sequence>
+				</xs:complexType>
+		</xs:element>
+</xs:schema>

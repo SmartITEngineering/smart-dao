@@ -19,35 +19,20 @@
 package com.smartitengineering.exim.impl.xml;
 
 import com.smartitengineering.exim.AssociationConfig.AssociationType;
-import java.io.IOException;
 import java.util.Collection;
-import javax.xml.transform.sax.TransformerHandler;
+import java.util.HashSet;
 
 /**
- * An interface for different types of association exporter implementation. All
- * its implementation should be designed in singleton thread safe way.
+ *
  * @author imyousuf
  * @since 0.4
  */
-public interface ElementExporter {
+public abstract class AbstractElementExporter
+				implements ElementExporter {
 
-		public static final String EXIMCOLLECTION = "exim-collection";
-		public static final String EXIM_COLLECN_NS =
-															 "http://www.smartitengineering.com/smart-dao/exim/collections";
+		protected Collection<AssociationType> types = new HashSet<AssociationType>();
 
-		/**
-		 * This operation is resposnsible for exporting XML elements of type it
-		 * supports. It will use other type exporters for exporting and will only be
-		 * responsible for the types it supports.
-		 * @param type Type to export
-		 * @param object Object to export
-		 * @param handler Handler to use to create elements and attributes
-		 * @throws IOException If any error while exporting
-		 */
-		public void exportElement(final AssociationType type,
-															final Object object,
-															final TransformerHandler handler)
-						throws IOException;
-
-		public Collection<AssociationType> getSupportedTypes();
+		public Collection<AssociationType> getSupportedTypes() {
+				return types;
+		}
 }
