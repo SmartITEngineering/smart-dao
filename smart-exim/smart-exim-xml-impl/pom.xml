@@ -65,10 +65,16 @@
             <artifactId>smart-exim-api</artifactId>
             <version>${project.version}</version>
         </dependency>
+				<dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>${commons-lang.version}</version>
+        </dependency>
         <dependency>
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
             <version>${dom4j.version}</version>
+						<scope>test</scope>
         </dependency>
 				<dependency>
             <groupId>javax.ws.rs</groupId>
