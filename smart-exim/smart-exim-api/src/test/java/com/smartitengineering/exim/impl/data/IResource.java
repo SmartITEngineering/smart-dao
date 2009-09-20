@@ -33,7 +33,8 @@ import java.util.Set;
  * @author imyousuf
  */
 @ResourceDomain(priority = IResource.PRIORITY,
-                exportAsURIByDefault = true)
+                exportAsURIByDefault = true,
+								exportBasicTypesInTypeElementEnabled=true)
 public interface IResource
     extends StringValueProvider {
 

@@ -120,4 +120,14 @@ public interface EximResourceConfig {
      * @return Priority of this resource domain, 0 by default.
      */
     int getPriority();
+
+		/**
+		 * Returns whether basic return types such as String, Integer, Long should
+		 * encapsulated in their distinct XML elements or simply as text content.
+		 * The reason for this to be true could be for better readability of the XML.
+		 * @return True if and only if the basic types are to be encapsulated in
+		 *				 their respective element as defined in schema
+		 *				 http://www.smartitengineering.com/smart-dao/exim/basic-types
+		 */
+		boolean isExportBasicTypesInTypeElementEnabled();
 }

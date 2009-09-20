@@ -72,4 +72,16 @@ public @interface ResourceDomain {
      * @since 0.4
      */
     int priority() default 0;
+
+		/**
+		 * This is to mark that the basic types, e.g. boolean integer, string, should
+		 * be encapsulated in their own respected element in the attribute element.
+		 * This is valid for XML or XML-like exports only, i.e. e.g., a property
+		 * called "postalCode" would be within an XML that looks like -
+		 * {@code <postalCode><string>1207</string></postalCode>} if true else
+		 * {@code <postalCode>1207</postalCode>} and assumption is that postalCode
+		 * is {@link String}.
+		 * @return
+		 */
+		boolean exportBasicTypesInTypeElementEnabled() default false;
 }

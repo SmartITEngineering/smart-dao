@@ -303,6 +303,8 @@ public class DefaultAnnotationConfigScanner
         resourceConfig.setIdentityCustomizerImplemented(
             IdentityCustomizer.class.isAssignableFrom(probableResourceClass));
         resourceConfig.setPriority(domainAnnotation.priority());
+				resourceConfig.setExportBasicTypesInTypeElementEnabled(domainAnnotation.
+								exportBasicTypesInTypeElementEnabled());
         scanMembers(resourceConfig, probableResourceClass);
         scannedClasses.add(probableResourceClass);
         //If domain id is not specified then its not a valid domain

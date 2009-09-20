@@ -30,161 +30,175 @@ import java.util.Map;
  * @since 0.4
  */
 public class EximResourceConfigImpl
-    implements EximResourceConfig {
+				implements EximResourceConfig {
 
-    private boolean associateExportPolicyAsUri;
-    private boolean accessByPropertyEnabled;
-    private boolean identityCustomizerImplemented;
-    private boolean exporterImplemented;
-    private boolean importerImplemented;
-    private Class domainClass;
-    private String pathToResource;
-    private String idPrefix;
-    private String idPropertyName;
-    private String name;
-    private int priority;
-    private Map<String, AssociationConfig> associationConfigs;
+		private boolean associateExportPolicyAsUri;
+		private boolean accessByPropertyEnabled;
+		private boolean identityCustomizerImplemented;
+		private boolean exporterImplemented;
+		private boolean importerImplemented;
+		private boolean exportBasicTypesInTypeElementEnabled;
+		private Class domainClass;
+		private String pathToResource;
+		private String idPrefix;
+		private String idPropertyName;
+		private String name;
+		private int priority;
+		private Map<String, AssociationConfig> associationConfigs;
 
-    public EximResourceConfigImpl() {
-        associationConfigs = new HashMap<String, AssociationConfig>();
-    }
+		public EximResourceConfigImpl() {
+				associationConfigs = new HashMap<String, AssociationConfig>();
+		}
 
-    public void setAccessByPropertyEnabled(boolean accessByPropertyEnabled) {
-        this.accessByPropertyEnabled = accessByPropertyEnabled;
-    }
+		public void setAccessByPropertyEnabled(boolean accessByPropertyEnabled) {
+				this.accessByPropertyEnabled = accessByPropertyEnabled;
+		}
 
-    public void setAssociateExportPolicyAsUri(boolean associateExportPolicyAsUri) {
-        this.associateExportPolicyAsUri = associateExportPolicyAsUri;
-    }
+		public void setAssociateExportPolicyAsUri(boolean associateExportPolicyAsUri) {
+				this.associateExportPolicyAsUri = associateExportPolicyAsUri;
+		}
 
-    public void setAssociationConfigs(
-        Map<String, AssociationConfig> associationConfigs) {
-        if(associationConfigs != null) {
-            this.associationConfigs.clear();
-            this.associationConfigs.putAll(associationConfigs);
-        }
-    }
+		public void setAssociationConfigs(
+						Map<String, AssociationConfig> associationConfigs) {
+				if (associationConfigs != null) {
+						this.associationConfigs.clear();
+						this.associationConfigs.putAll(associationConfigs);
+				}
+		}
 
-    public void setDomainClass(Class domainClass) {
-        this.domainClass = domainClass;
-    }
+		public void setDomainClass(Class domainClass) {
+				this.domainClass = domainClass;
+		}
 
-    public void setExporterImplemented(boolean exporterImplemented) {
-        this.exporterImplemented = exporterImplemented;
-    }
+		public void setExporterImplemented(boolean exporterImplemented) {
+				this.exporterImplemented = exporterImplemented;
+		}
 
-    public void setIdPropertyName(String idPropertyName) {
-        this.idPropertyName = idPropertyName;
-    }
+		public void setIdPropertyName(String idPropertyName) {
+				this.idPropertyName = idPropertyName;
+		}
 
-    public void setIdPrefix(String idPrefix) {
-        this.idPrefix = idPrefix;
-    }
+		public void setIdPrefix(String idPrefix) {
+				this.idPrefix = idPrefix;
+		}
 
-    public void setIdentityCustomizerImplemented(
-        boolean identityCustomizerImplemented) {
-        this.identityCustomizerImplemented = identityCustomizerImplemented;
-    }
+		public void setIdentityCustomizerImplemented(
+						boolean identityCustomizerImplemented) {
+				this.identityCustomizerImplemented = identityCustomizerImplemented;
+		}
 
-    public void setImporterImplemented(boolean importerImplemented) {
-        this.importerImplemented = importerImplemented;
-    }
+		public void setImporterImplemented(boolean importerImplemented) {
+				this.importerImplemented = importerImplemented;
+		}
 
-    public void setPathToResource(String pathToResource) {
-        this.pathToResource = pathToResource;
-    }
+		public void setPathToResource(String pathToResource) {
+				this.pathToResource = pathToResource;
+		}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+		public void setName(String name) {
+				this.name = name;
+		}
 
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
+		public void setPriority(int priority) {
+				this.priority = priority;
+		}
 
-    public boolean isAccessByPropertyEnabled() {
-        return accessByPropertyEnabled;
-    }
+		public void setExportBasicTypesInTypeElementEnabled(
+						boolean exportBasicTypesInTypeElementEnabled) {
+				this.exportBasicTypesInTypeElementEnabled =
+				exportBasicTypesInTypeElementEnabled;
+		}
 
-    public boolean isAssociateExportPolicyAsUri() {
-        return associateExportPolicyAsUri;
-    }
+		public boolean isAccessByPropertyEnabled() {
+				return accessByPropertyEnabled;
+		}
 
-    public Map<String, AssociationConfig> getAssociationConfigs() {
-        return associationConfigs;
-    }
+		public boolean isAssociateExportPolicyAsUri() {
+				return associateExportPolicyAsUri;
+		}
 
-    public Class getDomainClass() {
-        return domainClass;
-    }
+		public Map<String, AssociationConfig> getAssociationConfigs() {
+				return associationConfigs;
+		}
 
-    public boolean isExporterImplemented() {
-        return exporterImplemented;
-    }
+		public Class getDomainClass() {
+				return domainClass;
+		}
 
-    public String getIdPropertyName() {
-        return idPropertyName;
-    }
+		public boolean isExporterImplemented() {
+				return exporterImplemented;
+		}
 
-    public String getIdPrefix() {
-        return idPrefix;
-    }
+		public String getIdPropertyName() {
+				return idPropertyName;
+		}
 
-    public boolean isIdentityCustomizerImplemented() {
-        return identityCustomizerImplemented;
-    }
+		public String getIdPrefix() {
+				return idPrefix;
+		}
 
-    public boolean isImporterImplemented() {
-        return importerImplemented;
-    }
+		public boolean isIdentityCustomizerImplemented() {
+				return identityCustomizerImplemented;
+		}
 
-    public String getPathToResource() {
-        return pathToResource;
-    }
+		public boolean isImporterImplemented() {
+				return importerImplemented;
+		}
 
-    public String getName() {
-        return name;
-    }
+		public String getPathToResource() {
+				return pathToResource;
+		}
 
-    public int getPriority() {
-        return priority;
-    }
+		public String getName() {
+				return name;
+		}
 
-    @Override
-    public String toString() {
-        StringBuilder toStringBuilder = new StringBuilder();
-        toStringBuilder.append(super.toString());
-        toStringBuilder.append("\n");
-        toStringBuilder.append("\nassociateExportPolicyAsUri: ");
-        toStringBuilder.append(associateExportPolicyAsUri);
-        toStringBuilder.append("\naccessByPropertyEnabled: ");
-        toStringBuilder.append(accessByPropertyEnabled);
-        toStringBuilder.append("\nidentityCustomizerImplemented: ");
-        toStringBuilder.append(identityCustomizerImplemented);
-        toStringBuilder.append("\nexporterImplemented: ");
-        toStringBuilder.append(exporterImplemented);
-        toStringBuilder.append("\nimporterImplemented: ");
-        toStringBuilder.append(importerImplemented);
-        toStringBuilder.append("\ndomainClass: ");
-        toStringBuilder.append(domainClass);
-        toStringBuilder.append("\npathToResource: ");
-        toStringBuilder.append(pathToResource);
-        toStringBuilder.append("\nidPrefix: ");
-        toStringBuilder.append(idPrefix);
-        toStringBuilder.append("\nidPropertyName: ");
-        toStringBuilder.append(idPropertyName);
-        toStringBuilder.append("\nname: ");
-        toStringBuilder.append(name);
-        toStringBuilder.append("\npriority: ");
-        toStringBuilder.append(priority);
-        toStringBuilder.append("\nassociationConfigs: ");
-        for(Map.Entry<String, AssociationConfig> configEntry : associationConfigs.entrySet()) {
-            toStringBuilder.append("\n\t");
-            toStringBuilder.append(configEntry.getKey());
-            toStringBuilder.append(": ");
-            toStringBuilder.append(configEntry.getValue().toString().replaceAll(
-                "\n", "\n\t\t"));
-        }
-        return toStringBuilder.toString();
-    }
+		public int getPriority() {
+				return priority;
+		}
+
+		public boolean isExportBasicTypesInTypeElementEnabled() {
+				return exportBasicTypesInTypeElementEnabled;
+		}
+
+		@Override
+		public String toString() {
+				StringBuilder toStringBuilder = new StringBuilder();
+				toStringBuilder.append(super.toString());
+				toStringBuilder.append("\n");
+				toStringBuilder.append("\nassociateExportPolicyAsUri: ");
+				toStringBuilder.append(associateExportPolicyAsUri);
+				toStringBuilder.append("\naccessByPropertyEnabled: ");
+				toStringBuilder.append(accessByPropertyEnabled);
+				toStringBuilder.append("\nidentityCustomizerImplemented: ");
+				toStringBuilder.append(identityCustomizerImplemented);
+				toStringBuilder.append("\nexporterImplemented: ");
+				toStringBuilder.append(exporterImplemented);
+				toStringBuilder.append("\nimporterImplemented: ");
+				toStringBuilder.append(importerImplemented);
+				toStringBuilder.append("\ndomainClass: ");
+				toStringBuilder.append(domainClass);
+				toStringBuilder.append("\npathToResource: ");
+				toStringBuilder.append(pathToResource);
+				toStringBuilder.append("\nidPrefix: ");
+				toStringBuilder.append(idPrefix);
+				toStringBuilder.append("\nidPropertyName: ");
+				toStringBuilder.append(idPropertyName);
+				toStringBuilder.append("\nname: ");
+				toStringBuilder.append(name);
+				toStringBuilder.append("\npriority: ");
+				toStringBuilder.append(priority);
+				toStringBuilder.append("\nexportBasicTypesInTypeElementEnabled: ");
+				toStringBuilder.append(exportBasicTypesInTypeElementEnabled);
+				toStringBuilder.append("\nassociationConfigs: ");
+				for (Map.Entry<String, AssociationConfig> configEntry :
+						 associationConfigs.entrySet()) {
+						toStringBuilder.append("\n\t");
+						toStringBuilder.append(configEntry.getKey());
+						toStringBuilder.append(": ");
+						toStringBuilder.append(configEntry.getValue().toString().replaceAll(
+										"\n", "\n\t\t"));
+				}
+				return toStringBuilder.toString();
+		}
 }

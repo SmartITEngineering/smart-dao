@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.xml.transform.OutputKeys;
@@ -55,6 +56,8 @@ public class XMLExporterImpl
 		private static Map<AssociationType, ElementExporter> handlers;
 
 		static {
+				handlers = new HashMap<AssociationType, ElementExporter>(
+								AssociationType.values().length);
 				String packageName = ConfigRegistrar.class.getPackage().getName();
 				ClassScanner scanner = IOFactory.getDefaultClassScanner();
 				scanner.scan(new String[] {packageName},

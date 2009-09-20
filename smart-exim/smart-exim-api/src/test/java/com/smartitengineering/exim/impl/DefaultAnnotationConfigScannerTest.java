@@ -143,6 +143,7 @@ public class DefaultAnnotationConfigScannerTest
         assertEquals(result.getDomainClass().getName(), result.getName());
         assertEquals(TestResourceDomain.PATH, result.getPathToResource());
         assertEquals(0, result.getPriority());
+				assertFalse(result.isExportBasicTypesInTypeElementEnabled());
         asssocConfigs = result.getAssociationConfigs();
         assertNotNull(asssocConfigs);
         assertFalse(asssocConfigs.isEmpty());
@@ -215,6 +216,7 @@ public class DefaultAnnotationConfigScannerTest
         assertEquals(TestResourceDomainField.NAME, result.getName());
         assertEquals("", result.getPathToResource());
         assertEquals(0, result.getPriority());
+				assertFalse(result.isExportBasicTypesInTypeElementEnabled());
         asssocConfigs = result.getAssociationConfigs();
         assertNotNull(asssocConfigs);
         assertFalse(asssocConfigs.isEmpty());
@@ -267,6 +269,7 @@ public class DefaultAnnotationConfigScannerTest
         assertEquals(result.getDomainClass().getName(), result.getName());
         assertEquals("", result.getPathToResource());
         assertEquals(IResource.PRIORITY, result.getPriority());
+				assertTrue(result.isExportBasicTypesInTypeElementEnabled());
         asssocConfigs = result.getAssociationConfigs();
         assertNotNull(asssocConfigs);
         assertFalse(asssocConfigs.isEmpty());
