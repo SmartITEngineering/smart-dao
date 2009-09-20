@@ -153,7 +153,7 @@ public class DefaultAnnotationConfigScannerTest
         assertTrue(asssocConfigs.containsKey(TestResourceDomain.ID));
         associationConfig = asssocConfigs.get(TestResourceDomain.ID);
         assertEquals("getId", associationConfig.getAccessorName());
-        assertEquals(AssociationConfig.AssociationType.TYPE_OBJECT,
+        assertEquals(AssociationConfig.AssociationType.TYPE_INTEGER,
                      associationConfig.getAssociationType());
         assertEquals(TestResourceDomain.ID, associationConfig.getName());
         assertFalse(associationConfig.isEagerSet());
@@ -164,7 +164,7 @@ public class DefaultAnnotationConfigScannerTest
         assertTrue(asssocConfigs.containsKey(TestResourceDomain.SOME_PROP));
         associationConfig = asssocConfigs.get(TestResourceDomain.SOME_PROP);
         assertEquals("getSomeProp", associationConfig.getAccessorName());
-        assertEquals(AssociationConfig.AssociationType.TYPE_OBJECT,
+        assertEquals(AssociationConfig.AssociationType.TYPE_STRING,
                      associationConfig.getAssociationType());
         assertEquals(TestResourceDomain.SOME_PROP_NAME, associationConfig.
             getName());
@@ -176,7 +176,7 @@ public class DefaultAnnotationConfigScannerTest
         assertTrue(asssocConfigs.containsKey(TestResourceDomain.SOME_BOOL_PROP));
         associationConfig = asssocConfigs.get(TestResourceDomain.SOME_BOOL_PROP);
         assertEquals("hasSomeBoolProp", associationConfig.getAccessorName());
-        assertEquals(AssociationConfig.AssociationType.TYPE_OBJECT,
+        assertEquals(AssociationConfig.AssociationType.TYPE_BOOLEAN,
                      associationConfig.getAssociationType());
         assertEquals(TestResourceDomain.SOME_BOOL_PROP, associationConfig.
             getName());
@@ -190,7 +190,7 @@ public class DefaultAnnotationConfigScannerTest
         associationConfig = asssocConfigs.get(
             TestResourceDomain.SOME_TRANSIENT_PROP);
         assertEquals("getSomeTransientProp", associationConfig.getAccessorName());
-        assertEquals(AssociationConfig.AssociationType.TYPE_OBJECT,
+        assertEquals(AssociationConfig.AssociationType.TYPE_STRING,
                      associationConfig.getAssociationType());
         assertEquals(TestResourceDomain.SOME_TRANSIENT_PROP, associationConfig.
             getName());
@@ -228,7 +228,7 @@ public class DefaultAnnotationConfigScannerTest
             TestResourceDomainField.SOME_STR_PROP);
         assertEquals(TestResourceDomainField.SOME_STR_PROP,
                      associationConfig.getAccessorName());
-        assertEquals(AssociationConfig.AssociationType.TYPE_OBJECT,
+        assertEquals(AssociationConfig.AssociationType.TYPE_STRING,
                      associationConfig.getAssociationType());
         assertEquals(TestResourceDomainField.SOME_STR_PROP, associationConfig.
             getName());
@@ -243,7 +243,7 @@ public class DefaultAnnotationConfigScannerTest
             TestResourceDomainField.SOME_TRANSIENT_STR_PROP);
         assertEquals(TestResourceDomainField.SOME_TRANSIENT_STR_PROP,
                      associationConfig.getAccessorName());
-        assertEquals(AssociationConfig.AssociationType.TYPE_OBJECT,
+        assertEquals(AssociationConfig.AssociationType.TYPE_STRING,
                      associationConfig.getAssociationType());
         assertEquals(TestResourceDomainField.SOME_TRANSIENT_STR_PROP,
                      associationConfig.getName());
@@ -277,7 +277,7 @@ public class DefaultAnnotationConfigScannerTest
         //resourceId
         assertTrue(asssocConfigs.containsKey(IResource.RESOURCE_ID));
         associationConfig = asssocConfigs.get(IResource.RESOURCE_ID);
-        assertEquals(AssociationConfig.AssociationType.TYPE_OBJECT,
+        assertEquals(AssociationConfig.AssociationType.TYPE_INTEGER,
                      associationConfig.getAssociationType());
         //list
         assertTrue(asssocConfigs.containsKey(IResource.LIST));
@@ -309,7 +309,7 @@ public class DefaultAnnotationConfigScannerTest
         //bool valid
         assertTrue(asssocConfigs.containsKey(IResource.VALID));
         associationConfig = asssocConfigs.get(IResource.VALID);
-        assertEquals(AssociationConfig.AssociationType.TYPE_OBJECT,
+        assertEquals(AssociationConfig.AssociationType.TYPE_BOOLEAN,
                      associationConfig.getAssociationType());
 
     }

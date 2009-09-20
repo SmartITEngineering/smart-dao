@@ -19,6 +19,7 @@
 package com.smartitengineering.exim;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -95,33 +96,65 @@ public interface AssociationConfig {
 				/**
 				 * Represents anything thats not any form of collection
 				 */
-				TYPE_OBJECT(Object.class, "array"),
+				TYPE_OBJECT("array", Object.class),
 				/**
 				 * Represents List
 				 */
-				TYPE_LIST(List.class, "list"),
+				TYPE_LIST("list", List.class),
 				/**
 				 * Represents Set
 				 */
-				TYPE_SET(Set.class, "set"),
+				TYPE_SET("set", Set.class),
 				/**
 				 * Represents Collection
 				 */
-				TYPE_COLLECTION(Collection.class, "collection"),
+				TYPE_COLLECTION("collection", Collection.class),
 				/**
 				 * Represents Array
 				 */
-				TYPE_ARRAY(Object.class, "object"),
+				TYPE_ARRAY("object", Object.class),
 				/**
 				 * Represents Map
 				 */
-				TYPE_MAP(Map.class, "map"),;
-				private Class rootClass;
+				TYPE_MAP("map", Map.class),
+				/**
+				 * Represents type 'double'
+				 */
+				TYPE_DOUBLE("double", double.class, Double.class),
+				/**
+				 * Represents type 'float'
+				 */
+				TYPE_FLOAT("float", float.class, Float.class),
+				/**
+				 * Represents type 'long'
+				 */
+				TYPE_LONG("long", long.class, Long.class),
+				/**
+				 * Represents type 'int'
+				 */
+				TYPE_INTEGER("integer", int.class, Integer.class),
+				/**
+				 * Represents type 'String'
+				 */
+				TYPE_STRING("string", String.class),
+				/**
+				 * Represents type 'boolean'
+				 */
+				TYPE_BOOLEAN("boolean", boolean.class, Boolean.class),
+				/**
+				 * Represents type 'java.util.Date'
+				 */
+				TYPE_DATE("date", Date.class),;
+				private Class[] rootClasses;
 				private String simpleName;
 
-				AssociationType(Class rootClass,
-												String simpleName) {
-						this.rootClass = rootClass;
+				AssociationType(String simpleName,
+												Class... rootClass) {
+						if (rootClass == null || rootClass.length <= 0) {
+								throw new IllegalArgumentException(
+												"There should be at least one type!");
+						}
+						this.rootClasses = rootClass;
 						this.simpleName = simpleName;
 				}
 
@@ -129,12 +162,24 @@ public interface AssociationConfig {
 				 * The root {@link Class} of the type its representing
 				 * @return The class type
 				 */
-				public Class getRootClass() {
-						return rootClass;
+				public Class[] getRootClasses() {
+						return rootClasses;
 				}
 
 				public String getSimpleName() {
 						return simpleName;
+				}
+
+				public boolean isAssignableFrom(Class clazz) {
+						if (clazz == null) {
+								return false;
+						}
+						for (Class myClazz : getRootClasses()) {
+								if (myClazz.isAssignableFrom(clazz)) {
+										return true;
+								}
+						}
+						return false;
 				}
 
 				/**
@@ -149,17 +194,38 @@ public interface AssociationConfig {
 						if (clazz.isArray()) {
 								return TYPE_ARRAY;
 						}
-						if (TYPE_MAP.getRootClass().isAssignableFrom(clazz)) {
+						if (TYPE_MAP.isAssignableFrom(clazz)) {
 								return TYPE_MAP;
 						}
-						if (TYPE_LIST.getRootClass().isAssignableFrom(clazz)) {
+						if (TYPE_LIST.isAssignableFrom(clazz)) {
 								return TYPE_LIST;
 						}
-						if (TYPE_SET.getRootClass().isAssignableFrom(clazz)) {
+						if (TYPE_SET.isAssignableFrom(clazz)) {
 								return TYPE_SET;
 						}
-						if (TYPE_COLLECTION.getRootClass().isAssignableFrom(clazz)) {
+						if (TYPE_COLLECTION.isAssignableFrom(clazz)) {
 								return TYPE_COLLECTION;
+						}
+						if (TYPE_DATE.isAssignableFrom(clazz)) {
+								return TYPE_DATE;
+						}
+						if (TYPE_BOOLEAN.isAssignableFrom(clazz)) {
+								return TYPE_BOOLEAN;
+						}
+						if (TYPE_STRING.isAssignableFrom(clazz)) {
+								return TYPE_STRING;
+						}
+						if (TYPE_INTEGER.isAssignableFrom(clazz)) {
+								return TYPE_INTEGER;
+						}
+						if (TYPE_LONG.isAssignableFrom(clazz)) {
+								return TYPE_LONG;
+						}
+						if (TYPE_FLOAT.isAssignableFrom(clazz)) {
+								return TYPE_FLOAT;
+						}
+						if (TYPE_DOUBLE.isAssignableFrom(clazz)) {
+								return TYPE_DOUBLE;
 						}
 						return TYPE_OBJECT;
 				}
