@@ -31,9 +31,12 @@ import javax.xml.transform.sax.TransformerHandler;
  */
 public interface ElementExporter {
 
-		public static final String EXIMCOLLECTION = "exim-collection";
-		public static final String EXIM_COLLECN_NS =
+		public static final String EXIM_COLLECTION_NS = "exim-collection";
+		public static final String EXIM_COLLECN_URI =
 															 "http://www.smartitengineering.com/smart-dao/exim/collections";
+		public static final String EXIM_BASIC_TYPES_NS = "exim-basic-types";
+		public static final String EXIM_BASIC_TYPES_URI =
+															 "http://www.smartitengineering.com/smart-dao/exim/basic-types";
 
 		/**
 		 * This operation is resposnsible for exporting XML elements of type it

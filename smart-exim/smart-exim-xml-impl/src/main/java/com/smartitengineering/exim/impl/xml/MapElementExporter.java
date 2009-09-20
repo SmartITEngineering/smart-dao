@@ -44,7 +44,7 @@ public class MapElementExporter
 				}
 		}
 
-		public ElementExporter getInstance() {
+		public static ElementExporter getInstance() {
 				return exporter;
 		}
 
@@ -61,7 +61,7 @@ public class MapElementExporter
 				}
 				try {
 						AttributesImpl atts = new AttributesImpl();
-						handler.startElement(EXIM_COLLECN_NS, EXIMCOLLECTION, type.
+						handler.startElement(EXIM_COLLECN_URI, EXIM_COLLECTION_NS, type.
 										getSimpleName(), atts);
 						Map map = (Map) object;
 						Set<Map.Entry> objects = map.entrySet();
@@ -83,7 +83,7 @@ public class MapElementExporter
 												exportElement(associationType, value, handler);
 								handler.endElement("", "", "value");
 						}
-						handler.endElement(EXIM_COLLECN_NS, EXIMCOLLECTION, type.
+						handler.endElement(EXIM_COLLECN_URI, EXIM_COLLECTION_NS, type.
 										getSimpleName());
 				}
 				catch (Exception ex) {
