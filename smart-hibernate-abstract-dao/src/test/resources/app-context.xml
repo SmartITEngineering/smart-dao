@@ -41,7 +41,7 @@
         com.smartitengineering.dao.dialect
         com.smartitengineering.dao.show_sql
     -->
-    <bean id="propertyConfigurer" class="com.smartitengineering.util.bean.PropertiesLocatorConfigurer">
+    <bean id="propertyConfigurer" class="com.smartitengineering.util.bean.spring.PropertiesLocatorConfigurer">
         <property name="smartLocations">
             <list>
                 <value>db-test-config.properties</value>

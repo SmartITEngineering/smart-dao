@@ -72,7 +72,7 @@
             <ref local="revisionDao" />
         </property>
     </bean>
-    <bean id="propertyConfigurerForJgitImpl" class="com.smartitengineering.util.bean.PropertiesLocatorConfigurer">
+    <bean id="propertyConfigurerForJgitImpl" class="com.smartitengineering.util.bean.spring.PropertiesLocatorConfigurer">
         <property name="smartLocations">
             <list>
                 <value>com/smartitengineering/smart-dao/smart-version-jgit/jgit-config.properties</value>
@@ -118,10 +118,10 @@
             <ref local="jgitImpl" />
         </property>
     </bean>
-    <bean id="metaReg" class="com.smartitengineering.util.bean.BeanFactoryRegistrar">
+    <bean id="metaReg" class="com.smartitengineering.util.bean.spring.SpringBeanRegistrar">
         <property name="beanFactoryContextName" value="com.smartitnengineering.smart-dao.smart-version-jgit"/>
     </bean>
-    <bean id="apiReg" class="com.smartitengineering.util.bean.BeanFactoryRegistrar">
+    <bean id="apiReg" class="com.smartitengineering.util.bean.spring.SpringBeanRegistrar">
         <property name="beanFactoryContextName" value="com.smartitnengineering.smart-dao.smart-version"/>
     </bean>
 </beans>

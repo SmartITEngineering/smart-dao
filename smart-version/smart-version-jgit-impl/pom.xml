@@ -99,7 +99,7 @@
         </dependency>
         <dependency>
             <groupId>com.smartitengineering.smart-util</groupId>
-            <artifactId>smart-bean-util</artifactId>
+            <artifactId>smart-bean-spring-util</artifactId>
             <version>${smart-util.version}</version>
         </dependency>
         <dependency>
