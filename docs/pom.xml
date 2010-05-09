@@ -51,6 +51,11 @@
             <artifactId>smart-abstract-dao</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.smartitengineering.smart-dao</groupId>
+            <artifactId>smart-hbase-dao</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.smartitengineering</groupId>
             <version>${project.version}</version>
             <artifactId>smart-dao-queryparam</artifactId>

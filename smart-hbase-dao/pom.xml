@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>smart-dao</artifactId>
+    <groupId>com.smartitengineering</groupId>
+    <version>0.4-SNAPSHOT</version>
+  </parent>
+  <groupId>com.smartitengineering.smart-dao</groupId>
+  <artifactId>smart-hbase-dao</artifactId>
+  <version>0.4-SNAPSHOT</version>
+  <name>Smart HBase DAO</name>
+  <description>HBase implementation of Smart DAO.</description>
+  <!--
+  HBase repository and version is currently not final. Using LilyCMS.org's repo.
+  -->
+  <repositories>
+    <repository>
+      <id>lilycms.org-m2-repo</id>
+      <name>LilyCMS.org Maven Repository</name>
+      <url>http://lilycms.org/maven/maven2/deploy</url>
+    </repository>
+  </repositories>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.hbase</groupId>
+      <artifactId>hbase-contrib-transactional</artifactId>
+      <version>0.21.0-r940338</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>${assembly.version}</version>
+      </plugin>
+    </plugins>
+  </build>
+</project>

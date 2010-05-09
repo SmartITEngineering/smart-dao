@@ -469,6 +469,7 @@
         <module>smart-rs</module>
         <module>docs</module>
         <module>smart-exim</module>
+        <module>smart-hbase-dao</module>
     </modules>
     <properties>
         <commons-lang.version>2.3</commons-lang.version>

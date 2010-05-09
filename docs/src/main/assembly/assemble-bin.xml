@@ -47,6 +47,11 @@
             <destName>smart-abstract-dao-README</destName>
         </file>
         <file>
+            <source>../smart-hbase-dao/target/smart-hbase-dao-${project.version}-readme.dir/smart-hbase-dao-${project.version}/README</source>
+            <outputDirectory>/readme/</outputDirectory>
+            <destName>smart-hbase-dao-README</destName>
+        </file>
+        <file>
             <source>../smart-domain/target/smart-domain-${project.version}-readme.dir/smart-domain-${project.version}/README</source>
             <outputDirectory>/readme/</outputDirectory>
             <destName>smart-domain-README</destName>

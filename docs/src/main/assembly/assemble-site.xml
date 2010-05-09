@@ -90,6 +90,14 @@
             </includes>
             <outputDirectory>/site/smart-abstract-dao/</outputDirectory>
         </fileSet>
+        <!-- Smart HBase DAO project content -->
+        <fileSet>
+            <directory>../smart-hbase-dao/target/site/</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>/site/smart-hbase-dao/</outputDirectory>
+        </fileSet>
         <!-- Smart Hibernate Abstract DAO project content -->
         <fileSet>
             <directory>../smart-hibernate-abstract-dao/target/site/</directory>
