@@ -89,15 +89,22 @@
     <distributionManagement>
         <!-- use the following if you're not using a snapshot version. -->
         <repository>
-            <id>java.net-m2-repository</id>
-            <url>java-net:/maven2-repository/trunk/repository/</url>
+            <id>smartit-googlecode</id>
+            <name>Smart IT Engineering GoogleCode repository</name>
+            <url>svn:https://imyousuf@smart-it.googlecode.com/svn/maven2/releases</url>
         </repository>
         <!-- use the following if you ARE using a snapshot version. -->
         <snapshotRepository>
-            <id>free-ftp-snapshot-repo</id>
-            <name>My FTP snapshot</name>
-            <url>ftp://imyousuf.100webspace.net/imyousuf.100webspace.net/maven-repo/snapshot</url>
+            <id>smartit-googlecode</id>
+            <name>Smart IT Engineering GoogleCode repository</name>
+            <url>svn:https://imyousuf@smart-it.googlecode.com/svn/maven2/snapshots</url>
         </snapshotRepository>
+        <!-- deploy site here -->
+        <site>
+            <id>smartit-googlecode</id>
+            <name>Smart IT Engineering GoogleCode repository</name>
+            <url>svn:https://imyousuf@smart-it.googlecode.com/svn/maven2/site/dao</url>
+        </site>
     </distributionManagement>
     <repositories>
         <repository>
@@ -105,22 +112,46 @@
             <name>Java.net Repository for Maven</name>
             <url>http://download.java.net/maven/2/</url>
             <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
         <repository>
             <id>compass-project.org</id>
             <name>Compass</name>
             <url>http://repo.compass-project.org</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
         <repository>
-            <id>free-ftp-snapshot-rep</id>
-            <name>Smart IT Snapshot repo</name>
-            <url>http://dev.smartitengineering.com/maven-repo/snapshot/</url>
+            <id>smartit-googlecode-snapshots</id>
+            <name>Smart IT Snapshot GoogleCode Snapshot Repo</name>
+            <url>http://smart-it.googlecode.com/svn/maven2/snapshots/</url>
             <layout>default</layout>
             <releases>
                 <enabled>false</enabled>
             </releases>
             <snapshots>
                 <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>smartit-googlecode-releases</id>
+            <name>Smart IT Snapshot GoogleCode Release Repo</name>
+            <url>http://smart-it.googlecode.com/svn/maven2/releases/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
             </snapshots>
         </repository>
         <repository>
@@ -475,9 +506,9 @@
         <commons-lang.version>2.3</commons-lang.version>
         <smart-util.version>0.2-SNAPSHOT</smart-util.version>
         <jgit.version>0.4-SNAPSHOT</jgit.version>
-        <scm.version>1.3-SNAPSHOT</scm.version>
+        <scm.version>1.3</scm.version>
         <jersey.version>1.0.3</jersey.version>
-        <changelog.version>2.2-SNAPSHOT</changelog.version>
+        <changelog.version>2.1</changelog.version>
         <plexus-utils.version>1.5.6</plexus-utils.version>
         <asm.version>3.1</asm.version>
         <last.release.tag>0.3</last.release.tag>
