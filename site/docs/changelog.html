@@ -42,7 +42,7 @@
   
     
             <div class="xleft">
-        Last Published: 2009-06-16
+        Last Published: 2010-05-10
                   &nbsp;| Version: 0.4-SNAPSHOT
                       </div>
             <div class="xright">      
@@ -165,13 +165,54 @@
         <div class="section"><h2>Change Log Report</h2>
 <p>Total number of changed sets: 1</p>
 <div class="section"><h3>Changes since project creation</h3>
-<p>Total commits: 12<br />
+<p>Total commits: 15<br />
 Total number of files changed: 12</p>
 <table class="bodyTable"><tr class="a"><th>Timestamp</th>
 <th>Author</th>
 <th>Details</th>
 </tr>
-<tr class="b"><td>2009-06-16 11:01:55</td>
+<tr class="b"><td>2010-05-10 20:06:50</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>docs/src/main/assembly/<b>assemble-bin-with-dependency.xml</b> v 73788d5898fcfa771fedcaf29618a0660cf00194<br />
+docs/src/main/assembly/<b>assemble-bin.xml</b> v 73788d5898fcfa771fedcaf29618a0660cf00194<br />
+<br />
+Fix build<br />
+<br />
+Fixed the distribution management and distribution assembly.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2010-05-09 19:55:19</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>docs/<b>pom.xml</b> v 071b1d6e38f55477c7d2f45577e7b3df90901a4e<br />
+docs/src/main/assembly/<b>assemble-bin-with-dependency.xml</b> v 071b1d6e38f55477c7d2f45577e7b3df90901a4e<br />
+docs/src/main/assembly/<b>assemble-bin.xml</b> v 071b1d6e38f55477c7d2f45577e7b3df90901a4e<br />
+docs/src/main/assembly/<b>assemble-site.xml</b> v 071b1d6e38f55477c7d2f45577e7b3df90901a4e<br />
+<br />
+Add HBase dao implementation module<br />
+<br />
+Add it to the distribution and site as well. This module is very vital as<br />
+it is the first module for any NoSQL/NOSQL.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="b"><td>2009-07-13 21:02:26</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>docs/<b>pom.xml</b> v cd40d861c316fde53a5be02ffbb37e445c6e0af4<br />
+docs/src/main/assembly/<b>assemble-bin-with-dependency.xml</b> v cd40d861c316fde53a5be02ffbb37e445c6e0af4<br />
+docs/src/main/assembly/<b>assemble-bin.xml</b> v cd40d861c316fde53a5be02ffbb37e445c6e0af4<br />
+docs/src/main/assembly/<b>assemble-site.xml</b> v cd40d861c316fde53a5be02ffbb37e445c6e0af4<br />
+<br />
+Add XML implementation module for export and import<br />
+<br />
+Add basic quickstart artifact and add it to the parent POM.<br />
+Remove the unnecessary dependency of DOM4j from XML-Impl module.<br />
+Update distribution and site assemble scripts to include the new READMEs.<br />
+Add exim modules' as doc's dependency to ensure execution order.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-06-16 11:01:55</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>docs/src/main/assembly/<b>assemble-site.xml</b> v 23b183747aa4d258276ac2471b116427b3eea291<br />
 <br />
@@ -179,7 +220,7 @@ Fix site assembly script to include exim modules' contents<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-16 13:35:50</td>
+<tr class="b"><td>2009-04-16 13:35:50</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>docs/src/main/shell/<b>committer.sh</b> v db71514286fa68528dbe01f02e2082761a46e40c<br />
 <br />
@@ -187,7 +228,7 @@ Fix shell script for committing and pushing doc changes<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-04-16 12:58:52</td>
+<tr class="a"><td>2009-04-16 12:58:52</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>docs/<b>profiles.xml.template</b> v 7ae45ff8b0b10e0970f7c3dd1a6f06a097afe99f<br />
 <br />
@@ -195,7 +236,7 @@ Relocate profiles xml to the docs module as it is meant for it<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-16 12:36:41</td>
+<tr class="b"><td>2009-04-16 12:36:41</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>docs/<b>pom.xml</b> v 9b14848bf276da15af3821debb3f0e7545b551a6<br />
 docs/src/main/ant/<b>gh-pages-build.xml</b> v 9b14848bf276da15af3821debb3f0e7545b551a6<br />
@@ -209,7 +250,7 @@ committing the change.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-04-14 22:15:53</td>
+<tr class="a"><td>2009-04-14 22:15:53</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>docs/src/site/<b>site.xml</b> v bcec4a58357f672615809338ad5d4dd0f67ec114<br />
 <br />
@@ -219,7 +260,7 @@ Previously it was wrong due to a copy paste and this change fixes it.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-13 09:02:03</td>
+<tr class="b"><td>2009-04-13 09:02:03</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>docs/<b>pom.xml</b> v dbd687abe484d8cd023f4f4938085d293cf233c4<br />
 <br />
@@ -240,7 +281,7 @@ Updated the README with latest build notices.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-04-10 16:50:29</td>
+<tr class="a"><td>2009-04-10 16:50:29</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>docs/<b>pom.xml</b> v d21b330afe711364f5c1328570c50e129ac846f9<br />
 <br />
@@ -250,7 +291,7 @@ Previously it started with doc where as it should start as smart-dao.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-10 16:33:16</td>
+<tr class="b"><td>2009-04-10 16:33:16</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>docs/<b>pom.xml</b> v c941452b932a77883aad48634331352231cb5b32<br />
 <br />
@@ -266,7 +307,7 @@ artifacts are non useful.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-04-09 22:48:31</td>
+<tr class="a"><td>2009-04-09 22:48:31</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>docs/<b>README</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
 docs/<b>pom.xml</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
@@ -297,7 +338,7 @@ in the docs.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-09 12:32:49</td>
+<tr class="b"><td>2009-04-09 12:32:49</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>docs/<b>pom.xml</b> v 042b6e10905b82a16dc0e438fc0dc1ceaba6e985<br />
 docs/src/main/assembly/<b>assemble-bin-with-dependency.xml</b> v 042b6e10905b82a16dc0e438fc0dc1ceaba6e985<br />
@@ -309,7 +350,7 @@ Distribution will be refactored to be made better in next commit.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-04-07 11:34:14</td>
+<tr class="a"><td>2009-04-07 11:34:14</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>docs/<b>pom.xml</b> v c309a93f4956fc22b6f58cb5ed31dc51a331100e<br />
 docs/src/main/assembly/<b>assemble-site.xml</b> v c309a93f4956fc22b6f58cb5ed31dc51a331100e<br />
@@ -329,7 +370,7 @@ copying.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-06 14:04:21</td>
+<tr class="b"><td>2009-04-06 14:04:21</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>docs/<b>pom.xml</b> v 6a46b618da88cc447d81b0c522dff5fc878611b1<br />
 docs/src/main/assembly/<b>assemble-site.xml</b> v 6a46b618da88cc447d81b0c522dff5fc878611b1<br />
@@ -358,7 +399,7 @@ Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2007-2009
+          2007-2010
     
           Smart IT Engineering
           

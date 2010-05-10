@@ -42,7 +42,7 @@
   
     
             <div class="xleft">
-        Last Published: 2009-06-16
+        Last Published: 2010-05-10
                   &nbsp;| Version: 0.4-SNAPSHOT
                       </div>
             <div class="xright">      
@@ -187,7 +187,7 @@
     <div id="bodyColumn">
       <div id="contentBox">
         <div class="section"><h2>FindBugs Bug Detector Report</h2>
-<p>The following document contains the results of <a href="http://findbugs.sourceforge.net" class="externalLink">FindBugs Report</a></p>
+<p>The following document contains the results of <a class="externalLink" href="http://findbugs.sourceforge.net">FindBugs Report</a></p>
 <p>FindBugs Version is <i>1.3.7</i></p>
 <p>Threshold is <i>Low</i></p>
 <p>Effort is <i>Default</i></p>
@@ -198,8 +198,8 @@
 <th>Errors</th>
 <th>Missing Classes</th>
 </tr>
-<tr class="b"><td>79</td>
-<td>7</td>
+<tr class="b"><td>102</td>
+<td>1</td>
 <td>0</td>
 <td>0</td>
 </tr>
@@ -209,83 +209,23 @@
 <table class="bodyTable"><tr class="a"><th>Class</th>
 <th>Bugs</th>
 </tr>
-<tr class="b"><td><a href="#com.smartitengineering.exim.ConfigRegistrar$ConfigScannerRegistryItem">com.smartitengineering.exim.ConfigRegistrar$ConfigScannerRegistryItem</a></td>
-<td>3</td>
-</tr>
-<tr class="a"><td><a href="#com.smartitengineering.exim.impl.AssociationConfigImpl">com.smartitengineering.exim.impl.AssociationConfigImpl</a></td>
-<td>2</td>
-</tr>
-<tr class="b"><td><a href="#com.smartitengineering.exim.impl.DefaultAnnotationConfigScanner">com.smartitengineering.exim.impl.DefaultAnnotationConfigScanner</a></td>
-<td>2</td>
+<tr class="b"><td><a href="#com.smartitengineering.exim.AssociationConfig$AssociationType">com.smartitengineering.exim.AssociationConfig$AssociationType</a></td>
+<td>1</td>
 </tr>
 </table>
 </div>
-<a name="com.smartitengineering.exim.ConfigRegistrarConfigScannerRegistryItem"></a><div class="section"><h3>com.smartitengineering.exim.ConfigRegistrar$ConfigScannerRegistryItem</h3>
+<a name="com.smartitengineering.exim.AssociationConfigAssociationType"></a><div class="section"><h3>com.smartitengineering.exim.AssociationConfig$AssociationType</h3>
 <table class="bodyTable"><tr class="a"><th>Bug</th>
 <th>Category</th>
 <th>Details</th>
 <th>Line</th>
 <th>Priority</th>
 </tr>
-<tr class="b"><td>Method com.smartitengineering.exim.ConfigRegistrar$ConfigScannerRegistryItem.compareTo(ConfigRegistrar$ConfigScannerRegistryItem) invokes inefficient new Integer(int) constructor; use Integer.valueOf(int) instead</td>
-<td>PERFORMANCE</td>
-<td><a href="http://findbugs.sourceforge.net/bugDescriptions.html#DM_NUMBER_CTOR" class="externalLink">DM_NUMBER_CTOR</a></td>
-<td>175</td>
+<tr class="b"><td>com.smartitengineering.exim.AssociationConfig$AssociationType.getRootClasses() may expose internal representation by returning AssociationConfig$AssociationType.rootClasses</td>
+<td>MALICIOUS_CODE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
+<td>166</td>
 <td>Medium</td>
-</tr>
-<tr class="a"><td>Exception is caught when Exception is not thrown in com.smartitengineering.exim.ConfigRegistrar$ConfigScannerRegistryItem.getInstance()</td>
-<td>STYLE</td>
-<td><a href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION" class="externalLink">REC_CATCH_EXCEPTION</a></td>
-<td>204</td>
-<td>Medium</td>
-</tr>
-<tr class="b"><td>Exception is caught when Exception is not thrown in com.smartitengineering.exim.ConfigRegistrar$ConfigScannerRegistryItem.getInstance()</td>
-<td>STYLE</td>
-<td><a href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION" class="externalLink">REC_CATCH_EXCEPTION</a></td>
-<td>210</td>
-<td>Low</td>
-</tr>
-</table>
-</div>
-<a name="com.smartitengineering.exim.impl.AssociationConfigImpl"></a><div class="section"><h3>com.smartitengineering.exim.impl.AssociationConfigImpl</h3>
-<table class="bodyTable"><tr class="a"><th>Bug</th>
-<th>Category</th>
-<th>Details</th>
-<th>Line</th>
-<th>Priority</th>
-</tr>
-<tr class="b"><td>There is an apparent infinite recursive loop in com.smartitengineering.exim.impl.AssociationConfigImpl.isStringProviderImplemented()</td>
-<td>CORRECTNESS</td>
-<td><a href="http://findbugs.sourceforge.net/bugDescriptions.html#IL_INFINITE_RECURSIVE_LOOP" class="externalLink">IL_INFINITE_RECURSIVE_LOOP</a></td>
-<td>82</td>
-<td>High</td>
-</tr>
-<tr class="a"><td>Unread field: com.smartitengineering.exim.impl.AssociationConfigImpl.stringProviderImplemented</td>
-<td>PERFORMANCE</td>
-<td><a href="http://findbugs.sourceforge.net/bugDescriptions.html#URF_UNREAD_FIELD" class="externalLink">URF_UNREAD_FIELD</a></td>
-<td>54</td>
-<td>Medium</td>
-</tr>
-</table>
-</div>
-<a name="com.smartitengineering.exim.impl.DefaultAnnotationConfigScanner"></a><div class="section"><h3>com.smartitengineering.exim.impl.DefaultAnnotationConfigScanner</h3>
-<table class="bodyTable"><tr class="b"><th>Bug</th>
-<th>Category</th>
-<th>Details</th>
-<th>Line</th>
-<th>Priority</th>
-</tr>
-<tr class="a"><td>Incorrect lazy initialization of static field com.smartitengineering.exim.impl.DefaultAnnotationConfigScanner.registrar in com.smartitengineering.exim.impl.DefaultAnnotationConfigScanner.getInstance()</td>
-<td>MT_CORRECTNESS</td>
-<td><a href="http://findbugs.sourceforge.net/bugDescriptions.html#LI_LAZY_INIT_STATIC" class="externalLink">LI_LAZY_INIT_STATIC</a></td>
-<td>74-75</td>
-<td>Low</td>
-</tr>
-<tr class="b"><td>Exception is caught when Exception is not thrown in com.smartitengineering.exim.impl.DefaultAnnotationConfigScanner.scanPackage(Package, Class)</td>
-<td>STYLE</td>
-<td><a href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION" class="externalLink">REC_CATCH_EXCEPTION</a></td>
-<td>231</td>
-<td>Low</td>
 </tr>
 </table>
 </div>
@@ -297,7 +237,7 @@
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2007-2009
+          2007-2010
     
           Smart IT Engineering
           

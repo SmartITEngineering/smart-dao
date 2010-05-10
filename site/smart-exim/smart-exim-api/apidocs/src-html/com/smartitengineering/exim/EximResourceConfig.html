@@ -114,7 +114,26 @@
 <FONT color="green">111</FONT>         * @return True if it implements {@link DomainSelfImporter} else false<a name="line.111"></a>
 <FONT color="green">112</FONT>         */<a name="line.112"></a>
 <FONT color="green">113</FONT>        boolean isImporterImplemented();<a name="line.113"></a>
-<FONT color="green">114</FONT>    }<a name="line.114"></a>
+<FONT color="green">114</FONT>    <a name="line.114"></a>
+<FONT color="green">115</FONT>        /**<a name="line.115"></a>
+<FONT color="green">116</FONT>         * Represents the priority of the resource domain. It is applicable only<a name="line.116"></a>
+<FONT color="green">117</FONT>         * for interfaces. If a non resource domain concrete object implements more<a name="line.117"></a>
+<FONT color="green">118</FONT>         * than one resource domain annotated interfaces, then based on descending<a name="line.118"></a>
+<FONT color="green">119</FONT>         * order the priority will popped from a priority queue.<a name="line.119"></a>
+<FONT color="green">120</FONT>         * @return Priority of this resource domain, 0 by default.<a name="line.120"></a>
+<FONT color="green">121</FONT>         */<a name="line.121"></a>
+<FONT color="green">122</FONT>        int getPriority();<a name="line.122"></a>
+<FONT color="green">123</FONT>    <a name="line.123"></a>
+<FONT color="green">124</FONT>                    /**<a name="line.124"></a>
+<FONT color="green">125</FONT>                     * Returns whether basic return types such as String, Integer, Long should<a name="line.125"></a>
+<FONT color="green">126</FONT>                     * encapsulated in their distinct XML elements or simply as text content.<a name="line.126"></a>
+<FONT color="green">127</FONT>                     * The reason for this to be true could be for better readability of the XML.<a name="line.127"></a>
+<FONT color="green">128</FONT>                     * @return True if and only if the basic types are to be encapsulated in<a name="line.128"></a>
+<FONT color="green">129</FONT>                     *                               their respective element as defined in schema<a name="line.129"></a>
+<FONT color="green">130</FONT>                     *                               http://www.smartitengineering.com/smart-dao/exim/basic-types<a name="line.130"></a>
+<FONT color="green">131</FONT>                     */<a name="line.131"></a>
+<FONT color="green">132</FONT>                    boolean isExportBasicTypesInTypeElementEnabled();<a name="line.132"></a>
+<FONT color="green">133</FONT>    }<a name="line.133"></a>
 
 
 

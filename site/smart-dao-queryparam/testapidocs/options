@@ -1,17 +1,17 @@
 -classpath
-'/media/unix-2/projects/smart-dao/smart-dao-queryparam/target/classes:/media/unix-2/projects/smart-dao/smart-dao-queryparam/target/test-classes:/home/imyousuf/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar'
+'/media/projects/projects/smart-dao/smart-dao-queryparam/target/classes:/media/projects/projects/smart-dao/smart-dao-queryparam/target/test-classes:/home/imyousuf/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar'
 -encoding
 'UTF-8'
 -protected
 -sourcepath
-'/media/unix-2/projects/smart-dao/smart-dao-queryparam/src/test/java'
+'/media/projects/projects/smart-dao/smart-dao-queryparam/src/test/java'
 -author
 -bottom
-'Copyright &#169; 2007-2009 <a href="http://www.smartitengineering.com">Smart IT Engineering</a>. All Rights Reserved.'
+'Copyright &#169; 2007-2010 <a href="http://www.smartitengineering.com">Smart IT Engineering</a>. All Rights Reserved.'
 -charset
 'UTF-8'
 -d
-'/media/unix-2/projects/smart-dao/smart-dao-queryparam/target/site/testapidocs'
+'/media/projects/projects/smart-dao/smart-dao-queryparam/target/site/testapidocs'
 -docencoding
 'UTF-8'
 -doctitle
@@ -19,7 +19,7 @@
 -link
 '../apidocs'
 -linkoffline
-'http://code.google.com/p/smart-dao/smart-domain/apidocs' '/media/unix-2/projects/smart-dao/smart-domain/target/site/testapidocs'
+'http://code.google.com/p/smart-dao/smart-domain/apidocs' '/media/projects/projects/smart-dao/smart-domain/target/site/testapidocs'
 -linksource
 -use
 -version

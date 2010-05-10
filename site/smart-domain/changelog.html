@@ -42,7 +42,7 @@
   
     
             <div class="xleft">
-        Last Published: 2009-06-16
+        Last Published: 2010-05-10
                   &nbsp;| Version: 0.4-SNAPSHOT
                       </div>
             <div class="xright">      
@@ -189,13 +189,56 @@
         <div class="section"><h2>Change Log Report</h2>
 <p>Total number of changed sets: 1</p>
 <div class="section"><h3>Changes since project creation</h3>
-<p>Total commits: 13<br />
+<p>Total commits: 16<br />
 Total number of files changed: 17</p>
 <table class="bodyTable"><tr class="a"><th>Timestamp</th>
 <th>Author</th>
 <th>Details</th>
 </tr>
-<tr class="b"><td>2009-04-24 08:46:54</td>
+<tr class="b"><td>2009-09-20 13:46:33</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-domain/src/main/java/com/smartitengineering/domain/annotations/<b>ResourceDomain.java</b> v b895dd097b18ac2d3832e8b5283d112f026e0992<br />
+<br />
+Add encapsulation of basic types into specific XML like elements config<br />
+<br />
+In process add property to ResourceDomain annotation as for now it will be<br />
+a domain wide configuration, make changes to configuration API and its IMPL<br />
+also made changes in the configuration parsing and its test case.<br />
+<br />
+Also initialized handlers map in XML exporter.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-06-30 16:24:06</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-domain/src/main/java/com/smartitengineering/domain/annotations/<b>Eager.java</b> v 323420c78d7c359253120b6d5b88816d98d7aa80<br />
+smart-domain/src/main/java/com/smartitengineering/domain/annotations/<b>Export.java</b> v 323420c78d7c359253120b6d5b88816d98d7aa80<br />
+smart-domain/src/main/java/com/smartitengineering/domain/annotations/<b>Id.java</b> v 323420c78d7c359253120b6d5b88816d98d7aa80<br />
+smart-domain/src/main/java/com/smartitengineering/domain/annotations/<b>Name.java</b> v 323420c78d7c359253120b6d5b88816d98d7aa80<br />
+<br />
+Add @Inherited annotations to the annotation library<br />
+<br />
+Though currently Java does not support annotation inheritence for method<br />
+and field but yet this is done in &quot;hope&quot; of either it being implemented by<br />
+Java or by some other Open source project, is a good candidate for smart<br />
+util.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="b"><td>2009-06-25 16:07:26</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-domain/src/main/java/com/smartitengineering/domain/annotations/<b>ResourceDomain.java</b> v a1ee4b0762b11d6f5a3e68fc96fa3bdcba69dc4d<br />
+<br />
+Add priority support to ResourceDomain annotation<br />
+<br />
+This is done especially to support interfaces. If a concrete class<br />
+implements more than one ResourceDomain annotated domains then priority<br />
+will be used to select one and even if then can't resolve to one then,<br />
+lexical order on simple classname will be used.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-04-24 08:46:54</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/src/main/java/com/smartitengineering/domain/exim/<b>StringValueProvider.java</b> v bdd6d42ecc6c242ded7c00dc3d9217b5b7dbbc88<br />
 <br />
@@ -208,7 +251,7 @@ not a resource by themselves.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-14 23:00:57</td>
+<tr class="b"><td>2009-04-14 23:00:57</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/src/main/java/com/smartitengineering/domain/exim/<b>DomainSelfExporter.java</b> v 07e4ac7d8b6778805b4d671ab28b529aed974cac<br />
 smart-domain/src/main/java/com/smartitengineering/domain/exim/<b>DomainSelfImporter.java</b> v 07e4ac7d8b6778805b4d671ab28b529aed974cac<br />
@@ -226,7 +269,7 @@ generated from its implementation.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-04-14 22:15:53</td>
+<tr class="a"><td>2009-04-14 22:15:53</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/src/site/<b>site.xml</b> v bcec4a58357f672615809338ad5d4dd0f67ec114<br />
 <br />
@@ -236,7 +279,7 @@ Previously it was wrong due to a copy paste and this change fixes it.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-13 09:02:03</td>
+<tr class="b"><td>2009-04-13 09:02:03</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/<b>pom.xml</b> v dbd687abe484d8cd023f4f4938085d293cf233c4<br />
 <br />
@@ -257,7 +300,7 @@ Updated the README with latest build notices.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-04-09 22:48:31</td>
+<tr class="a"><td>2009-04-09 22:48:31</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/<b>README</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
 smart-domain/<b>pom.xml</b> v 3f233ab3748b4a715a360dfc0fb88540a96c961c<br />
@@ -286,7 +329,7 @@ in the docs.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-04-06 14:05:37</td>
+<tr class="b"><td>2009-04-06 14:05:37</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/<b>pom.xml</b> v b99c7bb471f0ceb79183da55e2cc9096b6d05d60<br />
 <br />
@@ -297,7 +340,7 @@ convergence. Thus all child POM uses that one instead.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-04-06 14:04:21</td>
+<tr class="a"><td>2009-04-06 14:04:21</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/src/site/<b>site.xml</b> v 6a46b618da88cc447d81b0c522dff5fc878611b1<br />
 <br />
@@ -312,7 +355,7 @@ The generated site is deployable to github.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-03-30 09:05:11</td>
+<tr class="b"><td>2009-03-30 09:05:11</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/src/main/java/com/smartitengineering/domain/annotations/<b>Eager.java</b> v f1df0f69884540707b04c4055005350f6d3963e2<br />
 smart-domain/src/main/java/com/smartitengineering/domain/annotations/<b>Export.java</b> v f1df0f69884540707b04c4055005350f6d3963e2<br />
@@ -349,7 +392,7 @@ non-id property.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-28 13:21:53</td>
+<tr class="a"><td>2009-01-28 13:21:53</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/<b>pom.xml</b> v 767b78c39cc4506db0ef769cf0c54980cf9a04be<br />
 <br />
@@ -359,7 +402,7 @@ Also make POMs coherent by mentioning their packaging.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-01-07 13:58:24</td>
+<tr class="b"><td>2009-01-07 13:58:24</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/<b>pom.xml</b> v a5dafceba13c8dfa7217c939347bb1b4f3125ddc<br />
 <br />
@@ -367,7 +410,7 @@ Source code and javadoc for domain module is added as artifacts<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-02 10:42:24</td>
+<tr class="a"><td>2009-01-02 10:42:24</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/<b>pom.xml</b> v ad187c9e096bb0bc1c8d3b76d2467cdd01c903e3<br />
 <br />
@@ -375,7 +418,7 @@ Remove wrong information from domain's POM<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="a"><td>2009-01-01 19:28:09</td>
+<tr class="b"><td>2009-01-01 19:28:09</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/src/main/java/com/smartitengineering/domain/<b>AbstractPersistentDTO.java</b> v 1f286ff39ba2b8e81757e8db3083645ce00ea6e1<br />
 smart-domain/src/main/java/com/smartitengineering/domain/<b>PersistentDTO.java</b> v 1f286ff39ba2b8e81757e8db3083645ce00ea6e1<br />
@@ -388,7 +431,7 @@ to a new abstract class.<br />
 <br />
 Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
-<tr class="b"><td>2009-01-01 19:22:17</td>
+<tr class="a"><td>2009-01-01 19:22:17</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 <td>smart-domain/<b>pom.xml</b> v 0ad2dba291cbf25c8a8d50000d061d8b5346076c<br />
 smart-domain/src/main/java/com/smartitengineering/domain/<b>Domain.java</b> v 0ad2dba291cbf25c8a8d50000d061d8b5346076c<br />
@@ -418,7 +461,7 @@ Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2007-2009
+          2007-2010
     
           Smart IT Engineering
           

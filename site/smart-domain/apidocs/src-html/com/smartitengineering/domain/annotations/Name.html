@@ -23,22 +23,24 @@
 <FONT color="green">020</FONT>    <a name="line.20"></a>
 <FONT color="green">021</FONT>    import java.lang.annotation.Documented;<a name="line.21"></a>
 <FONT color="green">022</FONT>    import java.lang.annotation.ElementType;<a name="line.22"></a>
-<FONT color="green">023</FONT>    import java.lang.annotation.Retention;<a name="line.23"></a>
-<FONT color="green">024</FONT>    import java.lang.annotation.RetentionPolicy;<a name="line.24"></a>
-<FONT color="green">025</FONT>    import java.lang.annotation.Target;<a name="line.25"></a>
-<FONT color="green">026</FONT>    <a name="line.26"></a>
-<FONT color="green">027</FONT>    /**<a name="line.27"></a>
-<FONT color="green">028</FONT>     * This mentions the name of the property to be used for exporting importing<a name="line.28"></a>
-<FONT color="green">029</FONT>     * XMLs. Defaults to name of attribute from field or accessor.<a name="line.29"></a>
-<FONT color="green">030</FONT>     * @author imyousuf<a name="line.30"></a>
-<FONT color="green">031</FONT>     * @since 0.4<a name="line.31"></a>
-<FONT color="green">032</FONT>     */<a name="line.32"></a>
-<FONT color="green">033</FONT>    @Documented<a name="line.33"></a>
-<FONT color="green">034</FONT>    @Target({ElementType.METHOD, ElementType.FIELD, ElementType.TYPE})<a name="line.34"></a>
-<FONT color="green">035</FONT>    @Retention(RetentionPolicy.RUNTIME)<a name="line.35"></a>
-<FONT color="green">036</FONT>    public @interface Name {<a name="line.36"></a>
-<FONT color="green">037</FONT>        String value();<a name="line.37"></a>
-<FONT color="green">038</FONT>    }<a name="line.38"></a>
+<FONT color="green">023</FONT>    import java.lang.annotation.Inherited;<a name="line.23"></a>
+<FONT color="green">024</FONT>    import java.lang.annotation.Retention;<a name="line.24"></a>
+<FONT color="green">025</FONT>    import java.lang.annotation.RetentionPolicy;<a name="line.25"></a>
+<FONT color="green">026</FONT>    import java.lang.annotation.Target;<a name="line.26"></a>
+<FONT color="green">027</FONT>    <a name="line.27"></a>
+<FONT color="green">028</FONT>    /**<a name="line.28"></a>
+<FONT color="green">029</FONT>     * This mentions the name of the property to be used for exporting importing<a name="line.29"></a>
+<FONT color="green">030</FONT>     * XMLs. Defaults to name of attribute from field or accessor.<a name="line.30"></a>
+<FONT color="green">031</FONT>     * @author imyousuf<a name="line.31"></a>
+<FONT color="green">032</FONT>     * @since 0.4<a name="line.32"></a>
+<FONT color="green">033</FONT>     */<a name="line.33"></a>
+<FONT color="green">034</FONT>    @Documented<a name="line.34"></a>
+<FONT color="green">035</FONT>    @Target({ElementType.METHOD, ElementType.FIELD, ElementType.TYPE})<a name="line.35"></a>
+<FONT color="green">036</FONT>    @Retention(RetentionPolicy.RUNTIME)<a name="line.36"></a>
+<FONT color="green">037</FONT>    @Inherited<a name="line.37"></a>
+<FONT color="green">038</FONT>    public @interface Name {<a name="line.38"></a>
+<FONT color="green">039</FONT>        String value();<a name="line.39"></a>
+<FONT color="green">040</FONT>    }<a name="line.40"></a>
 
 
 

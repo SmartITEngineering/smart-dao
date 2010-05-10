@@ -42,7 +42,7 @@
   
     
             <div class="xleft">
-        Last Published: 2009-06-16
+        Last Published: 2010-05-10
                   &nbsp;| Version: 0.4-SNAPSHOT
                       </div>
             <div class="xright">      
@@ -189,11 +189,307 @@
         <div class="section"><h2>Change Log Report</h2>
 <p>Total number of changed sets: 1</p>
 <div class="section"><h3>Changes since project creation</h3>
-<p>Total commits: 5<br />
-Total number of files changed: 15</p>
+<p>Total commits: 27<br />
+Total number of files changed: 31</p>
 <table class="bodyTable"><tr class="a"><th>Timestamp</th>
 <th>Author</th>
 <th>Details</th>
+</tr>
+<tr class="b"><td>2009-09-20 14:28:47</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/<b>AssociationConfig.java</b> v cfd08a9a44d63c608d0ff49e29f46f013411b505<br />
+smart-exim/smart-exim-api/src/test/java/com/smartitengineering/exim/impl/<b>DefaultAnnotationConfigScannerTest.java</b> v cfd08a9a44d63c608d0ff49e29f46f013411b505<br />
+<br />
+Add supported basic types to association config<br />
+<br />
+As a result now there will be more precise type of association data type.<br />
+<br />
+Change association config such a way that a type may support more than one<br />
+class types, e.g. boolean.class and Boolean.class.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-09-20 13:46:33</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/<b>EximResourceConfig.java</b> v b895dd097b18ac2d3832e8b5283d112f026e0992<br />
+smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>DefaultAnnotationConfigScanner.java</b> v b895dd097b18ac2d3832e8b5283d112f026e0992<br />
+smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>EximResourceConfigImpl.java</b> v b895dd097b18ac2d3832e8b5283d112f026e0992<br />
+smart-exim/smart-exim-api/src/test/java/com/smartitengineering/exim/impl/<b>DefaultAnnotationConfigScannerTest.java</b> v b895dd097b18ac2d3832e8b5283d112f026e0992<br />
+smart-exim/smart-exim-api/src/test/java/com/smartitengineering/exim/impl/data/<b>IResource.java</b> v b895dd097b18ac2d3832e8b5283d112f026e0992<br />
+<br />
+Add encapsulation of basic types into specific XML like elements config<br />
+<br />
+In process add property to ResourceDomain annotation as for now it will be<br />
+a domain wide configuration, make changes to configuration API and its IMPL<br />
+also made changes in the configuration parsing and its test case.<br />
+<br />
+Also initialized handlers map in XML exporter.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="b"><td>2009-09-20 13:29:37</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/resources/<b>XMLSchema.dtd</b> v 7a05fb533bcd5c804947fc3fcb3ea9879fde17b9<br />
+smart-exim/smart-exim-api/src/main/resources/<b>XMLSchema.xsd</b> v 7a05fb533bcd5c804947fc3fcb3ea9879fde17b9<br />
+smart-exim/smart-exim-api/src/main/resources/<b>basic-type-schema.xsd</b> v 7a05fb533bcd5c804947fc3fcb3ea9879fde17b9<br />
+smart-exim/smart-exim-api/src/main/resources/<b>datatypes.dtd</b> v 7a05fb533bcd5c804947fc3fcb3ea9879fde17b9<br />
+<br />
+Add schema definition for basic data types<br />
+<br />
+Also add the schema XSD and DTD so that the XSDs can be validated locally.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-09-19 16:57:07</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/<b>AssociationConfig.java</b> v 121210f1e26a3038ca501a84c9811867aabe4010<br />
+smart-exim/smart-exim-api/src/main/resources/<b>collection-schema.xsd</b> v 121210f1e26a3038ca501a84c9811867aabe4010<br />
+<br />
+Add collections exporter<br />
+<br />
+The main type OBJECT is still left and it will be responsible for exporting<br />
+the basic types and objects. It will also be responsible for creating<br />
+URIs.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="b"><td>2009-08-20 06:05:32</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/<b>ConfigRegistrar.java</b> v adcec43706f3c52be307c827a05cf8d2b227ded8<br />
+smart-exim/smart-exim-api/src/test/java/com/smartitengineering/exim/<b>ConfigRegistrarTest.java</b> v adcec43706f3c52be307c827a05cf8d2b227ded8<br />
+<br />
+Fix registrar item initialization<br />
+<br />
+Previously when the item was initializing it was checking for getInstance<br />
+method to be static using isSythetic method which is wrong, now it is fixed<br />
+by using Modifier.isStatic instead.<br />
+<br />
+Test case was missing for these case thus added one for that as well, to<br />
+ensure that this does not go unchecked in future.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-07-26 12:34:01</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/<b>ConfigRegistrar.java</b> v 53ff6998e1b0bf90e3932a1b22ed17406d118c1e<br />
+smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>DefaultAnnotationConfigScanner.java</b> v 53ff6998e1b0bf90e3932a1b22ed17406d118c1e<br />
+smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>EximResourceConfigImpl.java</b> v 53ff6998e1b0bf90e3932a1b22ed17406d118c1e<br />
+<br />
+Fix FindBug reported bugs as appropriate for the smart-exim module<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="b"><td>2009-07-13 21:02:26</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/<b>pom.xml</b> v cd40d861c316fde53a5be02ffbb37e445c6e0af4<br />
+<br />
+Add XML implementation module for export and import<br />
+<br />
+Add basic quickstart artifact and add it to the parent POM.<br />
+Remove the unnecessary dependency of DOM4j from XML-Impl module.<br />
+Update distribution and site assemble scripts to include the new READMEs.<br />
+Add exim modules' as doc's dependency to ensure execution order.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-07-12 15:58:04</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>DefaultAnnotationConfigScanner.java</b> v 19830fb4677a97436db21b878c90fcf339810251<br />
+smart-exim/smart-exim-api/src/test/java/com/smartitengineering/exim/impl/<b>DefaultAnnotationConfigScannerTest.java</b> v 19830fb4677a97436db21b878c90fcf339810251<br />
+smart-exim/smart-exim-api/src/test/java/com/smartitengineering/exim/impl/data/<b>IResourceImpl.java</b> v 19830fb4677a97436db21b878c90fcf339810251<br />
+smart-exim/smart-exim-api/src/test/java/com/smartitengineering/exim/impl/data/<b>IState.java</b> v 19830fb4677a97436db21b878c90fcf339810251<br />
+smart-exim/smart-exim-api/src/test/java/com/smartitengineering/exim/impl/data/<b>InheritedResource.java</b> v 19830fb4677a97436db21b878c90fcf339810251<br />
+smart-exim/smart-exim-api/src/test/java/com/smartitengineering/exim/impl/data/<b>MultiResourceImpl.java</b> v 19830fb4677a97436db21b878c90fcf339810251<br />
+<br />
+Add config inheritence for domain objects<br />
+<br />
+A config for a class will be valid if the domain is a valid @ResourceDomain<br />
+annotated class or if its parent class has a config (recursive) or if any<br />
+of its directly implemented interfaces are @ResourceDomain annotated valid<br />
+domain class; in case of multiple valid interface domain objects the config<br />
+domain class will be chosen using (priority annotation attribute +<br />
+classname) in descending order, i.e. the top most.<br />
+<br />
+Added test case for inherting config from parent class hierarchy or<br />
+directly implemented interfaces.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="b"><td>2009-07-09 08:25:38</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/<b>ConfigRegistrar.java</b> v 10deb3930b1b22d506087464df7433b3c6229d65<br />
+<br />
+Capitalize the name of the scanner sets since they are constants<br />
+<br />
+They are constants in the sense that during the JVM lifecycle they will be<br />
+initialized only once, but their content may change.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-07-01 07:54:36</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/<b>pom.xml</b> v e8666fe49ff335abc2c1bdd73d6f62a3b29d2057<br />
+smart-exim/smart-exim-api/src/test/java/com/smartitengineering/exim/impl/<b>DefaultAnnotationConfigScannerTest.java</b> v e8666fe49ff335abc2c1bdd73d6f62a3b29d2057<br />
+smart-exim/smart-exim-api/src/test/java/com/smartitengineering/exim/impl/data/<b>IResource.java</b> v e8666fe49ff335abc2c1bdd73d6f62a3b29d2057<br />
+smart-exim/smart-exim-api/src/test/java/com/smartitengineering/exim/impl/data/<b>SomeResource.java</b> v e8666fe49ff335abc2c1bdd73d6f62a3b29d2057<br />
+smart-exim/smart-exim-api/src/test/java/com/smartitengineering/exim/impl/data/<b>TestClass.java</b> v e8666fe49ff335abc2c1bdd73d6f62a3b29d2057<br />
+smart-exim/smart-exim-api/src/test/java/com/smartitengineering/exim/impl/data/<b>TestResourceDomain.java</b> v e8666fe49ff335abc2c1bdd73d6f62a3b29d2057<br />
+smart-exim/smart-exim-api/src/test/java/com/smartitengineering/exim/impl/data/<b>TestResourceDomainField.java</b> v e8666fe49ff335abc2c1bdd73d6f62a3b29d2057<br />
+<br />
+Add test cases for default annotation config scanning<br />
+<br />
+These are pretty basic test cases aimed at to check whether configuration<br />
+parsing works in the basic cases or not.<br />
+<br />
+As bugs are found we will add more test cases.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="b"><td>2009-07-01 07:48:54</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>DefaultAnnotationConfigScanner.java</b> v d0150295578b823f5cac2d97a27422be26ca6583<br />
+<br />
+Add @Name support for methods and fields<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-06-30 14:50:11</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>DefaultAnnotationConfigScanner.java</b> v 779fb0d23fc320d50b451fdececd6d63aa963dfb<br />
+<br />
+Ensure that static members are not scanned as domain members<br />
+<br />
+Also ensure that private and protected fields are scanned while only public<br />
+methods are scanned.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="b"><td>2009-06-30 14:34:37</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>DefaultAnnotationConfigScanner.java</b> v 0703b688067ff16fb6271351e4e8604eac8a80f4<br />
+<br />
+Add &quot;hashCode&quot; to public method black-list<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-06-30 14:33:41</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/<b>AssociationConfig.java</b> v 47a779e493b946696ed633cb312f5abecaa159a2<br />
+smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>AssociationConfigImpl.java</b> v 47a779e493b946696ed633cb312f5abecaa159a2<br />
+smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>DefaultAnnotationConfigScanner.java</b> v 47a779e493b946696ed633cb312f5abecaa159a2<br />
+<br />
+Add accessorName property to the association config<br />
+<br />
+It is mainly intended to save the trouble of regenerating the name of the<br />
+accessor in case of property access (i.e. getter based).<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="b"><td>2009-06-30 09:26:01</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/<b>AssociationConfig.java</b> v 0c604476cfbc8071ed74a215a2a7fec8b5df66ca<br />
+smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>DefaultAnnotationConfigScanner.java</b> v 0c604476cfbc8071ed74a215a2a7fec8b5df66ca<br />
+smart-exim/smart-exim-api/src/test/java/com/smartitengineering/exim/<b>ConfigRegistrarTest.java</b> v 0c604476cfbc8071ed74a215a2a7fec8b5df66ca<br />
+<br />
+Add documentation to some missing classes<br />
+<br />
+Added JavaDoc and missing license header.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-06-30 08:54:42</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>DefaultAnnotationConfigScanner.java</b> v 7d6b6d88127ae323387f2c462c23067d4a671406<br />
+<br />
+Fix the behavior of Id of a domain<br />
+<br />
+Previously if ID was not specified properly it was being ignored, but this<br />
+fix ensures that any config without properly mentioned ID will not be<br />
+registered.<br />
+<br />
+Previously ID's prefix was not being set to the config, but this change<br />
+ensures that it is being set.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="b"><td>2009-06-29 16:04:31</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>DefaultAnnotationConfigScanner.java</b> v 1d225effe069530f17628e83c8a08992b5f518de<br />
+<br />
+Add support for has/is prefixed boolean property read methods<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-06-29 15:34:48</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/<b>EximResourceConfig.java</b> v d47cee8c81c1eae34b8e94017334fda23e8b848e<br />
+smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>DefaultAnnotationConfigScanner.java</b> v d47cee8c81c1eae34b8e94017334fda23e8b848e<br />
+smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>EximResourceConfigImpl.java</b> v d47cee8c81c1eae34b8e94017334fda23e8b848e<br />
+<br />
+Add priority to config API<br />
+<br />
+Previously priority was added to the annotation only. Now its added to the<br />
+config API as well and populated in the config after parsing.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="b"><td>2009-06-29 15:10:07</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>DefaultAnnotationConfigScanner.java</b> v e67821ce80b9c537e084e0762dcfeaa494cd9c2d<br />
+<br />
+Ignore getClass as a bean since, &quot;class&quot; can not be a property name<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-06-29 15:08:04</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>AssociationConfigImpl.java</b> v 096e59af226471117db217b143ad974a437cc5be<br />
+smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>EximResourceConfigImpl.java</b> v 096e59af226471117db217b143ad974a437cc5be<br />
+<br />
+Implement toString for the API domain implementation classes<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="b"><td>2009-06-25 16:05:30</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>DefaultAnnotationConfigScanner.java</b> v 43486a099829e9df6e6fea27404d74d5287c6da7<br />
+smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/impl/<b>EximResourceConfigImpl.java</b> v 43486a099829e9df6e6fea27404d74d5287c6da7<br />
+<br />
+Make small fixes<br />
+<br />
+The first fix is to make first character of the property name lower case<br />
+instead of upper case.<br />
+<br />
+The second fix is to check whether resource domain is null or not, if null<br />
+then ignore it.<br />
+<br />
+The third fix is check for configuration in already scanned configurations.<br />
+<br />
+The fourth fix is use factory for generating searchable annotation name.<br />
+<br />
+The fifth change is using factory for getting the class of probably<br />
+resource rather than doing it manually.<br />
+<br />
+Also add the license header to the test file.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+</tr>
+<tr class="a"><td>2009-06-16 16:44:30</td>
+<td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
+<td>smart-exim/smart-exim-api/src/main/java/com/smartitengineering/exim/<b>ConfigRegistrar.java</b> v d06278d35ce281c3928ada5945127df47e62bcce<br />
+smart-exim/smart-exim-api/src/test/java/com/smartitengineering/exim/<b>AppTest.java</b> v d06278d35ce281c3928ada5945127df47e62bcce<br />
+smart-exim/smart-exim-api/src/test/java/com/smartitengineering/exim/<b>ConfigRegistrarTest.java</b> v d06278d35ce281c3928ada5945127df47e62bcce<br />
+<br />
+Load classes for default implementation of scanners<br />
+<br />
+So that default instances of scanners are available at all time and the<br />
+default instances are dependent on static initializers, the registrar scans<br />
+for the default scanners in the &quot;impl&quot; package relative to it and loads the<br />
+classes so that the static initializers are loaded.<br />
+<br />
+Also added a test to verify it.<br />
+<br />
+Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
 </tr>
 <tr class="b"><td>2009-06-16 10:33:56</td>
 <td>Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
@@ -286,7 +582,7 @@ Signed-off-by: Imran M Yousuf &lt;imyousuf@smartitengineering.com&gt;</td>
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2007-2009
+          2007-2010
     
           Smart IT Engineering
           

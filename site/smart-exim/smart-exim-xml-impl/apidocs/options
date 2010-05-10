@@ -1,0 +1,47 @@
+-classpath
+'/media/projects/projects/smart-dao/smart-exim/smart-exim-xml-impl/target/classes:/media/projects/projects/smart-dao/smart-domain/target/smart-domain-0.4-SNAPSHOT.jar:/home/imyousuf/.m2/repository/commons-lang/commons-lang/2.3/commons-lang-2.3.jar:/home/imyousuf/.m2/repository/asm/asm/3.1/asm-3.1.jar:/media/projects/projects/smart-dao/smart-exim/smart-exim-api/target/smart-exim-api-0.4-SNAPSHOT.jar:/home/imyousuf/.m2/repository/com/smartitengineering/smart-util/simple-util/0.2-SNAPSHOT/simple-util-0.2-SNAPSHOT.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/media/projects/projects/smart-dao/smart-exim/smart-exim-xml-impl/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2007-2010 <a href="http://www.smartitengineering.com">Smart IT Engineering</a>. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'/media/projects/projects/smart-dao/smart-exim/smart-exim-xml-impl/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'smart-exim-xml-impl 0.4-SNAPSHOT API'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-domain/apidocs' '/media/projects/projects/smart-dao/smart-domain/target/site/apidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-dao-queryparam/apidocs' '/media/projects/projects/smart-dao/smart-dao-queryparam/target/site/apidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-abstract-dao/apidocs' '/media/projects/projects/smart-dao/smart-abstract-dao/target/site/apidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-hibernate-abstract-dao/apidocs' '/media/projects/projects/smart-dao/smart-hibernate-abstract-dao/target/site/apidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-cache/apidocs' '/media/projects/projects/smart-dao/smart-cache/target/site/apidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-dao-search/apidocs' '/media/projects/projects/smart-dao/smart-dao-search/target/site/apidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-version/smart-version-api/apidocs' '/media/projects/projects/smart-dao/smart-version/smart-version-api/target/site/apidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-version/smart-version-jgit-impl/apidocs' '/media/projects/projects/smart-dao/smart-version/smart-version-jgit-impl/target/site/apidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-version/smart-dao-version/apidocs' '/media/projects/projects/smart-dao/smart-version/smart-dao-version/target/site/apidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-exim/smart-exim-api/apidocs' '/media/projects/projects/smart-dao/smart-exim/smart-exim-api/target/site/apidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-rs/apidocs' '/media/projects/projects/smart-dao/smart-rs/target/site/apidocs'
+-linkoffline
+'http://code.google.com/p/smart-dao/smart-hbase-dao/apidocs' '/media/projects/projects/smart-dao/smart-hbase-dao/target/site/apidocs'
+-linksource
+-use
+-version
+-windowtitle
+'smart-exim-xml-impl 0.4-SNAPSHOT API'
