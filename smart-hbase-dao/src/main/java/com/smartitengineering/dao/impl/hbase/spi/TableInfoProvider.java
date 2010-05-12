@@ -18,8 +18,11 @@
  */
 package com.smartitengineering.dao.impl.hbase.spi;
 
+import com.smartitengineering.dao.common.queryparam.QueryParameter;
 import java.util.Map;
 import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.filter.Filter;
 
 /**
  * An class to provide {@link Result}'s
@@ -38,7 +41,15 @@ public interface TableInfoProvider {
    * Given an object provide the the classes it converts with their respective
    * table names.
    * @param domainInstance Domain object to check for.
-   * @return Domain representaitons mapped to HBase table names
+   * @return Domain representaitons mapped by HBase table names
    */
-  Map<Class, byte[]> getTableNames(Object domainInstance);
+  Map<byte[], Class> getTableNames(Object domainInstance);
+
+  /**
+   * Convert query parameters for a particular domain to HBase filter to be used
+   * by {@link Scan}.
+   * @param parameters Query parameters to pass to {@link Scan}
+   * @return Return HBase filter equivalent to parameters
+   */
+  Filter convertToHBaseFilter(QueryParameter...parameters);
 }

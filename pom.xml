@@ -180,6 +180,11 @@
                 <artifactId>hbase-contrib-transactional</artifactId>
                 <version>${hbase.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.smartitengineering</groupId>
+                <artifactId>smart-dao-queryparam</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
