@@ -27,6 +27,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -105,6 +107,16 @@ public abstract class AbstractCommonDaoImpl<Template extends PersistentDTO>
 
     protected void setEntityClass(Class<? extends Template> entityClass) {
         this.entityClass = entityClass;
+    }
+
+    public void setEntityClassString(String className) {
+        try {
+          this.entityClass =
+          (Class<? extends Template>) Class.forName(className);
+        }
+        catch (ClassNotFoundException ex) {
+          ex.printStackTrace();
+        }
     }
 
     public Template getSingle(List<QueryParameter> query) {
