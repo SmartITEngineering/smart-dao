@@ -177,7 +177,7 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.hbase</groupId>
-                <artifactId>hbase-core</artifactId>
+                <artifactId>hbase</artifactId>
                 <version>${hbase.version}</version>
             </dependency>
             <dependency>
