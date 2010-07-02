@@ -43,32 +43,32 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.apache.commons.lang.StringUtils;
-import org.spearce.jgit.errors.IncorrectObjectTypeException;
-import org.spearce.jgit.errors.MissingObjectException;
-import org.spearce.jgit.lib.Constants;
-import org.spearce.jgit.lib.FileTreeEntry;
-import org.spearce.jgit.lib.GitIndex;
-import org.spearce.jgit.lib.ObjectId;
-import org.spearce.jgit.lib.ObjectLoader;
-import org.spearce.jgit.lib.ObjectWriter;
-import org.spearce.jgit.lib.PersonIdent;
-import org.spearce.jgit.lib.RefUpdate;
-import org.spearce.jgit.lib.Repository;
-import org.spearce.jgit.lib.Tree;
-import org.spearce.jgit.lib.TreeEntry;
-import org.spearce.jgit.revwalk.RevCommit;
-import org.spearce.jgit.revwalk.RevWalk;
-import org.spearce.jgit.treewalk.TreeWalk;
-import org.spearce.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileTreeEntry;
+import org.eclipse.jgit.lib.GitIndex;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectWriter;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.Tree;
+import org.eclipse.jgit.lib.TreeEntry;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /**
  *
  * @author imyousuf
  */
 public class JGitImpl
-    implements VersionControlWriteDao,
-               VersionControlReadDao,
-               JGitDaoExtension {
+        implements VersionControlWriteDao,
+        VersionControlReadDao,
+        JGitDaoExtension {
 
     private String readRepositoryLocation;
     private String writeRepositoryLocation;
@@ -83,12 +83,11 @@ public class JGitImpl
     }
 
     public void init()
-        throws IOException {
+            throws IOException {
         if (initialized) {
             throw new IllegalStateException("Impl already initialized");
         }
-        if (StringUtils.isBlank(getReadRepositoryLocation()) || StringUtils.
-            isBlank(getWriteRepositoryLocation())) {
+        if (StringUtils.isBlank(getReadRepositoryLocation()) || StringUtils.isBlank(getWriteRepositoryLocation())) {
             throw new IllegalStateException("Repository location not set!");
         }
         File writeRepoDir = new File(getWriteRepositoryLocation());
@@ -104,7 +103,7 @@ public class JGitImpl
         }
         readRepository.close();
         executorService = Executors.newFixedThreadPool(getConfig().
-            getConcurrentWriteOperations());
+                getConcurrentWriteOperations());
         initialized = true;
     }
 
@@ -119,9 +118,9 @@ public class JGitImpl
 
     protected void checkInitialized() {
         if (!initialized) {
-            throw new IllegalArgumentException("After constructing please " +
-                "set repository location and then invoke init() before " +
-                "attempting to use any other operations");
+            throw new IllegalArgumentException("After constructing please "
+                    + "set repository location and then invoke init() before "
+                    + "attempting to use any other operations");
         }
     }
 
@@ -172,16 +171,14 @@ public class JGitImpl
         this.writeRepositoryLocation = writeRepositoryLocation;
     }
 
-    public Repository getReadRepository() {
+    public synchronized Repository getReadRepository() {
         return readRepository;
     }
 
-    protected void reInitReadRepository()
-        throws IOException {
-        synchronized (readRepository) {
-            readRepository.close();
-            readRepository.refreshFromDisk();
-        }
+    protected synchronized void reInitReadRepository()
+            throws IOException {
+        readRepository.close();
+        readRepository = new Repository(new File(getReadRepositoryLocation()));
     }
 
     public Repository getWriteRepository() {
@@ -189,7 +186,7 @@ public class JGitImpl
     }
 
     public void store(final Commit commit,
-                      final WriterCallback callback) {
+            final WriterCallback callback) {
         executorService.submit(new Runnable() {
 
             public void run() {
@@ -203,21 +200,18 @@ public class JGitImpl
                     status = WriteStatus.STORE_PASS;
                     comment = "OK";
                     error = null;
-                }
-                catch (Throwable ex) {
+                } catch (Throwable ex) {
                     status = WriteStatus.STORE_FAIL;
                     comment = ex.getMessage();
                     error = ex;
                     throw new RuntimeException(ex);
-                }
-                finally {
+                } finally {
                     if (callback != null) {
                         callback.handle(commit, status, comment, error);
                     }
                     try {
                         reInitReadRepository();
-                    }
-                    catch (IOException ex) {
+                    } catch (IOException ex) {
                         ex.printStackTrace();
                     }
                 }
@@ -227,8 +221,8 @@ public class JGitImpl
 
     public VersionedResource getVersionedResource(final String resourceId) {
         try {
-            String trimmedResourceId = VersionAPI.trimToPropertResourceId(
-                resourceId);
+            String trimmedResourceId = VersionAPI.trimToProperResourceId(
+                    resourceId);
             if (StringUtils.isBlank(trimmedResourceId)) {
                 throw new IllegalArgumentException("Invalid resource id!");
             }
@@ -241,20 +235,18 @@ public class JGitImpl
             for (ObjectId revisionId : revisionIds) {
                 String revisionIdStr = ObjectId.toString(revisionId);
                 String content = new String(readObject(revisionIdStr));
-                revisions[i++] = VersionAPI.createRevision(VersionAPI.
-                    createResource(trimmedResourceId, content), revisionIdStr);
+                revisions[i++] = VersionAPI.createRevision(VersionAPI.createResource(trimmedResourceId, content), revisionIdStr);
             }
             return VersionAPI.createVersionedResource(Arrays.asList(revisions));
-        }
-        catch (Throwable ex) {
+        } catch (Throwable ex) {
             throw new RuntimeException(ex);
         }
     }
 
     public Resource getResource(final String resourceId) {
         try {
-            String trimmedResourceId = VersionAPI.trimToPropertResourceId(
-                resourceId);
+            String trimmedResourceId = VersionAPI.trimToProperResourceId(
+                    resourceId);
             if (StringUtils.isBlank(trimmedResourceId)) {
                 throw new IllegalArgumentException("Invalid resource id!");
             }
@@ -266,34 +258,32 @@ public class JGitImpl
             TreeEntry treeEntry = head.findBlobMember(trimmedResourceId);
             resourceObjectId = treeEntry.getId();
             return VersionAPI.createResource(trimmedResourceId, new String(
-                readObject(ObjectId.toString(resourceObjectId))));
-        }
-        catch (Throwable ex) {
+                    readObject(ObjectId.toString(resourceObjectId))));
+        } catch (Throwable ex) {
             throw new RuntimeException(ex);
         }
     }
 
     public Resource getResourceByRevision(final String revisionId,
-                                          final String resourceId) {
+            final String resourceId) {
         try {
-            String trimmedResourceId = VersionAPI.trimToPropertResourceId(
-                resourceId);
+            String trimmedResourceId = VersionAPI.trimToProperResourceId(
+                    resourceId);
             if (StringUtils.isBlank(trimmedResourceId)) {
                 throw new IllegalArgumentException("Invalid resource id!");
             }
             ObjectId resourceObjectId;
             resourceObjectId = ObjectId.fromString(revisionId);
             return VersionAPI.createResource(trimmedResourceId, new String(
-                readObject(ObjectId.toString(resourceObjectId))));
-        }
-        catch (Throwable ex) {
+                    readObject(ObjectId.toString(resourceObjectId))));
+        } catch (Throwable ex) {
             throw new RuntimeException(ex);
         }
     }
 
     public byte[] readObject(final String objectIdStr)
-        throws IOException,
-               IllegalArgumentException {
+            throws IOException,
+            IllegalArgumentException {
         if (StringUtils.isBlank(objectIdStr)) {
             throw new IllegalArgumentException("Invalid Object id!");
         }
@@ -306,24 +296,24 @@ public class JGitImpl
     }
 
     public Collection<Commit> searchForCommits(
-        final Collection<QueryParameter> parameters) {
+            final Collection<QueryParameter> parameters) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public Collection<Revision> searchForRevisions(
-        final Collection<QueryParameter> parameters) {
+            final Collection<QueryParameter> parameters) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public Map<String, byte[]> readBlobObjects(final String... objectIds)
-        throws IOException,
-               IllegalArgumentException {
+            throws IOException,
+            IllegalArgumentException {
         checkInitialized();
         if (objectIds == null || objectIds.length <= 0) {
             throw new IllegalArgumentException("Empty Object IDs!");
         }
         Map<String, byte[]> blobs =
-            new HashMap<String, byte[]>(objectIds.length);
+                new HashMap<String, byte[]>(objectIds.length);
         for (String objectIdStr : objectIds) {
             byte[] bytes = readObject(objectIdStr);
             blobs.put(objectIdStr, bytes);
@@ -332,30 +322,28 @@ public class JGitImpl
     }
 
     protected Tree getHeadTree(Repository repository)
-        throws IOException {
+            throws IOException {
         Tree head;
-        org.spearce.jgit.lib.Commit headCommit = repository.mapCommit(
-            Constants.HEAD);
+        org.eclipse.jgit.lib.Commit headCommit = repository.mapCommit(
+                Constants.HEAD);
         if (headCommit == null) {
             head = new Tree(repository);
-        }
-        else {
+        } else {
             head = headCommit.getTree();
         }
         return head;
     }
 
     protected ObjectId addOrUpdateToHead(final Commit commit,
-                                         final Tree head)
-        throws IOException {
+            final Tree head)
+            throws IOException {
         for (Revision revision : commit.getRevisions()) {
             String objectPath = revision.getResource().getId();
             FileTreeEntry treeEntry;
             boolean newEntry = false;
             if (head.existsBlob(objectPath)) {
                 treeEntry = (FileTreeEntry) head.findBlobMember(objectPath);
-            }
-            else {
+            } else {
                 treeEntry = head.addFile(objectPath);
                 newEntry = true;
             }
@@ -363,27 +351,24 @@ public class JGitImpl
             if (!revision.getResource().isDeleted()) {
                 if (revision instanceof MutableRevision) {
                     ObjectId revisionId = getObjectWriter().writeBlob(
-                        revision.getResource().getContentSize(),
-                        revision.getResource().getContentAsStream());
+                            revision.getResource().getContentSize(),
+                            revision.getResource().getContentAsStream());
                     MutableRevision mutableRevision = (MutableRevision) revision;
                     mutableRevision.setRevisionId(ObjectId.toString(revisionId));
                     treeEntry.setId(revisionId);
-                }
-                else {
+                } else {
                     throw new IllegalArgumentException(
-                        "SPI not implemented by API!");
+                            "SPI not implemented by API!");
                 }
-            }
-            else if (!newEntry) {
+            } else if (!newEntry) {
                 if (revision instanceof MutableRevision) {
                     ObjectId revisionId = treeEntry.getId();
                     MutableRevision mutableRevision = (MutableRevision) revision;
                     mutableRevision.setRevisionId(ObjectId.toString(revisionId));
                     treeEntry.delete();
-                }
-                else {
+                } else {
                     throw new IllegalArgumentException(
-                        "SPI not implemented by API!");
+                            "SPI not implemented by API!");
                 }
             }
         }
@@ -403,22 +388,21 @@ public class JGitImpl
     }
 
     protected void performCommit(final Commit newCommit,
-                                 final Tree head)
-        throws IOException {
+            final Tree head)
+            throws IOException {
         ObjectId[] parentIds;
         ObjectId currentHeadId = getWriteRepository().resolve(Constants.HEAD);
         if (currentHeadId != null) {
             parentIds = new ObjectId[]{currentHeadId};
-        }
-        else {
+        } else {
             parentIds = new ObjectId[0];
         }
-        org.spearce.jgit.lib.Commit commit = new org.spearce.jgit.lib.Commit(
-            getWriteRepository(), parentIds);
+        org.eclipse.jgit.lib.Commit commit = new org.eclipse.jgit.lib.Commit(
+                getWriteRepository(), parentIds);
         commit.setTree(head);
         commit.setTreeId(head.getId());
         PersonIdent person = new PersonIdent(newCommit.getAuthor().getName(),
-            newCommit.getAuthor().getEmail());
+                newCommit.getAuthor().getEmail());
         commit.setAuthor(person);
         commit.setCommitter(person);
         commit.setMessage(newCommit.getCommitMessage());
@@ -429,34 +413,30 @@ public class JGitImpl
             mutableCommit.setCommitTime(commit.getCommitter().getWhen());
             commit.setCommitId(newCommitId);
             if (commit.getParentIds().length > 0) {
-                mutableCommit.setParentCommitId(ObjectId.toString(commit.
-                    getParentIds()[0]));
+                mutableCommit.setParentCommitId(ObjectId.toString(commit.getParentIds()[0]));
+            } else {
+                mutableCommit.setParentCommitId(ObjectId.toString(ObjectId.zeroId()));
             }
-            else {
-                mutableCommit.setParentCommitId(ObjectId.toString(ObjectId.
-                    zeroId()));
-            }
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("SPI not implemented by API!");
         }
         RefUpdate refUpdate =
-            getWriteRepository().updateRef(Constants.HEAD);
+                getWriteRepository().updateRef(Constants.HEAD);
         refUpdate.setNewObjectId(commit.getCommitId());
         refUpdate.setRefLogMessage(commit.getMessage(), false);
         refUpdate.forceUpdate();
     }
 
     protected void prepareCommit(final Tree head,
-                                 final Commit commit)
-        throws IOException,
-               IOException {
+            final Commit commit)
+            throws IOException,
+            IOException {
         ObjectId currentHeadId =
-            getWriteRepository().resolve(Constants.HEAD);
+                getWriteRepository().resolve(Constants.HEAD);
         boolean commitAvailable = true;
         if (currentHeadId != null) {
-            org.spearce.jgit.lib.Commit headCommit =
-                writeRepository.mapCommit(currentHeadId);
+            org.eclipse.jgit.lib.Commit headCommit =
+                    writeRepository.mapCommit(currentHeadId);
             if (headCommit != null) {
                 Tree headTree = headCommit.getTree();
                 if (headTree != null && head.getId().equals(headTree.getId())) {
@@ -470,9 +450,9 @@ public class JGitImpl
     }
 
     protected Set<ObjectId> getGraphForResourceId(String resourceId)
-        throws MissingObjectException,
-               IncorrectObjectTypeException,
-               IOException {
+            throws MissingObjectException,
+            IncorrectObjectTypeException,
+            IOException {
         final Set<ObjectId> versions = new LinkedHashSet<ObjectId>();
         final RevWalk rw = new RevWalk(getReadRepository());
         final TreeWalk tw = new TreeWalk(getReadRepository());
@@ -482,7 +462,7 @@ public class JGitImpl
         while ((c = rw.next()) != null) {
             final ObjectId[] p = new ObjectId[c.getParentCount() + 1];
             for (int i = 0; i < c.getParentCount(); i++) {
-                rw.parse(c.getParent(i));
+                rw.parseAny(c.getParent(i));
                 p[i] = c.getParent(i).getTree();
             }
             final int me = p.length - 1;

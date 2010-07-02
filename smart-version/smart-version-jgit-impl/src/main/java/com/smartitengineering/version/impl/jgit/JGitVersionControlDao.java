@@ -99,7 +99,7 @@ public class JGitVersionControlDao
     }
 
     public VersionedResource getVersionedResource(String resourceId) {
-        String trimmedResourceId = VersionAPI.trimToPropertResourceId(
+        String trimmedResourceId = VersionAPI.trimToProperResourceId(
             resourceId);
         if (StringUtils.isBlank(trimmedResourceId)) {
             throw new IllegalArgumentException("Invalid resource id!");
@@ -125,7 +125,7 @@ public class JGitVersionControlDao
 
     public Resource getResource(String resourceId) {
         try {
-            String trimmedResourceId = VersionAPI.trimToPropertResourceId(
+            String trimmedResourceId = VersionAPI.trimToProperResourceId(
                 resourceId);
             if (StringUtils.isBlank(trimmedResourceId)) {
                 throw new IllegalArgumentException("Invalid resource id!");
@@ -149,7 +149,7 @@ public class JGitVersionControlDao
     public Resource getResourceByRevision(String revisionId,
                                           String resourceId) {
         try {
-            String trimmedResourceId = VersionAPI.trimToPropertResourceId(
+            String trimmedResourceId = VersionAPI.trimToProperResourceId(
                 resourceId);
             if (StringUtils.isBlank(trimmedResourceId)) {
                 throw new IllegalArgumentException("Invalid resource id!");

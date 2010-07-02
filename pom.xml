@@ -166,9 +166,18 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <repository>
+	    <id>jgit-repository</id>
+            <url>http://download.eclipse.org/jgit/maven</url>
+        </repository>
     </repositories>
     <dependencyManagement>
       <dependencies>
+ 	    <dependency>
+	        <groupId>org.eclipse.jgit</groupId>
+	        <artifactId>org.eclipse.jgit</artifactId>
+	        <version>${jgit.version}</version>
+	    </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -584,7 +593,7 @@
     <properties>
         <commons-lang.version>2.3</commons-lang.version>
         <smart-util.version>0.2-SNAPSHOT</smart-util.version>
-        <jgit.version>0.4-SNAPSHOT</jgit.version>
+        <jgit.version>0.8.4</jgit.version>
         <scm.version>1.3</scm.version>
         <jersey.version>1.0.3</jersey.version>
         <changelog.version>2.1</changelog.version>

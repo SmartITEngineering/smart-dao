@@ -126,7 +126,7 @@ public final class VersionAPI {
                                           final String content,
                                           final boolean deleted,
                                           final String mimeType) {
-        String trimmedResourceId = trimToPropertResourceId(resourceId);
+        String trimmedResourceId = trimToProperResourceId(resourceId);
         if (StringUtils.isBlank(trimmedResourceId) || content == null) {
             throw new IllegalArgumentException(
                 "Content can't be NULL and resourceId can't be blank!");
@@ -144,7 +144,7 @@ public final class VersionAPI {
                                           final InputStream contentStream,
                                           final boolean deleted,
                                           final String mimeType) {
-        String trimmedResourceId = trimToPropertResourceId(resourceId);
+        String trimmedResourceId = trimToProperResourceId(resourceId);
         if (StringUtils.isBlank(trimmedResourceId) || contentStream == null ||
             contentSize < 0) {
             throw new IllegalArgumentException(
@@ -246,7 +246,7 @@ public final class VersionAPI {
      * @param resourceId Id to trim
      * @return Trimmed version of the resourceId
      */
-    public static String trimToPropertResourceId(String resourceId) {
+    public static String trimToProperResourceId(String resourceId) {
         if (StringUtils.isBlank(resourceId)) {
             return "";
         }
