@@ -40,7 +40,6 @@
         <plugins>
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>${jar.version}</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -58,7 +57,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>${assembly.version}</version>
             </plugin>
         </plugins>
     </build>
@@ -66,18 +64,14 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering</groupId>
             <artifactId>smart-domain</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering</groupId>
             <artifactId>smart-dao-queryparam</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

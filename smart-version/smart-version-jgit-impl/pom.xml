@@ -42,7 +42,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>${assembly.version}</version>
             </plugin>
         </plugins>
     </build>
@@ -50,57 +49,34 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering</groupId>
             <artifactId>smart-dao-queryparam</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering.smart-version</groupId>
             <artifactId>smart-version-api</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering</groupId>
             <artifactId>smart-domain</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering</groupId>
             <artifactId>smart-abstract-dao</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering</groupId>
             <artifactId>smart-hibernate-abstract-dao</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>asm</groupId>
-                    <artifactId>asm</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>asm</groupId>
-                    <artifactId>asm-attrs</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>cglib</groupId>
-                    <artifactId>cglib</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
-            <version>${cglib.version}</version>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering.smart-util</groupId>
             <artifactId>smart-bean-spring-util</artifactId>
-            <version>${smart-util.version}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jgit</groupId>
@@ -109,13 +85,11 @@
         <dependency>
             <groupId>c3p0</groupId>
             <artifactId>c3p0</artifactId>
-            <version>${c3p0.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
-            <version>${derby.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

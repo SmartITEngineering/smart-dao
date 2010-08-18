@@ -40,7 +40,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>${assembly.version}</version>
             </plugin>
         </plugins>
     </build>
@@ -48,28 +47,22 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>${commons-lang.version}</version>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering</groupId>
             <artifactId>smart-dao-queryparam</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering.smart-util</groupId>
             <artifactId>smart-bean-util</artifactId>
-            <version>${smart-util.version}</version>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering.smart-util</groupId>
             <artifactId>simple-util</artifactId>
-            <version>${smart-util.version}</version>
         </dependency>
     </dependencies>
 </project>

@@ -35,88 +35,60 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>${assembly.version}</version>
             </plugin>
         </plugins>
     </build>
     <dependencies>
         <dependency>
             <groupId>com.smartitengineering</groupId>
-            <version>${project.version}</version>
             <artifactId>smart-domain</artifactId>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering</groupId>
-            <version>${project.version}</version>
             <artifactId>smart-abstract-dao</artifactId>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering.smart-dao</groupId>
             <artifactId>smart-hbase-dao</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering</groupId>
-            <version>${project.version}</version>
             <artifactId>smart-dao-queryparam</artifactId>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering</groupId>
-            <version>${project.version}</version>
             <artifactId>smart-hibernate-abstract-dao</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>asm</groupId>
-                    <artifactId>asm</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>asm</groupId>
-                    <artifactId>asm-attrs</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>cglib</groupId>
-                    <artifactId>cglib</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering</groupId>
-            <version>${project.version}</version>
             <artifactId>smart-cache</artifactId>
         </dependency>
+	<dependency>
+            <groupId>com.smartitengineering</groupId>
+            <artifactId>smart-rs</artifactId>
+       </dependency>
         <dependency>
             <groupId>com.smartitengineering</groupId>
-            <version>${project.version}</version>
             <artifactId>smart-dao-search</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.smartitengineering</groupId>
-            <version>${project.version}</version>
-            <artifactId>smart-rs</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.smartitengineering.smart-version</groupId>
-            <version>${project.version}</version>
             <artifactId>smart-version-api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering.smart-version</groupId>
-            <version>${project.version}</version>
             <artifactId>smart-dao-version</artifactId>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering.smart-version</groupId>
-            <version>${project.version}</version>
             <artifactId>smart-version-jgit-impl</artifactId>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering.smart-exim</groupId>
-            <version>${project.version}</version>
             <artifactId>smart-exim-api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.smartitengineering.smart-exim</groupId>
-            <version>${project.version}</version>
             <artifactId>smart-exim-xml-impl</artifactId>
         </dependency>
     </dependencies>
@@ -134,7 +106,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>${assembly.version}</version>
                         <inherited>false</inherited>
                         <executions>
                             <!-- Assembly execution for aggregating site -->
@@ -168,7 +139,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>${assembly.version}</version>
                         <inherited>true</inherited>
                         <executions>
                             <!-- Assembly execution for building distribution -->
@@ -223,7 +193,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
-                        <version>${antrun.version}</version>
                         <inherited>false</inherited>
                         <executions>
                             <execution>
@@ -249,7 +218,7 @@
                             <dependency>
                                 <groupId>ant-contrib</groupId>
                                 <artifactId>ant-contrib</artifactId>
-                                <version>${ant-contrib.version}</version>
+                                <version>${ant.contrib.version}</version>
                             </dependency>
                         </dependencies>
                     </plugin>
