@@ -18,38 +18,36 @@
  */
 package com.smartitengineering.dao.impl.hbase.spi;
 
-import com.smartitengineering.dao.common.queryparam.QueryParameter;
-import java.util.Map;
-import org.apache.hadoop.hbase.client.Result;
-import org.apache.hadoop.hbase.client.Scan;
-import org.apache.hadoop.hbase.filter.Filter;
+import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 
 /**
- * An class to provide {@link Result}'s
+ * Configurations encompassing a filter of a specific column. Particularly designed to be used with the filter
+ * {@link SingleColumnValueFilter}
  * @author imyousuf
  */
-public interface TableInfoProvider {
+public interface FilterConfig {
 
   /**
-   * A Generic configuragtion on whether the writes are to be performed in async
-   * manner or not.
-   * @return True if transactional else false
+   * Retrieve the column family byte array.
+   * @return Column family
    */
-  boolean isTransactionalDomain();
+  byte[] getColumnFamily();
 
   /**
-   * Given an object provide the the classes it converts with their respective
-   * table names.
-   * @param domainInstance Domain object to check for.
-   * @return Domain representaitons mapped by HBase table names
+   * Retrieve the column qualifier.
+   * @return Column qualifier
    */
-  Map<byte[], Class> getTableNames(Object domainInstance);
+  byte[] getColumnQualifier();
 
   /**
-   * Convert query parameters for a particular domain to HBase filter to be used
-   * by {@link Scan}.
-   * @param parameters Query parameters to pass to {@link Scan}
-   * @return Return HBase filter equivalent to parameters
+   * Boolean flag denoting whether to ignore rows where the cell is missing
+   * @return True to filter, false to ignore
    */
-  Filter convertToHBaseFilter(QueryParameter...parameters);
+  boolean isFilterOnIfMissing();
+
+  /**
+   * Boolean flag to denote whether search will take place on latest version only or not.
+   * @return True if only on latest version, false if on all version.
+   */
+  boolean isFilterOnLatestVersionOnly();
 }
