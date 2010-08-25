@@ -20,6 +20,7 @@ package com.smartitengineering.dao.impl.hbase.spi;
 
 import java.util.LinkedHashMap;
 import org.apache.hadoop.hbase.client.Delete;
+import org.apache.hadoop.hbase.client.HTablePool;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 
@@ -51,7 +52,8 @@ public interface ObjectRowConverter<T> {
    * is obtained then, the root result will be passed to this converter, which in turn will load whatever it needs to
    * load.
    * @param startRow The root row of this object.
+   * @param tablePool The HBase table pool to fetch tables from a pool and use them to fetch related rows
    * @return Instance of the object from persisted {@link Result result(s)}
    */
-  T rowsToObject(Result startRow);
+  T rowsToObject(Result startRow, HTablePool tablePool);
 }
