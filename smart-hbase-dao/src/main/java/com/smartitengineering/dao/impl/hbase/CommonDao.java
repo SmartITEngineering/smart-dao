@@ -73,8 +73,8 @@ import org.apache.hadoop.hbase.util.Bytes;
  * toString() method returns the string representation of the value to be compared in byte[] form.
  * @author imyousuf
  */
-public class AbstractCommonDao<Template extends PersistentDTO> implements CommonReadDao<Template>,
-                                                                          CommonWriteDao<Template> {
+public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<Template>,
+                                                                  CommonWriteDao<Template> {
 
   public static final int DEFAULT_MAX_HTABLE_POOL_SIZE = 3000;
   public static final int DEFAULT_MAX_ROWS = 1000;
