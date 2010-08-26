@@ -347,12 +347,18 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
       }
       case OPERATOR_IS_EMPTY:
       case OPERATOR_IS_NULL: {
-        filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, Bytes.toBytes("")));
+        final SingleColumnValueExcludeFilter cellFilter =
+                                             getCellFilter(filterConfig, CompareOp.EQUAL, Bytes.toBytes(""));
+        cellFilter.setFilterIfMissing(false);
+        filters.add(cellFilter);
         return;
       }
       case OPERATOR_IS_NOT_EMPTY:
       case OPERATOR_IS_NOT_NULL: {
-        filters.add(getCellFilter(filterConfig, CompareOp.NOT_EQUAL, Bytes.toBytes("")));
+        final SingleColumnValueExcludeFilter cellFilter = getCellFilter(filterConfig, CompareOp.NOT_EQUAL, Bytes.toBytes(
+            ""));
+        cellFilter.setFilterIfMissing(true);
+        filters.add(cellFilter);
         return;
       }
       case OPERATOR_STRING_LIKE: {
@@ -404,7 +410,8 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
     return;
   }
 
-  protected Filter getCellFilter(FilterConfig filterConfig, CompareOp op, WritableByteArrayComparable comparator) {
+  protected SingleColumnValueExcludeFilter getCellFilter(FilterConfig filterConfig, CompareOp op,
+                                                         WritableByteArrayComparable comparator) {
     final SingleColumnValueExcludeFilter valueFilter;
     valueFilter = new SingleColumnValueExcludeFilter(filterConfig.getColumnFamily(),
                                                      filterConfig.getColumnQualifier(),
@@ -414,7 +421,7 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
     return valueFilter;
   }
 
-  protected Filter getCellFilter(FilterConfig filterConfig, CompareOp op, byte[] value) {
+  protected SingleColumnValueExcludeFilter getCellFilter(FilterConfig filterConfig, CompareOp op, byte[] value) {
     return getCellFilter(filterConfig, op, new BinaryComparator(value));
   }
 
