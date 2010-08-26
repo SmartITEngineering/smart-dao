@@ -31,8 +31,8 @@ import com.smartitengineering.dao.common.queryparam.QueryParameterWithOperator;
 import com.smartitengineering.dao.common.queryparam.QueryParameterWithPropertyName;
 import com.smartitengineering.dao.common.queryparam.QueryParameterWithValue;
 import com.smartitengineering.dao.common.queryparam.ValueOnlyQueryParameter;
+import com.smartitengineering.dao.impl.hbase.spi.AsyncExecutorService;
 import com.smartitengineering.dao.impl.hbase.spi.Callback;
-import com.smartitengineering.dao.impl.hbase.spi.ExecutorService;
 import com.smartitengineering.dao.impl.hbase.spi.FilterConfig;
 import com.smartitengineering.dao.impl.hbase.spi.ObjectRowConverter;
 import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
@@ -48,6 +48,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Future;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HTableInterface;
@@ -78,14 +79,14 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
   public static final int DEFAULT_MAX_ROWS = 1000;
   private ObjectRowConverter<Template> converter;
   private SchemaInfoProvider infoProvider;
-  private ExecutorService executorService;
+  private AsyncExecutorService executorService;
   private int maxRows = -1;
 
-  public ExecutorService getExecutorService() {
+  public AsyncExecutorService getExecutorService() {
     return executorService;
   }
 
-  public void setExecutorService(ExecutorService executorService) {
+  public void setExecutorService(AsyncExecutorService executorService) {
     this.executorService = executorService;
   }
 
@@ -156,16 +157,29 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
    */
   @Override
   public Set<Template> getByIds(List<Integer> ids) {
-    LinkedHashSet<Template> set = new LinkedHashSet<Template>(ids.size());
+    LinkedHashSet<Future<Template>> set = new LinkedHashSet<Future<Template>>(ids.size());
+    LinkedHashSet<Template> resultSet = new LinkedHashSet<Template>(ids.size());
     for (Integer id : ids) {
-      set.add(getById(id));
+      set.add(executorService.executeAsynchronously(null, getByIdCallback(id)));
     }
-    return set;
+    for (Future<Template> future : set) {
+      try {
+        resultSet.add(future.get());
+      }
+      catch (Exception ex) {
+        ex.printStackTrace();
+      }
+    }
+    return resultSet;
   }
 
   @Override
   public Template getById(final Integer id) {
-    return executorService.execute("", new Callback<Template>() {
+    return executorService.execute("", getByIdCallback(id));
+  }
+
+  protected Callback<Template> getByIdCallback(final Integer id) {
+    return new Callback<Template>() {
 
       @Override
       public Template call(HTableInterface tableInterface) throws Exception {
@@ -173,7 +187,7 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
         Result result = tableInterface.get(get);
         return getConverter().rowsToObject(result, executorService);
       }
-    });
+    };
   }
 
   @Override
