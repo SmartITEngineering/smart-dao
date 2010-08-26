@@ -31,6 +31,8 @@ import com.smartitengineering.dao.common.queryparam.QueryParameterWithOperator;
 import com.smartitengineering.dao.common.queryparam.QueryParameterWithPropertyName;
 import com.smartitengineering.dao.common.queryparam.QueryParameterWithValue;
 import com.smartitengineering.dao.common.queryparam.ValueOnlyQueryParameter;
+import com.smartitengineering.dao.impl.hbase.spi.Callback;
+import com.smartitengineering.dao.impl.hbase.spi.ExecutorService;
 import com.smartitengineering.dao.impl.hbase.spi.FilterConfig;
 import com.smartitengineering.dao.impl.hbase.spi.ObjectRowConverter;
 import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
@@ -46,12 +48,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HTableInterface;
-import org.apache.hadoop.hbase.client.HTablePool;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
@@ -76,13 +75,19 @@ import org.apache.hadoop.hbase.util.Bytes;
 public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<Template>,
                                                                   CommonWriteDao<Template> {
 
-  public static final int DEFAULT_MAX_HTABLE_POOL_SIZE = 3000;
   public static final int DEFAULT_MAX_ROWS = 1000;
   private ObjectRowConverter<Template> converter;
   private SchemaInfoProvider infoProvider;
-  private Configuration configuration;
-  private HTablePool tablePool;
+  private ExecutorService executorService;
   private int maxRows = -1;
+
+  public ExecutorService getExecutorService() {
+    return executorService;
+  }
+
+  public void setExecutorService(ExecutorService executorService) {
+    this.executorService = executorService;
+  }
 
   public int getMaxRows() {
     return maxRows;
@@ -108,13 +113,6 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
     this.infoProvider = infoProvider;
   }
 
-  protected Configuration getConfiguration() {
-    if (configuration == null) {
-      configuration = HBaseConfiguration.create();
-    }
-    return configuration;
-  }
-
   protected int getMaxScanRows() {
     return getMaxRows() > 0 ? getMaxRows() : DEFAULT_MAX_ROWS;
   }
@@ -129,21 +127,6 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
       }
     }
     return getMaxScanRows();
-  }
-
-  public void setConfiguration(Configuration configuration) {
-    this.configuration = configuration;
-  }
-
-  protected HTablePool getTablePool() {
-    if (tablePool == null) {
-      tablePool = new HTablePool(getConfiguration(), DEFAULT_MAX_HTABLE_POOL_SIZE);
-    }
-    return tablePool;
-  }
-
-  protected HTableInterface getDefaultTable() {
-    return getTablePool().getTable(infoProvider.getMainTableName());
   }
 
   /*
@@ -181,83 +164,70 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
   }
 
   @Override
-  public Template getById(Integer id) {
-    HTableInterface hTable = null;
-    try {
-      Get get = new Get(Bytes.toBytes(id));
-      hTable = getDefaultTable();
-      Result result = hTable.get(get);
-      return getConverter().rowsToObject(result, getTablePool());
-    }
-    catch (Exception ex) {
-      throw new RuntimeException(ex);
-    }
-    finally {
-      try {
-        if (hTable != null) {
-          getTablePool().putTable(hTable);
-        }
+  public Template getById(final Integer id) {
+    return executorService.execute("", new Callback<Template>() {
+
+      @Override
+      public Template call(HTableInterface tableInterface) throws Exception {
+        Get get = new Get(Bytes.toBytes(id));
+        Result result = tableInterface.get(get);
+        return getConverter().rowsToObject(result, executorService);
       }
-      catch (Exception ex) {
-        ex.printStackTrace();
-      }
-    }
+    });
   }
 
   @Override
-  public Template getSingle(List<QueryParameter> query) {
-    Scan scan = formScan(query);
-    HTableInterface table = getDefaultTable();
-    ResultScanner scanner = null;
-    try {
-      scanner = table.getScanner(scan);
-      Result result = scanner.next();
-      if (result == null) {
-        return null;
+  public Template getSingle(final List<QueryParameter> query) {
+    return executorService.execute("", new Callback<Template>() {
+
+      @Override
+      public Template call(HTableInterface tableInterface) throws Exception {
+        ResultScanner scanner = tableInterface.getScanner(formScan(query));
+        try {
+          Result result = scanner.next();
+          if (result == null) {
+            return null;
+          }
+          else {
+            return getConverter().rowsToObject(result, executorService);
+          }
+        }
+        finally {
+          if (scanner != null) {
+            scanner.close();
+          }
+        }
       }
-      else {
-        return getConverter().rowsToObject(result, getTablePool());
-      }
-    }
-    catch (Exception ex) {
-      throw new RuntimeException(ex);
-    }
-    finally {
-      if (scanner != null) {
-        scanner.close();
-      }
-      getTablePool().putTable(table);
-    }
+    });
   }
 
   @Override
-  public List<Template> getList(List<QueryParameter> query) {
-    Scan scan = formScan(query);
-    HTableInterface table = getDefaultTable();
-    ResultScanner scanner = null;
-    try {
-      scanner = table.getScanner(scan);
-      Result[] results = scanner.next(getMaxScanRows(query));
-      if (results == null) {
-        return Collections.emptyList();
-      }
-      else {
-        ArrayList<Template> templates = new ArrayList<Template>(results.length);
-        for (Result result : results) {
-          templates.add(getConverter().rowsToObject(result, getTablePool()));
+  public List<Template> getList(final List<QueryParameter> query) {
+    return executorService.execute(null, new Callback<List<Template>>() {
+
+      @Override
+      public List<Template> call(HTableInterface tableInterface) throws Exception {
+        ResultScanner scanner = tableInterface.getScanner(formScan(query));
+        try {
+          Result[] results = scanner.next(getMaxScanRows(query));
+          if (results == null) {
+            return Collections.emptyList();
+          }
+          else {
+            ArrayList<Template> templates = new ArrayList<Template>(results.length);
+            for (Result result : results) {
+              templates.add(getConverter().rowsToObject(result, executorService));
+            }
+            return templates;
+          }
         }
-        return templates;
+        finally {
+          if (scanner != null) {
+            scanner.close();
+          }
+        }
       }
-    }
-    catch (Exception ex) {
-      throw new RuntimeException(ex);
-    }
-    finally {
-      if (scanner != null) {
-        scanner.close();
-      }
-      getTablePool().putTable(table);
-    }
+    });
   }
 
   protected Scan formScan(List<QueryParameter> query) {
@@ -531,25 +501,15 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
         putList.add(put.getValue());
       }
     }
-    for (Map.Entry<String, List<Put>> puts : allPuts.entrySet()) {
-      HTableInterface hTable = null;
-      try {
-        hTable = getTablePool().getTable(puts.getKey());
-        hTable.put(puts.getValue());
-      }
-      catch (Exception ex) {
-        throw new RuntimeException(ex);
-      }
-      finally {
-        try {
-          if (hTable != null) {
-            getTablePool().putTable(hTable);
-          }
+    for (final Map.Entry<String, List<Put>> puts : allPuts.entrySet()) {
+      executorService.execute(puts.getKey(), new Callback<Void>() {
+
+        @Override
+        public Void call(HTableInterface tableInterface) throws Exception {
+          tableInterface.put(puts.getValue());
+          return null;
         }
-        catch (Exception ex) {
-          ex.printStackTrace();
-        }
-      }
+      });
     }
   }
 
@@ -575,25 +535,15 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
         putList.add(del.getValue());
       }
     }
-    for (Map.Entry<String, List<Delete>> dels : allDels.entrySet()) {
-      HTableInterface hTable = null;
-      try {
-        hTable = getTablePool().getTable(dels.getKey());
-        hTable.delete(dels.getValue());
-      }
-      catch (Exception ex) {
-        throw new RuntimeException(ex);
-      }
-      finally {
-        try {
-          if (hTable != null) {
-            getTablePool().putTable(hTable);
-          }
+    for (final Map.Entry<String, List<Delete>> dels : allDels.entrySet()) {
+      executorService.execute(dels.getKey(), new Callback<Void>() {
+
+        @Override
+        public Void call(HTableInterface tableInterface) throws Exception {
+          tableInterface.delete(dels.getValue());
+          return null;
         }
-        catch (Exception ex) {
-          ex.printStackTrace();
-        }
-      }
+      });
     }
   }
 }

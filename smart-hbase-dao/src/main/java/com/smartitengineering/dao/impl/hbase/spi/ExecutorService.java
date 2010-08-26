@@ -18,8 +18,6 @@
  */
 package com.smartitengineering.dao.impl.hbase.spi;
 
-import org.apache.hadoop.hbase.client.HTablePool;
-
 /**
  * An API for executing HBase requests.
  * @author imyousuf
