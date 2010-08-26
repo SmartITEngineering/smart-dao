@@ -28,7 +28,11 @@ import org.apache.hadoop.hbase.util.Bytes;
 public class FilterConfigImpl implements FilterConfig {
 
   private byte[] columnFamily, columnQualifier;
-  private boolean filterOnIfMissing, filterOnLatestVersionOnly;
+  private boolean filterOnIfMissing, filterOnLatestVersionOnly, qualifierARangePrefix;
+
+  public void setQualifierARangePrefix(boolean qualifierARangePrefix) {
+    this.qualifierARangePrefix = qualifierARangePrefix;
+  }
 
   public void setColumnFamily(String columnFamily) {
     this.setColumnFamily(Bytes.toBytes(columnFamily));
@@ -72,5 +76,10 @@ public class FilterConfigImpl implements FilterConfig {
   @Override
   public boolean isFilterOnLatestVersionOnly() {
     return this.filterOnLatestVersionOnly;
+  }
+
+  @Override
+  public boolean isQualifierARangePrefix() {
+    return qualifierARangePrefix;
   }
 }

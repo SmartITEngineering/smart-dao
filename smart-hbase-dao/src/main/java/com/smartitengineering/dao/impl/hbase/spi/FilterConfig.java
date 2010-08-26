@@ -50,4 +50,10 @@ public interface FilterConfig {
    * @return True if only on latest version, false if on all version.
    */
   boolean isFilterOnLatestVersionOnly();
+
+  /**
+   * Denotes whether the qualifier signifies a Cell or a range of cells.
+   * @return True if range of cells, false if a single column
+   */
+  boolean isQualifierARangePrefix();
 }
