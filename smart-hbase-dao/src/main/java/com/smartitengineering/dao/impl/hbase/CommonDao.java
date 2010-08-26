@@ -560,26 +560,26 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
 
   @Override
   public void delete(Template... states) {
-    LinkedHashMap<String, List<Delete>> allPuts = new LinkedHashMap<String, List<Delete>>();
+    LinkedHashMap<String, List<Delete>> allDels = new LinkedHashMap<String, List<Delete>>();
     for (Template state : states) {
-      LinkedHashMap<String, Delete> puts = getConverter().objectToDeleteableRows(state);
-      for (Map.Entry<String, Delete> put : puts.entrySet()) {
+      LinkedHashMap<String, Delete> dels = getConverter().objectToDeleteableRows(state);
+      for (Map.Entry<String, Delete> del : dels.entrySet()) {
         final List<Delete> putList;
-        if (allPuts.containsKey(put.getKey())) {
-          putList = allPuts.get(put.getKey());
+        if (allDels.containsKey(del.getKey())) {
+          putList = allDels.get(del.getKey());
         }
         else {
           putList = new ArrayList<Delete>();
-          allPuts.put(put.getKey(), putList);
+          allDels.put(del.getKey(), putList);
         }
-        putList.add(put.getValue());
+        putList.add(del.getValue());
       }
     }
-    for (Map.Entry<String, List<Delete>> puts : allPuts.entrySet()) {
+    for (Map.Entry<String, List<Delete>> dels : allDels.entrySet()) {
       HTableInterface hTable = null;
       try {
-        hTable = getTablePool().getTable(puts.getKey());
-        hTable.delete(puts.getValue());
+        hTable = getTablePool().getTable(dels.getKey());
+        hTable.delete(dels.getValue());
       }
       catch (Exception ex) {
         throw new RuntimeException(ex);
