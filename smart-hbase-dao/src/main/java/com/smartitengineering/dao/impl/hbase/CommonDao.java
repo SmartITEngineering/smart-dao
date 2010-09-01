@@ -289,6 +289,13 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
             scan.setStartRow(Bytes.toBytes(value.toString()));
             break;
           }
+          case PARAMETER_TYPE_UNIT_PROP: {
+            FilterConfig config = getInfoProvider().getFilterConfig(getPropertyName(param));
+            if(config != null) {
+              scan.addFamily(config.getColumnFamily());
+            }
+            break;
+          }
           default:
           //Do nothing
         }
