@@ -29,6 +29,11 @@ public class FilterConfigImpl implements FilterConfig {
 
   private byte[] columnFamily, columnQualifier;
   private boolean filterOnIfMissing, filterOnLatestVersionOnly, qualifierARangePrefix;
+  private boolean filterOnRowId;
+
+  public void setFilterOnRowId(boolean filterOnRowId) {
+    this.filterOnRowId = filterOnRowId;
+  }
 
   public void setQualifierARangePrefix(boolean qualifierARangePrefix) {
     this.qualifierARangePrefix = qualifierARangePrefix;
@@ -81,5 +86,10 @@ public class FilterConfigImpl implements FilterConfig {
   @Override
   public boolean isQualifierARangePrefix() {
     return qualifierARangePrefix;
+  }
+
+  @Override
+  public boolean isFilterOnRowId() {
+    return filterOnRowId;
   }
 }

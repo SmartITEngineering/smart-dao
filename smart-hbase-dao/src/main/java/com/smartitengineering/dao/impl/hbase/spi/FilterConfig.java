@@ -56,4 +56,10 @@ public interface FilterConfig {
    * @return True if range of cells, false if a single column
    */
   boolean isQualifierARangePrefix();
+
+  /**
+   * We need a way to determine to add row filter and this config will give us just that.
+   * @return
+   */
+  boolean isFilterOnRowId();
 }
