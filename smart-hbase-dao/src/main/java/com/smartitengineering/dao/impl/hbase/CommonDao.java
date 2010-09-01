@@ -284,6 +284,11 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
             handlePropertyParam(param, filters);
             break;
           }
+          case PARAMETER_TYPE_FIRST_RESULT: {
+            Object value = getValue(param);
+            scan.setStartRow(Bytes.toBytes(value.toString()));
+            break;
+          }
           default:
           //Do nothing
         }
