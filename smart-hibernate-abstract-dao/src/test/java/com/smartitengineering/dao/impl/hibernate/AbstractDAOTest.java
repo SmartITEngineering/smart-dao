@@ -638,6 +638,7 @@ public class AbstractDAOTest
                     expectedResult.add(book);
                 }
             }
+            System.out.println("EEEEEEEEEEEEEEE : " + expectedResult + " ------ " + result);
             assertTrue(Arrays.equals(expectedResult.toArray(), result.toArray()));
         }
         /**
@@ -1635,7 +1636,7 @@ public class AbstractDAOTest
             10, 100.0, humayunAhmed);
     }
 
-    private <Template extends PersistentDTO<Template>> Set<Template> getAll(
+    private <Template extends PersistentDTO> Set<Template> getAll(
         final AbstractDAO<Template> bookInstance,
         final Class<Template> templateClass) {
         return new LinkedHashSet<Template>(bookInstance.readList(templateClass));
@@ -1895,7 +1896,7 @@ public class AbstractDAOTest
         return book;
     }
 
-    private <T extends PersistentDTO<T>> AbstractDAO<T> getDaoInstance()
+    private <T extends PersistentDTO> AbstractDAO<T> getDaoInstance()
         throws BeansException {
         AbstractDAO<T> instance =
             (AbstractDAO<T>) context.getBean("testDao");

@@ -21,83 +21,10 @@ package com.smartitengineering.domain;
 /**
  *
  * @author Imran M Yousuf
+ * @deprecated This class is deprecated as it fixes the types of ID and Version.
+ * @see AbstractGenericPersistentDTO
  */
+@Deprecated
 public abstract class AbstractPersistentDTO<Template extends PersistentDTO>
-    implements PersistentDTO<Template> {
-
-    protected Integer id;
-    protected Integer version;
-
-    /** Creates a new instance of PersistentDTO */
-    protected AbstractPersistentDTO() {
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        try {
-            return compareTo((Template) obj) == 0;
-        }
-        catch (ClassCastException ex) {
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return id == null ? 0 : id.intValue();
-    }
-
-    public int compareTo(Template o) {
-        if (o == null) {
-            throw new IllegalArgumentException();
-        }
-        if(o.getId() == null && id == null) {
-            return -1;
-        }
-        if(o.getId() == null && id != null) {
-            return 1;
-        }
-        if(o.getId() != null && id == null) {
-            return -1;
-        }
-        return o.getId().compareTo(id);
-    }
-
-    public int compare(Template o1,
-                       Template o2) {
-        if (o1 == null && o2 == null) {
-            return 0;
-        }
-        if (o1 == null && o2 != null) {
-            return -1;
-        }
-        if (o1 != null && o2 == null) {
-            return 1;
-        }
-        return o1.compareTo(o2);
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-    protected void clone(Template template) {
-        if (template == null) {
-            return;
-        }
-        template.setId(id);
-        template.setVersion(version);
-    }
+    extends AbstractGenericPersistentDTO<Template, Integer, Integer> {
 }

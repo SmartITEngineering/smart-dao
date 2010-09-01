@@ -22,14 +22,14 @@ package com.smartitengineering.domain;
  *
  * @author Imran M Yousuf
  */
-public interface PersistentDTO<Template extends PersistentDTO>
+public interface PersistentDTO<Template extends PersistentDTO, IdType extends Comparable<IdType>, VersionType extends Comparable<VersionType>>
     extends Domain<Template> {
 
-    public Integer getId();
+  public IdType getId();
 
-    public void setId(Integer id);
+  public void setId(IdType id);
 
-    public Integer getVersion();
+  public VersionType getVersion();
 
-    public void setVersion(Integer version);
+  public void setVersion(VersionType version);
 }

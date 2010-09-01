@@ -19,7 +19,6 @@
 package com.smartitengineering.version.impl.jgit.domain;
 
 import com.smartitengineering.domain.AbstractPersistentDTO;
-import com.smartitengineering.domain.PersistentDTO;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -27,8 +26,7 @@ import org.apache.commons.lang.StringUtils;
  * @author imyousuf
  */
 public class Author
-    extends AbstractPersistentDTO<Author>
-    implements PersistentDTO<Author> {
+    extends AbstractPersistentDTO<Author> {
 
     public static final String PROP_NAME = "name";
     public static final String PROP_EMAIL = "email";

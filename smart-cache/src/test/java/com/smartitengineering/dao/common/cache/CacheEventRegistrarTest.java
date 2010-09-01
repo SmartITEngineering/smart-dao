@@ -20,7 +20,6 @@ package com.smartitengineering.dao.common.cache;
 
 import com.smartitengineering.dao.common.cache.impl.CacheAPIFactory;
 import com.smartitengineering.domain.AbstractPersistentDTO;
-import com.smartitengineering.domain.PersistentDTO;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -166,8 +165,7 @@ public class CacheEventRegistrarTest
     }
 
     private class Observee
-        extends AbstractPersistentDTO<Observee>
-        implements PersistentDTO<Observee> {
+        extends AbstractPersistentDTO<Observee> {
 
         public boolean isValid() {
             return true;

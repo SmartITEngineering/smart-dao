@@ -19,7 +19,6 @@
 package com.smartitengineering.version.impl.jgit.domain;
 
 import com.smartitengineering.domain.AbstractPersistentDTO;
-import com.smartitengineering.domain.PersistentDTO;
 import com.smartitengineering.version.impl.jgit.service.MetaFactory;
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -31,8 +30,7 @@ import org.apache.commons.lang.StringUtils;
  * @author imyousuf
  */
 public class Commit
-    extends AbstractPersistentDTO<Commit>
-    implements PersistentDTO<Commit> {
+    extends AbstractPersistentDTO<Commit> {
 
     public static final String PROP_REVISIONS = "revisions";
     public static final String PROP_COMMITTER = "committer";

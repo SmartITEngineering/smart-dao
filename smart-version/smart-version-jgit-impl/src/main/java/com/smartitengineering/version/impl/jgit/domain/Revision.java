@@ -19,7 +19,6 @@
 package com.smartitengineering.version.impl.jgit.domain;
 
 import com.smartitengineering.domain.AbstractPersistentDTO;
-import com.smartitengineering.domain.PersistentDTO;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -27,8 +26,7 @@ import org.apache.commons.lang.StringUtils;
  * @author imyousuf
  */
 public class Revision
-    extends AbstractPersistentDTO<Revision>
-    implements PersistentDTO<Revision> {
+    extends AbstractPersistentDTO<Revision> {
 
     public static final String PROP_RESOURCE = "resource";
     public static final String PROP_REVISIONID = "revisionId";
