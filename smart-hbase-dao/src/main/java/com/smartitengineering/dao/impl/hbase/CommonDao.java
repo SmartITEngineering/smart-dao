@@ -62,7 +62,10 @@ import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.FilterList;
 import org.apache.hadoop.hbase.filter.FilterList.Operator;
+import org.apache.hadoop.hbase.filter.QualifierFilter;
+import org.apache.hadoop.hbase.filter.RowFilter;
 import org.apache.hadoop.hbase.filter.SingleColumnValueExcludeFilter;
+import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.filter.SkipFilter;
 import org.apache.hadoop.hbase.filter.SubstringComparator;
 import org.apache.hadoop.hbase.filter.WritableByteArrayComparable;
@@ -331,17 +334,19 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
       }
       case OPERATOR_IS_EMPTY:
       case OPERATOR_IS_NULL: {
-        final SingleColumnValueExcludeFilter cellFilter =
-                                             getCellFilter(filterConfig, CompareOp.EQUAL, Bytes.toBytes(""));
-        cellFilter.setFilterIfMissing(false);
+        final Filter cellFilter = getCellFilter(filterConfig, CompareOp.EQUAL, Bytes.toBytes(""));
+        if (cellFilter instanceof SingleColumnValueFilter) {
+          ((SingleColumnValueFilter) cellFilter).setFilterIfMissing(false);
+        }
         filters.add(cellFilter);
         return;
       }
       case OPERATOR_IS_NOT_EMPTY:
       case OPERATOR_IS_NOT_NULL: {
-        final SingleColumnValueExcludeFilter cellFilter = getCellFilter(filterConfig, CompareOp.NOT_EQUAL, Bytes.toBytes(
-            ""));
-        cellFilter.setFilterIfMissing(true);
+        final Filter cellFilter = getCellFilter(filterConfig, CompareOp.NOT_EQUAL, Bytes.toBytes(""));
+        if (cellFilter instanceof SingleColumnValueFilter) {
+          ((SingleColumnValueFilter) cellFilter).setFilterIfMissing(true);
+        }
         filters.add(cellFilter);
         return;
       }
@@ -380,13 +385,13 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
       }
       case OPERATOR_IS_IN: {
         Collection inCollectin = QueryParameterCastHelper.MULTI_OPERAND_PARAM_HELPER.cast(queryParameter).getValues();
-        FilterList filterList = getInFilter(inCollectin, filterConfig);
+        Filter filterList = getInFilter(inCollectin, filterConfig);
         filters.add(filterList);
         return;
       }
       case OPERATOR_IS_NOT_IN: {
         Collection notInCollectin = QueryParameterCastHelper.MULTI_OPERAND_PARAM_HELPER.cast(queryParameter).getValues();
-        FilterList filterList = getInFilter(notInCollectin, filterConfig);
+        Filter filterList = getInFilter(notInCollectin, filterConfig);
         filters.add(new SkipFilter(filterList));
         return;
       }
@@ -394,22 +399,32 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
     return;
   }
 
-  protected SingleColumnValueExcludeFilter getCellFilter(FilterConfig filterConfig, CompareOp op,
-                                                         WritableByteArrayComparable comparator) {
-    final SingleColumnValueExcludeFilter valueFilter;
-    valueFilter = new SingleColumnValueExcludeFilter(filterConfig.getColumnFamily(),
-                                                     filterConfig.getColumnQualifier(),
-                                                     op, comparator);
-    valueFilter.setFilterIfMissing(filterConfig.isFilterOnIfMissing());
-    valueFilter.setLatestVersionOnly(filterConfig.isFilterOnLatestVersionOnly());
-    return valueFilter;
+  protected Filter getCellFilter(FilterConfig filterConfig, CompareOp op,
+                                 WritableByteArrayComparable comparator) {
+    if (filterConfig.isFilterOnRowId()) {
+      RowFilter rowFilter = new RowFilter(op, comparator);
+      return rowFilter;
+    }
+    else if (filterConfig.isQualifierARangePrefix()) {
+      QualifierFilter filter = new QualifierFilter(op, comparator);
+      return filter;
+    }
+    else {
+      final SingleColumnValueExcludeFilter valueFilter;
+      valueFilter = new SingleColumnValueExcludeFilter(filterConfig.getColumnFamily(),
+                                                       filterConfig.getColumnQualifier(),
+                                                       op, comparator);
+      valueFilter.setFilterIfMissing(filterConfig.isFilterOnIfMissing());
+      valueFilter.setLatestVersionOnly(filterConfig.isFilterOnLatestVersionOnly());
+      return valueFilter;
+    }
   }
 
-  protected SingleColumnValueExcludeFilter getCellFilter(FilterConfig filterConfig, CompareOp op, byte[] value) {
+  protected Filter getCellFilter(FilterConfig filterConfig, CompareOp op, byte[] value) {
     return getCellFilter(filterConfig, op, new BinaryComparator(value));
   }
 
-  protected FilterList getInFilter(Collection inCollectin, FilterConfig config) {
+  protected Filter getInFilter(Collection inCollectin, FilterConfig config) {
     FilterList filterList = new FilterList(Operator.MUST_PASS_ONE);
     for (Object inObj : inCollectin) {
       filterList.addFilter(getCellFilter(config, CompareOp.EQUAL, new BinaryComparator(Bytes.toBytes(inObj.toString()))));
