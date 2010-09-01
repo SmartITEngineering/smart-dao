@@ -249,18 +249,18 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
 
   protected Scan formScan(List<QueryParameter> query) {
     Scan scan = new Scan();
-    final Filter filter = getFilter(query);
+    final Filter filter = getFilter(query, scan);
     if (filter != null) {
       scan.setFilter(filter);
     }
     return scan;
   }
 
-  protected Filter getFilter(Collection<QueryParameter> queryParams) {
-    return getFilter(queryParams, Operator.MUST_PASS_ALL);
+  protected Filter getFilter(Collection<QueryParameter> queryParams, Scan scan) {
+    return getFilter(queryParams, scan, Operator.MUST_PASS_ALL);
   }
 
-  protected Filter getFilter(Collection<QueryParameter> queryParams, Operator operator) {
+  protected Filter getFilter(Collection<QueryParameter> queryParams, Scan scan, Operator operator) {
     final Filter filter;
     if (queryParams != null && !queryParams.isEmpty()) {
       List<Filter> filters = new ArrayList<Filter>(queryParams.size());
@@ -270,14 +270,14 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
             BasicCompoundQueryParameter queryParameter =
                                         QueryParameterCastHelper.BASIC_COMPOUND_PARAM_HELPER.cast(param);
             Collection<QueryParameter> nestedParameters = queryParameter.getNestedParameters();
-            filters.add(getFilter(nestedParameters, Operator.MUST_PASS_ALL));
+            filters.add(getFilter(nestedParameters, scan, Operator.MUST_PASS_ALL));
             break;
           }
           case PARAMETER_TYPE_DISJUNCTION: {
             BasicCompoundQueryParameter queryParameter =
                                         QueryParameterCastHelper.BASIC_COMPOUND_PARAM_HELPER.cast(param);
             Collection<QueryParameter> nestedParameters = queryParameter.getNestedParameters();
-            filters.add(getFilter(nestedParameters, Operator.MUST_PASS_ONE));
+            filters.add(getFilter(nestedParameters, scan, Operator.MUST_PASS_ONE));
             break;
           }
           case PARAMETER_TYPE_PROPERTY: {
