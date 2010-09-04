@@ -18,11 +18,13 @@
  */
 package com.smartitengineering.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Imran M Yousuf
  */
-public interface PersistentDTO<Template extends PersistentDTO, IdType extends Comparable<IdType>, VersionType extends Comparable<VersionType>>
+public interface PersistentDTO<Template extends PersistentDTO, IdType extends Comparable<IdType> & Serializable, VersionType extends Comparable<VersionType> & Serializable>
     extends Domain<Template> {
 
   public IdType getId();

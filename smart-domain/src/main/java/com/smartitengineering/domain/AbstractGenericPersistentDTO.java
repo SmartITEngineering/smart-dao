@@ -18,11 +18,13 @@
  */
 package com.smartitengineering.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author imyousuf
  */
-public abstract class AbstractGenericPersistentDTO<Template extends PersistentDTO, IdType extends Comparable<IdType>, VersionType extends Comparable<VersionType>>
+public abstract class AbstractGenericPersistentDTO<Template extends PersistentDTO, IdType extends Comparable<IdType> & Serializable, VersionType extends Comparable<VersionType> & Serializable>
     implements
     PersistentDTO<PersistentDTO, IdType, VersionType> {
 
