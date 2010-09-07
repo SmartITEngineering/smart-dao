@@ -120,6 +120,10 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
     this.infoProvider = infoProvider;
   }
 
+  protected String getDefaultTableName() {
+    return getInfoProvider().getMainTableName();
+  }
+
   protected int getMaxScanRows() {
     return getMaxRows() > 0 ? getMaxRows() : DEFAULT_MAX_ROWS;
   }
@@ -166,7 +170,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
     LinkedHashSet<Future<Template>> set = new LinkedHashSet<Future<Template>>(ids.size());
     LinkedHashSet<Template> resultSet = new LinkedHashSet<Template>(ids.size());
     for (IdType id : ids) {
-      set.add(executorService.executeAsynchronously(null, getByIdCallback(id)));
+      set.add(executorService.executeAsynchronously(getDefaultTableName(), getByIdCallback(id)));
     }
     for (Future<Template> future : set) {
       try {
@@ -181,7 +185,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
 
   @Override
   public Template getById(final IdType id) {
-    return executorService.execute("", getByIdCallback(id));
+    return executorService.execute(getDefaultTableName(), getByIdCallback(id));
   }
 
   protected Callback<Template> getByIdCallback(final IdType id) {
@@ -219,7 +223,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
 
   @Override
   public Template getSingle(final List<QueryParameter> query) {
-    return executorService.execute("", new Callback<Template>() {
+    return executorService.execute(getDefaultTableName(), new Callback<Template>() {
 
       @Override
       public Template call(HTableInterface tableInterface) throws Exception {
@@ -244,7 +248,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
 
   @Override
   public List<Template> getList(final List<QueryParameter> query) {
-    return executorService.execute(null, new Callback<List<Template>>() {
+    return executorService.execute(getDefaultTableName(), new Callback<List<Template>>() {
 
       @Override
       public List<Template> call(HTableInterface tableInterface) throws Exception {

@@ -20,7 +20,6 @@ package com.smartitengineering.dao.impl.hbase.spi.impl;
 
 import com.smartitengineering.dao.impl.hbase.spi.Callback;
 import com.smartitengineering.dao.impl.hbase.spi.ExecutorService;
-import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
@@ -36,15 +35,6 @@ public class SynchronousExecutorServiceImpl implements ExecutorService {
   public static final int DEFAULT_MAX_HTABLE_POOL_SIZE = 3000;
   private Configuration configuration;
   private HTablePool tablePool;
-  private SchemaInfoProvider infoProvider;
-
-  public SchemaInfoProvider getInfoProvider() {
-    return infoProvider;
-  }
-
-  public void setInfoProvider(SchemaInfoProvider infoProvider) {
-    this.infoProvider = infoProvider;
-  }
 
   protected Configuration getConfiguration() {
     if (configuration == null) {
@@ -69,7 +59,7 @@ public class SynchronousExecutorServiceImpl implements ExecutorService {
                                          Callback<ReturnType> callback) {
     final HTableInterface tableInterface;
     if (StringUtils.isBlank(tableName)) {
-      tableInterface = getDefaultTable();
+      throw new IllegalArgumentException("Table name not provided!");
     }
     else {
       tableInterface = getTablePool().getTable(tableName);
@@ -92,7 +82,4 @@ public class SynchronousExecutorServiceImpl implements ExecutorService {
     }
   }
 
-  protected HTableInterface getDefaultTable() {
-    return getTablePool().getTable(getInfoProvider().getMainTableName());
-  }
 }
