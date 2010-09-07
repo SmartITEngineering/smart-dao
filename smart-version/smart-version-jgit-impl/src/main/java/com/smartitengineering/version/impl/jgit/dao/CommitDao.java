@@ -27,6 +27,6 @@ import com.smartitengineering.version.impl.jgit.domain.Commit;
  * @author imyousuf
  */
 public interface CommitDao
-    extends CommonReadDao<Commit>,
+    extends CommonReadDao<Commit, Integer>,
             CommonWriteDao<Commit> {
 }

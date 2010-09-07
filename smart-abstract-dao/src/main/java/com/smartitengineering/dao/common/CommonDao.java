@@ -19,12 +19,13 @@
 package com.smartitengineering.dao.common;
 
 import com.smartitengineering.domain.PersistentDTO;
+import java.io.Serializable;
 
 /**
  *
  * @author Imran M Yousuf
  */
-public interface CommonDao<Template extends PersistentDTO>
-    extends CommonReadDao<Template>,
+public interface CommonDao<Template extends PersistentDTO, IdType extends Serializable>
+    extends CommonReadDao<Template, IdType>,
             CommonWriteDao<Template> {
 }

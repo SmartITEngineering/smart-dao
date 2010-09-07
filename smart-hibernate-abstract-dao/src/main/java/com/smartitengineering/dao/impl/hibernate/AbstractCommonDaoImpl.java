@@ -27,8 +27,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -36,7 +34,7 @@ import java.util.logging.Logger;
  */
 public abstract class AbstractCommonDaoImpl<Template extends PersistentDTO>
     extends AbstractDAO<Template>
-    implements CommonDao<Template> {
+    implements CommonDao<Template, Integer> {
 
     private Class<? extends Template> entityClass;
 

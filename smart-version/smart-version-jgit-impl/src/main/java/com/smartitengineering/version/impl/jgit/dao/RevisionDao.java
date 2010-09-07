@@ -27,6 +27,6 @@ import com.smartitengineering.version.impl.jgit.domain.Revision;
  * @author imyousuf
  */
 public interface RevisionDao
-    extends CommonReadDao<Revision>,
+    extends CommonReadDao<Revision, Integer>,
             CommonWriteDao<Revision> {
 }

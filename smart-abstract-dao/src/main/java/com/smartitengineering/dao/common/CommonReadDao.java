@@ -19,6 +19,7 @@
 package com.smartitengineering.dao.common;
 
 import com.smartitengineering.domain.PersistentDTO;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
@@ -26,13 +27,12 @@ import java.util.Set;
  *
  * @author Imran M Yousuf
  */
-public interface CommonReadDao<Template extends PersistentDTO>
-    extends CommonReadDaoWithList<Template>,
-            CommonReadDaoWithVarArgs<Template> {
-    
-    public Set<Template> getAll();
-    
-    public Set<Template> getByIds(List<Integer> ids);
-    
-    public Template getById(Integer id);
+public interface CommonReadDao<Template extends PersistentDTO, IdType extends Serializable> extends
+    CommonReadDaoWithList<Template>, CommonReadDaoWithVarArgs<Template> {
+
+  public Set<Template> getAll();
+
+  public Set<Template> getByIds(List<IdType> ids);
+
+  public Template getById(IdType id);
 }

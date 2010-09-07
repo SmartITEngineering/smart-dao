@@ -46,16 +46,16 @@ public class MetaRCSServiceImpl
     implements MetaRCSService {
 
     protected CommonWriteDao<Commit> commitWriter;
-    protected CommonReadDao<Commit> commitReader;
+    protected CommonReadDao<Commit, Integer> commitReader;
     protected CommonWriteDao<Revision> revisionWriter;
-    protected CommonReadDao<Revision> revisionReader;
+    protected CommonReadDao<Revision, Integer> revisionReader;
 
     /**
      * Get the value of revisionReader
      *
      * @return the value of revisionReader
      */
-    public CommonReadDao<Revision> getRevisionReader() {
+    public CommonReadDao<Revision, Integer> getRevisionReader() {
         return revisionReader;
     }
 
@@ -64,7 +64,7 @@ public class MetaRCSServiceImpl
      *
      * @param revisionReader new value of revisionReader
      */
-    public void setRevisionReader(CommonReadDao<Revision> revisionReader) {
+    public void setRevisionReader(CommonReadDao<Revision, Integer> revisionReader) {
         this.revisionReader = revisionReader;
     }
 
@@ -91,7 +91,7 @@ public class MetaRCSServiceImpl
      *
      * @return the value of commitReader
      */
-    public CommonReadDao<Commit> getCommitReader() {
+    public CommonReadDao<Commit, Integer> getCommitReader() {
         return commitReader;
     }
 
@@ -100,7 +100,7 @@ public class MetaRCSServiceImpl
      *
      * @param commitReader new value of commitReader
      */
-    public void setCommitReader(CommonReadDao<Commit> commitReader) {
+    public void setCommitReader(CommonReadDao<Commit, Integer> commitReader) {
         this.commitReader = commitReader;
     }
 

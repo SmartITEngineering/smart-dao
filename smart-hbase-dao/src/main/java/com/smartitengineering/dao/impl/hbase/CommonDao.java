@@ -39,6 +39,9 @@ import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
 import com.smartitengineering.dao.impl.hbase.spi.impl.BinarySuffixComparator;
 import com.smartitengineering.dao.impl.hbase.spi.impl.RangeComparator;
 import com.smartitengineering.domain.PersistentDTO;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -76,8 +79,8 @@ import org.apache.hadoop.hbase.util.Bytes;
  * toString() method returns the string representation of the value to be compared in byte[] form.
  * @author imyousuf
  */
-public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<Template>,
-                                                                  CommonWriteDao<Template> {
+public class CommonDao<Template extends PersistentDTO, IdType extends Serializable> implements
+    CommonReadDao<Template, IdType>, CommonWriteDao<Template> {
 
   public static final int DEFAULT_MAX_ROWS = 1000;
   private ObjectRowConverter<Template> converter;
@@ -159,10 +162,10 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
    * Supported read operations
    */
   @Override
-  public Set<Template> getByIds(List<Integer> ids) {
+  public Set<Template> getByIds(List<IdType> ids) {
     LinkedHashSet<Future<Template>> set = new LinkedHashSet<Future<Template>>(ids.size());
     LinkedHashSet<Template> resultSet = new LinkedHashSet<Template>(ids.size());
-    for (Integer id : ids) {
+    for (IdType id : ids) {
       set.add(executorService.executeAsynchronously(null, getByIdCallback(id)));
     }
     for (Future<Template> future : set) {
@@ -177,16 +180,37 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
   }
 
   @Override
-  public Template getById(final Integer id) {
+  public Template getById(final IdType id) {
     return executorService.execute("", getByIdCallback(id));
   }
 
-  protected Callback<Template> getByIdCallback(final Integer id) {
+  protected Callback<Template> getByIdCallback(final IdType id) {
     return new Callback<Template>() {
 
       @Override
       public Template call(HTableInterface tableInterface) throws Exception {
-        Get get = new Get(Bytes.toBytes(id));
+        final byte[] rowId;
+        if (id instanceof Integer) {
+          rowId = Bytes.toBytes((Integer) id);
+        }
+        else if (id instanceof String) {
+          rowId = Bytes.toBytes((String) id);
+        }
+        else if (id instanceof Long) {
+          rowId = Bytes.toBytes((Long) id);
+        }
+        else if (id instanceof Double) {
+          rowId = Bytes.toBytes((Double) id);
+        }
+        else if (id != null) {
+          final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+          new ObjectOutputStream(byteArrayOutputStream).writeObject(id);
+          rowId = byteArrayOutputStream.toByteArray();
+        }
+        else {
+          rowId = new byte[0];
+        }
+        Get get = new Get(rowId);
         Result result = tableInterface.get(get);
         return getConverter().rowsToObject(result, executorService);
       }
@@ -291,7 +315,7 @@ public class CommonDao<Template extends PersistentDTO> implements CommonReadDao<
           }
           case PARAMETER_TYPE_UNIT_PROP: {
             FilterConfig config = getInfoProvider().getFilterConfig(getPropertyName(param));
-            if(config != null) {
+            if (config != null) {
               scan.addFamily(config.getColumnFamily());
             }
             break;
