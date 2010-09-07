@@ -52,6 +52,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Future;
+import org.apache.commons.io.IOUtils;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HTableInterface;
@@ -208,7 +209,10 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
         }
         else if (id != null) {
           final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-          new ObjectOutputStream(byteArrayOutputStream).writeObject(id);
+          final ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+          objectOutputStream.writeObject(id);
+          IOUtils.closeQuietly(objectOutputStream);
+          IOUtils.closeQuietly(byteArrayOutputStream);
           rowId = byteArrayOutputStream.toByteArray();
         }
         else {
