@@ -220,7 +220,12 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
         }
         Get get = new Get(rowId);
         Result result = tableInterface.get(get);
-        return getConverter().rowsToObject(result, executorService);
+        if (result == null || result.isEmpty()) {
+          return null;
+        }
+        else {
+          return getConverter().rowsToObject(result, executorService);
+        }
       }
     };
   }
@@ -234,7 +239,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
         ResultScanner scanner = tableInterface.getScanner(formScan(query));
         try {
           Result result = scanner.next();
-          if (result == null) {
+          if (result == null || result.isEmpty()) {
             return null;
           }
           else {
@@ -265,7 +270,12 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
           else {
             ArrayList<Template> templates = new ArrayList<Template>(results.length);
             for (Result result : results) {
-              templates.add(getConverter().rowsToObject(result, executorService));
+              if (result == null || result.isEmpty()) {
+                continue;
+              }
+              else {
+                templates.add(getConverter().rowsToObject(result, executorService));
+              }
             }
             return templates;
           }
