@@ -561,6 +561,9 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
   public void save(Template... states) {
     LinkedHashMap<String, List<Put>> allPuts = new LinkedHashMap<String, List<Put>>();
     for (Template state : states) {
+      if(!state.isValid()) {
+        throw new IllegalStateException("Entity not in valid state!");
+      }
       LinkedHashMap<String, Put> puts = getConverter().objectToRows(state);
       for (Map.Entry<String, Put> put : puts.entrySet()) {
         final List<Put> putList;
@@ -595,6 +598,9 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
   public void delete(Template... states) {
     LinkedHashMap<String, List<Delete>> allDels = new LinkedHashMap<String, List<Delete>>();
     for (Template state : states) {
+      if(!state.isValid()) {
+        throw new IllegalStateException("Entity not in valid state!");
+      }
       LinkedHashMap<String, Delete> dels = getConverter().objectToDeleteableRows(state);
       for (Map.Entry<String, Delete> del : dels.entrySet()) {
         final List<Delete> putList;
