@@ -22,6 +22,7 @@ import com.smartitengineering.dao.common.CommonReadDao;
 import com.smartitengineering.dao.common.CommonWriteDao;
 import com.smartitengineering.dao.common.queryparam.BasicCompoundQueryParameter;
 import com.smartitengineering.dao.common.queryparam.BiOperandQueryParameter;
+import com.smartitengineering.dao.common.queryparam.CompositionQueryParameter;
 import com.smartitengineering.dao.common.queryparam.MatchMode;
 import com.smartitengineering.dao.common.queryparam.OperatorType;
 import com.smartitengineering.dao.common.queryparam.ParameterType;
@@ -53,6 +54,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Future;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HTableInterface;
@@ -303,6 +305,10 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
   }
 
   protected Filter getFilter(Collection<QueryParameter> queryParams, Scan scan, Operator operator) {
+    return getFilter("", queryParams, scan, operator);
+  }
+
+  protected Filter getFilter(String namePrefix, Collection<QueryParameter> queryParams, Scan scan, Operator operator) {
     final Filter filter;
     if (queryParams != null && !queryParams.isEmpty()) {
       List<Filter> filters = new ArrayList<Filter>(queryParams.size());
@@ -315,6 +321,13 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
             filters.add(getFilter(nestedParameters, scan, Operator.MUST_PASS_ALL));
             break;
           }
+          case PARAMETER_TYPE_NESTED_PROPERTY: {
+            CompositionQueryParameter queryParameter = QueryParameterCastHelper.COMPOSITION_PARAM_FOR_NESTED_TYPE.cast(
+                param);
+            Collection<QueryParameter> nestedParameters = queryParameter.getNestedParameters();
+            filters.add(getFilter(getPropertyName(namePrefix, param), nestedParameters, scan, Operator.MUST_PASS_ALL));
+            break;
+          }
           case PARAMETER_TYPE_DISJUNCTION: {
             BasicCompoundQueryParameter queryParameter =
                                         QueryParameterCastHelper.BASIC_COMPOUND_PARAM_HELPER.cast(param);
@@ -323,7 +336,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
             break;
           }
           case PARAMETER_TYPE_PROPERTY: {
-            handlePropertyParam(param, filters);
+            handlePropertyParam(namePrefix, param, filters);
             break;
           }
           case PARAMETER_TYPE_FIRST_RESULT: {
@@ -332,7 +345,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
             break;
           }
           case PARAMETER_TYPE_UNIT_PROP: {
-            FilterConfig config = getInfoProvider().getFilterConfig(getPropertyName(param));
+            FilterConfig config = getInfoProvider().getFilterConfig(getPropertyName(namePrefix, param));
             if (config != null) {
               scan.addFamily(config.getColumnFamily());
             }
@@ -356,11 +369,10 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
     return filter;
   }
 
-  protected void handlePropertyParam(QueryParameter queryParameter,
-                                     List<Filter> filters) {
+  protected void handlePropertyParam(String namePrefix, QueryParameter queryParameter, List<Filter> filters) {
     OperatorType operator = getOperator(queryParameter);
     Object parameter = getValue(queryParameter);
-    FilterConfig filterConfig = getInfoProvider().getFilterConfig(getPropertyName(queryParameter));
+    FilterConfig filterConfig = getInfoProvider().getFilterConfig(getPropertyName(namePrefix, queryParameter));
     switch (operator) {
       case OPERATOR_EQUAL: {
         filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, Bytes.toBytes(parameter.toString())));
@@ -486,15 +498,15 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
     return filterList;
   }
 
-  protected String getPropertyName(QueryParameter param) {
-    final String propertyName;
+  protected String getPropertyName(String prefix, QueryParameter param) {
+    final StringBuilder propertyName = new StringBuilder("");
+    if(StringUtils.isNotBlank(prefix)) {
+      propertyName.append(prefix).append('.');
+    }
     if (param instanceof QueryParameterWithPropertyName) {
-      propertyName = ((QueryParameterWithPropertyName) param).getPropertyName();
+      propertyName.append(((QueryParameterWithPropertyName) param).getPropertyName());
     }
-    else {
-      propertyName = "";
-    }
-    return propertyName;
+    return propertyName.toString();
   }
 
   protected Object getSecondParameter(QueryParameter queryParamemter) {
