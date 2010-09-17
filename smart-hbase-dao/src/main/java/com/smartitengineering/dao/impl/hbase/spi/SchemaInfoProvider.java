@@ -25,7 +25,7 @@ import org.apache.hadoop.hbase.client.Get;
  * A class to provide information related to schema.
  * @author imyousuf
  */
-public interface SchemaInfoProvider {
+public interface SchemaInfoProvider<T> {
 
   /**
    * Get the namespace for distinguishing this schema info provider.

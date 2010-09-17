@@ -28,7 +28,7 @@ import java.util.Map;
  *
  * @author imyousuf
  */
-public class SchemaInfoProviderImpl implements SchemaInfoProvider {
+public class SchemaInfoProviderImpl<T> implements SchemaInfoProvider<T> {
 
   private String schemaNamespace, mainTableName;
   private boolean transactionalDomain;
