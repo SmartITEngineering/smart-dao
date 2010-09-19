@@ -2,7 +2,7 @@
  * This is a common dao with basic CRUD operations and is not limited to any
  * persistent layer implementation
  *
- * Copyright (C) 2008  Imran M Yousuf (imyousuf@smartitengineering.com)
+ * Copyright (C) 2010  Imran M Yousuf (imyousuf@smartitengineering.com)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,7 +18,9 @@
  */
 package com.smartitengineering.dao.impl.hbase.spi.impl;
 
+import com.google.inject.Inject;
 import com.smartitengineering.dao.impl.hbase.spi.FilterConfig;
+import com.smartitengineering.dao.impl.hbase.spi.FilterConfigs;
 import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,6 +38,18 @@ public class SchemaInfoProviderImpl<T> implements SchemaInfoProvider<T> {
 
   public SchemaInfoProviderImpl() {
     filterConfigs = new HashMap<String, FilterConfig>();
+  }
+
+  @Inject
+  public void setBaseConfig(SchemaInfoProviderBaseConfig<T> config) {
+    this.schemaNamespace = config.getSchemaNamespace();
+    this.mainTableName = config.getMainTableName();
+    this.transactionalDomain = config.isTransactionalDomain();
+  }
+
+  @Inject
+  public void setFilterConfigs(FilterConfigs<T> configs) {
+    this.filterConfigs = configs.getConfigs();
   }
 
   public Map<String, FilterConfig> getFilterConfigs() {
