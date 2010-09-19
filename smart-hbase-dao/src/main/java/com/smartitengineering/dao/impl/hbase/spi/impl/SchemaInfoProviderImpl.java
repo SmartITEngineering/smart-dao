@@ -19,22 +19,32 @@
 package com.smartitengineering.dao.impl.hbase.spi.impl;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import com.smartitengineering.dao.impl.hbase.spi.FilterConfig;
 import com.smartitengineering.dao.impl.hbase.spi.FilterConfigs;
 import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
+import com.smartitengineering.domain.PersistentDTO;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import org.apache.commons.io.IOUtils;
+import org.apache.hadoop.hbase.util.Bytes;
 
 /**
  *
  * @author imyousuf
  */
-public class SchemaInfoProviderImpl<T> implements SchemaInfoProvider<T> {
+public class SchemaInfoProviderImpl<T extends PersistentDTO> implements SchemaInfoProvider<T> {
 
   private String schemaNamespace, mainTableName;
   private boolean transactionalDomain;
   private Map<String, FilterConfig> filterConfigs;
+  private long waitTime;
+  private TimeUnit unit;
 
   public SchemaInfoProviderImpl() {
     filterConfigs = new HashMap<String, FilterConfig>();
@@ -45,6 +55,18 @@ public class SchemaInfoProviderImpl<T> implements SchemaInfoProvider<T> {
     this.schemaNamespace = config.getSchemaNamespace();
     this.mainTableName = config.getMainTableName();
     this.transactionalDomain = config.isTransactionalDomain();
+  }
+
+  @Inject
+  @Named("unit")
+  public void setUnit(TimeUnit unit) {
+    this.unit = unit;
+  }
+
+  @Inject
+  @Named("waitTime")
+  public void setWaitTime(Long waitTime) {
+    this.waitTime = waitTime;
   }
 
   @Inject
@@ -84,6 +106,16 @@ public class SchemaInfoProviderImpl<T> implements SchemaInfoProvider<T> {
   }
 
   @Override
+  public long getWaitTime() {
+    return waitTime;
+  }
+
+  @Override
+  public TimeUnit getUnit() {
+    return unit;
+  }
+
+  @Override
   public String getSchemaNamespace() {
     return schemaNamespace;
   }
@@ -106,5 +138,40 @@ public class SchemaInfoProviderImpl<T> implements SchemaInfoProvider<T> {
   @Override
   public FilterConfig getFilterConfig(String propertyName) {
     return filterConfigs.get(propertyName);
+  }
+
+  @Override
+  public byte[] getRowIdFromRow(T instance) throws IOException {
+    final Object id = instance.getId();
+    return getRowIdFromId(id);
+  }
+
+  @Override
+  public <IdType> byte[] getRowIdFromId(IdType id) throws IOException {
+    final byte[] rowId;
+    if (id instanceof Integer) {
+      rowId = Bytes.toBytes((Integer) id);
+    }
+    else if (id instanceof String) {
+      rowId = Bytes.toBytes((String) id);
+    }
+    else if (id instanceof Long) {
+      rowId = Bytes.toBytes((Long) id);
+    }
+    else if (id instanceof Double) {
+      rowId = Bytes.toBytes((Double) id);
+    }
+    else if (id != null) {
+      final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+      final ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+      objectOutputStream.writeObject(id);
+      IOUtils.closeQuietly(objectOutputStream);
+      IOUtils.closeQuietly(byteArrayOutputStream);
+      rowId = byteArrayOutputStream.toByteArray();
+    }
+    else {
+      rowId = new byte[0];
+    }
+    return rowId;
   }
 }

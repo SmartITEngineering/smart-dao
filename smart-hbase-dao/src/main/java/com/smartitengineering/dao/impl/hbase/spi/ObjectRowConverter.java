@@ -29,6 +29,10 @@ import org.apache.hadoop.hbase.client.Result;
  */
 public interface ObjectRowConverter<T> {
 
+  LinkedHashMap<String, Put> objectToRows(T instance, ExecutorService service);
+
+  LinkedHashMap<String, Delete> objectToDeleteableRows(T instance, ExecutorService service);
+
   /**
    * Convert an object to its representative table name-row tuple. The {@link SchemaInfoProvider schema provider} may be
    * used to determine the class in action for the table.

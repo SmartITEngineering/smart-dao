@@ -18,7 +18,9 @@
  */
 package com.smartitengineering.dao.impl.hbase.spi;
 
+import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import org.apache.hadoop.hbase.client.Get;
 
 /**
@@ -62,4 +64,12 @@ public interface SchemaInfoProvider<T> {
    * @return Configuration of the property.
    */
   FilterConfig getFilterConfig(String propertyName);
+
+  byte[] getRowIdFromRow(T instance) throws IOException;
+
+  <IdType> byte[] getRowIdFromId(IdType id) throws IOException;
+
+  long getWaitTime();
+
+  TimeUnit getUnit();
 }

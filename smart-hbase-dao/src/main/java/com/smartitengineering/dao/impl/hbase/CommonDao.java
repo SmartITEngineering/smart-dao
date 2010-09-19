@@ -40,8 +40,6 @@ import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
 import com.smartitengineering.dao.impl.hbase.spi.impl.BinarySuffixComparator;
 import com.smartitengineering.dao.impl.hbase.spi.impl.RangeComparator;
 import com.smartitengineering.domain.PersistentDTO;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,7 +51,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Future;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Get;
@@ -61,6 +58,7 @@ import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.client.RowLock;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.filter.BinaryComparator;
 import org.apache.hadoop.hbase.filter.BinaryPrefixComparator;
@@ -200,30 +198,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
 
       @Override
       public Template call(HTableInterface tableInterface) throws Exception {
-        final byte[] rowId;
-        if (id instanceof Integer) {
-          rowId = Bytes.toBytes((Integer) id);
-        }
-        else if (id instanceof String) {
-          rowId = Bytes.toBytes((String) id);
-        }
-        else if (id instanceof Long) {
-          rowId = Bytes.toBytes((Long) id);
-        }
-        else if (id instanceof Double) {
-          rowId = Bytes.toBytes((Double) id);
-        }
-        else if (id != null) {
-          final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-          final ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-          objectOutputStream.writeObject(id);
-          IOUtils.closeQuietly(objectOutputStream);
-          IOUtils.closeQuietly(byteArrayOutputStream);
-          rowId = byteArrayOutputStream.toByteArray();
-        }
-        else {
-          rowId = new byte[0];
-        }
+        final byte[] rowId = getInfoProvider().getRowIdFromId(id);
         Get get = new Get(rowId);
         Result result = tableInterface.get(get);
         if (result == null || result.isEmpty()) {
@@ -504,7 +479,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
 
   protected String getPropertyName(String prefix, QueryParameter param) {
     final StringBuilder propertyName = new StringBuilder("");
-    if(StringUtils.isNotBlank(prefix)) {
+    if (StringUtils.isNotBlank(prefix)) {
       propertyName.append(prefix).append('.');
     }
     if (param instanceof QueryParameterWithPropertyName) {
@@ -585,12 +560,23 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
    */
   @Override
   public void save(Template... states) {
-    LinkedHashMap<String, List<Put>> allPuts = new LinkedHashMap<String, List<Put>>();
+    put(states, true);
+  }
+
+  protected void put(Template[] states, boolean attainLock) throws IllegalStateException {
+    LinkedHashMap<String, List<Put>> allPuts =
+                                     new LinkedHashMap<String, List<Put>>();
     for (Template state : states) {
-      if(!state.isValid()) {
+      if (!state.isValid()) {
         throw new IllegalStateException("Entity not in valid state!");
       }
-      LinkedHashMap<String, Put> puts = getConverter().objectToRows(state);
+      final LinkedHashMap<String, Put> puts;
+      if (attainLock) {
+        puts = getConverter().objectToRows(state);
+      }
+      else {
+        puts = getConverter().objectToRows(state, executorService);
+      }
       for (Map.Entry<String, Put> put : puts.entrySet()) {
         final List<Put> putList;
         if (allPuts.containsKey(put.getKey())) {
@@ -604,11 +590,23 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
       }
     }
     for (final Map.Entry<String, List<Put>> puts : allPuts.entrySet()) {
-      executorService.execute(puts.getKey(), new Callback<Void>() {
+      executorService.execute(puts.getKey(),
+                              new Callback<Void>() {
 
         @Override
         public Void call(HTableInterface tableInterface) throws Exception {
-          tableInterface.put(puts.getValue());
+          List<Put> value = puts.getValue();
+          try {
+            tableInterface.put(puts.getValue());
+          }
+          finally {
+            for (Put put : value) {
+              RowLock lock = put.getRowLock();
+              if (lock != null) {
+                tableInterface.unlockRow(lock);
+              }
+            }
+          }
           return null;
         }
       });
@@ -617,17 +615,17 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
 
   @Override
   public void update(Template... states) {
-    save(states);
+    put(states, true);
   }
 
   @Override
   public void delete(Template... states) {
     LinkedHashMap<String, List<Delete>> allDels = new LinkedHashMap<String, List<Delete>>();
     for (Template state : states) {
-      if(!state.isValid()) {
+      if (!state.isValid()) {
         throw new IllegalStateException("Entity not in valid state!");
       }
-      LinkedHashMap<String, Delete> dels = getConverter().objectToDeleteableRows(state);
+      LinkedHashMap<String, Delete> dels = getConverter().objectToDeleteableRows(state, executorService);
       for (Map.Entry<String, Delete> del : dels.entrySet()) {
         final List<Delete> putList;
         if (allDels.containsKey(del.getKey())) {
@@ -645,7 +643,18 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
 
         @Override
         public Void call(HTableInterface tableInterface) throws Exception {
-          tableInterface.delete(dels.getValue());
+          final List<Delete> value = dels.getValue();
+          try {
+            tableInterface.delete(value);
+          }
+          finally {
+            for (Delete delete : value) {
+              RowLock lock = delete.getRowLock();
+              if (lock != null) {
+                tableInterface.unlockRow(lock);
+              }
+            }
+          }
           return null;
         }
       });
