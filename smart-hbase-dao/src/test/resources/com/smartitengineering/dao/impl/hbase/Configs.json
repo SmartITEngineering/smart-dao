@@ -1,0 +1,20 @@
+{
+  "configs": {
+    "id": {
+      "columnFamilyAsString":"test",
+      "columnQualifierAsString":"id",
+      "filterOnIfMissing":true,
+      "filterOnLatestVersionOnly":true,
+      "qualifierARangePrefix":true,
+      "filterOnRowId":true
+    },
+    "name": {
+      "columnFamilyAsString":"test",
+      "columnQualifierAsString":"name",
+      "filterOnIfMissing":false,
+      "filterOnLatestVersionOnly":false,
+      "qualifierARangePrefix":false,
+      "filterOnRowId":false
+    }
+  }
+}

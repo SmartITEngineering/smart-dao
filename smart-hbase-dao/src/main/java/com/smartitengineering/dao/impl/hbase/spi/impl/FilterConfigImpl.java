@@ -19,7 +19,10 @@
 package com.smartitengineering.dao.impl.hbase.spi.impl;
 
 import com.smartitengineering.dao.impl.hbase.spi.FilterConfig;
+import java.util.Arrays;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  *
@@ -39,18 +42,22 @@ public class FilterConfigImpl implements FilterConfig {
     this.qualifierARangePrefix = qualifierARangePrefix;
   }
 
-  public void setColumnFamily(String columnFamily) {
+  @JsonProperty
+  public void setColumnFamilyAsString(String columnFamily) {
     this.setColumnFamily(Bytes.toBytes(columnFamily));
   }
 
-  public void setColumnQualifier(String columnQualifier) {
-    this.setColumnFamily(Bytes.toBytes(columnQualifier));
+  @JsonProperty
+  public void setColumnQualifierAsString(String columnQualifier) {
+    this.setColumnQualifier(Bytes.toBytes(columnQualifier));
   }
 
+  @JsonIgnore
   public void setColumnFamily(byte[] columnFamily) {
     this.columnFamily = columnFamily;
   }
 
+  @JsonIgnore
   public void setColumnQualifier(byte[] columnQualifier) {
     this.columnQualifier = columnQualifier;
   }
@@ -63,12 +70,22 @@ public class FilterConfigImpl implements FilterConfig {
     this.filterOnLatestVersionOnly = filterOnLatestVersionOnly;
   }
 
+  public String getColumnFamilyAsString() {
+    return Bytes.toString(this.columnFamily);
+  }
+
+  public String getColumnQualifierAsString() {
+    return Bytes.toString(this.columnQualifier);
+  }
+
   @Override
+  @JsonIgnore
   public byte[] getColumnFamily() {
     return this.columnFamily;
   }
 
   @Override
+  @JsonIgnore
   public byte[] getColumnQualifier() {
     return this.columnQualifier;
   }
@@ -91,5 +108,55 @@ public class FilterConfigImpl implements FilterConfig {
   @Override
   public boolean isFilterOnRowId() {
     return filterOnRowId;
+  }
+
+  @Override
+  public String toString() {
+    return "FilterConfigImpl{" + "columnFamily=" + Bytes.toString(columnFamily) + ", columnQualifier=" +
+        Bytes.toString(columnQualifier) + ", filterOnIfMissing=" + filterOnIfMissing + ", filterOnLatestVersionOnly=" +
+        filterOnLatestVersionOnly + ", qualifierARangePrefix=" + qualifierARangePrefix + ", filterOnRowId=" +
+        filterOnRowId + '}';
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (!FilterConfig.class.isAssignableFrom(obj.getClass())) {
+      return false;
+    }
+    final FilterConfig other = (FilterConfig) obj;
+    if (!Arrays.equals(this.columnFamily, other.getColumnFamily())) {
+      return false;
+    }
+    if (!Arrays.equals(this.columnQualifier, other.getColumnQualifier())) {
+      return false;
+    }
+    if (this.filterOnIfMissing != other.isFilterOnIfMissing()) {
+      return false;
+    }
+    if (this.filterOnLatestVersionOnly != other.isFilterOnLatestVersionOnly()) {
+      return false;
+    }
+    if (this.qualifierARangePrefix != other.isQualifierARangePrefix()) {
+      return false;
+    }
+    if (this.filterOnRowId != other.isFilterOnRowId()) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 3;
+    hash = 17 * hash + Arrays.hashCode(this.columnFamily);
+    hash = 17 * hash + Arrays.hashCode(this.columnQualifier);
+    hash = 17 * hash + (this.filterOnIfMissing ? 1 : 0);
+    hash = 17 * hash + (this.filterOnLatestVersionOnly ? 1 : 0);
+    hash = 17 * hash + (this.qualifierARangePrefix ? 1 : 0);
+    hash = 17 * hash + (this.filterOnRowId ? 1 : 0);
+    return hash;
   }
 }

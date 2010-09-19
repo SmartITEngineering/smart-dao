@@ -18,7 +18,10 @@
  */
 package com.smartitengineering.dao.impl.hbase.spi;
 
+import com.smartitengineering.dao.impl.hbase.spi.impl.FilterConfigImpl;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 
 /**
  *
@@ -28,11 +31,39 @@ public class FilterConfigs<Template> {
 
   private Map<String, FilterConfig> configs;
 
+  @JsonDeserialize(contentAs = FilterConfigImpl.class, as = LinkedHashMap.class)
   public void setConfigs(Map<String, FilterConfig> configs) {
     this.configs = configs;
   }
 
   public Map<String, FilterConfig> getConfigs() {
     return configs;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final FilterConfigs other = (FilterConfigs) obj;
+    if (this.configs != other.configs && (this.configs == null || !this.configs.equals(other.configs))) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 7;
+    hash = 43 * hash + (this.configs != null ? this.configs.hashCode() : 0);
+    return hash;
+  }
+
+  @Override
+  public String toString() {
+    return "FilterConfigs{" + "configs=" + configs + '}';
   }
 }
