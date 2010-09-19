@@ -18,8 +18,8 @@
  */
 package com.smartitengineering.dao.impl.hbase;
 
-import com.smartitengineering.dao.common.CommonReadDao;
-import com.smartitengineering.dao.common.CommonWriteDao;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import com.smartitengineering.dao.common.queryparam.BasicCompoundQueryParameter;
 import com.smartitengineering.dao.common.queryparam.BiOperandQueryParameter;
 import com.smartitengineering.dao.common.queryparam.CompositionQueryParameter;
@@ -83,11 +83,14 @@ import org.apache.hadoop.hbase.util.Bytes;
  * @author imyousuf
  */
 public class CommonDao<Template extends PersistentDTO, IdType extends Serializable> implements
-    CommonReadDao<Template, IdType>, CommonWriteDao<Template> {
+    com.smartitengineering.dao.common.CommonDao<Template, IdType> {
 
   public static final int DEFAULT_MAX_ROWS = 1000;
+  @Inject
   private ObjectRowConverter<Template> converter;
+  @Inject
   private SchemaInfoProvider<Template> infoProvider;
+  @Inject
   private AsyncExecutorService executorService;
   private int maxRows = -1;
 
@@ -103,7 +106,8 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
     return maxRows;
   }
 
-  public void setMaxRows(int maxRows) {
+  @Inject
+  public void setMaxRows(@Named("maxRows") Integer maxRows) {
     this.maxRows = maxRows;
   }
 
