@@ -58,14 +58,12 @@ public class SchemaInfoProviderImpl<T extends PersistentDTO> implements SchemaIn
   }
 
   @Inject
-  @Named("unit")
-  public void setUnit(TimeUnit unit) {
+  public void setUnit(@Named("unit") TimeUnit unit) {
     this.unit = unit;
   }
 
   @Inject
-  @Named("waitTime")
-  public void setWaitTime(Long waitTime) {
+  public void setWaitTime(@Named("waitTime") Long waitTime) {
     this.waitTime = waitTime;
   }
 
