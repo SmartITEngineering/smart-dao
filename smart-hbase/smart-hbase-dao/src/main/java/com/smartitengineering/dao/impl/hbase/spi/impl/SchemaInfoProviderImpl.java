@@ -20,11 +20,13 @@ package com.smartitengineering.dao.impl.hbase.spi.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import com.smartitengineering.dao.impl.hbase.spi.Externalizable;
 import com.smartitengineering.dao.impl.hbase.spi.FilterConfig;
 import com.smartitengineering.dao.impl.hbase.spi.FilterConfigs;
 import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
 import com.smartitengineering.domain.PersistentDTO;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Collections;
@@ -158,6 +160,13 @@ public class SchemaInfoProviderImpl<T extends PersistentDTO> implements SchemaIn
     }
     else if (id instanceof Double) {
       rowId = Bytes.toBytes((Double) id);
+    }
+    else if (id instanceof Externalizable) {
+      final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+      final DataOutputStream outputStream = new DataOutputStream(byteArrayOutputStream);
+      ((Externalizable) id).writeExternal(outputStream);
+      IOUtils.closeQuietly(outputStream);
+      rowId = byteArrayOutputStream.toByteArray();
     }
     else if (id != null) {
       final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
