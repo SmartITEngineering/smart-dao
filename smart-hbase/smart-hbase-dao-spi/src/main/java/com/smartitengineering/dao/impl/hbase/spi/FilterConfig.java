@@ -18,8 +18,6 @@
  */
 package com.smartitengineering.dao.impl.hbase.spi;
 
-import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
-
 /**
  * Configurations encompassing a filter of a specific column. Particularly designed to be used with the filter
  * {@link SingleColumnValueFilter}

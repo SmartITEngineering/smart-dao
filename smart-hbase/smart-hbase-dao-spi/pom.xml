@@ -3,17 +3,18 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>smart-dao</artifactId>
-    <groupId>com.smartitengineering</groupId>
+    <artifactId>smart-hbase</artifactId>
+    <groupId>com.smartitengineering.smart-dao</groupId>
     <version>0.4-SNAPSHOT</version>
   </parent>
   <groupId>com.smartitengineering.smart-dao</groupId>
-  <artifactId>smart-hbase</artifactId>
+  <artifactId>smart-hbase-dao-spi</artifactId>
   <version>0.4-SNAPSHOT</version>
-  <name>Smart HBase</name>
-  <packaging>pom</packaging>
-  <modules>
-    <module>smart-hbase-dao</module>
-    <module>smart-hbase-dao-spi</module>
-  </modules>
+  <name>Smart HBase DAO SPI</name>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+  </dependencies>
 </project>

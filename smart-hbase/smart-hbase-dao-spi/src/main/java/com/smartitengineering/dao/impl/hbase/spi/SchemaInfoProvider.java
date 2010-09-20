@@ -21,7 +21,6 @@ package com.smartitengineering.dao.impl.hbase.spi;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import org.apache.hadoop.hbase.client.Get;
 
 /**
  * A class to provide information related to schema.
