@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  * A class to provide information related to schema.
  * @author imyousuf
  */
-public interface SchemaInfoProvider<T> {
+public interface SchemaInfoProvider<T, IdType> {
 
   /**
    * Get the namespace for distinguishing this schema info provider.
@@ -66,7 +66,9 @@ public interface SchemaInfoProvider<T> {
 
   byte[] getRowIdFromRow(T instance) throws IOException;
 
-  <IdType> byte[] getRowIdFromId(IdType id) throws IOException;
+  byte[] getRowIdFromId(IdType id) throws IOException;
+
+  IdType getIdFromRowId(byte[] id) throws IOException, ClassNotFoundException;
 
   long getWaitTime();
 

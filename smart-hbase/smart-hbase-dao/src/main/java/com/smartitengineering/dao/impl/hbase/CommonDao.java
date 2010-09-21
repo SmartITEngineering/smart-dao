@@ -87,7 +87,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
   @Inject
   private ObjectRowConverter<Template> converter;
   @Inject
-  private SchemaInfoProvider<Template> infoProvider;
+  private SchemaInfoProvider<Template, IdType> infoProvider;
   @Inject
   private AsyncExecutorService executorService;
   private int maxRows = -1;
@@ -117,11 +117,11 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
     this.converter = converter;
   }
 
-  public SchemaInfoProvider<Template> getInfoProvider() {
+  public SchemaInfoProvider<Template, IdType> getInfoProvider() {
     return infoProvider;
   }
 
-  public void setInfoProvider(SchemaInfoProvider<Template> infoProvider) {
+  public void setInfoProvider(SchemaInfoProvider<Template, IdType> infoProvider) {
     this.infoProvider = infoProvider;
   }
 

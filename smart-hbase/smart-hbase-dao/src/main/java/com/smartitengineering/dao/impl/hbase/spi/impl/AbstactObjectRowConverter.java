@@ -36,10 +36,10 @@ import org.apache.hadoop.hbase.client.RowLock;
  *
  * @author imyousuf
  */
-public abstract class AbstactObjectRowConverter<T> implements ObjectRowConverter<T> {
+public abstract class AbstactObjectRowConverter<T, IdType> implements ObjectRowConverter<T> {
 
   @Inject
-  private SchemaInfoProvider<T> infoProvider;
+  private SchemaInfoProvider<T, IdType> infoProvider;
 
   @Override
   public LinkedHashMap<String, Put> objectToRows(final T instance, final ExecutorService service) {
@@ -139,7 +139,7 @@ public abstract class AbstactObjectRowConverter<T> implements ObjectRowConverter
     return objectToDeleteableRows(instance, null);
   }
 
-  protected SchemaInfoProvider<T> getInfoProvider() {
+  protected SchemaInfoProvider<T, IdType> getInfoProvider() {
     return infoProvider;
   }
 
