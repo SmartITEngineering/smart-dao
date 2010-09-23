@@ -50,6 +50,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.hbase.client.Delete;
@@ -90,6 +92,8 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
   private SchemaInfoProvider<Template, IdType> infoProvider;
   @Inject
   private AsyncExecutorService executorService;
+  @Inject
+  private ExecutorService resultExecutorService;
   private int maxRows = -1;
 
   public AsyncExecutorService getExecutorService() {
@@ -249,13 +253,26 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
             return Collections.emptyList();
           }
           else {
-            ArrayList<Template> templates = new ArrayList<Template>(results.length);
-            for (Result result : results) {
+            final ArrayList<Template> templates = new ArrayList<Template>(results.length);
+            ArrayList<Future<Template>> futureTemplates = new ArrayList<Future<Template>>(results.length);
+            for (final Result result : results) {
               if (result == null || result.isEmpty()) {
                 continue;
               }
               else {
-                templates.add(getConverter().rowsToObject(result, executorService));
+                futureTemplates.add(resultExecutorService.submit(new Callable<Template>() {
+
+                  @Override
+                  public Template call() throws Exception {
+                    return getConverter().rowsToObject(result, executorService);
+                  }
+                }));
+              }
+            }
+            for (Future<Template> future : futureTemplates) {
+              Template template = future.get();
+              if (template != null) {
+                templates.add(template);
               }
             }
             return templates;
