@@ -35,6 +35,7 @@ import com.smartitengineering.dao.common.queryparam.ValueOnlyQueryParameter;
 import com.smartitengineering.dao.impl.hbase.spi.AsyncExecutorService;
 import com.smartitengineering.dao.impl.hbase.spi.Callback;
 import com.smartitengineering.dao.impl.hbase.spi.FilterConfig;
+import com.smartitengineering.dao.impl.hbase.spi.MergeService;
 import com.smartitengineering.dao.impl.hbase.spi.ObjectRowConverter;
 import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
 import com.smartitengineering.dao.impl.hbase.spi.impl.BinarySuffixComparator;
@@ -94,6 +95,11 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
   private AsyncExecutorService executorService;
   @Inject
   private ExecutorService resultExecutorService;
+  @Inject
+  @Named("mergeEnabled")
+  private Boolean mergeEnabled = false;
+  @Inject
+  private MergeService mergeService;
   private int maxRows = -1;
 
   public AsyncExecutorService getExecutorService() {
@@ -577,10 +583,10 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
    */
   @Override
   public void save(Template... states) {
-    put(states, true);
+    put(states, true, false);
   }
 
-  protected void put(Template[] states, boolean attainLock) throws IllegalStateException {
+  protected void put(Template[] states, boolean attainLock, final boolean merge) throws IllegalStateException {
     LinkedHashMap<String, List<Put>> allPuts =
                                      new LinkedHashMap<String, List<Put>>();
     for (Template state : states) {
@@ -614,6 +620,9 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
         public Void call(HTableInterface tableInterface) throws Exception {
           List<Put> value = puts.getValue();
           try {
+            if (merge && mergeEnabled && mergeService != null) {
+              mergeService.merge(tableInterface, value);
+            }
             tableInterface.put(puts.getValue());
           }
           finally {
@@ -632,7 +641,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
 
   @Override
   public void update(Template... states) {
-    put(states, true);
+    put(states, true, true);
   }
 
   @Override
