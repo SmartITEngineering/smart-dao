@@ -41,6 +41,7 @@ import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
 import com.smartitengineering.dao.impl.hbase.spi.impl.BinarySuffixComparator;
 import com.smartitengineering.dao.impl.hbase.spi.impl.RangeComparator;
 import com.smartitengineering.domain.PersistentDTO;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,6 +78,8 @@ import org.apache.hadoop.hbase.filter.SkipFilter;
 import org.apache.hadoop.hbase.filter.SubstringComparator;
 import org.apache.hadoop.hbase.filter.WritableByteArrayComparable;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A common DAO implementation for HBase. Please note that all parameters for reading (i.e. Scan) assumes that the
@@ -101,6 +104,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
   @Inject
   private MergeService mergeService;
   private int maxRows = -1;
+  protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   public AsyncExecutorService getExecutorService() {
     return executorService;
@@ -583,6 +587,48 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
    */
   @Override
   public void save(Template... states) {
+    List<Future<Boolean>> gets = new ArrayList<Future<Boolean>>(states.length);
+    int i = 0;
+    for (Template t : states) {
+      try {
+        final Comparable id = t.getId();
+        if (logger.isInfoEnabled()) {
+          logger.info(new StringBuilder("Adding ").append(id).append(" to index ").append(i).toString());
+        }
+        final Get get = new Get(infoProvider.getRowIdFromId((IdType) id));
+        final int index = i;
+        gets.add(executorService.executeAsynchronously(infoProvider.getMainTableName(), new Callback<Boolean>() {
+
+          @Override
+          public Boolean call(HTableInterface tableInterface) throws Exception {
+            final boolean exists = tableInterface.exists(get);
+            if (logger.isDebugEnabled()) {
+              logger.debug(new StringBuilder("Id ").append(id.toString()).append(" exists ").append(index).toString());
+            }
+            return exists;
+          }
+        }));
+        i++;
+      }
+      catch (Exception ex) {
+        logger.warn("Exception testing row existense...", ex);
+      }
+    }
+    i = 0;
+    for (Future<Boolean> future : gets) {
+      try {
+        if (logger.isInfoEnabled()) {
+          logger.info(new StringBuilder("Checking index ").append(i++).toString());
+        }
+        if (!future.get()) {
+          throw new IllegalArgumentException(
+              "Some of the entities are already saved, so did not procced with saving any of them");
+        }
+      }
+      catch (Exception ex) {
+        logger.warn("Exception testing row existense...", ex);
+      }
+    }
     put(states, true, false);
   }
 
