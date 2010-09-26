@@ -370,7 +370,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
       }
     }
     else {
-      filter = null;
+      filter = new RowFilter(CompareOp.NO_OP, null);
     }
     return filter;
   }
