@@ -352,7 +352,12 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
           case PARAMETER_TYPE_UNIT_PROP: {
             FilterConfig config = getInfoProvider().getFilterConfig(getPropertyName(namePrefix, param));
             if (config != null) {
-              scan.addFamily(config.getColumnFamily());
+              if (config.getColumnQualifier() != null && config.getColumnQualifier().length > 0) {
+                scan.addColumn(config.getColumnFamily(), config.getColumnQualifier());
+              }
+              else {
+                scan.addFamily(config.getColumnFamily());
+              }
             }
             break;
           }
@@ -626,7 +631,8 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
           logger.info(new StringBuilder("Checking index ").append(i++).toString());
         }
         if (!existenceExpected && future.get()) {
-          throw new IllegalArgumentException("Some of the entities are already saved, so did not procced with any of them");
+          throw new IllegalArgumentException(
+              "Some of the entities are already saved, so did not procced with any of them");
         }
         if (existenceExpected && !future.get()) {
           throw new IllegalArgumentException("Some of the entities are not saved, so did not procced with any of them");
