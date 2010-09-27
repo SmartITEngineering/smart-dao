@@ -41,7 +41,6 @@ import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
 import com.smartitengineering.dao.impl.hbase.spi.impl.BinarySuffixComparator;
 import com.smartitengineering.dao.impl.hbase.spi.impl.RangeComparator;
 import com.smartitengineering.domain.PersistentDTO;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -196,7 +195,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
         resultSet.add(future.get());
       }
       catch (Exception ex) {
-        ex.printStackTrace();
+        logger.warn("Could not retrieve from Future...", ex);
       }
     }
     return resultSet;
@@ -587,6 +586,11 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
    */
   @Override
   public void save(Template... states) {
+    verifyAllEntitiesExists(false, states);
+    put(states, true, false);
+  }
+
+  protected void verifyAllEntitiesExists(boolean existenceExpected, Template... states) {
     List<Future<Boolean>> gets = new ArrayList<Future<Boolean>>(states.length);
     int i = 0;
     for (Template t : states) {
@@ -597,7 +601,8 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
         }
         final Get get = new Get(infoProvider.getRowIdFromId((IdType) id));
         final int index = i;
-        gets.add(executorService.executeAsynchronously(infoProvider.getMainTableName(), new Callback<Boolean>() {
+        gets.add(executorService.executeAsynchronously(infoProvider.getMainTableName(),
+                                                       new Callback<Boolean>() {
 
           @Override
           public Boolean call(HTableInterface tableInterface) throws Exception {
@@ -620,16 +625,17 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
         if (logger.isInfoEnabled()) {
           logger.info(new StringBuilder("Checking index ").append(i++).toString());
         }
-        if (!future.get()) {
-          throw new IllegalArgumentException(
-              "Some of the entities are already saved, so did not procced with saving any of them");
+        if (!existenceExpected && future.get()) {
+          throw new IllegalArgumentException("Some of the entities are already saved, so did not procced with any of them");
+        }
+        if (existenceExpected && !future.get()) {
+          throw new IllegalArgumentException("Some of the entities are not saved, so did not procced with any of them");
         }
       }
       catch (Exception ex) {
         logger.warn("Exception testing row existense...", ex);
       }
     }
-    put(states, true, false);
   }
 
   protected void put(Template[] states, boolean attainLock, final boolean merge) throws IllegalStateException {
@@ -687,11 +693,13 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
 
   @Override
   public void update(Template... states) {
+    verifyAllEntitiesExists(true, states);
     put(states, true, true);
   }
 
   @Override
   public void delete(Template... states) {
+    verifyAllEntitiesExists(true, states);
     LinkedHashMap<String, List<Delete>> allDels = new LinkedHashMap<String, List<Delete>>();
     for (Template state : states) {
       if (!state.isValid()) {
