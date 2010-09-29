@@ -350,9 +350,24 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
             break;
           }
           case PARAMETER_TYPE_UNIT_PROP: {
-            FilterConfig config = getInfoProvider().getFilterConfig(getPropertyName(namePrefix, param));
+            final String propertyName = getPropertyName(namePrefix, param);
+            final String configPropertyName;
+            final int indexOfColon = propertyName.indexOf(":");
+            final String dynaPropName;
+            if (indexOfColon > -1) {
+              configPropertyName = propertyName.substring(0, indexOfColon);
+              dynaPropName = propertyName.substring(indexOfColon + 1);
+            }
+            else {
+              configPropertyName = propertyName;
+              dynaPropName = null;
+            }
+            FilterConfig config = getInfoProvider().getFilterConfig(configPropertyName);
             if (config != null) {
-              if (config.getColumnQualifier() != null && config.getColumnQualifier().length > 0) {
+              if (StringUtils.isNotBlank(dynaPropName)) {
+                scan.addColumn(config.getColumnFamily(), Bytes.toBytes(dynaPropName));
+              }
+              else if (config.getColumnQualifier() != null && config.getColumnQualifier().length > 0) {
                 scan.addColumn(config.getColumnFamily(), config.getColumnQualifier());
               }
               else {
