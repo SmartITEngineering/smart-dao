@@ -169,12 +169,13 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
    */
   @Override
   public Set<Template> getAll() {
+    logger.info("Get ALL Executed!");
     return executorService.execute(getDefaultTableName(), new Callback<Set<Template>>() {
 
       @Override
       public Set<Template> call(HTableInterface tableInterface) throws Exception {
         final Scan scan = new Scan();
-        RowFilter rowFilter = new RowFilter(CompareOp.NO_OP, new BinaryPrefixComparator(new byte[0]));
+        RowFilter rowFilter = new RowFilter(CompareOp.EQUAL, new BinaryPrefixComparator(new byte[0]));
         scan.setFilter(rowFilter);
         final int maxRows = getMaxScanRows();
         return new LinkedHashSet<Template>(CommonDao.this.scanList(tableInterface, scan, maxRows));
@@ -326,9 +327,20 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
   protected List<Template> scanList(HTableInterface tableInterface, Scan scan, int maxRows) throws IOException,
                                                                                                    InterruptedException,
                                                                                                    ExecutionException {
+    logger.info("Scanning a list");
+    if (logger.isDebugEnabled()) {
+      logger.debug("Scanning for rows " + maxRows);
+    }
     ResultScanner scanner = tableInterface.getScanner(scan);
     try {
       Result[] results = scanner.next(maxRows);
+      if (logger.isDebugEnabled()) {
+        logger.debug("ResultScanner " + scanner);
+        logger.debug("Results " + results);
+        if (results != null) {
+          logger.debug("Results " + results.length);
+        }
+      }
       if (results == null) {
         return Collections.emptyList();
       }
@@ -337,6 +349,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
         ArrayList<Future<Template>> futureTemplates = new ArrayList<Future<Template>>(results.length);
         for (final Result result : results) {
           if (result == null || result.isEmpty()) {
+            logger.debug("Result is null or empty " + result + " " + (result != null ? result.isEmpty() : "TRUE"));
             continue;
           }
           else {
@@ -344,6 +357,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
 
               @Override
               public Template call() throws Exception {
+                logger.debug("Converting row to object " + result);
                 return getConverter().rowsToObject(result, executorService);
               }
             }));
@@ -357,6 +371,18 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
         }
         return templates;
       }
+    }
+    catch (IOException ex) {
+      logger.warn(ex.getMessage(), ex);
+      throw ex;
+    }
+    catch (InterruptedException ex) {
+      logger.warn(ex.getMessage(), ex);
+      throw ex;
+    }
+    catch (ExecutionException ex) {
+      logger.warn(ex.getMessage(), ex);
+      throw ex;
     }
     finally {
       if (scanner != null) {
@@ -458,7 +484,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
       }
     }
     else {
-      filter = new RowFilter(CompareOp.NO_OP, null);
+      filter = new RowFilter(CompareOp.EQUAL, new BinaryPrefixComparator(new byte[0]));
     }
     return filter;
   }
