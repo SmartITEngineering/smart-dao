@@ -31,6 +31,9 @@ import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.RowLock;
+import org.apache.hadoop.hbase.util.Bytes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -40,6 +43,7 @@ public abstract class AbstactObjectRowConverter<T, IdType> implements ObjectRowC
 
   @Inject
   private SchemaInfoProvider<T, IdType> infoProvider;
+  protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Override
   public LinkedHashMap<String, Put> objectToRows(final T instance, final ExecutorService service) {
@@ -50,15 +54,23 @@ public abstract class AbstactObjectRowConverter<T, IdType> implements ObjectRowC
     else {
       executorService = null;
     }
+    if (logger.isDebugEnabled()) {
+      logger.debug("Executor service " + executorService + " " + executorService);
+    }
     LinkedHashMap<String, Put> puts = new LinkedHashMap<String, Put>();
     String[] tables = getTablesToAttainLock();
     Map<String, Future<RowLock>> map = getLocks(executorService, instance, tables);
     if (tables != null) {
       for (String table : tables) {
         try {
-          RowLock lock = map.get(table).get(infoProvider.getWaitTime(), infoProvider.getUnit());
+          if (logger.isDebugEnabled()) {
+            logger.debug(new StringBuilder("Working with table ").append(table).toString());
+            logger.debug(new StringBuilder("Future ").append(map.get(table)).toString());
+          }
+          final Future<RowLock> get = map.get(table);
+          RowLock lock = get.get(infoProvider.getWaitTime(), infoProvider.getUnit());
           final Put put;
-          if(lock == null) {
+          if (lock == null) {
             put = new Put(infoProvider.getRowIdFromRow(instance));
           }
           else {
@@ -77,6 +89,7 @@ public abstract class AbstactObjectRowConverter<T, IdType> implements ObjectRowC
 
   protected Map<String, Future<RowLock>> getLocks(AsyncExecutorService executorService, final T instance,
                                                   String... tables) {
+    logger.info("Attempting to get locks");
     Map<String, Future<RowLock>> map = new LinkedHashMap<String, Future<RowLock>>();
     if (tables != null) {
       if (executorService != null) {
@@ -85,9 +98,20 @@ public abstract class AbstactObjectRowConverter<T, IdType> implements ObjectRowC
 
             @Override
             public RowLock call(HTableInterface tableInterface) throws Exception {
-              return tableInterface.lockRow(infoProvider.getRowIdFromRow(instance));
+              final byte[] rowIdFromRow = infoProvider.getRowIdFromRow(instance);
+              if (logger.isDebugEnabled()) {
+                logger.debug("Attaining lock for " + Bytes.toString(rowIdFromRow));
+              }
+              try {
+                return tableInterface.lockRow(rowIdFromRow);
+              }
+              catch (Exception ex) {
+                logger.warn(ex.getMessage(), ex);
+                throw ex;
+              }
             }
           });
+          logger.debug("RECEIVED FUTURE Lock");
           map.put(table, future);
         }
       }
@@ -112,7 +136,7 @@ public abstract class AbstactObjectRowConverter<T, IdType> implements ObjectRowC
         try {
           RowLock lock = map.get(table).get(infoProvider.getWaitTime(), infoProvider.getUnit());
           final Delete delete;
-          if(lock == null) {
+          if (lock == null) {
             delete = new Delete(infoProvider.getRowIdFromRow(instance));
           }
           else {
@@ -127,16 +151,6 @@ public abstract class AbstactObjectRowConverter<T, IdType> implements ObjectRowC
       }
     }
     return deletes;
-  }
-
-  @Override
-  public LinkedHashMap<String, Put> objectToRows(T instance) {
-    return objectToRows(instance, null);
-  }
-
-  @Override
-  public LinkedHashMap<String, Delete> objectToDeleteableRows(T instance) {
-    return objectToDeleteableRows(instance, null);
   }
 
   protected SchemaInfoProvider<T, IdType> getInfoProvider() {

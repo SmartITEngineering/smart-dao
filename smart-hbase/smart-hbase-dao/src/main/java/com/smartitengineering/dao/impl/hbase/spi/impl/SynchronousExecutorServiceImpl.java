@@ -25,6 +25,8 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.HTablePool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -35,9 +37,11 @@ public class SynchronousExecutorServiceImpl implements ExecutorService {
   public static final int DEFAULT_MAX_HTABLE_POOL_SIZE = 3000;
   private Configuration configuration;
   private HTablePool tablePool;
+  protected Logger logger = LoggerFactory.getLogger(getClass());
 
   protected Configuration getConfiguration() {
     if (configuration == null) {
+      logger.info("Initializing configuration");
       configuration = HBaseConfiguration.create();
     }
     return configuration;
@@ -49,6 +53,7 @@ public class SynchronousExecutorServiceImpl implements ExecutorService {
 
   protected HTablePool getTablePool() {
     if (tablePool == null) {
+      logger.info("Initializing table pool!");
       tablePool = new HTablePool(getConfiguration(), DEFAULT_MAX_HTABLE_POOL_SIZE);
     }
     return tablePool;

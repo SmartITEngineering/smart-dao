@@ -710,21 +710,24 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
     }
     i = 0;
     for (Future<Boolean> future : gets) {
+      Boolean exists = true;
       try {
         if (logger.isInfoEnabled()) {
           logger.info(new StringBuilder("Checking index ").append(i++).toString());
         }
-        if (!existenceExpected && future.get()) {
-          throw new IllegalArgumentException(
-              "Some of the entities are already saved, so did not procced with any of them");
-        }
-        if (existenceExpected && !future.get()) {
-          throw new IllegalArgumentException("Some of the entities are not saved, so did not procced with any of them");
-        }
+        exists = future.get();
       }
       catch (Exception ex) {
         logger.warn("Exception testing row existense...", ex);
       }
+      if (!existenceExpected && exists) {
+        throw new IllegalArgumentException(
+            "Some of the entities are already saved, so did not procced with any of them");
+      }
+      if (existenceExpected && !exists) {
+        throw new IllegalArgumentException("Some of the entities are not saved, so did not procced with any of them");
+      }
+
     }
   }
 
@@ -737,7 +740,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
       }
       final LinkedHashMap<String, Put> puts;
       if (attainLock) {
-        puts = getConverter().objectToRows(state);
+        puts = getConverter().objectToRows(state, executorService);
       }
       else {
         puts = getConverter().objectToRows(state, executorService);

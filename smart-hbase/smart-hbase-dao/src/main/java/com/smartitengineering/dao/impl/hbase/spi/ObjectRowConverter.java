@@ -34,22 +34,6 @@ public interface ObjectRowConverter<T> {
   LinkedHashMap<String, Delete> objectToDeleteableRows(T instance, ExecutorService service);
 
   /**
-   * Convert an object to its representative table name-row tuple. The {@link SchemaInfoProvider schema provider} may be
-   * used to determine the class in action for the table.
-   * @param instance The object instance to convert into updateable rows
-   * @return An ordered {@link java.util.Map} with related {@link Put}.
-   */
-  LinkedHashMap<String, Put> objectToRows(T instance);
-
-  /**
-   * Convert an object to its representative table name-row tuple. The {@link SchemaInfoProvider schema provider} may be
-   * used to determine the class in action for the table.
-   * @param instance The object instance to delete from database.
-   * @return An ordered {@link java.util.Map} with related {@link Delete}.
-   */
-  LinkedHashMap<String, Delete> objectToDeleteableRows(T instance);
-
-  /**
    * Load an instance of the convertable object with the row. It might be needed
    * to load more {@link Result} to be able to load the object. The idea is, e.g., if a search is performed and result
    * is obtained then, the root result will be passed to this converter, which in turn will load whatever it needs to
