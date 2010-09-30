@@ -41,6 +41,7 @@ import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
 import com.smartitengineering.dao.impl.hbase.spi.impl.BinarySuffixComparator;
 import com.smartitengineering.dao.impl.hbase.spi.impl.RangeComparator;
 import com.smartitengineering.domain.PersistentDTO;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,6 +53,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import org.apache.commons.lang.StringUtils;
@@ -167,17 +169,76 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
    */
   @Override
   public Set<Template> getAll() {
-    throw new UnsupportedOperationException("Not supported yet.");
+    return executorService.execute(getDefaultTableName(), new Callback<Set<Template>>() {
+
+      @Override
+      public Set<Template> call(HTableInterface tableInterface) throws Exception {
+        final Scan scan = new Scan();
+        RowFilter rowFilter = new RowFilter(CompareOp.NO_OP, new BinaryPrefixComparator(new byte[0]));
+        scan.setFilter(rowFilter);
+        final int maxRows = getMaxScanRows();
+        return new LinkedHashSet<Template>(CommonDao.this.scanList(tableInterface, scan, maxRows));
+      }
+    });
   }
 
   @Override
-  public <OtherTemplate> OtherTemplate getOther(List<QueryParameter> query) {
-    throw new UnsupportedOperationException("Not supported yet.");
+  public <OtherTemplate extends Object> OtherTemplate getOther(final List<QueryParameter> query) {
+    return executorService.execute(getDefaultTableName(), new Callback<OtherTemplate>() {
+
+      @Override
+      public OtherTemplate call(HTableInterface tableInterface) throws Exception {
+        ResultScanner scanner = tableInterface.getScanner(formScan(query));
+        try {
+          Result result = scanner.next();
+          if (result == null || result.isEmpty()) {
+            return null;
+          }
+          else {
+            return (OtherTemplate) result.getNoVersionMap();
+          }
+        }
+        finally {
+          if (scanner != null) {
+            scanner.close();
+          }
+        }
+      }
+    });
   }
 
   @Override
-  public <OtherTemplate> List<OtherTemplate> getOtherList(List<QueryParameter> query) {
-    throw new UnsupportedOperationException("Not supported yet.");
+  public <OtherTemplate> List<OtherTemplate> getOtherList(final List<QueryParameter> query) {
+    return executorService.execute(getDefaultTableName(), new Callback<List<OtherTemplate>>() {
+
+      @Override
+      public List<OtherTemplate> call(HTableInterface tableInterface) throws Exception {
+        ResultScanner scanner = tableInterface.getScanner(formScan(query));
+        try {
+          Result[] results = scanner.next(getMaxScanRows(query));
+          if (results == null) {
+            return Collections.emptyList();
+          }
+          else {
+            final ArrayList<OtherTemplate> templates = new ArrayList<OtherTemplate>(results.length);
+            for (final Result result : results) {
+              if (result == null || result.isEmpty()) {
+                continue;
+              }
+              else {
+                templates.add((OtherTemplate) result.getNoVersionMap());
+              }
+            }
+            return templates;
+          }
+        }
+        finally {
+          if (scanner != null) {
+            scanner.close();
+          }
+        }
+      }
+    });
   }
 
   /*
@@ -255,45 +316,53 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
 
       @Override
       public List<Template> call(HTableInterface tableInterface) throws Exception {
-        ResultScanner scanner = tableInterface.getScanner(formScan(query));
-        try {
-          Result[] results = scanner.next(getMaxScanRows(query));
-          if (results == null) {
-            return Collections.emptyList();
-          }
-          else {
-            final ArrayList<Template> templates = new ArrayList<Template>(results.length);
-            ArrayList<Future<Template>> futureTemplates = new ArrayList<Future<Template>>(results.length);
-            for (final Result result : results) {
-              if (result == null || result.isEmpty()) {
-                continue;
-              }
-              else {
-                futureTemplates.add(resultExecutorService.submit(new Callable<Template>() {
-
-                  @Override
-                  public Template call() throws Exception {
-                    return getConverter().rowsToObject(result, executorService);
-                  }
-                }));
-              }
-            }
-            for (Future<Template> future : futureTemplates) {
-              Template template = future.get();
-              if (template != null) {
-                templates.add(template);
-              }
-            }
-            return templates;
-          }
-        }
-        finally {
-          if (scanner != null) {
-            scanner.close();
-          }
-        }
+        final Scan scan = formScan(query);
+        final int maxRows = getMaxScanRows(query);
+        return CommonDao.this.scanList(tableInterface, scan, maxRows);
       }
     });
+  }
+
+  protected List<Template> scanList(HTableInterface tableInterface, Scan scan, int maxRows) throws IOException,
+                                                                                                   InterruptedException,
+                                                                                                   ExecutionException {
+    ResultScanner scanner = tableInterface.getScanner(scan);
+    try {
+      Result[] results = scanner.next(maxRows);
+      if (results == null) {
+        return Collections.emptyList();
+      }
+      else {
+        final ArrayList<Template> templates = new ArrayList<Template>(results.length);
+        ArrayList<Future<Template>> futureTemplates = new ArrayList<Future<Template>>(results.length);
+        for (final Result result : results) {
+          if (result == null || result.isEmpty()) {
+            continue;
+          }
+          else {
+            futureTemplates.add(resultExecutorService.submit(new Callable<Template>() {
+
+              @Override
+              public Template call() throws Exception {
+                return getConverter().rowsToObject(result, executorService);
+              }
+            }));
+          }
+        }
+        for (Future<Template> future : futureTemplates) {
+          Template template = future.get();
+          if (template != null) {
+            templates.add(template);
+          }
+        }
+        return templates;
+      }
+    }
+    finally {
+      if (scanner != null) {
+        scanner.close();
+      }
+    }
   }
 
   protected Scan formScan(List<QueryParameter> query) {
