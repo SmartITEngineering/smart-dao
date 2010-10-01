@@ -66,6 +66,10 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.smartitengineering.smart-util</groupId>
+      <artifactId>smart-bean-util</artifactId>
+    </dependency>
+    <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
     </dependency>

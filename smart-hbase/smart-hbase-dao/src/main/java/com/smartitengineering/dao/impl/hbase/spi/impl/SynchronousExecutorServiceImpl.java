@@ -18,6 +18,7 @@
  */
 package com.smartitengineering.dao.impl.hbase.spi.impl;
 
+import com.smartitengineering.dao.impl.hbase.HBaseConfigurationFactory;
 import com.smartitengineering.dao.impl.hbase.spi.Callback;
 import com.smartitengineering.dao.impl.hbase.spi.ExecutorService;
 import org.apache.commons.lang.StringUtils;
@@ -41,8 +42,12 @@ public class SynchronousExecutorServiceImpl implements ExecutorService {
 
   protected Configuration getConfiguration() {
     if (configuration == null) {
-      logger.info("Initializing configuration");
-      configuration = HBaseConfiguration.create();
+      logger.info("Trying to get configuration from configuration factory...");
+      configuration = HBaseConfigurationFactory.getConfigurationInstance();
+      if (configuration == null) {
+        logger.info("Initializing configuration");
+        configuration = HBaseConfiguration.create();
+      }
     }
     return configuration;
   }
@@ -86,5 +91,4 @@ public class SynchronousExecutorServiceImpl implements ExecutorService {
       }
     }
   }
-
 }
