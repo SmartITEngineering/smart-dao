@@ -794,7 +794,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
             if (merge && mergeEnabled && mergeService != null) {
               mergeService.merge(tableInterface, value);
             }
-            tableInterface.put(puts.getValue());
+            tableInterface.put(new ArrayList(value));
           }
           finally {
             for (Put put : value) {
@@ -843,14 +843,29 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
         @Override
         public Void call(HTableInterface tableInterface) throws Exception {
           final List<Delete> value = dels.getValue();
+          if (logger.isInfoEnabled()) {
+            logger.info("Attempting to DELETE " + value);
+          }
           try {
-            tableInterface.delete(value);
+            tableInterface.delete(new ArrayList(value));
           }
           finally {
+            if (logger.isDebugEnabled()) {
+              logger.debug("Attempting to Unlock rowlocks on DELETE for " + value);
+            }
             for (Delete delete : value) {
+              if (logger.isDebugEnabled()) {
+                logger.debug("Attempting to Unlock rowlock for " + delete);
+              }
               RowLock lock = delete.getRowLock();
               if (lock != null) {
+                if (logger.isDebugEnabled()) {
+                  logger.debug("Unlocking lock on delete " + lock.getLockId());
+                }
                 tableInterface.unlockRow(lock);
+              }
+              else {
+                logger.warn("Null lock found!");
               }
             }
           }

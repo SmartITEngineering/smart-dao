@@ -27,6 +27,7 @@ import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.Future;
+import org.apache.hadoop.hbase.HConstants;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
@@ -140,7 +141,7 @@ public abstract class AbstactObjectRowConverter<T, IdType> implements ObjectRowC
             delete = new Delete(infoProvider.getRowIdFromRow(instance));
           }
           else {
-            delete = new Delete(infoProvider.getRowIdFromRow(instance), System.currentTimeMillis(), lock);
+            delete = new Delete(infoProvider.getRowIdFromRow(instance), HConstants.LATEST_TIMESTAMP, lock);
           }
           getDeleteForTable(instance, service, delete);
           deletes.put(table, delete);
