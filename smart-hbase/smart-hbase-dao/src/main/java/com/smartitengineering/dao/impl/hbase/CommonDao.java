@@ -254,7 +254,10 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
     }
     for (Future<Template> future : set) {
       try {
-        resultSet.add(future.get());
+        final Template get = future.get();
+        if(get != null) {
+          resultSet.add(get);
+        }
       }
       catch (Exception ex) {
         logger.warn("Could not retrieve from Future...", ex);
