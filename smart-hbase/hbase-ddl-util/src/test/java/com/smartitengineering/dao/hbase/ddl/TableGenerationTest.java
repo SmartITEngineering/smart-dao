@@ -45,15 +45,15 @@ public class TableGenerationTest {
     /*
      * Start HBase and initialize tables
      */
+    //-Djavax.xml.parsers.DocumentBuilderFactory=com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl
+    System.setProperty("javax.xml.parsers.DocumentBuilderFactory",
+                       "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl");
     try {
       TEST_UTIL.startMiniCluster();
     }
     catch (Exception ex) {
       LOGGER.error(ex.getMessage(), ex);
     }
-    //-Djavax.xml.parsers.DocumentBuilderFactory=com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl
-    System.setProperty("javax.xml.parsers.DocumentBuilderFactory",
-                       "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl");
   }
 
   @Test
