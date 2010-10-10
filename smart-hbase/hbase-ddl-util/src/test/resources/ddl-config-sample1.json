@@ -1,3 +1,54 @@
 [
-  {"tableName": "test", "columnFamilyConfigurations": [{"familyName": "family1"}]}
+  {
+    "tableName": "test",
+    "columnFamilyConfigurations": [
+      {
+        "familyName": "family1",
+        "scope": "2",
+        "blockCacheEnabled": "true",
+        "blockSize": "100",
+        "timeToLive": "100",
+        "bloomFilterType": "NONE",
+        "compressionType": "GZ",
+        "inMemory": "true",
+        "maxVersions": "0"
+      },
+      {
+        "familyName": "family2"
+      },
+      {
+        "familyName": "family3",
+        "scope": "-1",
+        "blockCacheEnabled": "false",
+        "bloomFilterType": "",
+        "blockSize": "-1"
+      }
+    ]
+  },
+  {
+    "tableName": "testAgain",
+    "columnFamilyConfigurations": [
+      {
+        "familyName": "family1",
+        "scope": "2",
+        "blockCacheEnabled": "true",
+        "blockSize": "100",
+        "timeToLive": "100",
+        "bloomFilterType": "NONE",
+        "compressionType": "GZ",
+        "inMemory": "true",
+        "maxVersions": "0"
+      },
+      {
+        "familyName": "family2"
+      },
+      {
+        "familyName": "family3",
+        "scope": "-1",
+        "blockCacheEnabled": "false",
+        "bloomFilterType": "",
+        "blockSize": "-1"
+      }
+    ]
+  }
 ]

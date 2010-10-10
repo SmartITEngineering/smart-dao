@@ -35,12 +35,12 @@ public class JsonParserTest {
     Assert.assertNotNull(classpathResource);
     Collection<HBaseTableConfiguration> configs = ConfigurationJsonParser.getConfigurations(classpathResource);
     Assert.assertNotNull(configs);
-    Assert.assertEquals(1, configs.size());
+    Assert.assertEquals(2, configs.size());
     HBaseTableConfiguration configuration = configs.iterator().next();
     Assert.assertNotNull(configuration);
     Assert.assertEquals("test", configuration.getTableName());
     Assert.assertNotNull(configuration.getColumnFamilyConfigurations());
-    Assert.assertEquals(1, configuration.getColumnFamilyConfigurations().size());
+    Assert.assertEquals(3, configuration.getColumnFamilyConfigurations().size());
     Assert.assertEquals("family1", configuration.getColumnFamilyConfigurations().iterator().next().getFamilyName());
   }
 }
