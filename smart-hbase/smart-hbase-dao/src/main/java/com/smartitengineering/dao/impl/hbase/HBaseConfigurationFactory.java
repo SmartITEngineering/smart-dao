@@ -22,6 +22,7 @@ import com.smartitengineering.util.bean.BeanFactoryRegistrar;
 import com.smartitengineering.util.bean.annotations.Aggregator;
 import com.smartitengineering.util.bean.annotations.InjectableField;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.HBaseConfiguration;
 
 /**
  *
@@ -46,6 +47,13 @@ public class HBaseConfigurationFactory {
     if (configurationFactory == null) {
       configurationFactory = new HBaseConfigurationFactory();
       BeanFactoryRegistrar.aggregate(configurationFactory);
+    }
+    return configurationFactory.getConfiguration();
+  }
+
+  public static Configuration initConfiguration() {
+    if (configurationFactory.configuration == null) {
+      configurationFactory.configuration = HBaseConfiguration.create();
     }
     return configurationFactory.getConfiguration();
   }
