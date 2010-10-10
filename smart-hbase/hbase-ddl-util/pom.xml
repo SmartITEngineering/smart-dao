@@ -28,20 +28,11 @@
     <groupId>com.smartitengineering.smart-dao</groupId>
     <version>0.4-SNAPSHOT</version>
   </parent>
-  <groupId>com.smartitengineering.smart-dao</groupId>
-  <artifactId>smart-hbase-dao</artifactId>
+  <groupId>com.smartitengineering.smart-cms</groupId>
+  <artifactId>hbase-ddl-util</artifactId>
   <version>0.4-SNAPSHOT</version>
-  <name>Smart HBase DAO</name>
-  <description>HBase implementation of Smart DAO.</description>
+  <name>HBase DDL Util</name>
   <dependencies>
-    <dependency>
-      <groupId>com.google.inject</groupId>
-      <artifactId>guice</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
     <dependency>
       <groupId>org.apache.hbase</groupId>
       <artifactId>hbase</artifactId>
@@ -53,38 +44,8 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>com.smartitengineering</groupId>
-      <artifactId>smart-dao-queryparam</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.smartitengineering</groupId>
-      <artifactId>smart-abstract-dao</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.smartitengineering.smart-dao</groupId>
-      <artifactId>smart-hbase-dao-spi</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.smartitengineering.smart-util</groupId>
-      <artifactId>smart-bean-util</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hbase</groupId>
-      <artifactId>hbase</artifactId>
-      <classifier>tests</classifier>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-test</artifactId>
+      <artifactId>jackson-mapper-lgpl</artifactId>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -92,21 +53,36 @@
       <version>4.8.1</version>
     </dependency>
     <dependency>
+      <groupId>com.smartitengineering.smart-util</groupId>
+      <artifactId>smart-bean-guice-util</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-jdk14</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.apache.hbase</groupId>
+      <artifactId>hbase</artifactId>
+      <classifier>tests</classifier>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-test</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
   </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
 </project>
