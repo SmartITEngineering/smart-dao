@@ -1,0 +1,3 @@
+[
+  {"tableName": "test", "columnFamilyConfigurations": [{"familyName": "family1"}]}
+]
