@@ -19,6 +19,8 @@
 package com.smartitengineering.dao.hbase.ddl.config;
 
 import com.smartitengineering.dao.hbase.ddl.HBaseColumnFamilyConfiguration;
+import org.apache.hadoop.hbase.HColumnDescriptor;
+import org.apache.hadoop.hbase.io.hfile.Compression.Algorithm;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 
 /**
@@ -28,9 +30,15 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 @JsonDeserialize(as = HBaseColumnFamilyConfigurationImpl.class)
 public class HBaseColumnFamilyConfigurationImpl implements HBaseColumnFamilyConfiguration {
 
-  private String familyName, bloomFilterType, compressionType;
-  private boolean blockCacheEnabled, inMemory;
-  private int scope, blockSize, timeToLive, maxVersions;
+  private String familyName,
+      bloomFilterType = HColumnDescriptor.DEFAULT_BLOOMFILTER,
+      compressionType = Algorithm.NONE.name();
+  private boolean blockCacheEnabled = HColumnDescriptor.DEFAULT_BLOCKCACHE,
+      inMemory = HColumnDescriptor.DEFAULT_IN_MEMORY;
+  private int scope = HColumnDescriptor.DEFAULT_REPLICATION_SCOPE,
+      blockSize = HColumnDescriptor.DEFAULT_BLOCKSIZE,
+      timeToLive = HColumnDescriptor.DEFAULT_TTL,
+      maxVersions = HColumnDescriptor.DEFAULT_VERSIONS;
 
   @Override
   public String getFamilyName() {
