@@ -35,6 +35,7 @@ import com.smartitengineering.dao.common.queryparam.ValueOnlyQueryParameter;
 import com.smartitengineering.dao.impl.hbase.spi.AsyncExecutorService;
 import com.smartitengineering.dao.impl.hbase.spi.Callback;
 import com.smartitengineering.dao.impl.hbase.spi.FilterConfig;
+import com.smartitengineering.dao.impl.hbase.spi.LockAttainer;
 import com.smartitengineering.dao.impl.hbase.spi.MergeService;
 import com.smartitengineering.dao.impl.hbase.spi.ObjectRowConverter;
 import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
@@ -104,6 +105,9 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
   private Boolean mergeEnabled = false;
   @Inject
   private MergeService mergeService;
+  @Inject
+  private LockAttainer<Template, IdType> lockAttainer;
+
   private int maxRows = -1;
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -787,29 +791,36 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
       }
     }
     for (final Map.Entry<String, List<Put>> puts : allPuts.entrySet()) {
-      executorService.execute(puts.getKey(),
-                              new Callback<Void>() {
+      try {
+        executorService.execute(puts.getKey(),
+                                new Callback<Void>() {
 
-        @Override
-        public Void call(HTableInterface tableInterface) throws Exception {
-          List<Put> value = puts.getValue();
-          try {
-            if (merge && mergeEnabled && mergeService != null) {
-              mergeService.merge(tableInterface, value);
+          @Override
+          public Void call(HTableInterface tableInterface) throws Exception {
+            List<Put> value = puts.getValue();
+            try {
+              if (merge && mergeEnabled && mergeService != null) {
+                mergeService.merge(tableInterface, value);
+              }
+              tableInterface.put(new ArrayList(value));
             }
-            tableInterface.put(new ArrayList(value));
-          }
-          finally {
-            for (Put put : value) {
-              RowLock lock = put.getRowLock();
-              if (lock != null) {
-                tableInterface.unlockRow(lock);
+            finally {
+              for (Put put : value) {
+                RowLock lock = put.getRowLock();
+                if (lock != null) {
+                  tableInterface.unlockRow(lock);
+                }
               }
             }
+            return null;
           }
-          return null;
+        });
+      }
+      finally {
+        for(Template state : states) {
+          lockAttainer.evictFromCache(state);
         }
-      });
+      }
     }
   }
 
@@ -841,40 +852,47 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
       }
     }
     for (final Map.Entry<String, List<Delete>> dels : allDels.entrySet()) {
-      executorService.execute(dels.getKey(), new Callback<Void>() {
+      try {
+        executorService.execute(dels.getKey(), new Callback<Void>() {
 
-        @Override
-        public Void call(HTableInterface tableInterface) throws Exception {
-          final List<Delete> value = dels.getValue();
-          if (logger.isInfoEnabled()) {
-            logger.info("Attempting to DELETE " + value);
-          }
-          try {
-            tableInterface.delete(new ArrayList(value));
-          }
-          finally {
-            if (logger.isDebugEnabled()) {
-              logger.debug("Attempting to Unlock rowlocks on DELETE for " + value);
+          @Override
+          public Void call(HTableInterface tableInterface) throws Exception {
+            final List<Delete> value = dels.getValue();
+            if (logger.isInfoEnabled()) {
+              logger.info("Attempting to DELETE " + value);
             }
-            for (Delete delete : value) {
+            try {
+              tableInterface.delete(new ArrayList(value));
+            }
+            finally {
               if (logger.isDebugEnabled()) {
-                logger.debug("Attempting to Unlock rowlock for " + delete);
+                logger.debug("Attempting to Unlock rowlocks on DELETE for " + value);
               }
-              RowLock lock = delete.getRowLock();
-              if (lock != null) {
+              for (Delete delete : value) {
                 if (logger.isDebugEnabled()) {
-                  logger.debug("Unlocking lock on delete " + lock.getLockId());
+                  logger.debug("Attempting to Unlock rowlock for " + delete);
                 }
-                tableInterface.unlockRow(lock);
-              }
-              else {
-                logger.warn("Null lock found!");
+                RowLock lock = delete.getRowLock();
+                if (lock != null) {
+                  if (logger.isDebugEnabled()) {
+                    logger.debug("Unlocking lock on delete " + lock.getLockId());
+                  }
+                  tableInterface.unlockRow(lock);
+                }
+                else {
+                  logger.warn("Null lock found!");
+                }
               }
             }
+            return null;
           }
-          return null;
+        });
+      }
+      finally {
+        for(Template state : states) {
+          lockAttainer.evictFromCache(state);
         }
-      });
+      }
     }
   }
 }

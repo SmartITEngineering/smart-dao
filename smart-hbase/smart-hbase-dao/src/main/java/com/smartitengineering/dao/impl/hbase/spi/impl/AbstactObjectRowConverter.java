@@ -20,19 +20,16 @@ package com.smartitengineering.dao.impl.hbase.spi.impl;
 
 import com.google.inject.Inject;
 import com.smartitengineering.dao.impl.hbase.spi.AsyncExecutorService;
-import com.smartitengineering.dao.impl.hbase.spi.Callback;
 import com.smartitengineering.dao.impl.hbase.spi.ExecutorService;
+import com.smartitengineering.dao.impl.hbase.spi.LockAttainer;
 import com.smartitengineering.dao.impl.hbase.spi.ObjectRowConverter;
 import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.concurrent.Future;
 import org.apache.hadoop.hbase.HConstants;
 import org.apache.hadoop.hbase.client.Delete;
-import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.RowLock;
-import org.apache.hadoop.hbase.util.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +41,8 @@ public abstract class AbstactObjectRowConverter<T, IdType> implements ObjectRowC
 
   @Inject
   private SchemaInfoProvider<T, IdType> infoProvider;
+  @Inject
+  private LockAttainer<T, IdType> lockAttainer;
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Override
@@ -60,7 +59,7 @@ public abstract class AbstactObjectRowConverter<T, IdType> implements ObjectRowC
     }
     LinkedHashMap<String, Put> puts = new LinkedHashMap<String, Put>();
     String[] tables = getTablesToAttainLock();
-    Map<String, Future<RowLock>> map = getLocks(executorService, instance, tables);
+    Map<String, RowLock> map = getLocks(executorService, instance, tables);
     if (tables != null) {
       for (String table : tables) {
         try {
@@ -68,8 +67,7 @@ public abstract class AbstactObjectRowConverter<T, IdType> implements ObjectRowC
             logger.debug(new StringBuilder("Working with table ").append(table).toString());
             logger.debug(new StringBuilder("Future ").append(map.get(table)).toString());
           }
-          final Future<RowLock> get = map.get(table);
-          RowLock lock = get.get(infoProvider.getWaitTime(), infoProvider.getUnit());
+          RowLock lock = map.get(table);
           final Put put;
           if (lock == null) {
             put = new Put(infoProvider.getRowIdFromRow(instance));
@@ -88,36 +86,9 @@ public abstract class AbstactObjectRowConverter<T, IdType> implements ObjectRowC
     return puts;
   }
 
-  protected Map<String, Future<RowLock>> getLocks(AsyncExecutorService executorService, final T instance,
-                                                  String... tables) {
+  protected Map<String, RowLock> getLocks(AsyncExecutorService executorService, final T instance, String... tables) {
     logger.info("Attempting to get locks");
-    Map<String, Future<RowLock>> map = new LinkedHashMap<String, Future<RowLock>>();
-    if (tables != null) {
-      if (executorService != null) {
-        for (String table : tables) {
-          Future<RowLock> future = executorService.executeAsynchronously(table, new Callback<RowLock>() {
-
-            @Override
-            public RowLock call(HTableInterface tableInterface) throws Exception {
-              final byte[] rowIdFromRow = infoProvider.getRowIdFromRow(instance);
-              if (logger.isDebugEnabled()) {
-                logger.debug("Attaining lock for " + Bytes.toString(rowIdFromRow));
-              }
-              try {
-                return tableInterface.lockRow(rowIdFromRow);
-              }
-              catch (Exception ex) {
-                logger.warn(ex.getMessage(), ex);
-                throw ex;
-              }
-            }
-          });
-          logger.debug("RECEIVED FUTURE Lock");
-          map.put(table, future);
-        }
-      }
-    }
-    return map;
+    return lockAttainer.getLock(instance, tables);
   }
 
   @Override
@@ -131,11 +102,11 @@ public abstract class AbstactObjectRowConverter<T, IdType> implements ObjectRowC
     }
     LinkedHashMap<String, Delete> deletes = new LinkedHashMap<String, Delete>();
     String[] tables = getTablesToAttainLock();
-    Map<String, Future<RowLock>> map = getLocks(executorService, instance, tables);
+    Map<String, RowLock> map = getLocks(executorService, instance, tables);
     if (tables != null) {
       for (String table : tables) {
         try {
-          RowLock lock = map.get(table).get(infoProvider.getWaitTime(), infoProvider.getUnit());
+          RowLock lock = map.get(table);
           final Delete delete;
           if (lock == null) {
             delete = new Delete(infoProvider.getRowIdFromRow(instance));
