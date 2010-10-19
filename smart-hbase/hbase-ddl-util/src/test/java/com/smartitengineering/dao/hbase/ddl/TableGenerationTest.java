@@ -19,11 +19,18 @@
 package com.smartitengineering.dao.hbase.ddl;
 
 import com.smartitengineering.dao.hbase.ddl.config.json.ConfigurationJsonParser;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.Date;
+import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.hbase.HBaseTestingUtility;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
+import org.apache.hadoop.hbase.client.HTable;
+import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -75,5 +82,47 @@ public class TableGenerationTest {
         Assert.assertTrue(descriptor.hasFamily(Bytes.toBytes("family" + i)));
       }
     }
+  }
+
+  @Test
+  public void testRowIdGeneration() throws IOException {
+    HTable table = new HTable(TEST_UTIL.getConfiguration(), "test");
+    Put put = new Put(Bytes.toBytes(getPaddedId(1l)));
+    final byte[] family = Bytes.toBytes("family2");
+    put.add(family, Bytes.toBytes("cell"), Bytes.toBytes(new Date().getTime()));
+    table.put(put);
+    put = new Put(Bytes.toBytes(getPaddedId(2l)));
+    put.add(family, Bytes.toBytes("cell"), Bytes.toBytes(new Date().getTime()));
+    table.put(put);
+    logResultRowId(table, family);
+    for (long l = 30; l > 2; --l) {
+      LOGGER.info("Setting Row ID: " + l);
+      put = new Put(Bytes.toBytes(getPaddedId(l)));
+      put.add(family, Bytes.toBytes("cell"), Bytes.toBytes(new Date().getTime()));
+      table.put(put);
+    }
+    logResultRowId(table, family);
+    for (long l = 31; l < 60; ++l) {
+      put = new Put(Bytes.toBytes(getPaddedId(l)));
+      put.add(family, Bytes.toBytes("cell"), Bytes.toBytes(new Date().getTime()));
+      table.put(put);
+    }
+    logResultRowId(table, family);
+  }
+
+  protected void logResultRowId(HTable table, final byte[] family) throws IOException {
+    ResultScanner scanner = table.getScanner(family);
+    Result result;
+    do {
+      result = scanner.next();
+      if (result != null) {
+        LOGGER.info("ROW ID: " + Bytes.toString(result.getRow()));
+      }
+    }
+    while (result != null);
+  }
+
+  protected String getPaddedId(long longId) {
+    return StringUtils.leftPad(String.valueOf(longId), 10, '0');
   }
 }
