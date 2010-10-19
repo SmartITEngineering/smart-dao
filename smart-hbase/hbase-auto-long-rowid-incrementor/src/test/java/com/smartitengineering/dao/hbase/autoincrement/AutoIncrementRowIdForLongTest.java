@@ -127,7 +127,7 @@ public class AutoIncrementRowIdForLongTest {
 
   @Test
   public void testFirstPrimaryKey() throws IOException {
-    ClientIdConfig clientIdConfig = client.resource(URI_FOR_TABLE).get(ClientIdConfig.class);
+    ClientIdConfig clientIdConfig = client.resource(URI_FOR_TABLE).post(ClientIdConfig.class);
     Assert.assertEquals(1, Long.MAX_VALUE - clientIdConfig.getId());
     final long id = clientIdConfig.getId();
     final byte[] row = Bytes.toBytes(id);
@@ -148,7 +148,7 @@ public class AutoIncrementRowIdForLongTest {
   @Test
   public void testConsequetive100Keys() throws IOException {
     for (long id = 2; id < 102; ++id) {
-      ClientIdConfig clientIdConfig = client.resource(URI_FOR_TABLE).get(ClientIdConfig.class);
+      ClientIdConfig clientIdConfig = client.resource(URI_FOR_TABLE).post(ClientIdConfig.class);
       Assert.assertEquals(id, Long.MAX_VALUE - clientIdConfig.getId());
       final byte[] row = Bytes.toBytes(clientIdConfig.getId());
       RowLock lock = new RowLock(row, clientIdConfig.getLocKId());
@@ -181,7 +181,7 @@ public class AutoIncrementRowIdForLongTest {
         public void run() {
           for (int j = 0; j < 3; ++j) {
             long id = index * bound + j + start;
-            ClientIdConfig clientIdConfig = client.resource(URI_FOR_TABLE).get(ClientIdConfig.class);
+            ClientIdConfig clientIdConfig = client.resource(URI_FOR_TABLE).post(ClientIdConfig.class);
             final long id1 = clientIdConfig.getId();
             synchronized (ids) {
               final long mainId = Long.MAX_VALUE - id1;
