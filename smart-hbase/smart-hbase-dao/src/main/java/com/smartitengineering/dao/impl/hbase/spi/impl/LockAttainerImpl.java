@@ -60,7 +60,7 @@ public class LockAttainerImpl<T, IdType>
     logger.debug("Not found in cache so trying to retrieve!");
     final Map<String, Future<RowLock>> map = new LinkedHashMap<String, Future<RowLock>>();
     if (tables == null) {
-      tables = new String[] {infoProvider.getMainTableName()};
+      tables = new String[]{infoProvider.getMainTableName()};
     }
     if (executorService != null) {
       for (String table : tables) {
@@ -103,6 +103,11 @@ public class LockAttainerImpl<T, IdType>
   @Override
   public synchronized boolean evictFromCache(T instance) {
     return locksCache.remove(instance) != null;
+  }
+
+  @Override
+  public void putLock(T instance, Map<String, RowLock> locks) {
+    locksCache.put(instance, locks);
   }
 
   @Override

@@ -30,6 +30,8 @@ public interface LockAttainer<T, IdType> {
   Map<String, RowLock> getLock(T instance,
                                String... tables);
 
+  void putLock(T instance, Map<String, RowLock> locks);
+
   boolean evictFromCache(T instance);
 
   boolean unlockAndEvictFromCache(T instance);
