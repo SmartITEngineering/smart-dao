@@ -1,0 +1,10 @@
+[
+  {
+    "tableName": "test",
+    "columnFamilyConfigurations": [
+      {
+        "familyName": "family"
+      }
+    ]
+  }
+]
