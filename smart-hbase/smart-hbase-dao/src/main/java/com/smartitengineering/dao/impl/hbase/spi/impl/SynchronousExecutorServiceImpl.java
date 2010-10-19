@@ -86,7 +86,7 @@ public class SynchronousExecutorServiceImpl implements ExecutorService {
         }
       }
       catch (Exception ex) {
-        ex.printStackTrace();
+        logger.warn("Could not put table!", ex);
       }
     }
   }
