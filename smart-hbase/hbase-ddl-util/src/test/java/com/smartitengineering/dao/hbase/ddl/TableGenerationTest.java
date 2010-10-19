@@ -26,11 +26,13 @@ import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.hbase.HBaseTestingUtility;
 import org.apache.hadoop.hbase.HTableDescriptor;
+import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -108,10 +110,21 @@ public class TableGenerationTest {
       table.put(put);
     }
     logResultRowId(table, family);
+    Scan scan = new Scan();
+    ResultScanner scanner = table.getScanner(scan);
+    Result result[];
+    result = scanner.next(1);
+    if (result != null && result.length > 0) {
+      LOGGER.info("ROW ID: " + Bytes.toString(result[0].getRow()));
+    }
   }
 
   protected void logResultRowId(HTable table, final byte[] family) throws IOException {
     ResultScanner scanner = table.getScanner(family);
+    logScannerResults(scanner);
+  }
+
+  protected void logScannerResults(ResultScanner scanner) throws IOException {
     Result result;
     do {
       result = scanner.next();
