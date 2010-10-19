@@ -145,6 +145,7 @@ public class AutoIncrementLongRowIdGenerator {
         return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
       }
       config = new IdConfig(id, lock.getLockId());
+      getPool().putTable(table);
     }
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     objectMapper.writeValue(outputStream, config);

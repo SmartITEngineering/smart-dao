@@ -45,6 +45,8 @@ import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.hadoop.hbase.HBaseTestingUtility;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HTable;
+import org.apache.hadoop.hbase.client.HTableInterface;
+import org.apache.hadoop.hbase.client.HTablePool;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.RowLock;
@@ -75,6 +77,7 @@ public class AutoIncrementRowIdForLongTest {
   private static Server jettyServer;
   private static Client client;
   private static final Set<Long> ids = new TreeSet<Long>();
+  private static HTablePool pool;
 
   @BeforeClass
   public static void globalSetup() throws Exception {
@@ -101,6 +104,7 @@ public class AutoIncrementRowIdForLongTest {
       LOGGER.error("Could not create table!", ex);
       Assert.fail(ex.getMessage());
     }
+    pool = new HTablePool(TEST_UTIL.getConfiguration(), 200);
     //Start web app
     jettyServer = new Server(PORT);
     final String webapp = "./src/main/webapp/";
@@ -169,9 +173,9 @@ public class AutoIncrementRowIdForLongTest {
   @Test
   public void testMultithreadedKeys() throws Exception {
     ExecutorService service = Executors.newFixedThreadPool(100);
-    final HTable table = new HTable(TABLE_NAME);
     final long start = 102;
-    final int bound = 10;
+    final int bound = 100;
+    final int innerBound = 30;
     List<Future> futures = new ArrayList<Future>();
     for (int i = 0; i < bound; ++i) {
       final int index = i;
@@ -179,7 +183,8 @@ public class AutoIncrementRowIdForLongTest {
 
         @Override
         public void run() {
-          for (int j = 0; j < 3; ++j) {
+          for (int j = 0; j < innerBound; ++j) {
+            final HTableInterface table = pool.getTable(TABLE_NAME);
             long id = index * bound + j + start;
             ClientIdConfig clientIdConfig = client.resource(URI_FOR_TABLE).post(ClientIdConfig.class);
             final long id1 = clientIdConfig.getId();
@@ -205,6 +210,7 @@ public class AutoIncrementRowIdForLongTest {
               get1 = null;
               Assert.fail(ex.getMessage());
             }
+            pool.putTable(table);
             Assert.assertNotNull(get1);
             Assert.assertFalse(get1.isEmpty());
             Assert.assertTrue(Arrays.equals(row, get1.getRow()));
@@ -217,5 +223,6 @@ public class AutoIncrementRowIdForLongTest {
       future.get();
     }
     LOGGER.info("IDS: " + ids);
+    Assert.assertEquals(bound*innerBound+start-1, ids.size());
   }
 }
