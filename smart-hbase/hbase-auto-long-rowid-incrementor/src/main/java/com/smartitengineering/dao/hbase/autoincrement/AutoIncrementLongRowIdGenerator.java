@@ -77,53 +77,57 @@ public class AutoIncrementLongRowIdGenerator {
 
   @POST
   @Produces(MediaType.TEXT_PLAIN)
-  public Response get(@PathParam("tableName") String tableName)
-      throws IOException {
-    final HTableInterface table;
-    table = getPool().getTable(tableName);
-    AtomicLong mutableLong = tableCurrentMax.get(tableName);
-    if (mutableLong == null) {
-      AtomicLong along = new AtomicLong(-1);
-      mutableLong = tableCurrentMax.putIfAbsent(tableName, along);
+  public Response get(@PathParam("tableName") String tableName) throws IOException {
+    final HTableInterface table = getPool().getTable(tableName);
+    try {
+      AtomicLong mutableLong = tableCurrentMax.get(tableName);
       if (mutableLong == null) {
-        mutableLong = along;
-      }
-      synchronized (mutableLong) {
-        if (mutableLong.longValue() < 0) {
-          Scan scan = new Scan();
-          scan.setCaching(1);
-          ResultScanner scanner = table.getScanner(scan);
-          try {
-            Result result[];
-            result = scanner.next(1);
-            if (result != null && result.length > 0) {
-              mutableLong.set(Bytes.toLong(result[0].getRow()));
-            }
-            else {
-              mutableLong.set(Long.MAX_VALUE);
-            }
-          }
-          finally {
-            if (scanner != null) {
-              try {
-                scanner.close();
+        AtomicLong along = new AtomicLong(-1);
+        mutableLong = tableCurrentMax.putIfAbsent(tableName, along);
+        if (mutableLong == null) {
+          mutableLong = along;
+        }
+        synchronized (mutableLong) {
+          if (mutableLong.longValue() < 0) {
+            Scan scan = new Scan();
+            scan.setCaching(1);
+            ResultScanner scanner = table.getScanner(scan);
+            try {
+              Result result[];
+              result = scanner.next(1);
+              if (result != null && result.length > 0) {
+                mutableLong.set(Bytes.toLong(result[0].getRow()));
               }
-              catch (Exception ex) {
-                logger.warn("Could not close scanner!", ex);
+              else {
+                mutableLong.set(Long.MAX_VALUE);
+              }
+            }
+            finally {
+              if (scanner != null) {
+                try {
+                  scanner.close();
+                }
+                catch (Exception ex) {
+                  logger.warn("Could not close scanner!", ex);
+                }
               }
             }
           }
         }
       }
+      long newId = mutableLong.decrementAndGet();
+      boolean rowExists = table.exists(new Get(Bytes.toBytes(newId)));
+      while (rowExists) {
+        newId = mutableLong.decrementAndGet();
+        rowExists = table.exists(new Get(Bytes.toBytes(newId)));
+      }
+      final long id = newId;
+      return Response.ok(String.valueOf(id)).build();
     }
-    long newId = mutableLong.decrementAndGet();
-    boolean rowExists = table.exists(new Get(Bytes.toBytes(newId)));
-    while (rowExists) {
-      newId = mutableLong.decrementAndGet();
-      rowExists = table.exists(new Get(Bytes.toBytes(newId)));
+    finally {
+      if (table != null) {
+        getPool().putTable(table);
+      }
     }
-    final long id = newId;
-    getPool().putTable(table);
-    return Response.ok(String.valueOf(id)).build();
   }
 }
