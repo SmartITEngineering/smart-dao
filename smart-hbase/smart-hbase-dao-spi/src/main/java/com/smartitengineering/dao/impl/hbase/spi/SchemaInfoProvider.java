@@ -64,6 +64,10 @@ public interface SchemaInfoProvider<T, IdType> {
    */
   FilterConfig getFilterConfig(String propertyName);
 
+  byte[] getVersionColumnFamily();
+
+  byte[] getVersionColumnQualifier();
+
   byte[] getRowIdFromRow(T instance) throws IOException;
 
   byte[] getRowIdFromId(IdType id) throws IOException;

@@ -33,9 +33,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 import java.text.ParseException;
 import java.util.Collections;
 import java.util.Date;
@@ -43,6 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -54,6 +52,7 @@ import org.apache.hadoop.hbase.util.Bytes;
 public class SchemaInfoProviderImpl<T extends PersistentDTO, IdType> implements SchemaInfoProvider<T, IdType> {
 
   private String schemaNamespace, mainTableName;
+  private byte[] versionColumnFamily, versionColumnQualifier;
   private boolean transactionalDomain;
   private Map<String, FilterConfig> filterConfigs;
   private long waitTime;
@@ -80,6 +79,12 @@ public class SchemaInfoProviderImpl<T extends PersistentDTO, IdType> implements 
     this.schemaNamespace = config.getSchemaNamespace();
     this.mainTableName = config.getMainTableName();
     this.transactionalDomain = config.isTransactionalDomain();
+    if (StringUtils.isNotBlank(config.getVersionColumnFamily())) {
+      this.versionColumnFamily = Bytes.toBytes(config.getVersionColumnFamily());
+    }
+    if (StringUtils.isNotBlank(config.getVersionColumnQualifier())) {
+      this.versionColumnQualifier = Bytes.toBytes(config.getVersionColumnQualifier());
+    }
   }
 
   @Inject
@@ -126,6 +131,16 @@ public class SchemaInfoProviderImpl<T extends PersistentDTO, IdType> implements 
 
   public void setTransactionalDomain(boolean transactionalDomain) {
     this.transactionalDomain = transactionalDomain;
+  }
+
+  @Override
+  public byte[] getVersionColumnFamily() {
+    return versionColumnFamily;
+  }
+
+  @Override
+  public byte[] getVersionColumnQualifier() {
+    return versionColumnQualifier;
   }
 
   @Override

@@ -88,5 +88,7 @@ public class JsonConfigLoaderTest {
     Assert.assertEquals("testNS", readConfig.getSchemaNamespace());
     Assert.assertEquals("test", readConfig.getMainTableName());
     Assert.assertEquals(true, readConfig.isTransactionalDomain());
+    Assert.assertEquals("fam", readConfig.getVersionColumnFamily());
+    Assert.assertEquals("cell", readConfig.getVersionColumnQualifier());
   }
 }

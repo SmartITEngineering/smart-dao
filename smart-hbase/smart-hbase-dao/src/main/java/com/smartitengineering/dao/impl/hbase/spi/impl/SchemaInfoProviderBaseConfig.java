@@ -24,8 +24,24 @@ package com.smartitengineering.dao.impl.hbase.spi.impl;
  */
 public class SchemaInfoProviderBaseConfig<T> {
 
-  private String schemaNamespace, mainTableName;
+  private String schemaNamespace, mainTableName, versionColumnFamily, versionColumnQualifier;
   private boolean transactionalDomain;
+
+  public String getVersionColumnFamily() {
+    return versionColumnFamily;
+  }
+
+  public void setVersionColumnFamily(String versionColumnFamily) {
+    this.versionColumnFamily = versionColumnFamily;
+  }
+
+  public String getVersionColumnQualifier() {
+    return versionColumnQualifier;
+  }
+
+  public void setVersionColumnQualifier(String versionColumnQualifier) {
+    this.versionColumnQualifier = versionColumnQualifier;
+  }
 
   public String getMainTableName() {
     return mainTableName;
