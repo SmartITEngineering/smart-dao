@@ -21,8 +21,8 @@ package com.smartitengineering.dao.hbase.autoincrement;
 import com.sun.jersey.spi.resource.Singleton;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -31,7 +31,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.apache.commons.lang.mutable.MutableLong;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.Get;
@@ -54,7 +53,7 @@ import org.slf4j.LoggerFactory;
 public class AutoIncrementLongRowIdGenerator {
 
   private Configuration hbaseConfiguration;
-  private final Map<String, MutableLong> tableCurrentMax = new HashMap<String, MutableLong>();
+  private final ConcurrentHashMap<String, AtomicLong> tableCurrentMax = new ConcurrentHashMap<String, AtomicLong>();
   private final ObjectMapper objectMapper = new ObjectMapper();
   private HTablePool pool;
   protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -85,31 +84,28 @@ public class AutoIncrementLongRowIdGenerator {
   @Produces(MediaType.APPLICATION_JSON)
   public Response get(@PathParam("tableName") String tableName, @QueryParam("retry") @DefaultValue("3") int retry)
       throws IOException {
-    MutableLong mutableLong = tableCurrentMax.get(tableName);
     final HTableInterface table;
     table = getPool().getTable(tableName);
+    AtomicLong mutableLong = tableCurrentMax.get(tableName);
     if (mutableLong == null) {
-      synchronized (tableCurrentMax) {
-        if (!tableCurrentMax.containsKey(tableName)) {
-          mutableLong = new MutableLong(-1l);
-          tableCurrentMax.put(tableName, mutableLong);
-        }
-        else {
-          mutableLong = tableCurrentMax.get(tableName);
-        }
+      AtomicLong along = new AtomicLong(-1);
+      mutableLong = tableCurrentMax.putIfAbsent(tableName, along);
+      if (mutableLong == null) {
+        mutableLong = along;
       }
       synchronized (mutableLong) {
         if (mutableLong.longValue() < 0) {
           Scan scan = new Scan();
+          scan.setCaching(1);
           ResultScanner scanner = table.getScanner(scan);
           try {
             Result result[];
             result = scanner.next(1);
             if (result != null && result.length > 0) {
-              mutableLong.setValue(Bytes.toLong(result[0].getRow()));
+              mutableLong.set(Bytes.toLong(result[0].getRow()));
             }
             else {
-              mutableLong.setValue(Long.MAX_VALUE);
+              mutableLong.set(Long.MAX_VALUE);
             }
           }
           finally {
@@ -126,17 +122,15 @@ public class AutoIncrementLongRowIdGenerator {
       }
     }
     final IdConfig config;
-    synchronized (mutableLong) {
-      mutableLong.add(-1l);
-      boolean rowExists = table.exists(new Get(Bytes.toBytes(mutableLong.longValue())));
-      while (rowExists) {
-        mutableLong.add(-1l);
-        rowExists = table.exists(new Get(Bytes.toBytes(mutableLong.longValue())));
-      }
-      final long id = mutableLong.longValue();
-      config = new IdConfig(id);
-      getPool().putTable(table);
+    long newId = mutableLong.decrementAndGet();
+    boolean rowExists = table.exists(new Get(Bytes.toBytes(newId)));
+    while (rowExists) {
+      newId = mutableLong.decrementAndGet();
+      rowExists = table.exists(new Get(Bytes.toBytes(newId)));
     }
+    final long id = newId;
+    config = new IdConfig(id);
+    getPool().putTable(table);
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     objectMapper.writeValue(outputStream, config);
     return Response.ok(outputStream.toByteArray()).build();
