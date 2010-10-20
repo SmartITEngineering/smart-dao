@@ -19,7 +19,6 @@
 package com.smartitengineering.dao.hbase.autoincrement;
 
 import com.sun.jersey.spi.resource.Singleton;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -38,7 +37,6 @@ import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,7 +50,6 @@ public class AutoIncrementLongRowIdGenerator {
 
   private Configuration hbaseConfiguration;
   private final ConcurrentHashMap<String, AtomicLong> tableCurrentMax = new ConcurrentHashMap<String, AtomicLong>();
-  private final ObjectMapper objectMapper = new ObjectMapper();
   private HTablePool pool;
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -79,7 +76,7 @@ public class AutoIncrementLongRowIdGenerator {
   }
 
   @POST
-  @Produces(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.TEXT_PLAIN)
   public Response get(@PathParam("tableName") String tableName)
       throws IOException {
     final HTableInterface table;
@@ -119,7 +116,6 @@ public class AutoIncrementLongRowIdGenerator {
         }
       }
     }
-    final IdConfig config;
     long newId = mutableLong.decrementAndGet();
     boolean rowExists = table.exists(new Get(Bytes.toBytes(newId)));
     while (rowExists) {
@@ -127,11 +123,7 @@ public class AutoIncrementLongRowIdGenerator {
       rowExists = table.exists(new Get(Bytes.toBytes(newId)));
     }
     final long id = newId;
-    config = new IdConfig(id);
     getPool().putTable(table);
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    objectMapper.writeValue(outputStream, config);
-    return Response.ok(outputStream.toByteArray()).build();
-
+    return Response.ok(String.valueOf(id)).build();
   }
 }
