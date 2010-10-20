@@ -23,12 +23,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.hadoop.conf.Configuration;
@@ -82,7 +80,7 @@ public class AutoIncrementLongRowIdGenerator {
 
   @POST
   @Produces(MediaType.APPLICATION_JSON)
-  public Response get(@PathParam("tableName") String tableName, @QueryParam("retry") @DefaultValue("3") int retry)
+  public Response get(@PathParam("tableName") String tableName)
       throws IOException {
     final HTableInterface table;
     table = getPool().getTable(tableName);
