@@ -222,7 +222,6 @@ public class AutoIncrementRowIdForLongTest {
     final long endTime = System.currentTimeMillis();
     LOGGER.info("Time for " + (bound * innerBound) + " rows ID retrieval, put and get is " + (endTime - startTime) +
         "ms");
-    LOGGER.info("IDS: " + ids);
     Assert.assertEquals(bound * innerBound + start - 1, ids.size());
   }
 

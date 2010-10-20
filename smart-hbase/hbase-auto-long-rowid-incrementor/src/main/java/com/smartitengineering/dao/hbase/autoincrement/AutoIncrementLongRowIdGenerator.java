@@ -61,14 +61,22 @@ public class AutoIncrementLongRowIdGenerator {
 
   public Configuration getHbaseConfiguration() {
     if (hbaseConfiguration == null) {
-      hbaseConfiguration = HBaseConfiguration.create();
+      synchronized (this) {
+        if (hbaseConfiguration == null) {
+          hbaseConfiguration = HBaseConfiguration.create();
+        }
+      }
     }
     return hbaseConfiguration;
   }
 
   public HTablePool getPool() {
     if (pool == null) {
-      pool = new HTablePool(getHbaseConfiguration(), 200);
+      synchronized (this) {
+        if (pool == null) {
+          pool = new HTablePool(getHbaseConfiguration(), 200);
+        }
+      }
     }
     return pool;
   }
