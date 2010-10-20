@@ -76,7 +76,7 @@ public class AutoIncrementLongRowIdGenerator {
   }
 
   @POST
-  @Produces(MediaType.TEXT_PLAIN)
+  @Produces(MediaType.APPLICATION_OCTET_STREAM)
   public Response get(@PathParam("tableName") String tableName) throws IOException {
     final HTableInterface table = getPool().getTable(tableName);
     try {
@@ -122,7 +122,7 @@ public class AutoIncrementLongRowIdGenerator {
         rowExists = table.exists(new Get(Bytes.toBytes(newId)));
       }
       final long id = newId;
-      return Response.ok(String.valueOf(id)).build();
+      return Response.ok(Bytes.toBytes(id)).build();
     }
     finally {
       if (table != null) {

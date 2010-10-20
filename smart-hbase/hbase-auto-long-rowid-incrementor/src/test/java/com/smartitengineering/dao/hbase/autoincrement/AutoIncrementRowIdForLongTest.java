@@ -124,7 +124,7 @@ public class AutoIncrementRowIdForLongTest {
 
   @Test
   public void testFirstPrimaryKey() throws IOException {
-    final long id = Long.valueOf(getIdAsString());
+    final long id = getId();
     Assert.assertEquals(1, Long.MAX_VALUE - id);
     final byte[] row = Bytes.toBytes(id);
     Put put = new Put(row);
@@ -143,7 +143,7 @@ public class AutoIncrementRowIdForLongTest {
   @Test
   public void testConsequetive100Keys() throws IOException {
     for (long id = 2; id < 102; ++id) {
-      final long rid = Long.valueOf(getIdAsString());
+      final long rid = getId();
       Assert.assertEquals(id, Long.MAX_VALUE - rid);
       final byte[] row = Bytes.toBytes(rid);
       Put put = new Put(row);
@@ -177,7 +177,7 @@ public class AutoIncrementRowIdForLongTest {
           for (int j = 0; j < innerBound; ++j) {
             final HTableInterface table = pool.getTable(TABLE_NAME);
             long id = index * bound + j + start;
-            final long id1 = Long.valueOf(getIdAsString());
+            final long id1 = getId();
             synchronized (ids) {
               final long mainId = Long.MAX_VALUE - id1;
               Assert.assertFalse(ids.contains(mainId));
@@ -216,11 +216,11 @@ public class AutoIncrementRowIdForLongTest {
     Assert.assertEquals(bound * innerBound + start - 1, ids.size());
   }
 
-  protected String getIdAsString() {
+  protected long getId() {
     try {
       PostMethod post = new PostMethod(URI_FOR_TABLE);
       httpClient.executeMethod(post);
-      return IOUtils.toString(post.getResponseBodyAsStream());
+      return Bytes.toLong(IOUtils.toByteArray(post.getResponseBodyAsStream()));
     }
     catch (Exception ex) {
       throw new RuntimeException(ex);
