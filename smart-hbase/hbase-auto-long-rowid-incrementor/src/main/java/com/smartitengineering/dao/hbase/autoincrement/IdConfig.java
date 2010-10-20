@@ -25,18 +25,12 @@ package com.smartitengineering.dao.hbase.autoincrement;
 public class IdConfig {
 
   private final long id;
-  private final long locKId;
 
-  public IdConfig(long id, long locKId) {
+  public IdConfig(long id) {
     this.id = id;
-    this.locKId = locKId;
   }
 
   public long getId() {
     return id;
-  }
-
-  public long getLocKId() {
-    return locKId;
   }
 }

@@ -25,21 +25,12 @@ package com.smartitengineering.dao.hbase.autoincrement;
 public class ClientIdConfig {
 
   private long id;
-  private long locKId;
 
   public long getId() {
     return id;
   }
 
-  public long getLocKId() {
-    return locKId;
-  }
-
   public void setId(long id) {
     this.id = id;
-  }
-
-  public void setLocKId(long locKId) {
-    this.locKId = locKId;
   }
 }

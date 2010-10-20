@@ -22,7 +22,6 @@ import com.smartitengineering.dao.hbase.ddl.HBaseTableConfiguration;
 import com.smartitengineering.dao.hbase.ddl.HBaseTableGenerator;
 import com.smartitengineering.dao.hbase.ddl.config.json.ConfigurationJsonParser;
 import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.filter.LoggingFilter;
 import com.sun.jersey.client.apache.ApacheHttpClient;
 import com.sun.jersey.client.apache.ApacheHttpClientHandler;
 import com.sun.jersey.client.apache.config.ApacheHttpClientConfig;
@@ -49,7 +48,6 @@ import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.HTablePool;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
-import org.apache.hadoop.hbase.client.RowLock;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.eclipse.jetty.server.Server;
@@ -72,6 +70,7 @@ public class AutoIncrementRowIdForLongTest {
   private static final byte[] FAMILY_BYTES = Bytes.toBytes(FAMILY_NAME);
   private static final byte[] CELL_BYTES = Bytes.toBytes("cell");
   private static final int PORT = 10080;
+  private static final int THREAD_COUNT = 100;
   private static final String URI_FOR_TABLE = new StringBuilder("http://localhost:").append(PORT).append('/').append(
       TABLE_NAME).toString();
   private static Server jettyServer;
@@ -118,10 +117,11 @@ public class AutoIncrementRowIdForLongTest {
     //Initialize client
     final ApacheHttpClientConfig config = new DefaultApacheHttpClientConfig();
     config.getClasses().add(JacksonJsonProvider.class);
-    final ApacheHttpClientHandler handler = new ApacheHttpClientHandler(new HttpClient(
-        new MultiThreadedHttpConnectionManager()));
+    final MultiThreadedHttpConnectionManager manager = new MultiThreadedHttpConnectionManager();
+    manager.getParams().setDefaultMaxConnectionsPerHost(THREAD_COUNT);
+    manager.getParams().setMaxTotalConnections(THREAD_COUNT);
+    final ApacheHttpClientHandler handler = new ApacheHttpClientHandler(new HttpClient(manager));
     client = new ApacheHttpClient(handler, config);
-    client.addFilter(new LoggingFilter());
   }
 
   public static void globalTeardown() throws Exception {
@@ -135,8 +135,7 @@ public class AutoIncrementRowIdForLongTest {
     Assert.assertEquals(1, Long.MAX_VALUE - clientIdConfig.getId());
     final long id = clientIdConfig.getId();
     final byte[] row = Bytes.toBytes(id);
-    RowLock lock = new RowLock(row, clientIdConfig.getLocKId());
-    Put put = new Put(row, lock);
+    Put put = new Put(row);
     final byte[] toBytes = Bytes.toBytes("value");
     put.add(FAMILY_BYTES, CELL_BYTES, toBytes);
     HTable table = new HTable(TABLE_NAME);
@@ -155,8 +154,7 @@ public class AutoIncrementRowIdForLongTest {
       ClientIdConfig clientIdConfig = client.resource(URI_FOR_TABLE).post(ClientIdConfig.class);
       Assert.assertEquals(id, Long.MAX_VALUE - clientIdConfig.getId());
       final byte[] row = Bytes.toBytes(clientIdConfig.getId());
-      RowLock lock = new RowLock(row, clientIdConfig.getLocKId());
-      Put put = new Put(row, lock);
+      Put put = new Put(row);
       final byte[] toBytes = Bytes.toBytes("value " + id);
       put.add(FAMILY_BYTES, CELL_BYTES, toBytes);
       HTable table = new HTable(TABLE_NAME);
@@ -172,11 +170,12 @@ public class AutoIncrementRowIdForLongTest {
 
   @Test
   public void testMultithreadedKeys() throws Exception {
-    ExecutorService service = Executors.newFixedThreadPool(100);
+    ExecutorService service = Executors.newFixedThreadPool(THREAD_COUNT);
     final long start = 102;
-    final int bound = 100;
+    final int bound = THREAD_COUNT;
     final int innerBound = 30;
     List<Future> futures = new ArrayList<Future>();
+    final long startTime = System.currentTimeMillis();
     for (int i = 0; i < bound; ++i) {
       final int index = i;
       futures.add(service.submit(new Runnable() {
@@ -190,13 +189,11 @@ public class AutoIncrementRowIdForLongTest {
             final long id1 = clientIdConfig.getId();
             synchronized (ids) {
               final long mainId = Long.MAX_VALUE - id1;
-              LOGGER.info("ID: " + (mainId));
               Assert.assertFalse(ids.contains(mainId));
               ids.add(mainId);
             }
             final byte[] row = Bytes.toBytes(id1);
-            RowLock lock = new RowLock(row, clientIdConfig.getLocKId());
-            Put put = new Put(row, lock);
+            Put put = new Put(row);
             final byte[] toBytes = Bytes.toBytes("value " + id);
             put.add(FAMILY_BYTES, CELL_BYTES, toBytes);
             Result get1;
@@ -222,7 +219,10 @@ public class AutoIncrementRowIdForLongTest {
     for (Future future : futures) {
       future.get();
     }
+    final long endTime = System.currentTimeMillis();
+    LOGGER.info("Time for " + (bound * innerBound) + " rows ID retrieval, put and get is " + (endTime - startTime) +
+        "ms");
     LOGGER.info("IDS: " + ids);
-    Assert.assertEquals(bound*innerBound+start-1, ids.size());
+    Assert.assertEquals(bound * innerBound + start - 1, ids.size());
   }
 }

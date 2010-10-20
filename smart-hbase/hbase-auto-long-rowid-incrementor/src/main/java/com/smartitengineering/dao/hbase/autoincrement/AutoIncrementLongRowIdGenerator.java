@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -40,7 +39,6 @@ import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.HTablePool;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
-import org.apache.hadoop.hbase.client.RowLock;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -128,23 +126,7 @@ public class AutoIncrementLongRowIdGenerator {
         rowExists = table.exists(new Get(Bytes.toBytes(mutableLong.longValue())));
       }
       final long id = mutableLong.longValue();
-      RowLock lock;
-      int retryCount = 0;
-      do {
-        try {
-          lock = table.lockRow(Bytes.toBytes(id));
-        }
-        catch (Exception ex) {
-          lock = null;
-          logger.warn("Could not attain lock, retrying!", ex);
-          retryCount++;
-        }
-      }
-      while (lock == null && retryCount < retry);
-      if (lock == null) {
-        return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
-      }
-      config = new IdConfig(id, lock.getLockId());
+      config = new IdConfig(id);
       getPool().putTable(table);
     }
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
