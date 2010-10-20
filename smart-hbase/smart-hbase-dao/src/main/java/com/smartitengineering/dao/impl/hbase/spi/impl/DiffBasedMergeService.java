@@ -18,11 +18,17 @@
  */
 package com.smartitengineering.dao.impl.hbase.spi.impl;
 
+import com.google.inject.Inject;
+import com.smartitengineering.dao.impl.hbase.spi.LockType;
 import com.smartitengineering.dao.impl.hbase.spi.MergeService;
+import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
+import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HTableInterface;
@@ -33,10 +39,13 @@ import org.apache.hadoop.hbase.client.Result;
  *
  * @author imyousuf
  */
-public class DiffBasedMergeService implements MergeService {
+public class DiffBasedMergeService<T, IdType> implements MergeService<T, IdType> {
+
+  @Inject
+  private SchemaInfoProvider<T, IdType> infoProvider;
 
   @Override
-  public void merge(final HTableInterface tableInterface, final List<Put> puts) throws IOException {
+  public void merge(final HTableInterface tableInterface, final List<Put> puts, LockType lockType) throws IOException {
     List<Delete> deletes = new ArrayList<Delete>(puts.size());
     final long timestampForDelete = System.currentTimeMillis();
     for (Put put : puts) {
@@ -56,10 +65,31 @@ public class DiffBasedMergeService implements MergeService {
           }
         }
       }
+      byte[] family = infoProvider.getVersionColumnFamily();
+      byte[] qualifier = infoProvider.getVersionColumnQualifier();
       if (hasDiff) {
-        deletes.add(delete);
+        if (lockType.equals(LockType.OPTIMISTIC) && family != null && qualifier != null) {
+          final List<KeyValue> vals = put.get(family, qualifier);
+          KeyValue value = getLatestValue(vals);
+          tableInterface.checkAndDelete(row, family, qualifier, value.getValue(), delete);
+        }
+        else {
+          deletes.add(delete);
+        }
       }
     }
-    tableInterface.delete(deletes);
+    if (!deletes.isEmpty()) {
+      tableInterface.delete(deletes);
+    }
+  }
+
+  public static KeyValue getLatestValue(List<KeyValue> vals) {
+    return Collections.max(vals, new Comparator<KeyValue>() {
+
+      @Override
+      public int compare(KeyValue o1, KeyValue o2) {
+        return new Long(o1.getTimestamp()).compareTo(o2.getTimestamp());
+      }
+    });
   }
 }

@@ -24,6 +24,7 @@ import com.smartitengineering.dao.impl.hbase.spi.ExecutorService;
 import com.smartitengineering.dao.impl.hbase.spi.LockAttainer;
 import com.smartitengineering.dao.impl.hbase.spi.ObjectRowConverter;
 import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
+import com.smartitengineering.domain.PersistentDTO;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -31,6 +32,7 @@ import org.apache.hadoop.hbase.HConstants;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.RowLock;
+import org.apache.hadoop.hbase.util.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +40,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author imyousuf
  */
-public abstract class AbstactObjectRowConverter<T, IdType> implements ObjectRowConverter<T> {
+public abstract class AbstactObjectRowConverter<T extends PersistentDTO<? extends PersistentDTO, ? extends Comparable, ? extends Long>, IdType>
+    implements ObjectRowConverter<T> {
 
   @Inject
   private SchemaInfoProvider<T, IdType> infoProvider;
@@ -76,6 +79,11 @@ public abstract class AbstactObjectRowConverter<T, IdType> implements ObjectRowC
           }
           else {
             put = new Put(infoProvider.getRowIdFromRow(instance), lock);
+          }
+          final byte[] family = infoProvider.getVersionColumnFamily();
+          final byte[] qualifier = infoProvider.getVersionColumnQualifier();
+          if (family != null && qualifier != null) {
+            put.add(family, qualifier, Bytes.toBytes(instance.getVersion()));
           }
           getPutForTable(instance, service, put);
           puts.put(table, put);

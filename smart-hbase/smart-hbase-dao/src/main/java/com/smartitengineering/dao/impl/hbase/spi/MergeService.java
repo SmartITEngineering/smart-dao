@@ -27,7 +27,7 @@ import org.apache.hadoop.hbase.client.Put;
  *
  * @author imyousuf
  */
-public interface MergeService {
+public interface MergeService<T, IdType> {
 
-  void merge(HTableInterface tableInterface, List<Put> puts) throws IOException;
+  void merge(HTableInterface tableInterface, List<Put> puts, LockType lockType) throws IOException;
 }

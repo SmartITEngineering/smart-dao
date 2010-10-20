@@ -34,6 +34,7 @@ import com.smartitengineering.dao.common.queryparam.QueryParameterWithValue;
 import com.smartitengineering.dao.common.queryparam.ValueOnlyQueryParameter;
 import com.smartitengineering.dao.impl.hbase.spi.AsyncExecutorService;
 import com.smartitengineering.dao.impl.hbase.spi.Callback;
+import com.smartitengineering.dao.impl.hbase.spi.Callback;
 import com.smartitengineering.dao.impl.hbase.spi.FilterConfig;
 import com.smartitengineering.dao.impl.hbase.spi.LockAttainer;
 import com.smartitengineering.dao.impl.hbase.spi.LockType;
@@ -41,10 +42,12 @@ import com.smartitengineering.dao.impl.hbase.spi.MergeService;
 import com.smartitengineering.dao.impl.hbase.spi.ObjectRowConverter;
 import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
 import com.smartitengineering.dao.impl.hbase.spi.impl.BinarySuffixComparator;
+import com.smartitengineering.dao.impl.hbase.spi.impl.DiffBasedMergeService;
 import com.smartitengineering.dao.impl.hbase.spi.impl.RangeComparator;
 import com.smartitengineering.domain.PersistentDTO;
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.String;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -53,6 +56,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -106,11 +110,12 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
   @Named("mergeEnabled")
   private Boolean mergeEnabled = false;
   @Inject
-  private MergeService mergeService;
+  private MergeService<Template, IdType> mergeService;
   @Inject
   private LockAttainer<Template, IdType> lockAttainer;
   @Inject(optional = true)
   private LockType lockType;
+  private final String errorMessageFormat = "Delete of row %s from table %s has failed optimistically!";
   private int maxRows = -1;
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -722,6 +727,32 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
     put(states, false);
   }
 
+  @Override
+  public void update(Template... states) {
+    verifyAllEntitiesExists(true, states);
+    put(states, true);
+  }
+
+  protected void throwIfErrors(Collection<Future<String>> probableFutureErrors) throws IllegalStateException {
+    Collection<String> probableErrors = new ArrayList<String>(probableFutureErrors.size());
+    for (Future<String> delErr : probableFutureErrors) {
+      String str;
+      try {
+        str = delErr.get();
+      }
+      catch (Exception ex) {
+        logger.warn("Could not wait to complete deletion!", ex);
+        str = "Could not complete deletion!";
+      }
+      if (StringUtils.isNotBlank(str)) {
+        probableErrors.add(str);
+      }
+    }
+    if (!probableErrors.isEmpty()) {
+      throw new IllegalStateException(Arrays.toString(probableErrors.toArray(new String[probableErrors.size()])));
+    }
+  }
+
   protected void verifyAllEntitiesExists(boolean existenceExpected, Template... states) {
     List<Future<Boolean>> gets = new ArrayList<Future<Boolean>>(states.length);
     int i = 0;
@@ -795,44 +826,85 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
         putList.add(put.getValue());
       }
     }
-    for (final Map.Entry<String, List<Put>> puts : allPuts.entrySet()) {
-      try {
-        executorService.execute(puts.getKey(),
-                                new Callback<Void>() {
-
-          @Override
-          public Void call(HTableInterface tableInterface) throws Exception {
-            List<Put> value = puts.getValue();
-            try {
-              if (merge && mergeEnabled && mergeService != null) {
-                mergeService.merge(tableInterface, value);
-              }
-              tableInterface.put(new ArrayList(value));
-            }
-            finally {
-              for (Put put : value) {
-                RowLock lock = put.getRowLock();
-                if (lock != null) {
-                  tableInterface.unlockRow(lock);
-                }
-              }
-            }
-            return null;
-          }
-        });
+    for (Map.Entry<String, List<Put>> puts : allPuts.entrySet()) {
+      final List<Put> value = puts.getValue();
+      final ArrayList<Put> valueCopy = new ArrayList<Put>(value);
+      if (LockType.OPTIMISTIC.equals(getLockType()) && infoProvider.getVersionColumnFamily() != null && infoProvider.
+          getVersionColumnQualifier() != null) {
+        putOptimistically(puts, merge, value, valueCopy, states);
       }
-      finally {
-        for (Template state : states) {
-          lockAttainer.evictFromCache(state);
-        }
+      else {
+        putNonOptimistically(puts, merge, value, valueCopy, states);
       }
     }
   }
 
-  @Override
-  public void update(Template... states) {
-    verifyAllEntitiesExists(true, states);
-    put(states, true);
+  protected void putOptimistically(Entry<String, List<Put>> puts, final boolean merge, final List<Put> value,
+                                   final ArrayList<Put> valueCopy, Template[] states) {
+    //Merge first respecting lock type
+    executorService.execute(puts.getKey(),
+                            new Callback<Void>() {
+
+      @Override
+      public Void call(HTableInterface tableInterface) throws Exception {
+        if (merge && mergeEnabled && mergeService != null) {
+          mergeService.merge(tableInterface, value, getLockType());
+        }
+        return null;
+      }
+    });
+    Collection<Future<String>> pFutures = new ArrayList<Future<String>>();
+    final byte[] family = infoProvider.getVersionColumnFamily();
+    final byte[] qualifier = infoProvider.getVersionColumnQualifier();
+    for (final Put put : puts.getValue()) {
+      final byte[] versionValue = DiffBasedMergeService.getLatestValue(put.get(family, qualifier)).getValue();
+      put.add(family, qualifier, Bytes.toBytes(Bytes.toLong(versionValue) + 1));
+      pFutures.add(executorService.executeAsynchronously(puts.getKey(), new Callback<String>() {
+
+        @Override
+        public String call(HTableInterface tableInterface) throws Exception {
+          boolean puted = tableInterface.checkAndPut(put.getRow(), family, qualifier, versionValue, put);
+          if (!puted) {
+            return String.format(errorMessageFormat, infoProvider.getIdFromRowId(put.getRow()).toString(), Bytes.
+                toString(tableInterface.getTableName()));
+          }
+          return null;
+        }
+      }));
+    }
+    throwIfErrors(pFutures);
+  }
+
+  protected void putNonOptimistically(Entry<String, List<Put>> puts, final boolean merge, final List<Put> value,
+                                      final ArrayList<Put> valueCopy, Template[] states) {
+    try {
+      executorService.execute(puts.getKey(), new Callback<Void>() {
+
+        @Override
+        public Void call(HTableInterface tableInterface) throws Exception {
+          try {
+            if (merge && mergeEnabled && mergeService != null) {
+              mergeService.merge(tableInterface, value, getLockType());
+            }
+            tableInterface.put(valueCopy);
+          }
+          finally {
+            for (Put put : value) {
+              RowLock lock = put.getRowLock();
+              if (lock != null) {
+                tableInterface.unlockRow(lock);
+              }
+            }
+          }
+          return null;
+        }
+      });
+    }
+    finally {
+      for (Template state : states) {
+        lockAttainer.evictFromCache(state);
+      }
+    }
   }
 
   @Override
@@ -847,7 +919,7 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
   }
 
   protected void deleteOptimistically(Template[] states) throws IllegalStateException {
-    final String errorMessageFormat = "Delete of row %s from table %s has failed optimistically!";
+
     Collection<Future<String>> deletes = new ArrayList<Future<String>>();
     final byte[] family = infoProvider.getVersionColumnFamily();
     final byte[] qualifier = infoProvider.getVersionColumnQualifier();
@@ -873,23 +945,7 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
         }));
       }
     }
-    Collection<String> deleteErrors = new ArrayList<String>(deletes.size());
-    for (Future<String> delErr : deletes) {
-      String str;
-      try {
-        str = delErr.get();
-      }
-      catch (Exception ex) {
-        logger.warn("Could not wait to complete deletion!", ex);
-        str = "Could not complete deletion!";
-      }
-      if (StringUtils.isNotBlank(str)) {
-        deleteErrors.add(str);
-      }
-    }
-    if (!deleteErrors.isEmpty()) {
-      throw new IllegalStateException(Arrays.toString(deleteErrors.toArray(new String[deleteErrors.size()])));
-    }
+    throwIfErrors(deletes);
   }
 
   protected void deleteNonOptimistically(Template[] states) throws IllegalStateException {
