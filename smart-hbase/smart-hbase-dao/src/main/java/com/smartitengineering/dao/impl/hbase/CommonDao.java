@@ -36,6 +36,7 @@ import com.smartitengineering.dao.impl.hbase.spi.AsyncExecutorService;
 import com.smartitengineering.dao.impl.hbase.spi.Callback;
 import com.smartitengineering.dao.impl.hbase.spi.FilterConfig;
 import com.smartitengineering.dao.impl.hbase.spi.LockAttainer;
+import com.smartitengineering.dao.impl.hbase.spi.LockType;
 import com.smartitengineering.dao.impl.hbase.spi.MergeService;
 import com.smartitengineering.dao.impl.hbase.spi.ObjectRowConverter;
 import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
@@ -107,7 +108,8 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
   private MergeService mergeService;
   @Inject
   private LockAttainer<Template, IdType> lockAttainer;
-
+  @Inject(optional = true)
+  private LockType lockType;
   private int maxRows = -1;
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -259,7 +261,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
     for (Future<Template> future : set) {
       try {
         final Template get = future.get();
-        if(get != null) {
+        if (get != null) {
           resultSet.add(get);
         }
       }
@@ -329,6 +331,13 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
         return CommonDao.this.scanList(tableInterface, scan, maxRows);
       }
     });
+  }
+
+  protected LockType getLockType() {
+    if (lockType == null) {
+      return LockType.getDefault();
+    }
+    return lockType;
   }
 
   protected List<Template> scanList(HTableInterface tableInterface, Scan scan, int maxRows) throws IOException,
@@ -709,7 +718,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
   @Override
   public void save(Template... states) {
     verifyAllEntitiesExists(false, states);
-    put(states, true, false);
+    put(states, false);
   }
 
   protected void verifyAllEntitiesExists(boolean existenceExpected, Template... states) {
@@ -764,7 +773,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
     }
   }
 
-  protected void put(Template[] states, boolean attainLock, final boolean merge) throws IllegalStateException {
+  protected void put(Template[] states, final boolean merge) throws IllegalStateException {
     LinkedHashMap<String, List<Put>> allPuts =
                                      new LinkedHashMap<String, List<Put>>();
     for (Template state : states) {
@@ -772,12 +781,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
         throw new IllegalStateException("Entity not in valid state!");
       }
       final LinkedHashMap<String, Put> puts;
-      if (attainLock) {
-        puts = getConverter().objectToRows(state, executorService);
-      }
-      else {
-        puts = getConverter().objectToRows(state, executorService);
-      }
+      puts = getConverter().objectToRows(state, executorService, getLockType().equals(LockType.PESSIMISTIC));
       for (Map.Entry<String, Put> put : puts.entrySet()) {
         final List<Put> putList;
         if (allPuts.containsKey(put.getKey())) {
@@ -817,7 +821,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
         });
       }
       finally {
-        for(Template state : states) {
+        for (Template state : states) {
           lockAttainer.evictFromCache(state);
         }
       }
@@ -827,7 +831,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
   @Override
   public void update(Template... states) {
     verifyAllEntitiesExists(true, states);
-    put(states, true, true);
+    put(states, true);
   }
 
   @Override
@@ -838,7 +842,8 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
       if (!state.isValid()) {
         throw new IllegalStateException("Entity not in valid state!");
       }
-      LinkedHashMap<String, Delete> dels = getConverter().objectToDeleteableRows(state, executorService);
+      LinkedHashMap<String, Delete> dels = getConverter().objectToDeleteableRows(state, executorService, getLockType().
+          equals(LockType.PESSIMISTIC));
       for (Map.Entry<String, Delete> del : dels.entrySet()) {
         final List<Delete> putList;
         if (allDels.containsKey(del.getKey())) {
@@ -880,7 +885,9 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
                   tableInterface.unlockRow(lock);
                 }
                 else {
-                  logger.warn("Null lock found!");
+                  if (getLockType().equals(LockType.PESSIMISTIC)) {
+                    logger.warn("Null lock found!");
+                  }
                 }
               }
             }
@@ -889,7 +896,7 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
         });
       }
       finally {
-        for(Template state : states) {
+        for (Template state : states) {
           lockAttainer.evictFromCache(state);
         }
       }

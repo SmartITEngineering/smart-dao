@@ -29,9 +29,9 @@ import org.apache.hadoop.hbase.client.Result;
  */
 public interface ObjectRowConverter<T> {
 
-  LinkedHashMap<String, Put> objectToRows(T instance, ExecutorService service);
+  LinkedHashMap<String, Put> objectToRows(T instance, ExecutorService service, boolean pessimisticLock);
 
-  LinkedHashMap<String, Delete> objectToDeleteableRows(T instance, ExecutorService service);
+  LinkedHashMap<String, Delete> objectToDeleteableRows(T instance, ExecutorService service, boolean pessimisticLock);
 
   /**
    * Load an instance of the convertable object with the row. It might be needed

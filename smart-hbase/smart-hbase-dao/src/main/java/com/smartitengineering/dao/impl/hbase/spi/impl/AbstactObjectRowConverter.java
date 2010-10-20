@@ -24,6 +24,7 @@ import com.smartitengineering.dao.impl.hbase.spi.ExecutorService;
 import com.smartitengineering.dao.impl.hbase.spi.LockAttainer;
 import com.smartitengineering.dao.impl.hbase.spi.ObjectRowConverter;
 import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.apache.hadoop.hbase.HConstants;
@@ -46,7 +47,8 @@ public abstract class AbstactObjectRowConverter<T, IdType> implements ObjectRowC
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Override
-  public LinkedHashMap<String, Put> objectToRows(final T instance, final ExecutorService service) {
+  public LinkedHashMap<String, Put> objectToRows(final T instance, final ExecutorService service,
+                                                 boolean pessimisticLock) {
     final AsyncExecutorService executorService;
     if (service instanceof AsyncExecutorService) {
       executorService = (AsyncExecutorService) service;
@@ -59,7 +61,7 @@ public abstract class AbstactObjectRowConverter<T, IdType> implements ObjectRowC
     }
     LinkedHashMap<String, Put> puts = new LinkedHashMap<String, Put>();
     String[] tables = getTablesToAttainLock();
-    Map<String, RowLock> map = getLocks(executorService, instance, tables);
+    Map<String, RowLock> map = getLocks(executorService, instance, pessimisticLock, tables);
     if (tables != null) {
       for (String table : tables) {
         try {
@@ -86,13 +88,20 @@ public abstract class AbstactObjectRowConverter<T, IdType> implements ObjectRowC
     return puts;
   }
 
-  protected Map<String, RowLock> getLocks(AsyncExecutorService executorService, final T instance, String... tables) {
+  protected Map<String, RowLock> getLocks(AsyncExecutorService executorService, final T instance,
+                                          boolean pessimisticLock, String... tables) {
     logger.info("Attempting to get locks");
-    return lockAttainer.getLock(instance, tables);
+    if (pessimisticLock) {
+      return lockAttainer.getLock(instance, tables);
+    }
+    else {
+      return Collections.emptyMap();
+    }
   }
 
   @Override
-  public LinkedHashMap<String, Delete> objectToDeleteableRows(T instance, ExecutorService service) {
+  public LinkedHashMap<String, Delete> objectToDeleteableRows(T instance, ExecutorService service,
+                                                              boolean pessimisticLock) {
     AsyncExecutorService executorService;
     if (service instanceof AsyncExecutorService) {
       executorService = (AsyncExecutorService) service;
@@ -102,7 +111,7 @@ public abstract class AbstactObjectRowConverter<T, IdType> implements ObjectRowC
     }
     LinkedHashMap<String, Delete> deletes = new LinkedHashMap<String, Delete>();
     String[] tables = getTablesToAttainLock();
-    Map<String, RowLock> map = getLocks(executorService, instance, tables);
+    Map<String, RowLock> map = getLocks(executorService, instance, pessimisticLock, tables);
     if (tables != null) {
       for (String table : tables) {
         try {
