@@ -89,7 +89,8 @@ import org.slf4j.LoggerFactory;
  * toString() method returns the string representation of the value to be compared in byte[] form.
  * @author imyousuf
  */
-public class CommonDao<Template extends PersistentDTO, IdType extends Serializable> implements
+public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ? extends Comparable, ? extends Long>, IdType extends Serializable>
+    implements
     com.smartitengineering.dao.common.CommonDao<Template, IdType> {
 
   public static final int DEFAULT_MAX_ROWS = 1000;
@@ -837,7 +838,63 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
   @Override
   public void delete(Template... states) {
     verifyAllEntitiesExists(true, states);
-    LinkedHashMap<String, List<Delete>> allDels = new LinkedHashMap<String, List<Delete>>();
+    if (LockType.OPTIMISTIC.equals(getLockType())) {
+      deleteOptimistically(states);
+    }
+    else {
+      deleteNonOptimistically(states);
+    }
+  }
+
+  protected void deleteOptimistically(Template[] states) throws IllegalStateException {
+    final String errorMessageFormat = "Delete of row %s from table %s has failed optimistically!";
+    Collection<Future<String>> deletes = new ArrayList<Future<String>>();
+    final byte[] family = infoProvider.getVersionColumnFamily();
+    final byte[] qualifier = infoProvider.getVersionColumnQualifier();
+    for (final Template state : states) {
+      if (!state.isValid()) {
+        throw new IllegalStateException("Entity not in valid state!");
+      }
+      LinkedHashMap<String, Delete> dels = getConverter().objectToDeleteableRows(state, executorService, false);
+      for (final Map.Entry<String, Delete> del : dels.entrySet()) {
+        deletes.add(executorService.executeAsynchronously(del.getKey(), new Callback<String>() {
+
+          @Override
+          public String call(HTableInterface tableInterface) throws Exception {
+            final Delete delVal = del.getValue();
+            final byte[] version = state.getVersion() != null ? Bytes.toBytes(state.getVersion()) : null;
+            boolean deleted = tableInterface.checkAndDelete(delVal.getRow(), family, qualifier, version, delVal);
+            if (!deleted) {
+              return String.format(errorMessageFormat, infoProvider.getIdFromRowId(delVal.getRow()).toString(), Bytes.
+                  toString(tableInterface.getTableName()));
+            }
+            return null;
+          }
+        }));
+      }
+    }
+    Collection<String> deleteErrors = new ArrayList<String>(deletes.size());
+    for (Future<String> delErr : deletes) {
+      String str;
+      try {
+        str = delErr.get();
+      }
+      catch (Exception ex) {
+        logger.warn("Could not wait to complete deletion!", ex);
+        str = "Could not complete deletion!";
+      }
+      if (StringUtils.isNotBlank(str)) {
+        deleteErrors.add(str);
+      }
+    }
+    if (!deleteErrors.isEmpty()) {
+      throw new IllegalStateException(Arrays.toString(deleteErrors.toArray(new String[deleteErrors.size()])));
+    }
+  }
+
+  protected void deleteNonOptimistically(Template[] states) throws IllegalStateException {
+    LinkedHashMap<String, List<Delete>> allDels =
+                                        new LinkedHashMap<String, List<Delete>>();
     for (Template state : states) {
       if (!state.isValid()) {
         throw new IllegalStateException("Entity not in valid state!");
@@ -858,7 +915,8 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
     }
     for (final Map.Entry<String, List<Delete>> dels : allDels.entrySet()) {
       try {
-        executorService.execute(dels.getKey(), new Callback<Void>() {
+        executorService.execute(dels.getKey(),
+                                new Callback<Void>() {
 
           @Override
           public Void call(HTableInterface tableInterface) throws Exception {
@@ -867,7 +925,8 @@ public class CommonDao<Template extends PersistentDTO, IdType extends Serializab
               logger.info("Attempting to DELETE " + value);
             }
             try {
-              tableInterface.delete(new ArrayList(value));
+              final ArrayList<Delete> list = new ArrayList<Delete>(value);
+              tableInterface.delete(list);
             }
             finally {
               if (logger.isDebugEnabled()) {
