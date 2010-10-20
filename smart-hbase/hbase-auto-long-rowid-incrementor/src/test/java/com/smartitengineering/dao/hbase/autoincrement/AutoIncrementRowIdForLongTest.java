@@ -225,4 +225,60 @@ public class AutoIncrementRowIdForLongTest {
     LOGGER.info("IDS: " + ids);
     Assert.assertEquals(bound * innerBound + start - 1, ids.size());
   }
+
+  @Test
+  public void testMultithreadedKeysSelfProvided() throws Exception {
+    ExecutorService service = Executors.newFixedThreadPool(THREAD_COUNT);
+    final long start = 3102;
+    final int bound = THREAD_COUNT;
+    final int innerBound = 30;
+    List<Future> futures = new ArrayList<Future>();
+    final long startTime = System.currentTimeMillis();
+    for (int i = 0; i < bound; ++i) {
+      final int index = i;
+      futures.add(service.submit(new Runnable() {
+
+        @Override
+        public void run() {
+          for (int j = 0; j < innerBound; ++j) {
+            final HTableInterface table = pool.getTable(TABLE_NAME);
+            long id = index * bound + j + start;
+            final long id1 = Long.MAX_VALUE - id;
+            synchronized (ids) {
+              final long mainId = Long.MAX_VALUE - id1;
+              Assert.assertFalse(ids.contains(mainId));
+              ids.add(mainId);
+            }
+            final byte[] row = Bytes.toBytes(id1);
+            Put put = new Put(row);
+            final byte[] toBytes = Bytes.toBytes("value " + id);
+            put.add(FAMILY_BYTES, CELL_BYTES, toBytes);
+            Result get1;
+            try {
+              table.put(put);
+              Get get = new Get(row);
+              get1 = table.get(get);
+            }
+            catch (Exception ex) {
+              LOGGER.error(ex.getMessage(), ex);
+              get1 = null;
+              Assert.fail(ex.getMessage());
+            }
+            pool.putTable(table);
+            Assert.assertNotNull(get1);
+            Assert.assertFalse(get1.isEmpty());
+            Assert.assertTrue(Arrays.equals(row, get1.getRow()));
+            Assert.assertTrue(Arrays.equals(toBytes, get1.getValue(FAMILY_BYTES, CELL_BYTES)));
+          }
+        }
+      }));
+    }
+    for (Future future : futures) {
+      future.get();
+    }
+    final long endTime = System.currentTimeMillis();
+    LOGGER.info("Time for " + (bound * innerBound) + " rows ID retrieval, put and get is " + (endTime - startTime) +
+        "ms");
+    Assert.assertEquals(bound * innerBound + start - 1, ids.size());
+  }
 }
