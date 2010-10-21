@@ -116,12 +116,41 @@ public class CommonDaoWriteTest {
   }
 
   @Test
-  public void testOptimisticSave() {
+  public void testOptimisticPersist() {
     com.smartitengineering.dao.common.CommonDao<SampleDomain, Long> dao = commonDaos.optimisticDao;
     SampleDomain domain = new SampleDomain();
     domain.setName("Name 1");
     domain.setId(1l);
     dao.save(domain);
+    domain.setName("Name 1 `2");
+    try {
+      dao.update(domain);
+      Assert.fail("Should have failed!");
+    }
+    catch (Exception ex) {
+      LOGGER.info(ex.getMessage(), ex);
+    }
+    domain.setVersion(1l);
+    dao.update(domain);
+  }
+
+  @Test
+  public void testPessimisticPersist() {
+    com.smartitengineering.dao.common.CommonDao<SampleDomain, Long> dao = commonDaos.pessimisticDao;
+    SampleDomain domain = new SampleDomain();
+    domain.setName("Name 2");
+    domain.setId(2l);
+    dao.save(domain);
+    domain.setName("Name 2 `2");
+    try {
+      dao.update(domain);
+    }
+    catch (Exception ex) {
+      LOGGER.info(ex.getMessage(), ex);
+      Assert.fail("Should not have failed!");
+    }
+    domain.setVersion(1l);
+    dao.update(domain);
   }
 
   private static class CommonDaos {
