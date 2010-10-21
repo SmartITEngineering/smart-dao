@@ -132,6 +132,24 @@ public class CommonDaoWriteTest {
     }
     domain.setVersion(1l);
     dao.update(domain);
+    domain.setVersion(3l);
+    try {
+      dao.delete(domain);
+      Assert.fail("Should have failed!");
+    }
+    catch (Exception ex) {
+      LOGGER.info(ex.getMessage(), ex);
+    }
+    domain.setVersion(0l);
+    try {
+      dao.delete(domain);
+      Assert.fail("Should have failed!");
+    }
+    catch (Exception ex) {
+      LOGGER.info(ex.getMessage(), ex);
+    }
+    domain.setVersion(2l);
+    dao.delete(domain);
   }
 
   @Test
@@ -151,6 +169,7 @@ public class CommonDaoWriteTest {
     }
     domain.setVersion(1l);
     dao.update(domain);
+    dao.delete(domain);
   }
 
   private static class CommonDaos {
@@ -216,7 +235,7 @@ public class CommonDaoWriteTest {
       }).to(SampleDomainObjectCoverter.class).in(Singleton.class);
       bind(new TypeLiteral<LockAttainer<SampleDomain, Long>>() {
       }).to(new TypeLiteral<LockAttainerImpl<SampleDomain, Long>>() {
-      });
+      }).in(Scopes.SINGLETON);
       bind(new TypeLiteral<SchemaInfoProviderBaseConfig<SampleDomain>>() {
       }).toProvider(new GenericBaseConfigProvider<SampleDomain>(
           "com/smartitengineering/dao/impl/hbase/domain/BaseConfigOptimistic.json")).in(Scopes.SINGLETON);
@@ -237,7 +256,7 @@ public class CommonDaoWriteTest {
       }).to(SampleDomainObjectCoverter.class).in(Singleton.class);
       bind(new TypeLiteral<LockAttainer<SampleDomain, Long>>() {
       }).to(new TypeLiteral<LockAttainerImpl<SampleDomain, Long>>() {
-      });
+      }).in(Scopes.SINGLETON);
       bind(new TypeLiteral<SchemaInfoProvider<SampleDomain, Long>>() {
       }).to(vTypeLiteral).in(Singleton.class);
       bind(new TypeLiteral<SchemaInfoProviderBaseConfig<SampleDomain>>() {
@@ -257,7 +276,7 @@ public class CommonDaoWriteTest {
       }).to(SampleDomainObjectCoverter.class).in(Singleton.class);
       bind(new TypeLiteral<LockAttainer<SampleDomain, Long>>() {
       }).to(new TypeLiteral<LockAttainerImpl<SampleDomain, Long>>() {
-      });
+      }).in(Scopes.SINGLETON);
       bind(new TypeLiteral<SchemaInfoProvider<SampleDomain, Long>>() {
       }).to(vTypeLiteral).in(Singleton.class);
       bind(new TypeLiteral<SchemaInfoProviderBaseConfig<SampleDomain>>() {

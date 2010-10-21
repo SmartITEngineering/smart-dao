@@ -69,7 +69,6 @@ import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
-import org.apache.hadoop.hbase.client.RowLock;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.filter.BinaryComparator;
 import org.apache.hadoop.hbase.filter.BinaryPrefixComparator;
@@ -116,7 +115,7 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
   private LockAttainer<Template, IdType> lockAttainer;
   @Inject(optional = true)
   private LockType lockType;
-  private final String errorMessageFormat = "Delete of row %s from table %s has failed optimistically!";
+  private final String errorMessageFormat = "Operation of row %s from table %s has failed optimistically!";
   private int maxRows = -1;
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -752,6 +751,7 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
     if (!probableErrors.isEmpty()) {
       throw new IllegalStateException(Arrays.toString(probableErrors.toArray(new String[probableErrors.size()])));
     }
+    logger.info("No error messages!");
   }
 
   protected void verifyAllEntitiesExists(boolean existenceExpected, Template... states) {
@@ -910,7 +910,9 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
   @Override
   public void delete(Template... states) {
     verifyAllEntitiesExists(true, states);
-    if (LockType.OPTIMISTIC.equals(getLockType())) {
+    final byte[] family = infoProvider.getVersionColumnFamily();
+    final byte[] qualifier = infoProvider.getVersionColumnQualifier();
+    if (LockType.OPTIMISTIC.equals(getLockType()) && family != null && qualifier != null) {
       deleteOptimistically(states);
     }
     else {
@@ -919,23 +921,31 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
   }
 
   protected void deleteOptimistically(Template[] states) throws IllegalStateException {
-
-    Collection<Future<String>> deletes = new ArrayList<Future<String>>();
     final byte[] family = infoProvider.getVersionColumnFamily();
     final byte[] qualifier = infoProvider.getVersionColumnQualifier();
+    Collection<Future<String>> deletes = new ArrayList<Future<String>>();
     for (final Template state : states) {
       if (!state.isValid()) {
         throw new IllegalStateException("Entity not in valid state!");
       }
       LinkedHashMap<String, Delete> dels = getConverter().objectToDeleteableRows(state, executorService, false);
+      final byte[] version = state.getVersion() != null ? Bytes.toBytes(state.getVersion()) : null;
+      if (logger.isInfoEnabled() && version != null) {
+        logger.info("Version to check on delete optimistically is " + Bytes.toLong(version));
+      }
+      else if (logger.isInfoEnabled()) {
+        logger.info("Version is null");
+      }
       for (final Map.Entry<String, Delete> del : dels.entrySet()) {
         deletes.add(executorService.executeAsynchronously(del.getKey(), new Callback<String>() {
 
           @Override
           public String call(HTableInterface tableInterface) throws Exception {
             final Delete delVal = del.getValue();
-            final byte[] version = state.getVersion() != null ? Bytes.toBytes(state.getVersion()) : null;
             boolean deleted = tableInterface.checkAndDelete(delVal.getRow(), family, qualifier, version, delVal);
+            if (logger.isInfoEnabled()) {
+              logger.info("Deleted row? " + deleted);
+            }
             if (!deleted) {
               return String.format(errorMessageFormat, infoProvider.getIdFromRowId(delVal.getRow()).toString(), Bytes.
                   toString(tableInterface.getTableName()));

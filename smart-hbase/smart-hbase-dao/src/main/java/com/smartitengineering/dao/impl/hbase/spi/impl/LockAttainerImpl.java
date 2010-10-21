@@ -23,6 +23,7 @@ import com.smartitengineering.dao.impl.hbase.spi.AsyncExecutorService;
 import com.smartitengineering.dao.impl.hbase.spi.Callback;
 import com.smartitengineering.dao.impl.hbase.spi.LockAttainer;
 import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -52,10 +53,8 @@ public class LockAttainerImpl<T, IdType>
   @Override
   public synchronized Map<String, RowLock> getLock(final T instance,
                                                    String... tables) {
-    logger.info("Attempting to get locks");
     if (locksCache.containsKey(instance)) {
-      logger.info("Got locks from cache!");
-      return locksCache.get(instance);
+      return Collections.unmodifiableMap(locksCache.get(instance));
     }
     logger.info("Not found in cache so trying to retrieve!");
     final Map<String, Future<RowLock>> map = new LinkedHashMap<String, Future<RowLock>>();
@@ -112,7 +111,6 @@ public class LockAttainerImpl<T, IdType>
 
   @Override
   public synchronized boolean unlockAndEvictFromCache(T instance) {
-    logger.info("Instance to unlock " + instance);
     Map<String, RowLock> locks = locksCache.remove(instance);
     if (locks == null) {
       logger.info("No locks in cache!");
