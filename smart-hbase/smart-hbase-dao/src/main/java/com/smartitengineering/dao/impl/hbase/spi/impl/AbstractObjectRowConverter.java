@@ -31,6 +31,7 @@ import java.util.Map;
 import org.apache.hadoop.hbase.HConstants;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.RowLock;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.slf4j.Logger;
@@ -40,7 +41,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author imyousuf
  */
-public abstract class AbstractObjectRowConverter<T extends PersistentDTO<? extends PersistentDTO, ? extends Comparable, ? extends Long>, IdType>
+public abstract class AbstractObjectRowConverter<T extends PersistentDTO<? extends PersistentDTO, ? extends Comparable, Long>, IdType>
     implements ObjectRowConverter<T> {
 
   @Inject
@@ -188,6 +189,14 @@ public abstract class AbstractObjectRowConverter<T extends PersistentDTO<? exten
 
   protected void addColumn(byte[] family, byte[] column, byte[] value, Put put) {
     put.add(family, column, value);
+  }
+
+  protected void populateVersion(T instance, Result row) {
+    byte[] verFam = getInfoProvider().getVersionColumnFamily();
+    byte[] verQual = getInfoProvider().getVersionColumnQualifier();
+    if (verFam != null && verQual != null && row.containsColumn(verFam, verQual)) {
+      instance.setVersion(Long.valueOf(Bytes.toLong(row.getValue(verFam, verQual))));
+    }
   }
 
   protected abstract String[] getTablesToAttainLock();
