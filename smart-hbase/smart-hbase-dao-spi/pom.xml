@@ -13,6 +13,10 @@
   <name>Smart HBase DAO SPI</name>
   <dependencies>
     <dependency>
+      <groupId>com.smartitengineering</groupId>
+      <artifactId>smart-domain</artifactId>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
     </dependency>
