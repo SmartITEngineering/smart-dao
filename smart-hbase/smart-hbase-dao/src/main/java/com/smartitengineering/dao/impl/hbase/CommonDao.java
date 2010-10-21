@@ -828,20 +828,18 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
       }
     }
     for (Map.Entry<String, List<Put>> puts : allPuts.entrySet()) {
-      final List<Put> value = puts.getValue();
-      final ArrayList<Put> valueCopy = new ArrayList<Put>(value);
       if (LockType.OPTIMISTIC.equals(getLockType()) && infoProvider.getVersionColumnFamily() != null && infoProvider.
           getVersionColumnQualifier() != null) {
-        putOptimistically(puts, merge, value, valueCopy, states);
+        putOptimistically(puts, merge, states);
       }
       else {
-        putNonOptimistically(puts, merge, value, valueCopy, states);
+        putNonOptimistically(puts, merge, states);
       }
     }
   }
 
-  protected void putOptimistically(Entry<String, List<Put>> puts, final boolean merge, final List<Put> value,
-                                   final ArrayList<Put> valueCopy, Template[] states) {
+  protected void putOptimistically(Entry<String, List<Put>> puts, final boolean merge, Template[] states) {
+    final List<Put> value = puts.getValue();
     //Merge first respecting lock type
     executorService.execute(puts.getKey(),
                             new Callback<Void>() {
@@ -886,34 +884,25 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
     throwIfErrors(pFutures);
   }
 
-  protected void putNonOptimistically(Entry<String, List<Put>> puts, final boolean merge, final List<Put> value,
-                                      final ArrayList<Put> valueCopy, Template[] states) {
+  protected void putNonOptimistically(Entry<String, List<Put>> puts, final boolean merge, Template[] states) {
     try {
+      final List<Put> value = puts.getValue();
       executorService.execute(puts.getKey(), new Callback<Void>() {
 
         @Override
         public Void call(HTableInterface tableInterface) throws Exception {
-          try {
-            if (merge && mergeEnabled && mergeService != null) {
-              mergeService.merge(tableInterface, value, getLockType());
-            }
-            tableInterface.put(valueCopy);
+          if (merge && mergeEnabled && mergeService != null) {
+            mergeService.merge(tableInterface, value, getLockType());
           }
-          finally {
-            for (Put put : value) {
-              RowLock lock = put.getRowLock();
-              if (lock != null) {
-                tableInterface.unlockRow(lock);
-              }
-            }
-          }
+          final ArrayList<Put> valueCopy = new ArrayList<Put>(value);
+          tableInterface.put(valueCopy);
           return null;
         }
       });
     }
     finally {
       for (Template state : states) {
-        lockAttainer.evictFromCache(state);
+        lockAttainer.unlockAndEvictFromCache(state);
       }
     }
   }
@@ -991,39 +980,15 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
             if (logger.isInfoEnabled()) {
               logger.info("Attempting to DELETE " + value);
             }
-            try {
-              final ArrayList<Delete> list = new ArrayList<Delete>(value);
-              tableInterface.delete(list);
-            }
-            finally {
-              if (logger.isDebugEnabled()) {
-                logger.debug("Attempting to Unlock rowlocks on DELETE for " + value);
-              }
-              for (Delete delete : value) {
-                if (logger.isDebugEnabled()) {
-                  logger.debug("Attempting to Unlock rowlock for " + delete);
-                }
-                RowLock lock = delete.getRowLock();
-                if (lock != null) {
-                  if (logger.isDebugEnabled()) {
-                    logger.debug("Unlocking lock on delete " + lock.getLockId());
-                  }
-                  tableInterface.unlockRow(lock);
-                }
-                else {
-                  if (getLockType().equals(LockType.PESSIMISTIC)) {
-                    logger.warn("Null lock found!");
-                  }
-                }
-              }
-            }
+            final ArrayList<Delete> list = new ArrayList<Delete>(value);
+            tableInterface.delete(list);
             return null;
           }
         });
       }
       finally {
         for (Template state : states) {
-          lockAttainer.evictFromCache(state);
+          lockAttainer.unlockAndEvictFromCache(state);
         }
       }
     }
