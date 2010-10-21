@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author imyousuf
  */
-public abstract class AbstactObjectRowConverter<T extends PersistentDTO<? extends PersistentDTO, ? extends Comparable, ? extends Long>, IdType>
+public abstract class AbstractObjectRowConverter<T extends PersistentDTO<? extends PersistentDTO, ? extends Comparable, ? extends Long>, IdType>
     implements ObjectRowConverter<T> {
 
   @Inject
@@ -144,6 +144,50 @@ public abstract class AbstactObjectRowConverter<T extends PersistentDTO<? extend
 
   protected SchemaInfoProvider<T, IdType> getInfoProvider() {
     return infoProvider;
+  }
+
+  protected void addColumn(String family, String column, String value, Put put) {
+    addColumn(Bytes.toBytes(family), Bytes.toBytes(column), value, put);
+  }
+
+  protected void addColumn(byte[] family, byte[] column, String value, Put put) {
+    addColumn(family, column, Bytes.toBytes(value), put);
+  }
+
+  protected void addColumn(String family, String column, Long value, Put put) {
+    addColumn(Bytes.toBytes(family), Bytes.toBytes(column), value, put);
+  }
+
+  protected void addColumn(byte[] family, byte[] column, Long value, Put put) {
+    addColumn(family, column, Bytes.toBytes(value), put);
+  }
+
+  protected void addColumn(String family, String column, Integer value, Put put) {
+    addColumn(Bytes.toBytes(family), Bytes.toBytes(column), value, put);
+  }
+
+  protected void addColumn(byte[] family, byte[] column, Integer value, Put put) {
+    addColumn(family, column, Bytes.toBytes(value), put);
+  }
+
+  protected void addColumn(String family, String column, Double value, Put put) {
+    addColumn(Bytes.toBytes(family), Bytes.toBytes(column), value, put);
+  }
+
+  protected void addColumn(byte[] family, byte[] column, Double value, Put put) {
+    addColumn(family, column, Bytes.toBytes(value), put);
+  }
+
+  protected void addColumn(String family, String column, Boolean value, Put put) {
+    addColumn(Bytes.toBytes(family), Bytes.toBytes(column), value, put);
+  }
+
+  protected void addColumn(byte[] family, byte[] column, Boolean value, Put put) {
+    addColumn(family, column, Bytes.toBytes(value), put);
+  }
+
+  protected void addColumn(byte[] family, byte[] column, byte[] value, Put put) {
+    put.add(family, column, value);
   }
 
   protected abstract String[] getTablesToAttainLock();
