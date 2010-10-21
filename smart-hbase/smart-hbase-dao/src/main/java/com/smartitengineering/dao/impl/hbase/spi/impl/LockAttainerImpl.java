@@ -54,10 +54,10 @@ public class LockAttainerImpl<T, IdType>
                                                    String... tables) {
     logger.info("Attempting to get locks");
     if (locksCache.containsKey(instance)) {
-      logger.debug("Got locks from cache!");
+      logger.info("Got locks from cache!");
       return locksCache.get(instance);
     }
-    logger.debug("Not found in cache so trying to retrieve!");
+    logger.info("Not found in cache so trying to retrieve!");
     final Map<String, Future<RowLock>> map = new LinkedHashMap<String, Future<RowLock>>();
     if (tables == null) {
       tables = new String[]{infoProvider.getMainTableName()};
@@ -112,8 +112,10 @@ public class LockAttainerImpl<T, IdType>
 
   @Override
   public synchronized boolean unlockAndEvictFromCache(T instance) {
-    Map<String, RowLock> locks = locksCache.get(instance);
+    logger.info("Instance to unlock " + instance);
+    Map<String, RowLock> locks = locksCache.remove(instance);
     if (locks == null) {
+      logger.info("No locks in cache!");
       return false;
     }
     else {
@@ -123,7 +125,11 @@ public class LockAttainerImpl<T, IdType>
           @Override
           public Void call(HTableInterface tableInterface)
               throws Exception {
-            tableInterface.unlockRow(lock.getValue());
+            final RowLock lockVal = lock.getValue();
+            if (logger.isInfoEnabled()) {
+              logger.info("Unlocking row: " + lockVal.getLockId());
+            }
+            tableInterface.unlockRow(lockVal);
             return null;
           }
         });

@@ -76,9 +76,13 @@ public abstract class AbstractObjectRowConverter<T extends PersistentDTO<? exten
           RowLock lock = map.get(table);
           final Put put;
           if (lock == null) {
+            logger.info("Creating put without lock");
             put = new Put(infoProvider.getRowIdFromRow(instance));
           }
           else {
+            if (logger.isInfoEnabled()) {
+              logger.info("Creating put with lock " + lock.getLockId());
+            }
             put = new Put(infoProvider.getRowIdFromRow(instance), lock);
           }
           final byte[] family = infoProvider.getVersionColumnFamily();
