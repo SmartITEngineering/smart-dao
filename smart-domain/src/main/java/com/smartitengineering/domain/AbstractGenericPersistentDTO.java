@@ -100,14 +100,14 @@ public abstract class AbstractGenericPersistentDTO<Template extends PersistentDT
       return false;
     }
     final PersistentDTO other = (PersistentDTO) obj;
-    return compareTo(other) == 0;
+    final int compareTo = compareTo(other);
+    return compareTo == 0;
   }
 
   @Override
   public int hashCode() {
     int hash = 3;
     hash = 23 * hash + (this.id != null ? this.id.hashCode() : 0);
-    hash = 23 * hash + (this.version != null ? this.version.hashCode() : 0);
     return hash;
   }
 
