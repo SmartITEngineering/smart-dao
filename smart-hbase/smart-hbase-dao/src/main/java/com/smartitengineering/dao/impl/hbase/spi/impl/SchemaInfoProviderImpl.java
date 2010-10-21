@@ -19,6 +19,7 @@
 package com.smartitengineering.dao.impl.hbase.spi.impl;
 
 import com.google.inject.Inject;
+import com.google.inject.internal.Nullable;
 import com.google.inject.name.Named;
 import com.smartitengineering.dao.impl.hbase.spi.DomainIdInstanceProvider;
 import com.smartitengineering.dao.impl.hbase.spi.Externalizable;
@@ -58,9 +59,10 @@ public class SchemaInfoProviderImpl<T extends PersistentDTO, IdType> implements 
   private long waitTime;
   private TimeUnit unit;
   @Inject
-  Class<IdType> idTypeClass;
+  private Class<IdType> idTypeClass;
   @Inject
-  DomainIdInstanceProvider provider;
+  @Nullable
+  private DomainIdInstanceProvider provider;
 
   public SchemaInfoProviderImpl() {
     filterConfigs = new HashMap<String, FilterConfig>();

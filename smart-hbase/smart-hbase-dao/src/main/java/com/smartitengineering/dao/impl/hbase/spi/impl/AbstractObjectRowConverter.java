@@ -83,7 +83,7 @@ public abstract class AbstractObjectRowConverter<T extends PersistentDTO<? exten
           }
           final byte[] family = infoProvider.getVersionColumnFamily();
           final byte[] qualifier = infoProvider.getVersionColumnQualifier();
-          if (family != null && qualifier != null) {
+          if (family != null && qualifier != null && instance.getVersion() != null) {
             put.add(family, qualifier, Bytes.toBytes(instance.getVersion()));
           }
           getPutForTable(instance, service, put);

@@ -19,6 +19,7 @@
 package com.smartitengineering.dao.impl.hbase;
 
 import com.google.inject.Inject;
+import com.google.inject.internal.Nullable;
 import com.google.inject.name.Named;
 import com.smartitengineering.dao.common.queryparam.BasicCompoundQueryParameter;
 import com.smartitengineering.dao.common.queryparam.BiOperandQueryParameter;
@@ -61,6 +62,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import org.apache.commons.lang.StringUtils;
+import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HTableInterface;
@@ -108,6 +110,7 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
   @Named("mergeEnabled")
   private Boolean mergeEnabled = false;
   @Inject
+  @Nullable
   private MergeService<Template, IdType> mergeService;
   @Inject
   private LockAttainer<Template, IdType> lockAttainer;
@@ -855,8 +858,18 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
     final byte[] family = infoProvider.getVersionColumnFamily();
     final byte[] qualifier = infoProvider.getVersionColumnQualifier();
     for (final Put put : puts.getValue()) {
-      final byte[] versionValue = DiffBasedMergeService.getLatestValue(put.get(family, qualifier)).getValue();
-      put.add(family, qualifier, Bytes.toBytes(Bytes.toLong(versionValue) + 1));
+      final List<KeyValue> kVal = put.get(family, qualifier);
+      final byte[] versionValue;
+      final byte[] nextVersion;
+      if (kVal != null && !kVal.isEmpty()) {
+        versionValue = DiffBasedMergeService.getLatestValue(kVal).getValue();
+        nextVersion = Bytes.toBytes(Bytes.toLong(versionValue) + 1);
+      }
+      else {
+        versionValue = null;
+        nextVersion = Bytes.toBytes(1l);
+      }
+      put.add(family, qualifier, nextVersion);
       pFutures.add(executorService.executeAsynchronously(puts.getKey(), new Callback<String>() {
 
         @Override
