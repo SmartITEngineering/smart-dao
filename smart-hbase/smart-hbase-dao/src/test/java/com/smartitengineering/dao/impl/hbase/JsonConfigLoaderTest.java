@@ -2,7 +2,7 @@
  * This is a common dao with basic CRUD operations and is not limited to any
  * persistent layer implementation
  *
- * Copyright (C) 2008  Imran M Yousuf (imyousuf@smartitengineering.com)
+ * Copyright (C) 2010  Imran M Yousuf (imyousuf@smartitengineering.com)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
