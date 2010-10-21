@@ -1,0 +1,5 @@
+{
+  "schemaNamespace": "testNS",
+  "mainTableName": "test",
+  "transactionalDomain": "false"
+}

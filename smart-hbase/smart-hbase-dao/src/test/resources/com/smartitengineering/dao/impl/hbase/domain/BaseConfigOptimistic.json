@@ -1,0 +1,7 @@
+{
+  "schemaNamespace": "testNS",
+  "mainTableName": "test",
+  "transactionalDomain": "false",
+  "versionColumnFamily": "family",
+  "versionColumnQualifier": "version"
+}
