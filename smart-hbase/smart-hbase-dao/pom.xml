@@ -63,7 +63,6 @@
     <dependency>
       <groupId>com.smartitengineering.smart-dao</groupId>
       <artifactId>smart-hbase-dao-spi</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.smartitengineering.smart-util</groupId>
@@ -87,9 +86,13 @@
       <artifactId>hadoop-test</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.smartitengineering.smart-dao</groupId>
+      <artifactId>hbase-ddl-util</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.8.1</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>

@@ -39,4 +39,7 @@
     <module>hbase-ddl-util</module>
     <module>hbase-auto-long-rowid-incrementor</module>
   </modules>
+  <properties>
+    <junit.version>4.8.1</junit.version>
+  </properties>
 </project>
