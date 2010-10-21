@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
 public class LockAttainerImpl<T, IdType>
     implements LockAttainer<T, IdType> {
 
-  private final Map<T, Map<String, RowLock>> locksCache = new WeakHashMap<T, Map<String, RowLock>>();
+  private final Map<Key<T>, Map<String, RowLock>> locksCache = new WeakHashMap<Key<T>, Map<String, RowLock>>();
   protected final Logger logger = LoggerFactory.getLogger(getClass());
   @Inject
   private SchemaInfoProvider<T, IdType> infoProvider;
@@ -53,8 +53,9 @@ public class LockAttainerImpl<T, IdType>
   @Override
   public synchronized Map<String, RowLock> getLock(final T instance,
                                                    String... tables) {
-    if (locksCache.containsKey(instance)) {
-      return Collections.unmodifiableMap(locksCache.get(instance));
+    final Key key = new Key(instance);
+    if (locksCache.containsKey(key)) {
+      return Collections.unmodifiableMap(locksCache.get(key));
     }
     logger.info("Not found in cache so trying to retrieve!");
     final Map<String, Future<RowLock>> map = new LinkedHashMap<String, Future<RowLock>>();
@@ -95,23 +96,23 @@ public class LockAttainerImpl<T, IdType>
         throw new RuntimeException(ex);
       }
     }
-    locksCache.put(instance, lockMap);
+    locksCache.put(key, lockMap);
     return lockMap;
   }
 
   @Override
   public synchronized boolean evictFromCache(T instance) {
-    return locksCache.remove(instance) != null;
+    return locksCache.remove(new Key(instance)) != null;
   }
 
   @Override
   public void putLock(T instance, Map<String, RowLock> locks) {
-    locksCache.put(instance, locks);
+    locksCache.put(new Key(instance), locks);
   }
 
   @Override
   public synchronized boolean unlockAndEvictFromCache(T instance) {
-    Map<String, RowLock> locks = locksCache.remove(instance);
+    Map<String, RowLock> locks = locksCache.remove(new Key(instance));
     if (locks == null) {
       logger.info("No locks in cache!");
       return false;
@@ -133,6 +134,34 @@ public class LockAttainerImpl<T, IdType>
         });
       }
       return false;
+    }
+  }
+
+  private static class Key<T> {
+
+    private final T instance;
+
+    public Key(T instance) {
+      this.instance = instance;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (obj == null) {
+        return false;
+      }
+      if (getClass() != obj.getClass()) {
+        return false;
+      }
+      final Key<T> other = (Key<T>) obj;
+      return other.instance == this.instance;
+    }
+
+    @Override
+    public int hashCode() {
+      int hash = 5;
+      hash = 67 * hash + (this.instance != null ? this.instance.hashCode() : 0);
+      return hash;
     }
   }
 }
