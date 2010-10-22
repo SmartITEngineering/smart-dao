@@ -27,10 +27,15 @@ import com.smartitengineering.domain.PersistentDTO;
 import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.RowLock;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -44,12 +49,30 @@ import org.slf4j.LoggerFactory;
 public class LockAttainerImpl<T extends PersistentDTO, IdType>
     implements LockAttainer<T, IdType> {
 
-  private final Map<Key<T>, Map<String, RowLock>> locksCache = new HashMap<Key<T>, Map<String, RowLock>>();
+  private final Map<Key<T>, Map<String, RowLock>> locksCache = new ConcurrentHashMap<Key<T>, Map<String, RowLock>>();
   protected final Logger logger = LoggerFactory.getLogger(getClass());
   @Inject
   private SchemaInfoProvider<T, IdType> infoProvider;
   @Inject
   private AsyncExecutorService executorService;
+  private final ScheduledExecutorService cleanupExecutor;
+
+  {
+    cleanupExecutor = Executors.newSingleThreadScheduledExecutor();
+    cleanupExecutor.scheduleAtFixedRate(new Runnable() {
+
+      @Override
+      public void run() {
+        Iterator<Entry<Key<T>, Map<String, RowLock>>> entries = locksCache.entrySet().iterator();
+        while (entries.hasNext()) {
+          Entry<Key<T>, Map<String, RowLock>> entry = entries.next();
+          if (entry.getKey().getInstance() == null) {
+            entries.remove();
+          }
+        }
+      }
+    }, 5, 10, TimeUnit.MINUTES);
+  }
 
   @Override
   public synchronized Map<String, RowLock> getLock(final T instance,
@@ -148,6 +171,10 @@ public class LockAttainerImpl<T extends PersistentDTO, IdType>
 
     public Key(T instance) {
       this.instance = new WeakReference<T>(instance);
+    }
+
+    public T getInstance() {
+      return this.instance.get();
     }
 
     @Override
