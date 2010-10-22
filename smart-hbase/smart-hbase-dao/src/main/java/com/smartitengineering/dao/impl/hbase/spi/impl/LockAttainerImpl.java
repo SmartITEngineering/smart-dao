@@ -23,12 +23,13 @@ import com.smartitengineering.dao.impl.hbase.spi.AsyncExecutorService;
 import com.smartitengineering.dao.impl.hbase.spi.Callback;
 import com.smartitengineering.dao.impl.hbase.spi.LockAttainer;
 import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
+import com.smartitengineering.domain.PersistentDTO;
+import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.WeakHashMap;
 import java.util.concurrent.Future;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.RowLock;
@@ -40,10 +41,10 @@ import org.slf4j.LoggerFactory;
  *
  * @author imyousuf
  */
-public class LockAttainerImpl<T, IdType>
+public class LockAttainerImpl<T extends PersistentDTO, IdType>
     implements LockAttainer<T, IdType> {
 
-  private final Map<Key<T>, Map<String, RowLock>> locksCache = new WeakHashMap<Key<T>, Map<String, RowLock>>();
+  private final Map<Key<T>, Map<String, RowLock>> locksCache = new HashMap<Key<T>, Map<String, RowLock>>();
   protected final Logger logger = LoggerFactory.getLogger(getClass());
   @Inject
   private SchemaInfoProvider<T, IdType> infoProvider;
@@ -112,6 +113,10 @@ public class LockAttainerImpl<T, IdType>
 
   @Override
   public synchronized boolean unlockAndEvictFromCache(T instance) {
+    if (logger.isInfoEnabled()) {
+      logger.info("Instance to remove " + " " + instance.getClass() + " " + instance);
+      logger.info("Cache " + " " + locksCache.getClass() + " " + locksCache);
+    }
     Map<String, RowLock> locks = locksCache.remove(new Key(instance));
     if (locks == null) {
       logger.info("No locks in cache!");
@@ -137,12 +142,12 @@ public class LockAttainerImpl<T, IdType>
     }
   }
 
-  private static class Key<T> {
+  private static class Key<T extends PersistentDTO> {
 
-    private final T instance;
+    private final WeakReference<T> instance;
 
     public Key(T instance) {
-      this.instance = instance;
+      this.instance = new WeakReference<T>(instance);
     }
 
     @Override
@@ -154,14 +159,18 @@ public class LockAttainerImpl<T, IdType>
         return false;
       }
       final Key<T> other = (Key<T>) obj;
-      return other.instance == this.instance;
+      return other.instance.get() == this.instance.get();
     }
 
     @Override
     public int hashCode() {
       int hash = 5;
-      hash = 67 * hash + (this.instance != null ? this.instance.hashCode() : 0);
       return hash;
+    }
+
+    @Override
+    public String toString() {
+      return "Key{" + "instance=" + instance.get().getId().toString() + '}';
     }
   }
 }
