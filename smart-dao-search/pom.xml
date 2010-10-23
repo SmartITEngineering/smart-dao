@@ -31,7 +31,7 @@
     <groupId>com.smartitengineering</groupId>
     <artifactId>smart-dao-search</artifactId>
     <version>0.4-SNAPSHOT</version>
-    <name>smart-dao-search</name>
+    <name>Smart Search DAO</name>
     <packaging>jar</packaging>
     <description>
         This API provides a generic API for interfacing with full-text search
