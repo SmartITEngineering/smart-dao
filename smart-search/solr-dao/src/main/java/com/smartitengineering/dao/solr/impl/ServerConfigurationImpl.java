@@ -19,6 +19,7 @@
 package com.smartitengineering.dao.solr.impl;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import com.smartitengineering.dao.solr.ServerConfiguration;
 import org.apache.solr.client.solrj.ResponseParser;
 import org.apache.solr.client.solrj.impl.XMLResponseParser;
@@ -30,22 +31,31 @@ import org.apache.solr.client.solrj.impl.XMLResponseParser;
 public class ServerConfigurationImpl implements ServerConfiguration {
 
   @Inject
+  @Named("uri")
   private String uri;
   @Inject(optional = true)
+  @Named("responseParser")
   private ResponseParser responseParser = new XMLResponseParser();
   @Inject(optional = true)
+  @Named("socketTimeout")
   private int socketTimeout = 1000;
   @Inject(optional = true)
+  @Named("connectionTimeout")
   private int connectionTimeout = 100;
   @Inject(optional = true)
+  @Named("maxRetries")
   private int maxRetries = 1;
   @Inject(optional = true)
+  @Named("defaultMaxConnectionsPerHost")
   private int defaultMaxConnectionsPerHost = 100;
   @Inject(optional = true)
+  @Named("maxTotalConnections")
   private int maxTotalConnections = 100;
   @Inject(optional = true)
+  @Named("allowCompression")
   private boolean allowCompression = true;
   @Inject(optional = true)
+  @Named("followRedirects")
   private boolean followRedirects = true;
 
   @Override
