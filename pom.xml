@@ -355,5 +355,6 @@
     <module>docs</module>
     <module>smart-exim</module>
     <module>smart-hbase</module>
+    <module>solr-dao</module>
   </modules>
 </project>
