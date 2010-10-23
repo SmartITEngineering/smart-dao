@@ -30,6 +30,7 @@ import com.smartitengineering.common.dao.search.CommonFreeTextSearchDao;
 import com.smartitengineering.common.dao.search.solr.SolrFreeTextPersistentDao;
 import com.smartitengineering.common.dao.search.solr.SolrFreeTextSearchDao;
 import com.smartitengineering.common.dao.search.solr.spi.ObjectIdentifierQuery;
+import com.smartitengineering.dao.common.queryparam.QueryParameterFactory;
 import com.smartitengineering.dao.solr.MultivalueMap;
 import com.smartitengineering.dao.solr.ServerConfiguration;
 import com.smartitengineering.dao.solr.ServerFactory;
@@ -43,14 +44,19 @@ import com.smartitengineering.util.bean.adapter.AbstractAdapterHelper;
 import com.smartitengineering.util.bean.adapter.GenericAdapter;
 import com.smartitengineering.util.bean.adapter.GenericAdapterImpl;
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -62,6 +68,7 @@ public class SolrSearchDaoTest {
   private static Server jettyServer;
   private static CommonFreeTextPersistentDao<Domain> writeDao;
   private static CommonFreeTextSearchDao<Domain> readDao;
+  private static final Logger LOGGER = LoggerFactory.getLogger(SolrSearchDaoTest.class);
 
   @BeforeClass
   public static void globalSetup() throws Exception {
@@ -88,7 +95,20 @@ public class SolrSearchDaoTest {
   }
 
   @Test
-  public void testSimpleDoc() {
+  public void testSimpleAdd() {
+    Domain domain = new Domain();
+    domain.id = Long.toString(1l);
+    domain.name = "Test Domain 1";
+    domain.features = new String[]{"sports", "soccer"};
+    writeDao.save(domain);
+    Collection<Domain> domains = readDao.search(QueryParameterFactory.getStringLikePropertyParam("q", "id: 1"));
+    Assert.assertNotNull(domains);
+    Assert.assertEquals(1, domains.size());
+    domain = domains.iterator().next();
+    LOGGER.info("Domain retrieved from search is: " + domain);
+    Assert.assertEquals(new Long(1), Long.valueOf(domain.id));
+    Assert.assertEquals("Test Domain 1", domain.name);
+    Assert.assertTrue(Arrays.equals(new String[]{"sports", "soccer"}, domain.features));
   }
 
   private static class SearchModule extends AbstractModule {
@@ -124,6 +144,11 @@ public class SolrSearchDaoTest {
     String id;
     String name;
     String[] features;
+
+    @Override
+    public String toString() {
+      return "Domain{" + "id=" + id + ", name=" + name + ", features=" + Arrays.toString(features) + '}';
+    }
   }
 
   private static class DomainAdapterHelper extends AbstractAdapterHelper<Domain, MultivalueMap<String, Object>> {
@@ -136,12 +161,20 @@ public class SolrSearchDaoTest {
     @Override
     protected void mergeFromF2T(Domain fromBean,
                                 MultivalueMap<String, Object> toBean) {
-      throw new UnsupportedOperationException("Not supported yet.");
+      toBean.addValue("id", fromBean.id);
+      toBean.addValue("name", fromBean.name);
+      for (String feature : fromBean.features) {
+        toBean.addValue("features", feature);
+      }
     }
 
     @Override
     protected Domain convertFromT2F(MultivalueMap<String, Object> toBean) {
-      throw new UnsupportedOperationException("Not supported yet.");
+      Domain domain = new Domain();
+      domain.id = toBean.getFirst("id").toString();
+      domain.name = toBean.getFirst("name").toString();
+      domain.features = toBean.get("features").toArray(new String[0]);
+      return domain;
     }
   }
 

@@ -48,7 +48,11 @@ public class MultivalueMapImpl<K, V> extends AbstractMap<K, List<V>> implements 
   public void addValue(K key, V value) {
     List<V> list = map.get(key);
     if (list == null) {
-      list = map.putIfAbsent(key, new ArrayList<V>());
+      list = new ArrayList<V>();
+      final List<V> putIfAbsent = map.putIfAbsent(key, list);
+      if (putIfAbsent != null) {
+        list = putIfAbsent;
+      }
     }
     list.add(value);
   }

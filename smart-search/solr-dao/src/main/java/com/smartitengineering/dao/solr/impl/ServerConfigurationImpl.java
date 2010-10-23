@@ -56,7 +56,7 @@ public class ServerConfigurationImpl implements ServerConfiguration {
   private boolean allowCompression = true;
   @Inject(optional = true)
   @Named("followRedirects")
-  private boolean followRedirects = true;
+  private boolean followRedirects = false;
 
   @Override
   public String getUri() {

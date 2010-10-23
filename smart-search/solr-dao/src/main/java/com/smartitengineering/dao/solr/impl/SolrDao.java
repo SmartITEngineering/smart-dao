@@ -101,16 +101,17 @@ public class SolrDao implements SolrWriteDao, SolrQueryDao {
           MultivalueMap<String, Object> map = new MultivalueMapImpl<String, Object>();
           list.add(map);
           Map<String, Collection<Object>> values = document.getFieldValuesMap();
-          for (Entry<String, Collection<Object>> entry : values.entrySet()) {
-            for (Object value : entry.getValue()) {
-              map.addValue(entry.getKey(), value);
+          for (String key : values.keySet()) {
+            Collection<Object> oValues = values.get(key);
+            for (Object value : oValues) {
+              map.addValue(key, value);
             }
           }
         }
       }
     }
     catch (Exception ex) {
-      logger.error("Could not delete from solr index", ex);
+      logger.error("Could not search from solr index", ex);
       success = false;
     }
     return list;
