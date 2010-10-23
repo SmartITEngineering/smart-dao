@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>smart-search</artifactId>
+    <groupId>com.smartitengineering.smart-dao</groupId>
+    <version>0.4-SNAPSHOT</version>
+  </parent>
+  <groupId>com.smartitengineering.smart-dao</groupId>
+  <artifactId>solr-search-dao</artifactId>
+  <version>0.4-SNAPSHOT</version>
+  <name>Solr Search DAO</name>
+  <dependencies>
+    <dependency>
+      <groupId>com.smartitengineering</groupId>
+      <artifactId>smart-dao-search</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.smartitengineering.smart-dao</groupId>
+      <artifactId>solr-dao</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+  </dependencies>
+</project>
