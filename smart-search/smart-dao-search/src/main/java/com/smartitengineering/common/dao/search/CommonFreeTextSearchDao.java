@@ -19,7 +19,6 @@
 package com.smartitengineering.common.dao.search;
 
 import com.smartitengineering.dao.common.queryparam.QueryParameter;
-import com.smartitengineering.domain.PersistentDTO;
 import java.util.Collection;
 import java.util.List;
 
@@ -27,7 +26,7 @@ import java.util.List;
  *
  * @author imyousuf
  */
-public interface CommonFreeTextSearchDao<Template extends PersistentDTO> {
+public interface CommonFreeTextSearchDao<Template> {
 
     public Collection<Template> search(List<QueryParameter> parameters);
     

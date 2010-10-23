@@ -18,13 +18,11 @@
  */
 package com.smartitengineering.common.dao.search;
 
-import com.smartitengineering.domain.PersistentDTO;
-
 /**
  *
  * @author imyousuf
  */
-public interface CommonFreeTextPersistentDao<Template extends PersistentDTO> {
+public interface CommonFreeTextPersistentDao<Template> {
 
     public void save(Template... data);
 
