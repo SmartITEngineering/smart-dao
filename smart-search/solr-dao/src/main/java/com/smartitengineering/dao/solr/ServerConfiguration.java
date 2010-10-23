@@ -36,9 +36,9 @@ public interface ServerConfiguration {
 
   int getMaxTotalConnections();
 
-  boolean getFollowRedirects();
+  boolean isFollowRedirects();
 
-  boolean getAllowCompression();
+  boolean isAllowCompression();
 
   int getMaxRetries();
 
