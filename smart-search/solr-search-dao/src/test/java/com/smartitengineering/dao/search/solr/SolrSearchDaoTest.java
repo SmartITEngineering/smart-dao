@@ -64,7 +64,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SolrSearchDaoTest {
 
-  private static final int PORT = 10080;
+  private static final int PORT = 40080;
   private static Server jettyServer;
   private static CommonFreeTextPersistentDao<Domain> writeDao;
   private static CommonFreeTextSearchDao<Domain> readDao;
@@ -129,7 +129,7 @@ public class SolrSearchDaoTest {
       bind(SolrWriteDao.class).to(SolrDao.class).in(Scopes.SINGLETON);
       bind(ServerFactory.class).to(SingletonRemoteServerFactory.class).in(Scopes.SINGLETON);
       bind(ServerConfiguration.class).to(ServerConfigurationImpl.class).in(Scopes.SINGLETON);
-      bind(String.class).annotatedWith(Names.named("uri")).toInstance("http://localhost:10080/");
+      bind(String.class).annotatedWith(Names.named("uri")).toInstance("http://localhost:" + PORT + "/");
       bind(new TypeLiteral<CommonFreeTextPersistentDao<Domain>>() {
       }).to(new TypeLiteral<SolrFreeTextPersistentDao<Domain>>() {
       }).in(Scopes.SINGLETON);
