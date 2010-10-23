@@ -478,6 +478,7 @@
     </httpCaching>
   </requestDispatcher>
 
+  <requestHandler name="/update/javabin" class="solr.BinaryUpdateRequestHandler" />
 
   <!-- requestHandler plugins... incoming queries will be dispatched to the
      correct handler based on the path or the qt (query type) param.
