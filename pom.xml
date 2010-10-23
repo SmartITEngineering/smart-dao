@@ -356,4 +356,7 @@
     <module>smart-hbase</module>
     <module>smart-search</module>
   </modules>
+  <properties>
+    <smart.dao.version>${project.version}</smart.dao.version>
+  </properties>
 </project>
