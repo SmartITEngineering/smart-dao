@@ -48,10 +48,10 @@ public class HBaseConfigurationFactory {
       configurationFactory = new HBaseConfigurationFactory();
       BeanFactoryRegistrar.aggregate(configurationFactory);
     }
-    return configurationFactory.getConfiguration();
+    return initConfiguration();
   }
 
-  public static Configuration initConfiguration() {
+  private static Configuration initConfiguration() {
     if (configurationFactory.configuration == null) {
       configurationFactory.configuration = HBaseConfiguration.create();
     }

@@ -18,6 +18,7 @@
  */
 package com.smartitengineering.dao.hbase.autoincrement;
 
+import com.smartitengineering.dao.impl.hbase.HBaseConfigurationFactory;
 import com.sun.jersey.spi.resource.Singleton;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
@@ -57,7 +58,7 @@ public class AutoIncrementLongRowIdGenerator {
     if (hbaseConfiguration == null) {
       synchronized (this) {
         if (hbaseConfiguration == null) {
-          hbaseConfiguration = HBaseConfiguration.create();
+          hbaseConfiguration = HBaseConfigurationFactory.getConfigurationInstance();
         }
       }
     }

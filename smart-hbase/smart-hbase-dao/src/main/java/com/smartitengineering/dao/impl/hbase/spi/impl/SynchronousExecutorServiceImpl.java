@@ -23,6 +23,7 @@ import com.smartitengineering.dao.impl.hbase.spi.Callback;
 import com.smartitengineering.dao.impl.hbase.spi.ExecutorService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.HTablePool;
 import org.slf4j.Logger;
@@ -45,7 +46,7 @@ public class SynchronousExecutorServiceImpl implements ExecutorService {
       configuration = HBaseConfigurationFactory.getConfigurationInstance();
       if (configuration == null) {
         logger.info("Initializing configuration");
-        configuration = HBaseConfigurationFactory.initConfiguration();
+        configuration = HBaseConfiguration.create();
       }
     }
     return configuration;
