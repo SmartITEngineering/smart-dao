@@ -79,6 +79,8 @@ public class SolrDao implements SolrWriteDao, SolrQueryDao {
       final SolrServer solrServer = serverFactory.getSolrServer();
       UpdateResponse response = solrServer.deleteByQuery(query);
       success = response.getStatus() == 0 && success;
+      response = solrServer.commit();
+      success = response.getStatus() == 0 && success;
     }
     catch (Exception ex) {
       logger.error("Could not delete from solr index", ex);
