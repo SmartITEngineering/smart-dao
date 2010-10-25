@@ -111,6 +111,35 @@ public class SolrSearchDaoTest {
     Assert.assertTrue(Arrays.equals(new String[]{"sports", "soccer"}, domain.features));
   }
 
+  @Test
+  public void testUpadte() {
+    Domain domain = new Domain();
+    domain.id = Long.toString(1l);
+    domain.name = "Test Domain 2";
+    domain.features = new String[]{"sports", "cricket"};
+    writeDao.update(domain);
+    Collection<Domain> domains = readDao.search(QueryParameterFactory.getStringLikePropertyParam("q", "id: 1"));
+    Assert.assertNotNull(domains);
+    Assert.assertEquals(1, domains.size());
+    domain = domains.iterator().next();
+    LOGGER.info("Domain retrieved from search is: " + domain);
+    Assert.assertEquals(new Long(1), Long.valueOf(domain.id));
+    Assert.assertEquals("Test Domain 2", domain.name);
+    Assert.assertTrue(Arrays.equals(new String[]{"sports", "cricket"}, domain.features));
+  }
+
+  @Test
+  public void deletTest() {
+    Domain domain = new Domain();
+    domain.id = Long.toString(1l);
+    domain.name = "Test Domain 2";
+    domain.features = new String[]{"sports", "cricket"};
+    LOGGER.info("Domain retrieved from delete is: " + domain);
+    writeDao.delete(domain);
+    Collection<Domain> domains = readDao.search(QueryParameterFactory.getStringLikePropertyParam("q", "id: 1"));
+    Assert.assertEquals(0,domains.size());
+  }
+
   private static class SearchModule extends AbstractModule {
 
     @Override
