@@ -46,6 +46,7 @@ public class CommonAsyncFreeTextPersistentDaoImpl<T> implements CommonFreeTextPe
   private final long deleteScheduleInterval;
   private final ScheduledExecutorService scheduledExecutorService;
   @Inject
+  @Named("primaryFreeTextPersistentDao")
   private CommonFreeTextPersistentDao<T> primaryDao;
 
   @Inject
