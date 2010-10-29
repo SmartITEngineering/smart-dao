@@ -21,7 +21,9 @@ package com.smartitengineering.common.dao.search.impl;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.smartitengineering.common.dao.search.CommonFreeTextPersistentDao;
+import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -48,6 +50,8 @@ public class CommonAsyncFreeTextPersistentDaoImpl<T> implements CommonFreeTextPe
   @Inject
   @Named("primaryFreeTextPersistentDao")
   private CommonFreeTextPersistentDao<T> primaryDao;
+  @Inject(optional = true)
+  private Class<T> clazz;
 
   @Inject
   public CommonAsyncFreeTextPersistentDaoImpl(@Named("saveInterval") long saveInterval,
@@ -70,17 +74,16 @@ public class CommonAsyncFreeTextPersistentDaoImpl<T> implements CommonFreeTextPe
 
       @Override
       public void run() {
-        Iterator<T> iterator = saveQueue.iterator();
-        while (iterator.hasNext()) {
-          final T next = iterator.next();
-          iterator.remove();
-          try {
-            primaryDao.save(next);
-          }
-          catch (Exception ex) {
-            logger.warn("Saving to search persistent dao did not succeed! Adding back to queue", ex);
-            saveQueue.add(next);
-          }
+        T[] next = new ArrayBuilder<T>(clazz, saveQueue).toArray();
+        if (next == null) {
+          return;
+        }
+        try {
+          primaryDao.save(next);
+        }
+        catch (Exception ex) {
+          logger.warn("Saving to search persistent dao did not succeed! Adding back to queue", ex);
+          saveQueue.addAll(Arrays.asList(next));
         }
       }
     }, saveScheduleInterval, saveScheduleInterval, timeUnit);
@@ -88,17 +91,16 @@ public class CommonAsyncFreeTextPersistentDaoImpl<T> implements CommonFreeTextPe
 
       @Override
       public void run() {
-        Iterator<T> iterator = updateQueue.iterator();
-        while (iterator.hasNext()) {
-          final T next = iterator.next();
-          iterator.remove();
-          try {
-            primaryDao.update(next);
-          }
-          catch (Exception ex) {
-            logger.warn("Updating to search persistent dao did not succeed! Adding back to queue", ex);
-            updateQueue.add(next);
-          }
+        T[] next = new ArrayBuilder<T>(clazz, updateQueue).toArray();
+        if (next == null) {
+          return;
+        }
+        try {
+          primaryDao.update(next);
+        }
+        catch (Exception ex) {
+          logger.warn("Updating to search persistent dao did not succeed! Adding back to queue", ex);
+          updateQueue.addAll(Arrays.asList(next));
         }
       }
     }, updateScheduleInterval, updateScheduleInterval, timeUnit);
@@ -106,17 +108,16 @@ public class CommonAsyncFreeTextPersistentDaoImpl<T> implements CommonFreeTextPe
 
       @Override
       public void run() {
-        Iterator<T> iterator = deleteQueue.iterator();
-        while (iterator.hasNext()) {
-          final T next = iterator.next();
-          iterator.remove();
-          try {
-            primaryDao.delete(next);
-          }
-          catch (Exception ex) {
-            logger.warn("Deleting to search persistent dao did not succeed! Adding back to queue", ex);
-            deleteQueue.add(next);
-          }
+        T[] next = new ArrayBuilder<T>(clazz, deleteQueue).toArray();
+        if (next == null) {
+          return;
+        }
+        try {
+          primaryDao.delete(next);
+        }
+        catch (Exception ex) {
+          logger.warn("Deleting to search persistent dao did not succeed! Adding back to queue", ex);
+          deleteQueue.addAll(Arrays.asList(next));
         }
       }
     }, deleteScheduleInterval, deleteScheduleInterval, timeUnit);
@@ -135,5 +136,33 @@ public class CommonAsyncFreeTextPersistentDaoImpl<T> implements CommonFreeTextPe
   @Override
   public void delete(T... data) {
     deleteQueue.addAll(Arrays.asList(data));
+  }
+
+  public static class ArrayBuilder<P> {
+
+    private final P[] ps;
+
+    public ArrayBuilder(Class<P> clazz, P... objects) {
+      this(clazz, Arrays.asList(objects));
+    }
+
+    public ArrayBuilder(Class<P> clazz, Collection<P> objects) {
+      if (objects == null || objects.size() <= 0) {
+        ps = null;
+      }
+      else {
+        final Iterator<P> iterator = objects.iterator();
+        final P firstItem = iterator.next();
+        ps = (P[]) Array.newInstance(clazz == null ? firstItem.getClass() : clazz, objects.size());
+        ps[0] = firstItem;
+        for (int i = 1; iterator.hasNext(); ++i) {
+          ps[i] = iterator.next();
+        }
+      }
+    }
+
+    public P[] toArray() {
+      return ps;
+    }
   }
 }
