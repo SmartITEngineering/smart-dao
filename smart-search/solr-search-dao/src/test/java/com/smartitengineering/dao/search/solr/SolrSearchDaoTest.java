@@ -46,6 +46,7 @@ import com.smartitengineering.util.bean.adapter.GenericAdapterImpl;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -153,7 +154,28 @@ public class SolrSearchDaoTest {
     writeDao.save(domains);
     Collection<Domain> result = readDao.search(QueryParameterFactory.getStringLikePropertyParam("q", "id: *"), QueryParameterFactory.
         getMaxResultsParam(domains.length));
+    LOGGER.info(result.toString());
     Assert.assertEquals(domains.length, result.size());
+    final int newSize = domains.length / 2;
+    result = readDao.search(QueryParameterFactory.getStringLikePropertyParam("q", "id: *"), QueryParameterFactory.
+        getMaxResultsParam(newSize));
+    LOGGER.info(result.toString());
+    Iterator<Domain> iter = result.iterator();
+    for (int i = 0; i < newSize && iter.hasNext(); ++i) {
+      Assert.assertEquals(Integer.toString(i), iter.next().id);
+    }
+    Assert.assertEquals(newSize, result.size());
+    result = readDao.search(QueryParameterFactory.getStringLikePropertyParam("q", "id: *"), QueryParameterFactory.
+        getMaxResultsParam(newSize), QueryParameterFactory.getFirstResultParam(newSize));
+    LOGGER.info(result.toString());
+    Assert.assertEquals(newSize, result.size());
+    iter = result.iterator();
+    for (int i = newSize; i < domains.length && iter.hasNext(); ++i) {
+      Assert.assertEquals(Integer.toString(i), iter.next().id);
+    }
+    writeDao.delete(domains);
+    result = readDao.search(QueryParameterFactory.getStringLikePropertyParam("q", "id: *"));
+    Assert.assertEquals(0, result.size());
   }
 
   private static class SearchModule extends AbstractModule {
