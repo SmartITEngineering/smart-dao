@@ -24,7 +24,7 @@ package com.smartitengineering.dao.solr;
  */
 public interface SolrWriteDao {
 
-  boolean add(MultivalueMap<String, Object> values);
+  boolean add(MultivalueMap<String, Object>... values);
 
-  boolean deleteByQuery(String query);
+  boolean deleteByQuery(String... query);
 }

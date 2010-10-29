@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.UpdateResponse;
@@ -49,42 +48,81 @@ public class SolrDao implements SolrWriteDao, SolrQueryDao {
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Override
-  public boolean add(MultivalueMap<String, Object> values) {
-    SolrInputDocument inputDocument = new SolrInputDocument();
-    for (String key : values.keySet()) {
-      List<Object> objects = values.get(key);
-      for (Object object : objects) {
-        inputDocument.addField(key, object);
+  public boolean add(MultivalueMap<String, Object>... values) {
+    boolean success = true;
+    final SolrServer solrServer = serverFactory.getSolrServer();
+    for (MultivalueMap<String, Object> val : values) {
+      SolrInputDocument inputDocument = new SolrInputDocument();
+      for (String key : val.keySet()) {
+        List<Object> objects = val.get(key);
+        for (Object object : objects) {
+          inputDocument.addField(key, object);
+        }
+      }
+      try {
+        UpdateResponse response = solrServer.add(inputDocument);
+        success = response.getStatus() == 0 && success;
+      }
+      catch (Exception ex) {
+        logger.error("Could not add to solr index", ex);
+        success = false;
       }
     }
-    boolean success = true;
-    try {
-      final SolrServer solrServer = serverFactory.getSolrServer();
-      UpdateResponse response = solrServer.add(inputDocument);
-      success = response.getStatus() == 0 && success;
-      response = solrServer.commit();
-      success = response.getStatus() == 0 && success;
+    if (success) {
+      try {
+        UpdateResponse response = solrServer.commit();
+        success = response.getStatus() == 0 && success;
+      }
+      catch (Exception ex) {
+        logger.error("Could not delete from solr index", ex);
+        success = false;
+      }
     }
-    catch (Exception ex) {
-      logger.error("Could not add to solr index", ex);
-      success = false;
+    else {
+      try {
+        solrServer.rollback();
+      }
+      catch (Exception ex) {
+        logger.error("Could not rollback delete from solr index", ex);
+      }
     }
     return success;
   }
 
   @Override
-  public boolean deleteByQuery(String query) {
+  public boolean deleteByQuery(String... queries) {
     boolean success = true;
-    try {
-      final SolrServer solrServer = serverFactory.getSolrServer();
-      UpdateResponse response = solrServer.deleteByQuery(query);
-      success = response.getStatus() == 0 && success;
-      response = solrServer.commit();
-      success = response.getStatus() == 0 && success;
+    if (queries == null || queries.length <= 0) {
+      return success;
     }
-    catch (Exception ex) {
-      logger.error("Could not delete from solr index", ex);
-      success = false;
+    final SolrServer solrServer = serverFactory.getSolrServer();
+    for (String query : queries) {
+      try {
+        UpdateResponse response = solrServer.deleteByQuery(query);
+        success = response.getStatus() == 0 && success;
+      }
+      catch (Exception ex) {
+        logger.error("Could not delete from solr index", ex);
+        success = false;
+      }
+    }
+    if (success) {
+      try {
+        UpdateResponse response = solrServer.commit();
+        success = response.getStatus() == 0 && success;
+      }
+      catch (Exception ex) {
+        logger.error("Could not delete from solr index", ex);
+        success = false;
+      }
+    }
+    else {
+      try {
+        solrServer.rollback();
+      }
+      catch (Exception ex) {
+        logger.error("Could not rollback delete from solr index", ex);
+      }
     }
     return success;
   }

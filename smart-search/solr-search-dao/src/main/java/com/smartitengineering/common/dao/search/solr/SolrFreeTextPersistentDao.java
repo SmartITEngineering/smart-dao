@@ -58,24 +58,26 @@ public class SolrFreeTextPersistentDao<T> implements CommonFreeTextPersistentDao
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Override
-  public void save(T... data) {
+  public void save(final T... data) {
     List<Future<Status<T>>> deletes = new ArrayList<Future<Status<T>>>(data.length);
-    for (final T datum : data) {
-      deletes.add(executorService.submit(new Callable<Status<T>>() {
+    deletes.add(executorService.submit(new Callable<Status<T>>() {
 
-        @Override
-        public Status<T> call() throws Exception {
-          final boolean success;
-          MultivalueMap<String, Object> fields = adapter.convert(datum);
-          success = writeDao.add(fields);
-          Status<T> status = new Status<T>();
-          status.success = success;
-          status.datum = datum;
-          status.queryStr = fields.toString();
-          return status;
+      @Override
+      public Status<T> call() throws Exception {
+        MultivalueMap<String, Object> fields[] = new MultivalueMap[data.length];
+        int i = 0;
+        for (final T datum : data) {
+          fields[i++] = adapter.convert(datum);
         }
-      }));
-    }
+        final boolean success;
+        success = writeDao.add(fields);
+        Status<T> status = new Status<T>();
+        status.success = success;
+        status.queryStr = Arrays.toString(fields);
+        return status;
+      }
+    }));
+
     List<Status<T>> failures = new ArrayList<Status<T>>();
     for (Future<Status<T>> future : deletes) {
       try {
@@ -89,8 +91,8 @@ public class SolrFreeTextPersistentDao<T> implements CommonFreeTextPersistentDao
       }
     }
     if (!failures.isEmpty()) {
-      throw new IllegalStateException(new StringBuilder("Could add all data: ").append(Arrays.toString(failures.
-          toArray())).toString());
+      throw new IllegalStateException(new StringBuilder("Could add all data: ").append(Arrays.toString(
+          failures.toArray())).toString());
     }
   }
 
@@ -101,24 +103,25 @@ public class SolrFreeTextPersistentDao<T> implements CommonFreeTextPersistentDao
   }
 
   @Override
-  public void delete(T... data) {
-    List<Future<Status<T>>> deletes = new ArrayList<Future<Status<T>>>(data.length);
-    for (final T datum : data) {
-      deletes.add(executorService.submit(new Callable<Status<T>>() {
+  public void delete(final T... data) {
+    List<Future<Status<T>>> deletes = new ArrayList<Future<Status<T>>>();
+    deletes.add(executorService.submit(new Callable<Status<T>>() {
 
-        @Override
-        public Status<T> call() throws Exception {
-          final boolean success;
-          String queryStr = query.getQuery(datum);
-          success = writeDao.deleteByQuery(queryStr);
-          Status<T> status = new Status<T>();
-          status.success = success;
-          status.datum = datum;
-          status.queryStr = queryStr;
-          return status;
+      @Override
+      public Status<T> call() throws Exception {
+        final boolean success;
+        String[] queries = new String[data.length];
+        int i = 0;
+        for (final T datum : data) {
+          queries[i++] = query.getQuery(datum);
         }
-      }));
-    }
+        success = writeDao.deleteByQuery(queries);
+        Status<T> status = new Status<T>();
+        status.success = success;
+        status.queryStr = Arrays.toString(queries);
+        return status;
+      }
+    }));
     List<Status<T>> failures = new ArrayList<Status<T>>();
     for (Future<Status<T>> future : deletes) {
       try {
@@ -141,11 +144,10 @@ public class SolrFreeTextPersistentDao<T> implements CommonFreeTextPersistentDao
 
     boolean success;
     String queryStr;
-    T datum;
 
     @Override
     public String toString() {
-      return "Status{" + "success=" + success + "queryStr=" + queryStr + "datum=" + datum + '}';
+      return "Status{" + "success=" + success + ", queryStr=" + queryStr + '}';
     }
   }
 
