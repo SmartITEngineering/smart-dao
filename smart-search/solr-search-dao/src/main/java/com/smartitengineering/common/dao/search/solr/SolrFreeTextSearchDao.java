@@ -26,6 +26,7 @@ import com.smartitengineering.dao.common.queryparam.QueryParameter;
 import com.smartitengineering.dao.common.queryparam.QueryParameterCastHelper;
 import com.smartitengineering.dao.common.queryparam.SimpleNameValueQueryParameter;
 import com.smartitengineering.dao.common.queryparam.StringLikeQueryParameter;
+import com.smartitengineering.dao.common.queryparam.ValueOnlyQueryParameter;
 import com.smartitengineering.dao.solr.MultivalueMap;
 import com.smartitengineering.dao.solr.SolrQueryDao;
 import com.smartitengineering.util.bean.adapter.GenericAdapter;
@@ -76,6 +77,16 @@ public class SolrFreeTextSearchDao<T> implements CommonFreeTextSearchDao<T> {
           SimpleNameValueQueryParameter<Order> parameter = QueryParameterCastHelper.SIMPLE_PARAM_HELPER.cast(param);
           ORDER order = parameter.getValue().equals(Order.ASC) ? ORDER.asc : ORDER.desc;
           query.setSortField(parameter.getPropertyName(), order);
+          break;
+        case PARAMETER_TYPE_MAX_RESULT:
+          ValueOnlyQueryParameter<Integer> valParam = QueryParameterCastHelper.VALUE_PARAM_HELPER.cast(param);
+          Integer maxRows = valParam.getValue();
+          query.setRows(maxRows);
+          break;
+        case PARAMETER_TYPE_FIRST_RESULT:
+          ValueOnlyQueryParameter<Integer> firstParam = QueryParameterCastHelper.VALUE_PARAM_HELPER.cast(param);
+          Integer firstResult = firstParam.getValue();
+          query.setStart(firstResult);
           break;
         default:
           throw new UnsupportedOperationException("Only property and order by query parameter is supported!");
