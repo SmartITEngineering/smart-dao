@@ -137,7 +137,23 @@ public class SolrSearchDaoTest {
     LOGGER.info("Domain retrieved from delete is: " + domain);
     writeDao.delete(domain);
     Collection<Domain> domains = readDao.search(QueryParameterFactory.getStringLikePropertyParam("q", "id: 1"));
-    Assert.assertEquals(0,domains.size());
+    Assert.assertEquals(0, domains.size());
+  }
+
+  @Test
+  public void testPagination() {
+    final Domain[] domains = new Domain[20];
+    for (int i = 0; i < domains.length; ++i) {
+      final Domain domain = new Domain();
+      domain.id = Long.toString(i);
+      domain.name = "Test Domain " + i;
+      domain.features = new String[]{"sports", "cricket"};
+      domains[i] = domain;
+    }
+    writeDao.save(domains);
+    Collection<Domain> result = readDao.search(QueryParameterFactory.getStringLikePropertyParam("q", "id: *"), QueryParameterFactory.
+        getMaxResultsParam(domains.length));
+    Assert.assertEquals(domains.length, result.size());
   }
 
   private static class SearchModule extends AbstractModule {
