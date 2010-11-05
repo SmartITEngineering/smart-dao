@@ -157,6 +157,7 @@ public class CommonAsyncFreeTextPersistentDaoImpl<T> implements CommonFreeTextPe
         ps[0] = firstItem;
         for (int i = 1; iterator.hasNext(); ++i) {
           ps[i] = iterator.next();
+          iterator.remove();
         }
       }
     }
