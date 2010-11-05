@@ -154,10 +154,21 @@ public class CommonAsyncFreeTextPersistentDaoImpl<T> implements CommonFreeTextPe
         final Iterator<P> iterator = objects.iterator();
         final P firstItem = iterator.next();
         ps = (P[]) Array.newInstance(clazz == null ? firstItem.getClass() : clazz, objects.size());
+        try {
+          iterator.remove();
+        }
+        catch (UnsupportedOperationException ex) {
+          //Some implementations might not support this
+        }
         ps[0] = firstItem;
         for (int i = 1; iterator.hasNext(); ++i) {
           ps[i] = iterator.next();
-          iterator.remove();
+          try {
+            iterator.remove();
+          }
+          catch (UnsupportedOperationException ex) {
+            //Some implementations might not support this
+          }
         }
       }
     }

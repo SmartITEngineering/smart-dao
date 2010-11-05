@@ -20,6 +20,7 @@ package com.smartitengineering.common.dao.search;
 
 import com.smartitengineering.common.dao.search.impl.CommonAsyncFreeTextPersistentDaoImpl.ArrayBuilder;
 import java.util.Arrays;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import junit.framework.TestCase;
 
 /**
@@ -29,10 +30,16 @@ import junit.framework.TestCase;
 public class ArrayBuilderTest extends TestCase {
 
   public void testGenericArrayCreation() {
-    ArrayBuilder<String> builder = new ArrayBuilder<String>(String.class, "test", "test1");
+    ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<String>();
+    queue.add("test");
+    queue.add("test1");
+    ArrayBuilder<String> builder = new ArrayBuilder<String>(String.class, queue);
     final String[] values = new String[]{"test", "test1"};
     assertTrue(Arrays.equals(values, builder.toArray()));
-    builder = new ArrayBuilder<String>(null, "test", "test1");
+    queue.add("test");
+    queue.add("test1");
+    System.out.println(queue);
+    builder = new ArrayBuilder<String>(null, queue);
     assertTrue(Arrays.equals(values, builder.toArray()));
   }
 }
