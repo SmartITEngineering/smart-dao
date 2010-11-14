@@ -86,6 +86,11 @@
       <artifactId>hadoop-test</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.smartitengineering.smart-util</groupId>
+      <artifactId>smart-bean-guice-util</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>com.smartitengineering.smart-dao</groupId>
       <artifactId>hbase-ddl-util</artifactId>
       <scope>test</scope>

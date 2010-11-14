@@ -23,6 +23,8 @@ import com.smartitengineering.util.bean.annotations.Aggregator;
 import com.smartitengineering.util.bean.annotations.InjectableField;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -31,6 +33,7 @@ import org.apache.hadoop.hbase.HBaseConfiguration;
 @Aggregator(contextName = "com.smartitengineering.dao.impl.hbase")
 public class HBaseConfigurationFactory {
 
+  private final static Logger LOGGER = LoggerFactory.getLogger(HBaseConfigurationFactory.class);
   private static HBaseConfigurationFactory configurationFactory;
   @InjectableField
   private Configuration configuration;
@@ -53,7 +56,11 @@ public class HBaseConfigurationFactory {
 
   private static Configuration initConfiguration() {
     if (configurationFactory.configuration == null) {
+      LOGGER.info("Configuration not found in DI!");
       configurationFactory.configuration = HBaseConfiguration.create();
+    }
+    else {
+      LOGGER.info("Configuration found in DI!");
     }
     return configurationFactory.getConfiguration();
   }

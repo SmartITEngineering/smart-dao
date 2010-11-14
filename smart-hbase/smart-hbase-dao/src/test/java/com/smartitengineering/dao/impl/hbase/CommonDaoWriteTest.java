@@ -22,6 +22,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.PrivateModule;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
@@ -35,24 +36,31 @@ import com.smartitengineering.dao.hbase.ddl.config.json.ConfigurationJsonParser;
 import com.smartitengineering.dao.impl.hbase.data.SampleDomain;
 import com.smartitengineering.dao.impl.hbase.data.SampleDomainObjectCoverter;
 import com.smartitengineering.dao.impl.hbase.spi.AsyncExecutorService;
+import com.smartitengineering.dao.impl.hbase.spi.CellConfig;
 import com.smartitengineering.dao.impl.hbase.spi.DomainIdInstanceProvider;
 import com.smartitengineering.dao.impl.hbase.spi.FilterConfigs;
 import com.smartitengineering.dao.impl.hbase.spi.LockAttainer;
 import com.smartitengineering.dao.impl.hbase.spi.LockType;
 import com.smartitengineering.dao.impl.hbase.spi.MergeService;
 import com.smartitengineering.dao.impl.hbase.spi.ObjectRowConverter;
+import com.smartitengineering.dao.impl.hbase.spi.RowCellIncrementor;
 import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
+import com.smartitengineering.dao.impl.hbase.spi.impl.CellConfigImpl;
 import com.smartitengineering.dao.impl.hbase.spi.impl.LockAttainerImpl;
 import com.smartitengineering.dao.impl.hbase.spi.impl.MixedExecutorServiceImpl;
+import com.smartitengineering.dao.impl.hbase.spi.impl.RowCellIncrementorImpl;
 import com.smartitengineering.dao.impl.hbase.spi.impl.SchemaInfoProviderBaseConfig;
 import com.smartitengineering.dao.impl.hbase.spi.impl.SchemaInfoProviderImpl;
 import com.smartitengineering.dao.impl.hbase.spi.impl.guice.GenericBaseConfigProvider;
 import com.smartitengineering.dao.impl.hbase.spi.impl.guice.GenericFilterConfigsProvider;
+import com.smartitengineering.util.bean.guice.GuiceUtil;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseTestingUtility;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -71,6 +79,7 @@ public class CommonDaoWriteTest {
   private static final Logger LOGGER = LoggerFactory.getLogger(CommonDaoWriteTest.class);
   private static Injector injector;
   private static CommonDaos commonDaos;
+  private static RowCellIncrementor<SampleDomain, SampleDomain, Long> incrementor;
 
   @BeforeClass
   public static void globalSetup() throws Exception {
@@ -97,11 +106,20 @@ public class CommonDaoWriteTest {
       LOGGER.error("Could not create table!", ex);
       Assert.fail(ex.getMessage());
     }
+
+    Properties properties = new Properties();
+    properties.setProperty(GuiceUtil.CONTEXT_NAME_PROP, "com.smartitengineering.dao.impl.hbase");
+    properties.setProperty(GuiceUtil.IGNORE_MISSING_DEP_PROP, Boolean.TRUE.toString());
+    properties.setProperty(GuiceUtil.MODULES_LIST_PROP, TestModule.class.getName());
+    GuiceUtil.getInstance(properties).register();
+
     /*
      * Perform injection for different types of common dao
      */
     injector = Guice.createInjector(new TestModule(), new TestNoModule(), new TestOpModule(), new TestPesModule());
     commonDaos = injector.getInstance(CommonDaos.class);
+    incrementor = injector.getInstance(Key.get(new TypeLiteral<RowCellIncrementor<SampleDomain, SampleDomain, Long>>() {
+    }));
     Assert.assertNotNull("Common Daos not initialized properly!", commonDaos);
   }
 
@@ -172,6 +190,20 @@ public class CommonDaoWriteTest {
     dao.delete(domain);
   }
 
+  @Test
+  public void testRowCellAutoIncrement() {
+    Assert.assertNotNull(incrementor);
+    Assert.assertEquals(1l, incrementor.incrementAndGet(1l, 1l));
+    Assert.assertNotNull(incrementor);
+    Assert.assertEquals(2l, incrementor.incrementAndGet(1l, 1l));
+    Assert.assertNotNull(incrementor);
+    Assert.assertEquals(3l, incrementor.incrementAndGet(1l, 1l));
+    Assert.assertNotNull(incrementor);
+    Assert.assertEquals(13l, incrementor.incrementAndGet(1l, 10l));
+    Assert.assertNotNull(incrementor);
+    Assert.assertEquals(8l, incrementor.incrementAndGet(1l, -5l));
+  }
+
   private static class CommonDaos {
 
     public static final String NO_LOCK = "noLockDao";
@@ -206,7 +238,7 @@ public class CommonDaoWriteTest {
   private static final TypeLiteral<CommonDao<SampleDomain, Long>> p = new TypeLiteral<CommonDao<SampleDomain, Long>>() {
   };
 
-  private static class TestModule extends AbstractModule {
+  public static class TestModule extends AbstractModule {
 
     @Override
     protected void configure() {
@@ -224,6 +256,7 @@ public class CommonDaoWriteTest {
       }).toProvider(Providers.<MergeService<SampleDomain, Long>>of(null));
       bind(new TypeLiteral<Class<Long>>() {
       }).toInstance(Long.class);
+      bind(Configuration.class).toInstance(TEST_UTIL.getConfiguration());
     }
   }
 
@@ -245,6 +278,16 @@ public class CommonDaoWriteTest {
 
       bind(l).annotatedWith(Names.named(CommonDaos.OPTIMISTIC_LOCK)).to(p).in(Scopes.SINGLETON);
       binder().expose(l).annotatedWith(Names.named(CommonDaos.OPTIMISTIC_LOCK));
+      bind(new TypeLiteral<RowCellIncrementor<SampleDomain, SampleDomain, Long>>() {
+      }).to(new TypeLiteral<RowCellIncrementorImpl<SampleDomain, SampleDomain, Long>>() {
+      });
+      binder().expose(new TypeLiteral<RowCellIncrementor<SampleDomain, SampleDomain, Long>>() {
+      });
+      CellConfigImpl<SampleDomain> configImpl = new CellConfigImpl<SampleDomain>();
+      configImpl.setFamily("family");
+      configImpl.setQualifier("someRowId");
+      bind(new TypeLiteral<CellConfig<SampleDomain>>() {
+      }).toInstance(configImpl);
     }
   }
 
