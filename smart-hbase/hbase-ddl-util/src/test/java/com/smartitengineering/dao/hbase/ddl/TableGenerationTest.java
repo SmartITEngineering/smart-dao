@@ -18,12 +18,16 @@
  */
 package com.smartitengineering.dao.hbase.ddl;
 
+import com.google.inject.AbstractModule;
 import com.smartitengineering.dao.hbase.ddl.config.json.ConfigurationJsonParser;
+import com.smartitengineering.util.bean.guice.GuiceUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseTestingUtility;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
@@ -62,6 +66,12 @@ public class TableGenerationTest {
     catch (Exception ex) {
       LOGGER.error(ex.getMessage(), ex);
     }
+
+    Properties properties = new Properties();
+    properties.setProperty(GuiceUtil.CONTEXT_NAME_PROP, "com.smartitengineering.dao.impl.hbase");
+    properties.setProperty(GuiceUtil.IGNORE_MISSING_DEP_PROP, Boolean.TRUE.toString());
+    properties.setProperty(GuiceUtil.MODULES_LIST_PROP, TestModule.class.getName());
+    GuiceUtil.getInstance(properties).register();
   }
 
   @Test
@@ -136,5 +146,13 @@ public class TableGenerationTest {
 
   protected String getPaddedId(long longId) {
     return StringUtils.leftPad(String.valueOf(longId), 10, '0');
+  }
+
+  public static class TestModule extends AbstractModule {
+
+    @Override
+    protected void configure() {
+      bind(Configuration.class).toInstance(TEST_UTIL.getConfiguration());
+    }
   }
 }

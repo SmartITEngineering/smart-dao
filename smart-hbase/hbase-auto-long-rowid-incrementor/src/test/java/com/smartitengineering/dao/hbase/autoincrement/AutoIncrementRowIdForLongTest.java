@@ -18,9 +18,11 @@
  */
 package com.smartitengineering.dao.hbase.autoincrement;
 
+import com.google.inject.AbstractModule;
 import com.smartitengineering.dao.hbase.ddl.HBaseTableConfiguration;
 import com.smartitengineering.dao.hbase.ddl.HBaseTableGenerator;
 import com.smartitengineering.dao.hbase.ddl.config.json.ConfigurationJsonParser;
+import com.smartitengineering.util.bean.guice.GuiceUtil;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ExecutorService;
@@ -38,9 +41,9 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.io.IOUtils;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseTestingUtility;
 import org.apache.hadoop.hbase.client.Get;
-import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.HTablePool;
 import org.apache.hadoop.hbase.client.Put;
@@ -106,6 +109,13 @@ public class AutoIncrementRowIdForLongTest {
     if (!new File(webapp).exists()) {
       throw new IllegalStateException("WebApp file/dir does not exist!");
     }
+
+    Properties properties = new Properties();
+    properties.setProperty(GuiceUtil.CONTEXT_NAME_PROP, "com.smartitengineering.dao.impl.hbase");
+    properties.setProperty(GuiceUtil.IGNORE_MISSING_DEP_PROP, Boolean.TRUE.toString());
+    properties.setProperty(GuiceUtil.MODULES_LIST_PROP, TestModule.class.getName());
+    GuiceUtil.getInstance(properties).register();
+
     WebAppContext webAppHandler = new WebAppContext(webapp, "/");
     jettyServer.setHandler(webAppHandler);
     jettyServer.setSendDateHeader(true);
@@ -130,7 +140,7 @@ public class AutoIncrementRowIdForLongTest {
     Put put = new Put(row);
     final byte[] toBytes = Bytes.toBytes("value");
     put.add(FAMILY_BYTES, CELL_BYTES, toBytes);
-    HTable table = new HTable(TABLE_NAME);
+    HTableInterface table = pool.getTable(TABLE_NAME);
     table.put(put);
     Get get = new Get(row);
     final Result get1 = table.get(get);
@@ -149,7 +159,7 @@ public class AutoIncrementRowIdForLongTest {
       Put put = new Put(row);
       final byte[] toBytes = Bytes.toBytes("value " + id);
       put.add(FAMILY_BYTES, CELL_BYTES, toBytes);
-      HTable table = new HTable(TABLE_NAME);
+      HTableInterface table = pool.getTable(TABLE_NAME);
       table.put(put);
       Get get = new Get(row);
       final Result get1 = table.get(get);
@@ -281,5 +291,13 @@ public class AutoIncrementRowIdForLongTest {
     LOGGER.info("Time for " + (bound * innerBound) + " rows ID retrieval, put and get is " + (endTime - startTime) +
         "ms");
     Assert.assertEquals(bound * innerBound + start - 1, ids.size());
+  }
+
+  public static class TestModule extends AbstractModule {
+
+    @Override
+    protected void configure() {
+      bind(Configuration.class).toInstance(TEST_UTIL.getConfiguration());
+    }
   }
 }
