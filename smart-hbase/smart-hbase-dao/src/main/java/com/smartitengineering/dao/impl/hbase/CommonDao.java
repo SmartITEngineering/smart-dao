@@ -419,6 +419,7 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
     if (filter != null) {
       scan.setFilter(filter);
     }
+    scan.setCaching(getMaxScanRows(query));
     return scan;
   }
 
