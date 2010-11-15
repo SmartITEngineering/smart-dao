@@ -28,7 +28,11 @@ import java.util.List;
  */
 public interface CommonFreeTextSearchDao<Template> {
 
-    public Collection<Template> search(List<QueryParameter> parameters);
-    
-    public Collection<Template> search(QueryParameter... parameters);
+  public Collection<Template> search(List<QueryParameter> parameters);
+
+  public Collection<Template> search(QueryParameter... parameters);
+
+  public SearchResult<Template> detailedSearch(List<QueryParameter> parameters);
+
+  public SearchResult<Template> detailedSearch(QueryParameter... parameters);
 }

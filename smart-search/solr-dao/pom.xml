@@ -40,6 +40,10 @@
       <artifactId>solr-solrj</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.smartitengineering</groupId>
+      <artifactId>smart-dao-search</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>

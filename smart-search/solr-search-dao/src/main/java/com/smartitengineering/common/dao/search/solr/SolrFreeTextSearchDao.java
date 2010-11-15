@@ -21,6 +21,7 @@ package com.smartitengineering.common.dao.search.solr;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.smartitengineering.common.dao.search.CommonFreeTextSearchDao;
+import com.smartitengineering.common.dao.search.SearchResult;
 import com.smartitengineering.dao.common.queryparam.Order;
 import com.smartitengineering.dao.common.queryparam.QueryParameter;
 import com.smartitengineering.dao.common.queryparam.QueryParameterCastHelper;
@@ -58,7 +59,7 @@ public class SolrFreeTextSearchDao<T> implements CommonFreeTextSearchDao<T> {
   private TimeUnit waitTimeUnit;
 
   @Override
-  public Collection<T> search(List<QueryParameter> parameters) {
+  public SearchResult<T> detailedSearch(List<QueryParameter> parameters) {
     SolrQuery query = new SolrQuery();
     for (QueryParameter param : parameters) {
       switch (param.getParameterType()) {
@@ -92,13 +93,27 @@ public class SolrFreeTextSearchDao<T> implements CommonFreeTextSearchDao<T> {
           throw new UnsupportedOperationException("Only property and order by query parameter is supported!");
       }
     }
-    final List<MultivalueMap<String, Object>> result = queryDao.getResult(query);
-    return adapter.convertInversely(result.toArray(new MultivalueMap[result.size()]));
+    query.setIncludeScore(true);
+    final SearchResult<MultivalueMap<String, Object>> mainResult = queryDao.getResult(query);
+    final Collection<MultivalueMap<String, Object>> result = mainResult.getResult();
+    final SearchResult<T> actualResult = new SearchResult<T>(adapter.convertInversely(result.toArray(new MultivalueMap[result.
+        size()])), mainResult);
+    return actualResult;
+  }
+
+  @Override
+  public SearchResult<T> detailedSearch(QueryParameter... parameters) {
+    return detailedSearch(Arrays.asList(parameters));
   }
 
   @Override
   public Collection<T> search(QueryParameter... parameters) {
-    return search(Arrays.asList(parameters));
+    return detailedSearch(Arrays.asList(parameters)).getResult();
+  }
+
+  @Override
+  public Collection<T> search(List<QueryParameter> parameters) {
+    return detailedSearch(parameters).getResult();
   }
 
   public GenericAdapter<T, MultivalueMap<String, Object>> getAdapter() {

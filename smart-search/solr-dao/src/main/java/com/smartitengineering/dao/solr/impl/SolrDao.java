@@ -19,6 +19,7 @@
 package com.smartitengineering.dao.solr.impl;
 
 import com.google.inject.Inject;
+import com.smartitengineering.common.dao.search.SearchResult;
 import com.smartitengineering.dao.solr.MultivalueMap;
 import com.smartitengineering.dao.solr.ServerFactory;
 import com.smartitengineering.dao.solr.SolrQueryDao;
@@ -128,15 +129,26 @@ public class SolrDao implements SolrWriteDao, SolrQueryDao {
   }
 
   @Override
-  public List<MultivalueMap<String, Object>> getResult(SolrParams query) {
+  public SearchResult<MultivalueMap<String, Object>> getResult(SolrParams query) {
     boolean success = true;
     List<MultivalueMap<String, Object>> list = new ArrayList<MultivalueMap<String, Object>>();
+    SearchResult<MultivalueMap<String, Object>> result = null;
     try {
       final SolrServer solrServer = serverFactory.getSolrServer();
       QueryResponse response = solrServer.query(query);
       success = response.getStatus() == 0 && success;
       if (success) {
         SolrDocumentList documentList = response.getResults();
+        if (logger.isInfoEnabled()) {
+          logger.info("Solr Document List " + documentList);
+        }
+        if (documentList.getMaxScore() == null) {
+          result = new SearchResult<MultivalueMap<String, Object>>(list, documentList.getNumFound());
+        }
+        else {
+          result = new SearchResult<MultivalueMap<String, Object>>(list, documentList.getNumFound(), documentList.
+              getMaxScore());
+        }
         for (SolrDocument document : documentList) {
           MultivalueMap<String, Object> map = new MultivalueMapImpl<String, Object>();
           list.add(map);
@@ -154,6 +166,9 @@ public class SolrDao implements SolrWriteDao, SolrQueryDao {
       logger.error("Could not search from solr index", ex);
       success = false;
     }
-    return list;
+    if (result == null) {
+      result = new SearchResult<MultivalueMap<String, Object>>(list);
+    }
+    return result;
   }
 }

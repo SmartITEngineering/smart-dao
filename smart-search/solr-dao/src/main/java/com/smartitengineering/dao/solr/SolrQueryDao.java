@@ -18,7 +18,7 @@
  */
 package com.smartitengineering.dao.solr;
 
-import java.util.List;
+import com.smartitengineering.common.dao.search.SearchResult;
 import org.apache.solr.common.params.SolrParams;
 
 /**
@@ -27,5 +27,5 @@ import org.apache.solr.common.params.SolrParams;
  */
 public interface SolrQueryDao {
 
-  List<MultivalueMap<String, Object>> getResult(SolrParams query);
+  SearchResult<MultivalueMap<String, Object>> getResult(SolrParams query);
 }
