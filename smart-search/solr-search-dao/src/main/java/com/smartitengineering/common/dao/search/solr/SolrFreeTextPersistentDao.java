@@ -43,6 +43,8 @@ public class SolrFreeTextPersistentDao<T> implements CommonFreeTextPersistentDao
 
   @Inject
   private GenericAdapter<T, MultivalueMap<String, Object>> adapter;
+  @Inject(optional = true)
+  private GenericAdapter<T, List<MultivalueMap<String, Object>>> multiAdapter;
   @Inject
   private SolrWriteDao writeDao;
   @Inject
@@ -64,12 +66,23 @@ public class SolrFreeTextPersistentDao<T> implements CommonFreeTextPersistentDao
 
       @Override
       public Status<T> call() throws Exception {
-        MultivalueMap<String, Object> fields[] = new MultivalueMap[data.length];
+        List<MultivalueMap<String, Object>> docs = new ArrayList<MultivalueMap<String, Object>>();
+        List<MultivalueMap<String, Object>> mDocs;
         int i = 0;
         for (final T datum : data) {
-          fields[i++] = adapter.convert(datum);
+          MultivalueMap<String, Object> doc = adapter.convert(datum);
+          if (doc != null) {
+            docs.add(doc);
+          }
+          if (multiAdapter != null) {
+            mDocs = multiAdapter.convert(datum);
+            if (mDocs != null && !mDocs.isEmpty()) {
+              docs.addAll(mDocs);
+            }
+          }
         }
         final boolean success;
+        MultivalueMap<String, Object> fields[] = docs.toArray(new MultivalueMap[docs.size()]);
         success = writeDao.add(fields);
         Status<T> status = new Status<T>();
         status.success = success;
