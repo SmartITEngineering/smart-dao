@@ -515,30 +515,46 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
   protected void handlePropertyParam(String namePrefix, QueryParameter queryParameter, List<Filter> filters) {
     OperatorType operator = getOperator(queryParameter);
     Object parameter = getValue(queryParameter);
+    final boolean byteArray;
+    final byte[] paramAsArray;
+    if (parameter instanceof byte[]) {
+      paramAsArray = (byte[]) parameter;
+      byteArray = true;
+    }
+    else {
+      paramAsArray = null;
+      byteArray = false;
+    }
     FilterConfig filterConfig = getInfoProvider().getFilterConfig(getPropertyName(namePrefix, queryParameter));
     switch (operator) {
       case OPERATOR_EQUAL: {
-        filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, Bytes.toBytes(parameter.toString())));
+        filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, byteArray ? Bytes.toBytes(parameter.toString()) :
+            paramAsArray));
         return;
       }
       case OPERATOR_LESSER: {
-        filters.add(getCellFilter(filterConfig, CompareOp.LESS, Bytes.toBytes(parameter.toString())));
+        filters.add(getCellFilter(filterConfig, CompareOp.LESS, byteArray ? Bytes.toBytes(parameter.toString()) :
+            paramAsArray));
         return;
       }
       case OPERATOR_LESSER_EQUAL: {
-        filters.add(getCellFilter(filterConfig, CompareOp.LESS_OR_EQUAL, Bytes.toBytes(parameter.toString())));
+        filters.add(getCellFilter(filterConfig, CompareOp.LESS_OR_EQUAL, byteArray ? Bytes.toBytes(parameter.toString()) :
+            paramAsArray));
         return;
       }
       case OPERATOR_GREATER: {
-        filters.add(getCellFilter(filterConfig, CompareOp.GREATER, Bytes.toBytes(parameter.toString())));
+        filters.add(getCellFilter(filterConfig, CompareOp.GREATER, byteArray ? Bytes.toBytes(parameter.toString()) :
+            paramAsArray));
         return;
       }
       case OPERATOR_GREATER_EQUAL: {
-        filters.add(getCellFilter(filterConfig, CompareOp.GREATER_OR_EQUAL, Bytes.toBytes(parameter.toString())));
+        filters.add(getCellFilter(filterConfig, CompareOp.GREATER_OR_EQUAL, byteArray ? Bytes.toBytes(
+            parameter.toString()) : paramAsArray));
         return;
       }
       case OPERATOR_NOT_EQUAL: {
-        filters.add(getCellFilter(filterConfig, CompareOp.NOT_EQUAL, Bytes.toBytes(parameter.toString())));
+        filters.add(getCellFilter(filterConfig, CompareOp.NOT_EQUAL, byteArray ? Bytes.toBytes(parameter.toString()) :
+            paramAsArray));
         return;
       }
       case OPERATOR_IS_EMPTY:
@@ -566,16 +582,16 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
         }
         switch (matchMode) {
           case END:
-            filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, new BinarySuffixComparator(Bytes.toBytes(parameter.
-                toString()))));
+            filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, new BinarySuffixComparator(byteArray ? Bytes.
+                toBytes(parameter.toString()) : paramAsArray)));
             break;
           case EXACT:
-            filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, new BinaryComparator(Bytes.toBytes(parameter.
-                toString()))));
+            filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, new BinaryComparator(byteArray ? Bytes.toBytes(parameter.
+                toString()) : paramAsArray)));
             break;
           case START:
-            filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, new BinaryPrefixComparator(Bytes.toBytes(parameter.
-                toString()))));
+            filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, new BinaryPrefixComparator(byteArray ? Bytes.
+                toBytes(parameter.toString()) : paramAsArray)));
             break;
           default:
           case ANYWHERE:
@@ -587,9 +603,20 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
       case OPERATOR_BETWEEN: {
         parameter = getFirstParameter(queryParameter);
         Object parameter2 = getSecondParameter(queryParameter);
-        filters.add(getCellFilter(filterConfig, CompareOp.EQUAL,
-                                  new RangeComparator(Bytes.toBytes(parameter.toString()),
-                                                      Bytes.toBytes(parameter2.toString()))));
+        final boolean byteArray2;
+        final byte[] paramAsArray2;
+        if (parameter2 instanceof byte[]) {
+          paramAsArray2 = (byte[]) parameter2;
+          byteArray2 = true;
+        }
+        else {
+          paramAsArray2 = null;
+          byteArray2 = false;
+        }
+        filters.add(
+            getCellFilter(filterConfig, CompareOp.EQUAL,
+                          new RangeComparator(byteArray ? Bytes.toBytes(parameter.toString()) : paramAsArray,
+                                              byteArray2 ? Bytes.toBytes(parameter2.toString()) : paramAsArray2)));
         return;
       }
       case OPERATOR_IS_IN: {
@@ -636,7 +663,18 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
   protected Filter getInFilter(Collection inCollectin, FilterConfig config) {
     FilterList filterList = new FilterList(Operator.MUST_PASS_ONE);
     for (Object inObj : inCollectin) {
-      filterList.addFilter(getCellFilter(config, CompareOp.EQUAL, new BinaryComparator(Bytes.toBytes(inObj.toString()))));
+      final boolean byteArray;
+      final byte[] paramAsArray;
+      if (inObj instanceof byte[]) {
+        paramAsArray = (byte[]) inObj;
+        byteArray = true;
+      }
+      else {
+        paramAsArray = null;
+        byteArray = false;
+      }
+      filterList.addFilter(getCellFilter(config, CompareOp.EQUAL, new BinaryComparator(byteArray ? Bytes.toBytes(inObj.
+          toString()) : paramAsArray)));
     }
     return filterList;
   }
