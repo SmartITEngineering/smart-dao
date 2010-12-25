@@ -516,6 +516,9 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
     Object parameter = getValue(queryParameter);
     final boolean byteArray;
     final byte[] paramAsArray;
+    if (logger.isInfoEnabled()) {
+      logger.info("Class of parameter is " + parameter.getClass());
+    }
     if (parameter instanceof byte[]) {
       paramAsArray = (byte[]) parameter;
       byteArray = true;
@@ -532,14 +535,15 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
         return;
       }
       case OPERATOR_LESSER: {
-        logger.info("Lesser operator. Is with byte array - " + byteArray );
+        logger.info("Lesser operator. Is with byte array - " + byteArray);
         filters.add(getCellFilter(filterConfig, CompareOp.LESS, !byteArray ? Bytes.toBytes(parameter.toString()) :
             paramAsArray));
         return;
       }
       case OPERATOR_LESSER_EQUAL: {
         logger.info("Lesser than equal to operator. Is with byte array - " + byteArray);
-        filters.add(getCellFilter(filterConfig, CompareOp.LESS_OR_EQUAL, !byteArray ? Bytes.toBytes(parameter.toString()) :
+        filters.add(getCellFilter(filterConfig, CompareOp.LESS_OR_EQUAL, !byteArray ?
+            Bytes.toBytes(parameter.toString()) :
             paramAsArray));
         return;
       }
@@ -585,6 +589,7 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
         }
         switch (matchMode) {
           case END:
+            logger.info("String like end operator. Is with byte array - " + byteArray);
             filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, new BinarySuffixComparator(!byteArray ? Bytes.
                 toBytes(parameter.toString()) : paramAsArray)));
             break;
@@ -655,8 +660,8 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
       logger.info("Filtering on a cell!");
       final SingleColumnValueFilter valueFilter;
       valueFilter = new SingleColumnValueFilter(filterConfig.getColumnFamily(),
-                                                       filterConfig.getColumnQualifier(),
-                                                       op, comparator);
+                                                filterConfig.getColumnQualifier(),
+                                                op, comparator);
       valueFilter.setFilterIfMissing(filterConfig.isFilterOnIfMissing());
       valueFilter.setLatestVersionOnly(filterConfig.isFilterOnLatestVersionOnly());
       return valueFilter;

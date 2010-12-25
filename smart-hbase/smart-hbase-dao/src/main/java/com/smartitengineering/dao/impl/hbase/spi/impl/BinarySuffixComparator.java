@@ -28,6 +28,9 @@ import org.apache.hadoop.hbase.util.Bytes;
  */
 public class BinarySuffixComparator extends WritableByteArrayComparable {
 
+  public BinarySuffixComparator() {
+  }
+
   /**
    * Constructor
    * @param value value
@@ -42,6 +45,6 @@ public class BinarySuffixComparator extends WritableByteArrayComparable {
     if (value.length < length) {
       return -1;
     }
-    return Bytes.compareTo(super.getValue(), 0, length, value, value.length - length, length);
+    return Bytes.compareTo(this.getValue(), 0, length, value, value.length - length, length);
   }
 }
