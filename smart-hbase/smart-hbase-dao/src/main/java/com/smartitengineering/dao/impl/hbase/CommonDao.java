@@ -593,6 +593,7 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
                 toString()) : paramAsArray)));
             break;
           case START:
+            logger.info("String like start operator. Is with byte array - " + byteArray);
             filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, new BinaryPrefixComparator(!byteArray ? Bytes.
                 toBytes(parameter.toString()) : paramAsArray)));
             break;
