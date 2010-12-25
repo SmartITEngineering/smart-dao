@@ -78,6 +78,7 @@ public class SynchronousExecutorServiceImpl implements ExecutorService {
       return callback.call(tableInterface);
     }
     catch (Exception ex) {
+      logger.warn("Exception in callback!", ex);
       throw new RuntimeException(ex);
     }
     finally {
