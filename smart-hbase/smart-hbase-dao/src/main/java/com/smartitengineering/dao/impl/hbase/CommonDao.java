@@ -41,7 +41,6 @@ import com.smartitengineering.dao.impl.hbase.spi.LockType;
 import com.smartitengineering.dao.impl.hbase.spi.MergeService;
 import com.smartitengineering.dao.impl.hbase.spi.ObjectRowConverter;
 import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
-import com.smartitengineering.dao.impl.hbase.spi.impl.BinarySuffixComparator;
 import com.smartitengineering.dao.impl.hbase.spi.impl.DiffBasedMergeService;
 import com.smartitengineering.dao.impl.hbase.spi.impl.RangeComparator;
 import com.smartitengineering.domain.PersistentDTO;
@@ -77,6 +76,7 @@ import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.FilterList;
 import org.apache.hadoop.hbase.filter.FilterList.Operator;
 import org.apache.hadoop.hbase.filter.QualifierFilter;
+import org.apache.hadoop.hbase.filter.RegexStringComparator;
 import org.apache.hadoop.hbase.filter.RowFilter;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.filter.SkipFilter;
@@ -590,8 +590,8 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
         switch (matchMode) {
           case END:
             logger.info("String like end operator. Is with byte array - " + byteArray);
-            filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, new BinarySuffixComparator(!byteArray ? Bytes.
-                toBytes(parameter.toString()) : paramAsArray)));
+            filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, new RegexStringComparator(!byteArray ? parameter.
+                toString() : new String(paramAsArray))));
             break;
           case EXACT:
             filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, new BinaryComparator(!byteArray ? Bytes.toBytes(parameter.
