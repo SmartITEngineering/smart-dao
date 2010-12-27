@@ -515,6 +515,7 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
     OperatorType operator = getOperator(queryParameter);
     Object parameter = getValue(queryParameter);
     final boolean byteArray;
+    final boolean isFilter;
     final byte[] paramAsArray;
     if (logger.isInfoEnabled()) {
       logger.info("Class of parameter is " + parameter.getClass());
@@ -531,42 +532,41 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
     switch (operator) {
       case OPERATOR_EQUAL: {
         filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, !byteArray ? Bytes.toBytes(parameter.toString()) :
-            paramAsArray));
+            paramAsArray, parameter));
         return;
       }
       case OPERATOR_LESSER: {
         logger.info("Lesser operator. Is with byte array - " + byteArray);
         filters.add(getCellFilter(filterConfig, CompareOp.LESS, !byteArray ? Bytes.toBytes(parameter.toString()) :
-            paramAsArray));
+            paramAsArray, parameter));
         return;
       }
       case OPERATOR_LESSER_EQUAL: {
         logger.info("Lesser than equal to operator. Is with byte array - " + byteArray);
         filters.add(getCellFilter(filterConfig, CompareOp.LESS_OR_EQUAL, !byteArray ?
-            Bytes.toBytes(parameter.toString()) :
-            paramAsArray));
+            Bytes.toBytes(parameter.toString()) : paramAsArray, parameter));
         return;
       }
       case OPERATOR_GREATER: {
         logger.info("Greater operator. Is with byte array - " + byteArray);
         filters.add(getCellFilter(filterConfig, CompareOp.GREATER, !byteArray ? Bytes.toBytes(parameter.toString()) :
-            paramAsArray));
+            paramAsArray, parameter));
         return;
       }
       case OPERATOR_GREATER_EQUAL: {
         logger.info("Greater than equal to operator. Is with byte array - " + byteArray);
         filters.add(getCellFilter(filterConfig, CompareOp.GREATER_OR_EQUAL, !byteArray ? Bytes.toBytes(
-            parameter.toString()) : paramAsArray));
+            parameter.toString()) : paramAsArray, parameter));
         return;
       }
       case OPERATOR_NOT_EQUAL: {
         filters.add(getCellFilter(filterConfig, CompareOp.NOT_EQUAL, !byteArray ? Bytes.toBytes(parameter.toString()) :
-            paramAsArray));
+            paramAsArray, parameter));
         return;
       }
       case OPERATOR_IS_EMPTY:
       case OPERATOR_IS_NULL: {
-        final Filter cellFilter = getCellFilter(filterConfig, CompareOp.EQUAL, Bytes.toBytes(""));
+        final Filter cellFilter = getCellFilter(filterConfig, CompareOp.EQUAL, Bytes.toBytes(""), parameter);
         if (cellFilter instanceof SingleColumnValueFilter) {
           ((SingleColumnValueFilter) cellFilter).setFilterIfMissing(false);
         }
@@ -575,7 +575,7 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
       }
       case OPERATOR_IS_NOT_EMPTY:
       case OPERATOR_IS_NOT_NULL: {
-        final Filter cellFilter = getCellFilter(filterConfig, CompareOp.NOT_EQUAL, Bytes.toBytes(""));
+        final Filter cellFilter = getCellFilter(filterConfig, CompareOp.NOT_EQUAL, Bytes.toBytes(""), parameter);
         if (cellFilter instanceof SingleColumnValueFilter) {
           ((SingleColumnValueFilter) cellFilter).setFilterIfMissing(true);
         }
@@ -591,20 +591,21 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
           case END:
             logger.info("String like end operator. Is with byte array - " + byteArray);
             filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, new RegexStringComparator(!byteArray ? parameter.
-                toString() : new String(paramAsArray))));
+                toString() : new String(paramAsArray)), parameter));
             break;
           case EXACT:
             filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, new BinaryComparator(!byteArray ? Bytes.toBytes(parameter.
-                toString()) : paramAsArray)));
+                toString()) : paramAsArray), parameter));
             break;
           case START:
             logger.info("String like start operator. Is with byte array - " + byteArray);
             filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, new BinaryPrefixComparator(!byteArray ? Bytes.
-                toBytes(parameter.toString()) : paramAsArray)));
+                toBytes(parameter.toString()) : paramAsArray), parameter));
             break;
           default:
           case ANYWHERE:
-            filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, new SubstringComparator(parameter.toString())));
+            filters.add(getCellFilter(filterConfig, CompareOp.EQUAL, new SubstringComparator(parameter.toString()),
+                                      parameter));
             break;
         }
         return;
@@ -625,7 +626,7 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
         filters.add(
             getCellFilter(filterConfig, CompareOp.EQUAL,
                           new RangeComparator(!byteArray ? Bytes.toBytes(parameter.toString()) : paramAsArray,
-                                              byteArray2 ? Bytes.toBytes(parameter2.toString()) : paramAsArray2)));
+                                              byteArray2 ? Bytes.toBytes(parameter2.toString()) : paramAsArray2), null));
         return;
       }
       case OPERATOR_IS_IN: {
@@ -645,7 +646,11 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
   }
 
   protected Filter getCellFilter(FilterConfig filterConfig, CompareOp op,
-                                 WritableByteArrayComparable comparator) {
+                                 WritableByteArrayComparable comparator, Object originalParam) {
+    if (originalParam instanceof Filter) {
+      logger.info("Found Filter from client so using that!");
+      return (Filter) originalParam;
+    }
     if (filterConfig.isFilterOnRowId()) {
       logger.info("Filtering on row id!");
       RowFilter rowFilter = new RowFilter(op, comparator);
@@ -668,8 +673,8 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
     }
   }
 
-  protected Filter getCellFilter(FilterConfig filterConfig, CompareOp op, byte[] value) {
-    return getCellFilter(filterConfig, op, new BinaryComparator(value));
+  protected Filter getCellFilter(FilterConfig filterConfig, CompareOp op, byte[] value, Object originalParam) {
+    return getCellFilter(filterConfig, op, new BinaryComparator(value), originalParam);
   }
 
   protected Filter getInFilter(Collection inCollectin, FilterConfig config) {
@@ -686,7 +691,7 @@ public class CommonDao<Template extends PersistentDTO<? extends PersistentDTO, ?
         byteArray = false;
       }
       filterList.addFilter(getCellFilter(config, CompareOp.EQUAL, new BinaryComparator(!byteArray ? Bytes.toBytes(inObj.
-          toString()) : paramAsArray)));
+          toString()) : paramAsArray), null));
     }
     return filterList;
   }
