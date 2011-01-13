@@ -49,9 +49,7 @@ public interface Mutex<KeyType extends Object> {
     
     public long getExpiryPeriod();
     
-    public void setExpiryPolicy(String policy);
-    
-    public String getExpiryPolicy();
+    public ExpiryPolicy getExpiryPolicy();
     
     public enum ExpiryPolicy{
         IDLE_FOR_DURATION,

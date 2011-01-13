@@ -48,7 +48,11 @@ public final class CacheAPIFactory {
     }
 
     public static <LockKeyType> Mutex<LockKeyType> getMutex() {
-        return new MutexImpl<LockKeyType>();
+        return getMutex(null, 1);
+    }
+
+    public static <LockKeyType> Mutex<LockKeyType> getMutex(Mutex.ExpiryPolicy expiryPolicy, int concurrentPermissions) {
+        return new MutexImpl<LockKeyType>(expiryPolicy, concurrentPermissions);
     }
 
     public static <K extends Serializable> BasicKey<K> getBasicKey(String prefix,
