@@ -18,8 +18,10 @@
  */
 package com.smartitengineering.dao.common.cache.impl.ehcache;
 
-import com.smartitengineering.dao.common.cache.CacheKeyPrefixStrategy;
+import com.google.inject.Inject;
+import com.smartitengineering.dao.common.cache.BasicKey;
 import com.smartitengineering.dao.common.cache.CacheServiceProvider;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,11 +36,12 @@ import net.sf.ehcache.Statistics;
  *
  * @author imyousuf
  */
-public class EhcacheCacheServiceProviderImpl<Key, Value>
+public class EhcacheCacheServiceProviderImpl<Key extends Serializable, Value>
     implements CacheServiceProvider<Key, Value> {
 
-  private static final char DEFAULT_SEPARATOR = ':';
-  private CacheKeyPrefixStrategy prefixStrategy;
+  @Inject
+  private BasicKey<Key> basicKey;
+  @Inject
   private Cache mCache;
 
   @Override
@@ -162,18 +165,6 @@ public class EhcacheCacheServiceProviderImpl<Key, Value>
   }
 
   @Override
-  public void setPrefixStrategy(CacheKeyPrefixStrategy cacheKeyPrefixStrategy) {
-    if (cacheKeyPrefixStrategy != null) {
-      prefixStrategy = cacheKeyPrefixStrategy;
-    }
-  }
-
-  @Override
-  public CacheKeyPrefixStrategy getPrefixStrategy() {
-    return prefixStrategy;
-  }
-
-  @Override
   public Map getStats() {
     Map<String, String> eStatsMap = new HashMap<String, String>(10);
 
@@ -219,19 +210,6 @@ public class EhcacheCacheServiceProviderImpl<Key, Value>
   }
 
   private String calculateKey(final Key key) {
-    String ePrefix = prefixStrategy.getPrefix();
-    String eSeparator = prefixStrategy.getPreferredPrefixIdSeparator();
-    StringBuilder eMemCachedKeyId = new StringBuilder();
-    if (ePrefix != null) {
-      eMemCachedKeyId.append(ePrefix);
-      if (eSeparator != null) {
-        eMemCachedKeyId.append(eSeparator);
-      }
-      else {
-        eMemCachedKeyId.append(DEFAULT_SEPARATOR);
-      }
-    }
-    eMemCachedKeyId.append(key.toString());
-    return eMemCachedKeyId.toString();
+    return basicKey.getKey(key);
   }
 }
