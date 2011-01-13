@@ -22,51 +22,55 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>com.smartitengineering</groupId>
-        <artifactId>smart-dao</artifactId>
-        <version>0.4-SNAPSHOT</version>
-    </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
     <groupId>com.smartitengineering</groupId>
-    <artifactId>smart-cache</artifactId>
-    <packaging>jar</packaging>
-    <version>${parent.version}</version>
-    <name>smart-cache</name>
-    <description>
+    <artifactId>smart-dao</artifactId>
+    <version>0.4-SNAPSHOT</version>
+  </parent>
+  <groupId>com.smartitengineering</groupId>
+  <artifactId>smart-cache</artifactId>
+  <packaging>jar</packaging>
+  <version>${parent.version}</version>
+  <name>smart-cache</name>
+  <description>
         This module provides an API and default implementation for Cache Service.
         It also integrates with Smart Abstract DAO so that read/write through
         cache implementation becomes a lot easier. In future we will have an
         implementation based on the Cache JSR.
-    </description>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jmock</groupId>
-            <artifactId>jmock</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jmock</groupId>
-            <artifactId>jmock-junit3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.smartitengineering</groupId>
-            <artifactId>smart-domain</artifactId>
-        </dependency>
-    </dependencies>
+  </description>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jmock</groupId>
+      <artifactId>jmock</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jmock</groupId>
+      <artifactId>jmock-junit3</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.smartitengineering</groupId>
+      <artifactId>smart-domain</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+    </dependency>
+  </dependencies>
 </project>
