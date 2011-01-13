@@ -29,9 +29,9 @@ public interface MapMonitor<K, V> {
     public void notifyPut(K key,
                           V value);
 
-    public void notifyGet(Object key);
+    public void notifyGet(K key);
 
     public void notifyPutAll(Map<? extends K, ? extends V> values);
 
-    public void notifyRemove(Object key);
+    public void notifyRemove(K key);
 }
