@@ -18,7 +18,9 @@
  */
 package com.smartitengineering.dao.common.cache.impl;
 
+import com.google.inject.Inject;
 import com.smartitengineering.dao.common.cache.CacheKeyPrefixStrategy;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -26,24 +28,28 @@ import com.smartitengineering.dao.common.cache.CacheKeyPrefixStrategy;
  */
 public class SimpleCacheKeyPrefixStrategyImpl
     implements CacheKeyPrefixStrategy {
-    
-    private String prefix;
-    
-    private String preferredPrefixIdSeparator;
 
-    public String getPrefix() {
-        return prefix;
-    }
+  private static final String DEFAULT_SEPARATOR = ":";
+  @Inject
+  private String prefix;
+  @Inject(optional = true)
+  private String preferredPrefixIdSeparator;
 
-    public String getPreferredPrefixIdSeparator() {
-        return preferredPrefixIdSeparator;
-    }
+  @Override
+  public String getPrefix() {
+    return prefix;
+  }
 
-    protected void setPreferredPrefixIdSeparator(String preferredPrefixIdSeparator) {
-        this.preferredPrefixIdSeparator = preferredPrefixIdSeparator;
-    }
+  @Override
+  public String getPreferredPrefixIdSeparator() {
+    return StringUtils.isBlank(preferredPrefixIdSeparator) ? DEFAULT_SEPARATOR : preferredPrefixIdSeparator;
+  }
 
-    protected void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
+  protected void setPreferredPrefixIdSeparator(String preferredPrefixIdSeparator) {
+    this.preferredPrefixIdSeparator = preferredPrefixIdSeparator;
+  }
+
+  protected void setPrefix(String prefix) {
+    this.prefix = prefix;
+  }
 }
