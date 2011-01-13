@@ -27,7 +27,7 @@ import java.util.Map;
  *
  * @author imyousuf
  */
-public interface CacheServiceProvider<Key extends Serializable, Value> {
+public interface CacheServiceProvider<Key extends Serializable, Value extends Serializable> {
 
     public void putToCache(Key key,
                            Value value);

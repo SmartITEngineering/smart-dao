@@ -36,7 +36,7 @@ import net.sf.ehcache.Statistics;
  *
  * @author imyousuf
  */
-public class EhcacheCacheServiceProviderImpl<Key extends Serializable, Value>
+public class EhcacheCacheServiceProviderImpl<Key extends Serializable, Value extends Serializable>
     implements CacheServiceProvider<Key, Value> {
 
   @Inject
