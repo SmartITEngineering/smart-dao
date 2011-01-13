@@ -28,70 +28,80 @@ import java.util.Set;
  * @author imyousuf
  */
 public class MonitorableMap<K, V> implements Map<K, V> {
-    
-    private Map<K, V> mapToDecorate;
-    
-    private MapMonitor<K, V> mapMonitor;
-    
-    protected MonitorableMap(Map<K, V> decoratedMap, MapMonitor<K, V> monitor) {
-        if(decoratedMap == null || monitor == null) {
-            throw new NullPointerException();
-        }
-        mapToDecorate = decoratedMap;
-        mapMonitor = monitor;
-    }
 
-    public int size() {
-        return mapToDecorate.size();
-    }
+  private Map<K, V> mapToDecorate;
+  private MapMonitor<K, V> mapMonitor;
 
-    public boolean isEmpty() {
-        return mapToDecorate.isEmpty();
+  protected MonitorableMap(Map<K, V> decoratedMap, MapMonitor<K, V> monitor) {
+    if (decoratedMap == null || monitor == null) {
+      throw new NullPointerException();
     }
+    mapToDecorate = decoratedMap;
+    mapMonitor = monitor;
+  }
 
-    public boolean containsKey(Object key) {
-        return mapToDecorate.containsKey(key);
-    }
+  @Override
+  public int size() {
+    return mapToDecorate.size();
+  }
 
-    public boolean containsValue(Object value) {
-        return mapToDecorate.containsValue(value);
-    }
+  @Override
+  public boolean isEmpty() {
+    return mapToDecorate.isEmpty();
+  }
 
-    public V get(Object key) {
-        mapMonitor.notifyGet(key);
-        return mapToDecorate.get(key);
-    }
+  @Override
+  public boolean containsKey(Object key) {
+    return mapToDecorate.containsKey(key);
+  }
 
-    public V put(K key,
-                 V value) {
-        mapMonitor.notifyPut(key, value);
-        return mapToDecorate.put(key, value);
-    }
+  @Override
+  public boolean containsValue(Object value) {
+    return mapToDecorate.containsValue(value);
+  }
 
-    public V remove(Object key) {
-        mapMonitor.notifyRemove(key);
-        return mapToDecorate.remove(key);
-    }
+  @Override
+  public V get(Object key) {
+    mapMonitor.notifyGet((K) key);
+    return mapToDecorate.get(key);
+  }
 
-    public void putAll(Map<? extends K, ? extends V> m) {
-        mapMonitor.notifyPutAll(m);
-        mapToDecorate.putAll(m);
-    }
+  @Override
+  public V put(K key,
+               V value) {
+    mapMonitor.notifyPut(key, value);
+    return mapToDecorate.put(key, value);
+  }
 
-    public void clear() {
-        mapToDecorate.clear();
-    }
+  @Override
+  public V remove(Object key) {
+    mapMonitor.notifyRemove((K) key);
+    return mapToDecorate.remove(key);
+  }
 
-    public Set<K> keySet() {
-        return mapToDecorate.keySet();
-    }
+  @Override
+  public void putAll(Map<? extends K, ? extends V> m) {
+    mapMonitor.notifyPutAll(m);
+    mapToDecorate.putAll(m);
+  }
 
-    public Collection<V> values() {
-        return mapToDecorate.values();
-    }
+  @Override
+  public void clear() {
+    mapToDecorate.clear();
+  }
 
-    public Set<Entry<K, V>> entrySet() {
-        return mapToDecorate.entrySet();
-    }
+  @Override
+  public Set<K> keySet() {
+    return mapToDecorate.keySet();
+  }
 
+  @Override
+  public Collection<V> values() {
+    return mapToDecorate.values();
+  }
+
+  @Override
+  public Set<Entry<K, V>> entrySet() {
+    return mapToDecorate.entrySet();
+  }
 }
