@@ -25,6 +25,7 @@ import com.smartitengineering.dao.common.cache.ChangeEvent;
 import com.smartitengineering.dao.common.cache.Lock;
 import com.smartitengineering.dao.common.cache.Mutex;
 import com.smartitengineering.domain.PersistentDTO;
+import java.io.Serializable;
 
 /**
  *
@@ -50,7 +51,7 @@ public final class CacheAPIFactory {
         return new MutexImpl<LockKeyType>();
     }
 
-    public static <K> BasicKey<K> getBasicKey(String prefix,
+    public static <K extends Serializable> BasicKey<K> getBasicKey(String prefix,
                                               String prefixSeparator) {
         BasicKey<K> basicKeyImpl = new BasicKeyImpl<K>();
         basicKeyImpl.init(getSimpleCacheKeyPrefixStrategy(prefix,

@@ -18,11 +18,13 @@
  */
 package com.smartitengineering.dao.common.cache;
 
+import java.io.Serializable;
+
 /**
  *
  * @author imyousuf
  */
-public interface BasicKey<KeyId extends Object> {
+public interface BasicKey<KeyId extends Serializable> extends Serializable {
 
     public void init(CacheKeyPrefixStrategy prefixStrategy);
 

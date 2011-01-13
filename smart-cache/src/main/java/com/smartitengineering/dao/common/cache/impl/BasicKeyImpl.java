@@ -20,12 +20,13 @@ package com.smartitengineering.dao.common.cache.impl;
 
 import com.smartitengineering.dao.common.cache.BasicKey;
 import com.smartitengineering.dao.common.cache.CacheKeyPrefixStrategy;
+import java.io.Serializable;
 
 /**
  *
  * @author imyousuf
  */
-public class BasicKeyImpl<KeyId> implements BasicKey<KeyId> {
+public class BasicKeyImpl<KeyId extends Serializable> implements BasicKey<KeyId> {
 
   private CacheKeyPrefixStrategy prefixStrategy;
   private boolean initialized;

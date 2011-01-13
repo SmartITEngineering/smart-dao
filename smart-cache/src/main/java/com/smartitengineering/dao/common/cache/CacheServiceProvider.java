@@ -18,6 +18,7 @@
  */
 package com.smartitengineering.dao.common.cache;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,7 @@ import java.util.Map;
  *
  * @author imyousuf
  */
-public interface CacheServiceProvider<Key, Value> {
+public interface CacheServiceProvider<Key extends Serializable, Value> {
 
     public void putToCache(Key key,
                            Value value);
@@ -49,10 +50,6 @@ public interface CacheServiceProvider<Key, Value> {
     public Map<Key, Value> retrieveFromCache(Key... keys);
 
     public boolean containsKey(Key key);
-
-    public void setPrefixStrategy(CacheKeyPrefixStrategy cacheKeyPrefixStrategy);
-
-    public CacheKeyPrefixStrategy getPrefixStrategy();
 
     public Map getStats();
 
