@@ -26,33 +26,35 @@ import com.smartitengineering.dao.common.cache.CacheKeyPrefixStrategy;
  * @author imyousuf
  */
 public class BasicKeyImpl<KeyId> implements BasicKey<KeyId> {
-    
-    private CacheKeyPrefixStrategy prefixStrategy;
-    private boolean initialized;
 
-    public void init(CacheKeyPrefixStrategy prefixStrategy) {
-        if(prefixStrategy == null) {
-            throw new NullPointerException();
-        }
-        this.prefixStrategy = prefixStrategy;
-        initialized = true;
+  private CacheKeyPrefixStrategy prefixStrategy;
+  private boolean initialized;
+
+  @Override
+  public void init(CacheKeyPrefixStrategy prefixStrategy) {
+    if (prefixStrategy == null) {
+      throw new NullPointerException();
     }
+    this.prefixStrategy = prefixStrategy;
+    initialized = true;
+  }
 
-    public boolean isInitialized() {
-        return initialized;
+  @Override
+  public boolean isInitialized() {
+    return initialized;
+  }
+
+  @Override
+  public String getKey(KeyId key) {
+    if (key == null) {
+      throw new IllegalArgumentException();
     }
-
-    public String getKey(KeyId key) {
-        if(key == null) {
-            throw new IllegalArgumentException();
-        }
-        if(!isInitialized()) {
-            throw new IllegalStateException();
-        }
-        StringBuilder builder = new StringBuilder(prefixStrategy.getPrefix());
-        builder.append(prefixStrategy.getPreferredPrefixIdSeparator());
-        builder.append(key.toString());
-        return builder.toString();
+    if (!isInitialized()) {
+      throw new IllegalStateException();
     }
-
+    StringBuilder builder = new StringBuilder(prefixStrategy.getPrefix());
+    builder.append(prefixStrategy.getPreferredPrefixIdSeparator());
+    builder.append(key.toString());
+    return builder.toString();
+  }
 }
