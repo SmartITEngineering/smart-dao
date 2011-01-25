@@ -34,6 +34,9 @@ import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.util.Bytes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -43,6 +46,7 @@ public class DiffBasedMergeService<T, IdType> implements MergeService<T, IdType>
 
   @Inject
   private SchemaInfoProvider<T, IdType> infoProvider;
+  protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Override
   public void merge(final HTableInterface tableInterface, final List<Put> puts, LockType lockType) throws IOException {
@@ -61,6 +65,10 @@ public class DiffBasedMergeService<T, IdType> implements MergeService<T, IdType>
         for (Entry<byte[], byte[]> entry : result.getFamilyMap(family).entrySet()) {
           if (!put.has(family, entry.getKey())) {
             hasDiff = true;
+            if (logger.isInfoEnabled()) {
+              logger.info("Deleting cell from family - " + Bytes.toString(family) + " and assuming string key " + Bytes.
+                  toString(entry.getKey()));
+            }
             delete.deleteColumn(family, entry.getKey());
           }
         }
