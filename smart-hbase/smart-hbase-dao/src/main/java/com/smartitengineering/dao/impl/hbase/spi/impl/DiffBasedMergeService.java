@@ -62,7 +62,13 @@ public class DiffBasedMergeService<T, IdType> implements MergeService<T, IdType>
       boolean hasDiff = false;
       Delete delete = new Delete(row, timestampForDelete, put.getRowLock());
       for (byte[] family : put.getFamilyMap().keySet()) {
+        if (logger.isInfoEnabled()) {
+          logger.info("Working on cells from family - " + Bytes.toString(family));
+        }
         for (Entry<byte[], byte[]> entry : result.getFamilyMap(family).entrySet()) {
+          if (logger.isInfoEnabled()) {
+            logger.info("Working on cell (assuming string) - " + Bytes.toString(entry.getKey()));
+          }
           if (!put.has(family, entry.getKey())) {
             hasDiff = true;
             if (logger.isInfoEnabled()) {
