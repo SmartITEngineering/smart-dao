@@ -18,6 +18,7 @@
  */
 package com.smartitengineering.dao.common.cache.impl;
 
+import com.google.inject.Inject;
 import com.smartitengineering.dao.common.cache.BasicKey;
 import com.smartitengineering.dao.common.cache.CacheKeyPrefixStrategy;
 import java.io.Serializable;
@@ -31,8 +32,16 @@ public class BasicKeyImpl<KeyId extends Serializable> implements BasicKey<KeyId>
   private CacheKeyPrefixStrategy prefixStrategy;
   private boolean initialized;
 
+  public BasicKeyImpl() {
+  }
+
+  @Inject
+  public BasicKeyImpl(CacheKeyPrefixStrategy prefixStrategy) {
+    init(prefixStrategy);
+  }
+
   @Override
-  public void init(CacheKeyPrefixStrategy prefixStrategy) {
+  public final void init(CacheKeyPrefixStrategy prefixStrategy) {
     if (prefixStrategy == null) {
       throw new NullPointerException();
     }
