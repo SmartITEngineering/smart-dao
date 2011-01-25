@@ -21,6 +21,7 @@ package com.smartitengineering.dao.impl.hbase.spi.impl;
 import com.google.inject.Inject;
 import com.smartitengineering.dao.impl.hbase.spi.LockType;
 import com.smartitengineering.dao.impl.hbase.spi.MergeService;
+import com.smartitengineering.dao.impl.hbase.spi.ObjectRowConverter;
 import com.smartitengineering.dao.impl.hbase.spi.SchemaInfoProvider;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class DiffBasedMergeService<T, IdType> implements MergeService<T, IdType>
               logger.info("Deleting cell from family - " + Bytes.toString(family) + " and assuming string key " + Bytes.
                   toString(entry.getKey()));
             }
-            delete.deleteColumn(family, entry.getKey());
+            delete.deleteColumns(family, entry.getKey());
           }
         }
       }
