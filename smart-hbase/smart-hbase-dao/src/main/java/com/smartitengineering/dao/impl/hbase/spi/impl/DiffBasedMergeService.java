@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Get;
@@ -61,24 +62,28 @@ public class DiffBasedMergeService<T, IdType> implements MergeService<T, IdType>
         continue;
       }
       boolean hasDiff = false;
+      Set<byte[]> families = result.getMap().keySet();
       Delete delete = new Delete(row, timestampForDelete, put.getRowLock());
       for (byte[] family : put.getFamilyMap().keySet()) {
         if (logger.isInfoEnabled()) {
           logger.info("Working on cells from family - " + Bytes.toString(family));
         }
+        families.remove(family);
         for (Entry<byte[], byte[]> entry : result.getFamilyMap(family).entrySet()) {
-          if (logger.isInfoEnabled()) {
-            logger.info("Working on cell (assuming string) - " + Bytes.toString(entry.getKey()));
-          }
           if (!put.has(family, entry.getKey())) {
             hasDiff = true;
             if (logger.isInfoEnabled()) {
-              logger.info("Deleting cell from family - " + Bytes.toString(family) + " and assuming string key " + Bytes.
-                  toString(entry.getKey()));
+              logger.info("Deleting cell from family - " + Bytes.toString(family));
             }
             delete.deleteColumns(family, entry.getKey());
           }
         }
+      }
+      for (byte[] remainingFamily : families) {
+        if (logger.isInfoEnabled()) {
+          logger.info("Deleting family - " + Bytes.toString(remainingFamily));
+        }
+        delete.deleteFamily(remainingFamily);
       }
       byte[] family = infoProvider.getVersionColumnFamily();
       byte[] qualifier = infoProvider.getVersionColumnQualifier();
