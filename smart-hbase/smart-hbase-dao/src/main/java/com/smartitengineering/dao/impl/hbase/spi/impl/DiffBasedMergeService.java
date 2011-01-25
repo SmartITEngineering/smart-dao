@@ -64,11 +64,10 @@ public class DiffBasedMergeService<T, IdType> implements MergeService<T, IdType>
       boolean hasDiff = false;
       Set<byte[]> families = result.getMap().keySet();
       Delete delete = new Delete(row, timestampForDelete, put.getRowLock());
-      for (byte[] family : put.getFamilyMap().keySet()) {
+      for (byte[] family : families) {
         if (logger.isInfoEnabled()) {
           logger.info("Working on cells from family - " + Bytes.toString(family));
         }
-        families.remove(family);
         for (Entry<byte[], byte[]> entry : result.getFamilyMap(family).entrySet()) {
           if (!put.has(family, entry.getKey())) {
             hasDiff = true;
@@ -78,12 +77,6 @@ public class DiffBasedMergeService<T, IdType> implements MergeService<T, IdType>
             delete.deleteColumns(family, entry.getKey());
           }
         }
-      }
-      for (byte[] remainingFamily : families) {
-        if (logger.isInfoEnabled()) {
-          logger.info("Deleting family - " + Bytes.toString(remainingFamily));
-        }
-        delete.deleteFamily(remainingFamily);
       }
       byte[] family = infoProvider.getVersionColumnFamily();
       byte[] qualifier = infoProvider.getVersionColumnQualifier();
