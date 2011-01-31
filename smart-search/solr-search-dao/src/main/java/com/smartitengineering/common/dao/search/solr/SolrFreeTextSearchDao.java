@@ -33,6 +33,7 @@ import com.smartitengineering.dao.solr.SolrQueryDao;
 import com.smartitengineering.util.bean.adapter.GenericAdapter;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -96,8 +97,15 @@ public class SolrFreeTextSearchDao<T> implements CommonFreeTextSearchDao<T> {
     query.setIncludeScore(true);
     final SearchResult<MultivalueMap<String, Object>> mainResult = queryDao.getResult(query);
     final Collection<MultivalueMap<String, Object>> result = mainResult.getResult();
-    final SearchResult<T> actualResult = new SearchResult<T>(adapter.convertInversely(result.toArray(new MultivalueMap[result.
-        size()])), mainResult);
+    final Collection<T> convertedResult = adapter.convertInversely(result.toArray(new MultivalueMap[result.size()]));
+    Iterator<T> resultItr = convertedResult.iterator();
+    while (resultItr.hasNext()) {
+      T next = resultItr.next();
+      if (next == null) {
+        resultItr.remove();
+      }
+    }
+    final SearchResult<T> actualResult = new SearchResult<T>(convertedResult, mainResult);
     return actualResult;
   }
 
