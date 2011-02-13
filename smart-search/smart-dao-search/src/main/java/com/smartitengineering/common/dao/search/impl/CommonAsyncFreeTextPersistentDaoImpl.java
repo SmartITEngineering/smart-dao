@@ -21,10 +21,8 @@ package com.smartitengineering.common.dao.search.impl;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.smartitengineering.common.dao.search.CommonFreeTextPersistentDao;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executors;
@@ -40,31 +38,19 @@ import org.slf4j.LoggerFactory;
 public class CommonAsyncFreeTextPersistentDaoImpl<T> implements CommonFreeTextPersistentDao<T> {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
-  private final Queue<T> saveQueue;
-  private final Queue<T> updateQueue;
-  private final Queue<T> deleteQueue;
+  private final Queue<Task<T[]>> saveQueue;
   private final long saveScheduleInterval;
-  private final long updateScheduleInterval;
-  private final long deleteScheduleInterval;
   private final ScheduledExecutorService scheduledExecutorService;
   @Inject
   @Named("primaryFreeTextPersistentDao")
   private CommonFreeTextPersistentDao<T> primaryDao;
-  @Inject(optional = true)
-  private Class<T> clazz;
 
   @Inject
   public CommonAsyncFreeTextPersistentDaoImpl(@Named("saveInterval") long saveInterval,
-                                              @Named("updateInterval") long updateInterval,
-                                              @Named("deleteInterval") long deleteInterval,
                                               @Named("intervalTimeUnit") TimeUnit timeUnit) {
-    saveQueue = new ConcurrentLinkedQueue<T>();
-    updateQueue = new ConcurrentLinkedQueue<T>();
-    deleteQueue = new ConcurrentLinkedQueue<T>();
-    scheduledExecutorService = Executors.newScheduledThreadPool(3);
+    saveQueue = new ConcurrentLinkedQueue<Task<T[]>>();
+    scheduledExecutorService = Executors.newScheduledThreadPool(1);
     this.saveScheduleInterval = saveInterval;
-    this.updateScheduleInterval = updateInterval;
-    this.deleteScheduleInterval = deleteInterval;
     initScheduledThreads(timeUnit);
 
   }
@@ -74,107 +60,79 @@ public class CommonAsyncFreeTextPersistentDaoImpl<T> implements CommonFreeTextPe
 
       @Override
       public void run() {
-        T[] next = new ArrayBuilder<T>(clazz, saveQueue).toArray();
-        if (next == null) {
-          return;
+        List<Task<T[]>> nextTasks = new ArrayList<Task<T[]>>();
+        Task<T[]> nextTask;
+        do {
+          nextTask = saveQueue.poll();
+          if (nextTask != null && nextTask.getEntity() != null) {
+            nextTasks.add(nextTask);
+          }
         }
-        try {
-          primaryDao.save(next);
-        }
-        catch (Exception ex) {
-          logger.warn("Saving to search persistent dao did not succeed! Adding back to queue", ex);
-          saveQueue.addAll(Arrays.asList(next));
+        while (nextTask != null);
+        for (Task<T[]> task : nextTasks) {
+          T[] next = task.getEntity();
+          try {
+            switch (task.getTaskType()) {
+              case CREATE:
+                primaryDao.save(next);
+                break;
+              case UPDATE:
+                primaryDao.update(next);
+                break;
+              case DELETE:
+                primaryDao.delete(next);
+                break;
+            }
+          }
+          catch (Exception ex) {
+            logger.warn("Persisting to search persistent dao did not succeed! Adding back to queue", ex);
+            saveQueue.add(task);
+          }
         }
       }
     }, saveScheduleInterval, saveScheduleInterval, timeUnit);
-    scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
-
-      @Override
-      public void run() {
-        T[] next = new ArrayBuilder<T>(clazz, updateQueue).toArray();
-        if (next == null) {
-          return;
-        }
-        try {
-          primaryDao.update(next);
-        }
-        catch (Exception ex) {
-          logger.warn("Updating to search persistent dao did not succeed! Adding back to queue", ex);
-          updateQueue.addAll(Arrays.asList(next));
-        }
-      }
-    }, updateScheduleInterval, updateScheduleInterval, timeUnit);
-    scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
-
-      @Override
-      public void run() {
-        T[] next = new ArrayBuilder<T>(clazz, deleteQueue).toArray();
-        if (next == null) {
-          return;
-        }
-        try {
-          primaryDao.delete(next);
-        }
-        catch (Exception ex) {
-          logger.warn("Deleting to search persistent dao did not succeed! Adding back to queue", ex);
-          deleteQueue.addAll(Arrays.asList(next));
-        }
-      }
-    }, deleteScheduleInterval, deleteScheduleInterval, timeUnit);
   }
 
   @Override
   public void save(T... data) {
-    saveQueue.addAll(Arrays.asList(data));
+    addToTaskQueue(TaskType.CREATE, data);
   }
 
   @Override
   public void update(T... data) {
-    updateQueue.addAll(Arrays.asList(data));
+    addToTaskQueue(TaskType.UPDATE, data);
   }
 
   @Override
   public void delete(T... data) {
-    deleteQueue.addAll(Arrays.asList(data));
+    addToTaskQueue(TaskType.DELETE, data);
   }
 
-  public static class ArrayBuilder<P> {
+  private void addToTaskQueue(TaskType type, T... entities) {
+    saveQueue.add(new Task<T[]>(type, entities));
+  }
 
-    private final P[] ps;
+  private static enum TaskType {
 
-    public ArrayBuilder(Class<P> clazz, P... objects) {
-      this(clazz, Arrays.asList(objects));
+    CREATE, UPDATE, DELETE;
+  }
+
+  private static class Task<P> {
+
+    private TaskType taskType;
+    private P entity;
+
+    public Task(TaskType taskType, P entity) {
+      this.taskType = taskType;
+      this.entity = entity;
     }
 
-    public ArrayBuilder(Class<P> clazz, Collection<P> objects) {
-      if (objects == null || objects.size() <= 0) {
-        ps = null;
-      }
-      else {
-        final Iterator<P> iterator = objects.iterator();
-        final P firstItem = iterator.next();
-        ps = (P[]) Array.newInstance(clazz == null ? firstItem.getClass() : clazz, objects.size());
-        try {
-          iterator.remove();
-        }
-        catch (UnsupportedOperationException ex) {
-          //Some implementations might not support this
-        }
-        ps[0] = firstItem;
-        for (int i = 1; iterator.hasNext(); ++i) {
-          ps[i] = iterator.next();
-          try {
-            iterator.remove();
-          }
-          catch (UnsupportedOperationException ex) {
-            //Some implementations might not support this
-          }
-        }
-      }
+    public P getEntity() {
+      return entity;
     }
 
-    public P[] toArray() {
-      return ps;
+    public TaskType getTaskType() {
+      return taskType;
     }
   }
 }
