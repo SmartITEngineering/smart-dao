@@ -2,7 +2,7 @@
  * This is a common dao with basic CRUD operations and is not limited to any
  * persistent layer implementation
  *
- * Copyright (C) 2010  Imran M Yousuf (imyousuf@smartitengineering.com)
+ * Copyright (C) 2011  Imran M Yousuf (imyousuf@smartitengineering.com)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,17 +16,13 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-package com.smartitengineering.dao.solr;
+package com.smartitengineering.common.dao.search;
 
 /**
- *
+ * Use this dao to call explicit commits and rollbacks
  * @author imyousuf
  */
-public interface SolrWriteDao {
-
-  boolean add(MultivalueMap<String, Object>... values);
-
-  boolean deleteByQuery(String... query);
+public interface CommonFreeTextPersistentTxDao<T> extends CommonFreeTextPersistentDao<T> {
 
   boolean commit();
 

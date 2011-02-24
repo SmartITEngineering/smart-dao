@@ -46,7 +46,7 @@ public class SolrFreeTextPersistentDao<T> implements CommonFreeTextPersistentDao
   @Inject(optional = true)
   private GenericAdapter<T, List<MultivalueMap<String, Object>>> multiAdapter;
   @Inject
-  private SolrWriteDao writeDao;
+  protected SolrWriteDao writeDao;
   @Inject
   private ObjectIdentifierQuery<T> query;
   @Inject
@@ -57,7 +57,7 @@ public class SolrFreeTextPersistentDao<T> implements CommonFreeTextPersistentDao
   @Inject
   @Named("waitTimeUnit")
   private TimeUnit waitTimeUnit;
-  private final Logger logger = LoggerFactory.getLogger(getClass());
+  protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Override
   public void save(final T... data) {

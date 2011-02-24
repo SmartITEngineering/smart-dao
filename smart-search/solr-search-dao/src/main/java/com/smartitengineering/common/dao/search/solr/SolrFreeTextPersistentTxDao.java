@@ -16,19 +16,24 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-package com.smartitengineering.dao.solr;
+package com.smartitengineering.common.dao.search.solr;
+
+import com.smartitengineering.common.dao.search.CommonFreeTextPersistentTxDao;
 
 /**
  *
  * @author imyousuf
  */
-public interface SolrWriteDao {
+public class SolrFreeTextPersistentTxDao<T> extends SolrFreeTextPersistentDao<T> implements
+    CommonFreeTextPersistentTxDao<T> {
 
-  boolean add(MultivalueMap<String, Object>... values);
+  @Override
+  public boolean commit() {
+    return writeDao.commit();
+  }
 
-  boolean deleteByQuery(String... query);
-
-  boolean commit();
-
-  boolean rollback();
+  @Override
+  public boolean rollback() {
+    return writeDao.rollback();
+  }
 }
