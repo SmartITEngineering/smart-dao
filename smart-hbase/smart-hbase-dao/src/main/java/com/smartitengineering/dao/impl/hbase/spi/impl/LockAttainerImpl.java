@@ -137,8 +137,8 @@ public class LockAttainerImpl<T extends PersistentDTO, IdType>
   @Override
   public synchronized boolean unlockAndEvictFromCache(T instance) {
     if (logger.isInfoEnabled()) {
-      logger.info("Instance to remove " + " " + instance.getClass() + " " + instance);
-      logger.info("Cache " + " " + locksCache.getClass() + " " + locksCache);
+      logger.info("Instance to remove " + instance.getClass() + " " + instance);
+      logger.info("Cache " + locksCache.getClass() + " " + locksCache);
     }
     Map<String, RowLock> locks = locksCache.remove(new Key(instance));
     if (locks == null) {
@@ -197,7 +197,9 @@ public class LockAttainerImpl<T extends PersistentDTO, IdType>
 
     @Override
     public String toString() {
-      return "Key{" + "instance=" + instance.get().getId().toString() + '}';
+      final T vInstance = instance.get();
+      return "Key{" + "instance=" + (instance != null && vInstance != null && vInstance.getId() != null ? vInstance.
+                                     getId().toString() : null) + '}';
     }
   }
 }
