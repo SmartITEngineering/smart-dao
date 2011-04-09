@@ -348,11 +348,8 @@
     <module>smart-abstract-dao</module>
     <module>smart-domain</module>
     <module>smart-cache</module>
-    <module>smart-version</module>
     <module>smart-dao-queryparam</module>
-    <module>smart-rs</module>
     <module>docs</module>
-    <module>smart-exim</module>
     <module>smart-hbase</module>
     <module>smart-search</module>
   </modules>
