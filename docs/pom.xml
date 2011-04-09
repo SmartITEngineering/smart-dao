@@ -63,33 +63,9 @@
             <groupId>com.smartitengineering</groupId>
             <artifactId>smart-cache</artifactId>
         </dependency>
-	<dependency>
-            <groupId>com.smartitengineering</groupId>
-            <artifactId>smart-rs</artifactId>
-       </dependency>
         <dependency>
             <groupId>com.smartitengineering</groupId>
             <artifactId>smart-dao-search</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.smartitengineering.smart-version</groupId>
-            <artifactId>smart-version-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.smartitengineering.smart-version</groupId>
-            <artifactId>smart-dao-version</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.smartitengineering.smart-version</groupId>
-            <artifactId>smart-version-jgit-impl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.smartitengineering.smart-exim</groupId>
-            <artifactId>smart-exim-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.smartitengineering.smart-exim</groupId>
-            <artifactId>smart-exim-xml-impl</artifactId>
         </dependency>
     </dependencies>
     <profiles>
