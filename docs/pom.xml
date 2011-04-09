@@ -18,17 +18,17 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 -->
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <artifactId>smart-dao</artifactId>
         <groupId>com.smartitengineering</groupId>
-        <version>0.4-SNAPSHOT</version>
+        <version>0.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.smartitengineering.smart-dao</groupId>
     <artifactId>docs</artifactId>
     <name>docs</name>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.4</version>
     <packaging>pom</packaging>
     <build>
         <plugins>
@@ -179,12 +179,12 @@
                                 </goals>
                                 <configuration>
                                     <tasks>
-                                        <taskdef name="if" classname="net.sf.antcontrib.logic.IfTask" classpathref="maven.plugin.classpath"/>
+                                        <taskdef name="if" classname="net.sf.antcontrib.logic.IfTask" classpathref="maven.plugin.classpath" />
                                         <property name="ghpages_branch" value="${gh-pages.branch}" />
                                         <property name="ghpages_path" value="${gh-pages.path}" />
                                         <property name="ghpages_src_path" value="${project.build.directory}/${project.artifactId}-${project.version}-total-site.dir/${project.artifactId}-${project.version}/" />
                                         <ant antfile="${basedir}/src/main/ant/gh-pages-build.xml">
-                                            <target name="copy_n_push"/>
+                                            <target name="copy_n_push" />
                                         </ant>
                                     </tasks>
                                 </configuration>

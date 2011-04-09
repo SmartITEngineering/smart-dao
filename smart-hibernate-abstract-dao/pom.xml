@@ -25,12 +25,12 @@
   <parent>
     <groupId>com.smartitengineering</groupId>
     <artifactId>smart-dao</artifactId>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.4</version>
   </parent>
   <groupId>com.smartitengineering</groupId>
   <artifactId>smart-hibernate-abstract-dao</artifactId>
   <packaging>jar</packaging>
-  <version>${parent.version}</version>
+  <version>0.4</version>
   <name>smart-hibernate-abstract-dao</name>
   <description>
         The Hibernate implementation of the smart-abstract-dao. It contains the

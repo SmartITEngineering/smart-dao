@@ -27,7 +27,7 @@
   <groupId>com.smartitengineering</groupId>
   <artifactId>smart-dao</artifactId>
   <packaging>pom</packaging>
-  <version>0.4-SNAPSHOT</version>
+  <version>0.4</version>
   <name>Smart DAO</name>
   <inceptionYear>2007</inceptionYear>
   <description>
@@ -259,7 +259,7 @@
                 </goals>
                 <configuration>
                   <tasks>
-                    <move file="target/generated-resources/xml/xslt/changes.xml" tofile="target/generated-resources/xml/xslt/changes-${version}.html" verbose="true"/>
+                    <move file="target/generated-resources/xml/xslt/changes.xml" tofile="target/generated-resources/xml/xslt/changes-${version}.html" verbose="true" />
                   </tasks>
                 </configuration>
               </execution>
