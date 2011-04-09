@@ -25,11 +25,11 @@
   <parent>
     <artifactId>smart-hbase</artifactId>
     <groupId>com.smartitengineering.smart-dao</groupId>
-    <version>0.4</version>
+    <version>0.4.1-SNAPSHOT</version>
   </parent>
   <groupId>com.smartitengineering.smart-dao</groupId>
   <artifactId>hbase-ddl-util</artifactId>
-  <version>0.4</version>
+  <version>0.4.1-SNAPSHOT</version>
   <name>HBase DDL Util</name>
   <dependencies>
     <dependency>

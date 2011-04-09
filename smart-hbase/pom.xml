@@ -25,11 +25,11 @@
   <parent>
     <artifactId>smart-dao</artifactId>
     <groupId>com.smartitengineering</groupId>
-    <version>0.4</version>
+    <version>0.4.1-SNAPSHOT</version>
   </parent>
   <groupId>com.smartitengineering.smart-dao</groupId>
   <artifactId>smart-hbase</artifactId>
-  <version>0.4</version>
+  <version>0.4.1-SNAPSHOT</version>
   <name>Smart HBase</name>
   <packaging>pom</packaging>
   <modules>
