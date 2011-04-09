@@ -26,11 +26,11 @@
   <parent>
     <artifactId>smart-hbase</artifactId>
     <groupId>com.smartitengineering.smart-dao</groupId>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.5-SNAPSHOT</version>
   </parent>
   <groupId>com.smartitengineering.smart-dao</groupId>
   <artifactId>smart-hbase-dao</artifactId>
-  <version>0.4-SNAPSHOT</version>
+  <version>0.5-SNAPSHOT</version>
   <name>Smart HBase DAO</name>
   <description>HBase implementation of Smart DAO.</description>
   <dependencies>

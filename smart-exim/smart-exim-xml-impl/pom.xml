@@ -23,13 +23,13 @@
     <parent>
         <artifactId>smart-exim</artifactId>
         <groupId>com.smartitengineering</groupId>
-        <version>0.4-SNAPSHOT</version>
+        <version>0.5-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.smartitengineering.smart-exim</groupId>
     <artifactId>smart-exim-xml-impl</artifactId>
     <name>smart-exim-xml-impl</name>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.5-SNAPSHOT</version>
     <description>
         This module implements exporter and importer for application/xml MIME
         types.

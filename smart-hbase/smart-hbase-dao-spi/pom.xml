@@ -5,11 +5,11 @@
   <parent>
     <artifactId>smart-hbase</artifactId>
     <groupId>com.smartitengineering.smart-dao</groupId>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.5-SNAPSHOT</version>
   </parent>
   <groupId>com.smartitengineering.smart-dao</groupId>
   <artifactId>smart-hbase-dao-spi</artifactId>
-  <version>0.4-SNAPSHOT</version>
+  <version>0.5-SNAPSHOT</version>
   <name>Smart HBase DAO SPI</name>
   <dependencies>
     <dependency>

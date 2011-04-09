@@ -24,13 +24,13 @@
     <parent>
         <artifactId>smart-version</artifactId>
         <groupId>com.smartitengineering</groupId>
-        <version>0.4-SNAPSHOT</version>
+        <version>0.5-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.smartitengineering.smart-version</groupId>
     <artifactId>smart-version-jgit-impl</artifactId>
     <name>smart-version-jgit-impl</name>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.5-SNAPSHOT</version>
     <packaging>jar</packaging>
     <description>
         This module implements a JGit based implementation of the version API

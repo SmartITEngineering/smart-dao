@@ -24,11 +24,11 @@
   <parent>
     <artifactId>smart-dao</artifactId>
     <groupId>com.smartitengineering</groupId>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.5-SNAPSHOT</version>
   </parent>
   <groupId>com.smartitengineering.smart-dao</groupId>
   <artifactId>solr-dao</artifactId>
-  <version>0.4-SNAPSHOT</version>
+  <version>0.5-SNAPSHOT</version>
   <name>Solr DAO (SolrJ)</name>
   <dependencies>
     <dependency>

@@ -26,7 +26,7 @@
     <parent>
         <groupId>com.smartitengineering</groupId>
         <artifactId>smart-dao</artifactId>
-        <version>0.4-SNAPSHOT</version>
+        <version>0.5-SNAPSHOT</version>
     </parent>
     <groupId>com.smartitengineering</groupId>
     <artifactId>smart-domain</artifactId>

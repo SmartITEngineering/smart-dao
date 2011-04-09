@@ -24,14 +24,14 @@
     <parent>
         <artifactId>smart-version</artifactId>
         <groupId>com.smartitengineering</groupId>
-        <version>0.4-SNAPSHOT</version>
+        <version>0.5-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.smartitengineering.smart-version</groupId>
     <artifactId>smart-version-api</artifactId>
     <name>smart-version-api</name>
     <packaging>jar</packaging>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.5-SNAPSHOT</version>
     <description>
         This module provides an low-level API for versioning objects.
     </description>

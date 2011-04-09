@@ -24,13 +24,13 @@
     <parent>
         <artifactId>smart-dao</artifactId>
         <groupId>com.smartitengineering</groupId>
-        <version>0.4-SNAPSHOT</version>
+        <version>0.5-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.smartitengineering</groupId>
     <artifactId>smart-rs</artifactId>
     <name>smart-rs</name>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.5-SNAPSHOT</version>
     <description>
         An export/import utility for exporting and importing domain objects in
         different formats. Initially the target is to support XML and JSON since
