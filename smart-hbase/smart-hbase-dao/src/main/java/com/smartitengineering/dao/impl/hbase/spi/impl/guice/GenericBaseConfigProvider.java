@@ -39,7 +39,8 @@ public class GenericBaseConfigProvider<T> implements Provider<SchemaInfoProvider
   @Override
   public SchemaInfoProviderBaseConfig<T> get() {
     try {
-      final InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream(classpathResourcePath);
+      final InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(
+          classpathResourcePath);
       return JsonConfigLoader.parseJsonAsBaseConfig(resourceAsStream);
     }
     catch (IOException ex) {
