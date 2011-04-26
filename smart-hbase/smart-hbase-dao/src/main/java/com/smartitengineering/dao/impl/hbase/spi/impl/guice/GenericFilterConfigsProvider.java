@@ -38,7 +38,7 @@ public class GenericFilterConfigsProvider<T> implements Provider<FilterConfigs<T
   @Override
   public FilterConfigs<T> get() {
     try {
-      return JsonConfigLoader.parseJsonAsFilterConfigMap(getClass().getClassLoader().getResourceAsStream(
+      return JsonConfigLoader.parseJsonAsFilterConfigMap(Thread.currentThread().getContextClassLoader().getResourceAsStream(
           classpathResource));
     }
     catch (IOException ex) {
