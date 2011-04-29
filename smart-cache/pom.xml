@@ -25,12 +25,12 @@
   <parent>
     <groupId>com.smartitengineering</groupId>
     <artifactId>smart-dao</artifactId>
-    <version>0.4.1-SNAPSHOT</version>
+    <version>0.4.1</version>
   </parent>
   <groupId>com.smartitengineering</groupId>
   <artifactId>smart-cache</artifactId>
   <packaging>jar</packaging>
-  <version>0.4.1-SNAPSHOT</version>
+  <version>0.4.1</version>
   <name>smart-cache</name>
   <description>
         This module provides an API and default implementation for Cache Service.

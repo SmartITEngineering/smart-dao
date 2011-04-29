@@ -4,11 +4,11 @@
   <parent>
     <artifactId>smart-search</artifactId>
     <groupId>com.smartitengineering.smart-dao</groupId>
-    <version>0.4.1-SNAPSHOT</version>
+    <version>0.4.1</version>
   </parent>
   <groupId>com.smartitengineering.smart-dao</groupId>
   <artifactId>solr-search-dao</artifactId>
-  <version>0.4.1-SNAPSHOT</version>
+  <version>0.4.1</version>
   <name>Solr Search DAO</name>
   <dependencies>
     <dependency>

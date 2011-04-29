@@ -25,11 +25,11 @@
     <parent>
         <groupId>com.smartitengineering</groupId>
         <artifactId>smart-dao</artifactId>
-        <version>0.4.1-SNAPSHOT</version>
+        <version>0.4.1</version>
     </parent>
     <groupId>com.smartitengineering</groupId>
     <artifactId>smart-dao-search</artifactId>
-    <version>0.4.1-SNAPSHOT</version>
+    <version>0.4.1</version>
     <name>Smart Search DAO</name>
     <packaging>jar</packaging>
     <description>
