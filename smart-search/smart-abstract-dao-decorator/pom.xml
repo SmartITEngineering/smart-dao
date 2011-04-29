@@ -25,11 +25,11 @@
   <parent>
     <artifactId>smart-search</artifactId>
     <groupId>com.smartitengineering.smart-dao</groupId>
-    <version>0.4.1</version>
+    <version>0.4.2-SNAPSHOT</version>
   </parent>
   <groupId>com.smartitengineering.smart-dao</groupId>
   <artifactId>smart-abstract-dao-decorator</artifactId>
-  <version>0.4.1</version>
+  <version>0.4.2-SNAPSHOT</version>
   <name>Smart Abstract Search Dao Decorator</name>
   <dependencies>
     <dependency>

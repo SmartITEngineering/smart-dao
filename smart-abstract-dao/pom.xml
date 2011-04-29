@@ -25,12 +25,12 @@
     <parent>
         <groupId>com.smartitengineering</groupId>
         <artifactId>smart-dao</artifactId>
-        <version>0.4.1</version>
+        <version>0.4.2-SNAPSHOT</version>
     </parent>
     <groupId>com.smartitengineering</groupId>
     <artifactId>smart-abstract-dao</artifactId>
     <packaging>jar</packaging>
-    <version>0.4.1</version>
+    <version>0.4.2-SNAPSHOT</version>
     <name>smart-abstract-dao</name>
     <description>
         This module provides an API which handles the common read write ops that
