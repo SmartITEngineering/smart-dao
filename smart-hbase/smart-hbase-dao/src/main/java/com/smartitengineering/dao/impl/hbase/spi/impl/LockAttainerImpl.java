@@ -159,9 +159,9 @@ public class LockAttainerImpl<T extends PersistentDTO, IdType>
 
   @Override
   public boolean unlockAndEvictFromCache(T instance) {
-    if (logger.isInfoEnabled()) {
-      logger.info("Instance to remove " + instance.getClass() + " " + instance);
-      logger.info("Cache " + locksCache.getClass() + " " + locksCache);
+    if (logger.isDebugEnabled()) {
+      logger.debug("Instance to remove " + instance.getClass() + " " + instance);
+      logger.debug("Cache " + locksCache.getClass() + " " + locksCache);
     }
     final Key key = new Key(instance);
     MonitorableThreadLocal<Map<String, RowLock>> local = locksCache.get(key);
