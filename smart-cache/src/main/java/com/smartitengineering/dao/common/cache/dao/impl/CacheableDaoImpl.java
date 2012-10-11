@@ -188,6 +188,9 @@ public class CacheableDaoImpl<Template extends PersistentDTO, IdType extends Ser
         Lock<CacheKey> lock = mutex.acquire(key);
         template = cacheProvider.retrieveFromCache(key);
         if (template != null) {
+          if (logger.isInfoEnabled()) {
+            logger.info("Cache hit for " + key);
+          }
           return template;
         }
         template = primaryReadDao.getById(id);
@@ -255,10 +258,21 @@ public class CacheableDaoImpl<Template extends PersistentDTO, IdType extends Ser
       for (Template template : states) {
         final CacheKey key = cacheKeyGenearator.generateKeyFromObject(template);
         if (key == null) {
+          logger.warn("CacheKey null on update!");
           continue;
         }
-        expireFromCache(key);
+        Lock<CacheKey> lock = mutex.acquire(key);
+        try {
+          expireFromCache(key);
+        }
+        finally {
+          mutex.release(lock);
+        }
       }
+    }
+    catch (InterruptedException ex) {
+      logger.info("Could not invalidate cache on update!", ex);
+      throw new RuntimeException(ex);
     }
     catch (RuntimeException exception) {
       logger.info("Could not update thus did not invalidate cache!", exception);
@@ -273,10 +287,21 @@ public class CacheableDaoImpl<Template extends PersistentDTO, IdType extends Ser
       for (Template template : states) {
         final CacheKey key = cacheKeyGenearator.generateKeyFromObject(template);
         if (key == null) {
+          logger.warn("CacheKey null on delete!");
           continue;
         }
-        expireFromCache(key);
+        Lock<CacheKey> lock = mutex.acquire(key);
+        try {
+          expireFromCache(key);
+        }
+        finally {
+          mutex.release(lock);
+        }
       }
+    }
+    catch (InterruptedException ex) {
+      logger.info("Could not invalidate cache on delete!", ex);
+      throw new RuntimeException(ex);
     }
     catch (RuntimeException exception) {
       logger.info("Could not delete thus did not invalidate cache!", exception);
@@ -289,8 +314,9 @@ public class CacheableDaoImpl<Template extends PersistentDTO, IdType extends Ser
   }
 
   protected void expireFromCache(CacheKey key) {
-    if (cacheProvider.containsKey(key)) {
-      cacheProvider.expireFromCache(key);
+    cacheProvider.expireFromCache(key);
+    if (logger.isInfoEnabled()) {
+      logger.info("Confirming removal of cache key " + key + ": " + cacheProvider.containsKey(key));
     }
   }
 }
