@@ -59,21 +59,21 @@ public abstract class AbstractGenericPersistentDTO<Template extends PersistentDT
     if (o == null) {
       throw new IllegalArgumentException();
     }
-    if (o.getId() == null && id == null) {
-      return -1;
+    if (o.getId() == null && getId() == null) {
+      return 0;
     }
-    if (o.getId() == null && id != null) {
+    if (o.getId() == null && getId() != null) {
       return 1;
     }
-    if (o.getId() != null && id == null) {
+    if (o.getId() != null && getId() == null) {
       return -1;
     }
-    if (id.getClass().isAssignableFrom(o.getId().getClass())) {
+    if (getId().getClass().isAssignableFrom(o.getId().getClass())) {
       IdType tmp = (IdType) o.getId();
-      return tmp.compareTo(id);
+      return tmp.compareTo(getId());
     }
     else {
-      return o.getId().toString().compareTo(id.toString());
+      return o.getId().toString().compareTo(getId().toString());
     }
   }
 
@@ -107,7 +107,7 @@ public abstract class AbstractGenericPersistentDTO<Template extends PersistentDT
   @Override
   public int hashCode() {
     int hash = 3;
-    hash = 23 * hash + (this.id != null ? this.id.hashCode() : 0);
+    hash = 23 * hash + (getId() != null ? getId().hashCode() : 0);
     return hash;
   }
 
