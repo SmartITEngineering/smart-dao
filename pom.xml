@@ -92,6 +92,18 @@
       <url>svn:https://imyousuf@smart-it.googlecode.com/svn/maven2/site/dao</url>
     </site>
   </distributionManagement>
+  <repositories>
+    <repository>
+      <id>smartit-googlecode-releases</id>
+      <url>http://smart-it.googlecode.com/svn/maven2/releases</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
   <build>
     <plugins>
       <plugin>
